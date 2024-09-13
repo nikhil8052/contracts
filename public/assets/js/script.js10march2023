@@ -1,0 +1,798 @@
+var change_document_value;
+var hide_contract_question_question;
+var show_contract_question_question;
+var change_document_element_id;
+var change_document_text_on_keyup;
+var go_to_next_step;
+var go_to_previous_step;
+var update_date_into_target_element;
+var change_next_step_flow;
+var reset_default_value;
+var hide_traget_element;
+var show_traget_element;
+var show_target_element_if_value_not_blank;
+var hide_show_element_by_dropdown; 
+var create_pdf_from_html; 
+var save_html_for_pdf_and_docs; 
+var Export2Word; 
+var download_pdf_from_my_document;
+
+jQuery(document).ready(function($){
+	change_document_value = function(id){
+       var target_value = $('#'+id).val();
+       $('#target_'+id).html(target_value);
+	   $('#'+id).attr('value',target_value);
+	   	if(!$('#target_'+id).hasClass('scrolled')){
+			$('#cotract-full-document').animate({
+				'scrollTop' : $('#cotract-full-document').scrollTop() + $('#target_'+id).position().top-100
+			},1000);
+			$('#target_'+id).addClass('scrolled');
+		}
+    } 
+	
+   	show_target_element_if_value_not_blank = function(id,target_id){
+	   	var target_value = $('#'+id).val();
+       	if(target_value != '' && target_value != null && target_value != 'undefiend'){
+   		  $('#'+target_id).removeClass('hide');
+  		}else{ 
+       	  $('#'+target_id).addClass('hide');
+       	}
+   	}
+	
+    hide_contract_question_question = function(id){
+       $('#'+id).closest('.question').addClass('hide');
+    }
+	
+ 	show_contract_question_question = function(id){
+       $('#'+id).closest('.question').removeClass('hide');
+       setTimeout(function(){
+   		  $('#'+id).trigger('keyup');
+       },100);       
+    }
+	
+    change_document_element_id = function(prev_id,cureent_id){
+       $('#'+prev_id).attr('id',cureent_id);
+    }
+    
+	
+	change_document_text_on_keyup = function(id,firstElement,secondElement,thirdElement,fourthElement,fifthElement,sixthElement,sevenElement,eightElement){
+	 	firstElement = firstElement || '';
+	 	secondElement = secondElement || '';
+	 	thirdElement = thirdElement || '';
+	 	fourthElement = fourthElement || '';
+	 	fifthElement = fifthElement || '';
+	 	sixthElement = sixthElement || '';
+	 	sevenElement = sevenElement || '';
+	 	eightElement = eightElement || '';
+		
+	 	var value  = $('#'+id).val();
+	 	if(value == '' || value == null || value == 'undefiend'){
+	 		value = '________';
+			$('#'+id).attr('value','');
+	 	}else{
+			$('#'+id).attr('value',value);
+		}
+	 	if(firstElement != '' && firstElement != null && firstElement != 'undefiend'){
+	 	   $('#'+firstElement).html(value);
+	 	   $('#'+firstElement).attr('data-target',id);
+	 	}	 
+		
+	 	if(secondElement != '' && secondElement != null && secondElement != 'undefiend'){
+	 		$('#'+secondElement).html(value);
+	 		$('#'+secondElement).attr('data-target',id);
+	 	} 
+		
+		if(thirdElement != '' && thirdElement != null && thirdElement != 'undefiend'){
+	 		$('#'+thirdElement).html(value);
+	 		$('#'+thirdElement).attr('data-target',id);
+	 	} 
+		
+		if(fourthElement != '' && fourthElement != null && fourthElement != 'undefiend'){
+	 		$('#'+fourthElement).html(value);
+	 		$('#'+fourthElement).attr('data-target',id);
+	 	} 
+		
+		if(fifthElement != '' && fifthElement != null && fifthElement != 'undefiend'){
+	 		$('#'+fifthElement).html(value);
+	 		$('#'+fifthElement).attr('data-target',id);
+	 	} 
+		
+		if(sixthElement != '' && sixthElement != null && sixthElement != 'undefiend'){
+	 		$('#'+sixthElement).html(value);
+	 		$('#'+sixthElement).attr('data-target',id);
+	 	} 
+		
+		if(sevenElement != '' && sevenElement != null && sevenElement != 'undefiend'){
+	 		$('#'+sevenElement).html(value);
+	 		$('#'+sevenElement).attr('data-target',id);
+	 	} 
+		
+		if(eightElement != '' && eightElement != null && eightElement != 'undefiend'){
+	 		$('#'+eightElement).html(value);
+	 		$('#'+eightElement).attr('data-target',id);
+	 	} 
+		
+		if(firstElement != '' && firstElement != null && firstElement != 'undefiend'){
+			if(!$('#'+firstElement).hasClass('scrolled')){
+				$('#cotract-full-document').animate({
+					'scrollTop' : $('#cotract-full-document').scrollTop() + $('#'+firstElement).position().top-100
+				},1000); 
+				$('#'+firstElement).addClass('scrolled');
+			}
+	 	}
+    }
+
+	$('textarea,input[type="text"],input[type="email"],input[type="number"]').change(function(){
+		$('.scrolled').removeClass('scrolled');
+	});  
+
+    go_to_next_step = function(step,event){
+    	event.preventDefault();
+		var getcurrent_step = $('.step.active').attr('data-id').replace("step-", "");
+		var data = $('.main.document-main-div').html();
+		var url = $('.main.document-main-div').attr('data-url');
+		var documetn_id = $('.main.document-main-div').attr('data-id');
+		window.localStorage.setItem('document_'+documetn_id+'_step_'+getcurrent_step,data);	
+		var documetn_id = $('.main.document-main-div').attr('data-id');
+		$('.step.active').removeClass('active');
+		$('.step[data-id="step-'+step+'"]').addClass('active');		
+		$('.target-element.active').removeClass('active');
+		$('.target-element.target-element-'+step).addClass('active');
+		$('.step[data-id="step-'+step+'"] .next-step-section button.prev-step').attr("onclick","go_to_previous_step('"+getcurrent_step+"',event);");
+		setTimeout(function(){
+			update_progress_bar();
+			var savehtml = $('.contract-form-container').html();
+			$('#hide_textarea').val(savehtml);	
+			history.pushState({href:url+"?step="+step,html:documetn_id}, "", url+"/?step="+step);	
+		},200);	
+		
+    }
+
+    go_to_previous_step = function(step,event){ 
+    	event.preventDefault();
+		var getcurrent_step = $('.step.active').attr('data-id').replace("step-", "");
+		var data = $('.main.document-main-div').html();
+		var url = $('.main.document-main-div').attr('data-url');
+		var documetn_id = $('.main.document-main-div').attr('data-id');
+		window.localStorage.setItem('document_'+documetn_id+'_step_'+getcurrent_step,data); 
+		
+		$('.step.active').removeClass('active');
+		$('.step[data-id="step-'+step+'"]').addClass('active');
+		$('.target-element.active').removeClass('active');
+		$('.target-element.target-element-'+step).addClass('active');
+		setTimeout(function(){
+			update_progress_bar();
+			var data = $('.main.document-main-div').html();
+			var url = $('.main.document-main-div').attr('data-url');
+			var documetn_id = $('.main.document-main-div').attr('data-id');
+			history.pushState({href:url+"?step="+step,html:documetn_id}, "", url+"/?step="+step);		
+		},200);
+    }
+
+    update_date_into_target_element = function(id){
+    	var date_value = $('#'+id).val();
+    	if(date_value != null && date_value != 'undefiend' && date_value != ''){
+    		//$('#target_'+id).html(formatDate(date_value)); 
+    		$('#target_'+id).html(date_value); 
+    	}else{
+    		$('#target_'+id).html('________'); 
+    	}
+    	
+    }
+
+    change_next_step_flow = function(id){
+    	if($('#'+id).is('select')){
+    		var value = $('#'+id).val();
+	    	var skip_step = $('#'+id+' option[value="'+value+'"]').attr('skip-step');
+	    	var show_step = $('#'+id+' option[value="'+value+'"]').attr('show-step');
+	    	if(skip_step != '' && skip_step != null && skip_step != 'undefiend'){
+	    		var skip_steps = skip_step.split(',');
+				$.each(skip_steps, function( index, value ) {
+				   $('.step[data-id="step-'+value+'"]').addClass('hide');
+				});
+	    	}
+	    	if(show_step != '' && show_step != null && show_step != 'undefiend'){
+	    		var show_steps = show_step.split(',');
+				$.each(show_steps, function( index, value ) {
+				   $('.step[data-id="step-'+value+'"]').removeClass('hide');
+				});
+	    	}
+
+	    	var next_step = $('#'+id+' option[value="'+value+'"]').attr('next-step');
+	    	var current_step = $('#'+id).closest('.step').attr('data-id').replace("step-", "");
+	    	if(next_step != '' && next_step != null && next_step != 'undefiend'){
+	    		$('#'+id).closest('.step').find('button.next-step').attr('onclick','go_to_next_step("'+next_step+'",event);');
+	    		$('.step[data-id="step-'+next_step+'"]').find('button.prev-step').attr('onclick','go_to_previous_step("'+current_step+'",event);');
+	    	}
+    	}else{
+    		var value = $('#'+id).val();
+	    	var skip_step = $('#'+id).attr('skip-step');
+	    	var show_step = $('#'+id).attr('show-step');
+	    	if(skip_step != '' && skip_step != null && skip_step != 'undefiend'){
+	    		var skip_steps = skip_step.split(',');
+				$.each(skip_steps, function( index, value ) {
+				   $('.step[data-id="step-'+value+'"]').addClass('hide');
+				});
+	    	}
+	    	if(show_step != '' && show_step != null && show_step != 'undefiend'){
+	    		var show_steps = show_step.split(',');
+				$.each(show_steps, function( index, value ) {
+				   $('.step[data-id="step-'+value+'"]').removeClass('hide');
+				});
+	    	}
+
+	    	var next_step = $('#'+id).attr('next-step');
+	    	var current_step = $('#'+id).closest('.step').attr('data-id').replace("step-", "");
+	    	if(next_step != '' && next_step != null && next_step != 'undefiend'){
+	    		$('#'+id).closest('.step').find('button.next-step').attr('onclick','go_to_next_step("'+next_step+'",event);');
+	    		$('.step[data-id="step-'+next_step+'"]').find('button.prev-step').attr('onclick','go_to_previous_step("'+current_step+'",event);');
+	    	}
+    	}
+    	
+    }
+	
+	hide_show_element_by_dropdown = function(id){ 
+		var value = $('#'+id).val();
+		var hide_element = $('#'+id+' option[value="'+value+'"]').attr('hide-element');
+		var show_element = $('#'+id+' option[value="'+value+'"]').attr('show-element');
+		
+		if(hide_element != '' && hide_element != null && hide_element != 'undefiend'){
+			var hide_element = hide_element.split(',');
+			$.each(hide_element, function( index, value ) {
+			    $('#'+value).addClass('hide');
+			});
+		}
+		if(show_element != '' && show_element != null && show_element != 'undefiend'){
+			var show_element = show_element.split(',');
+			$.each(show_element, function( index, value ) {
+			   $('#'+value).removeClass('hide');
+			});
+		}
+	}
+
+    reset_default_value = function(reset_element_id,id){
+    	
+    	var val = $('#'+id).val();
+    	var default_val = $('#'+id+' option[value="'+val+'"]').attr('defaultvalue');
+    	if(default_val != '' && default_val != null && default_val != 'undefiend'){
+    		$('#'+reset_element_id).html(default_val);
+    	}else{
+    		var new_id = reset_element_id.replace('target_','');
+    		var newval = $('#'+new_id).val();
+    		if(newval != '' && newval != null && newval != 'undefiend'){
+    			$('#'+reset_element_id).html(newval);
+    		}else{
+    			$('#'+reset_element_id).html('___________');
+    		}
+    	}
+    }
+
+    hide_traget_element = function(id){
+    	$("#"+id).addClass('hide');
+    }
+    show_traget_element = function(id){
+    	$("#"+id).removeClass('hide');
+    }
+
+
+	download_pdf_from_my_document = function(event){
+		event.preventDefault();
+		var filename = $('#content_doc_saved_content').attr('data-id');
+		var element = document.getElementById('content_doc_saved_content');
+		var opt = {
+		  margin:       0.5,
+		  filename:     filename+'.pdf',
+		  image:        { type: 'jpeg', quality: 0.98 },
+		  html2canvas:  { dpi: 192, letterRendering: true, scale: 2,scrollY: 0 },
+		  jsPDF:        { unit: 'in', format: [8.5, 11], orientation: 'portrait' }, 
+		  enableLinks: true,
+		};
+		html2pdf().set(opt).from(element).save();
+		//html2pdf(element, opt);
+	}
+
+	$(document).on('mouseenter','.target-element.active',function() {
+	    if($(this).attr('data-target') != null && $(this).attr('data-target') != '' && $(this).attr('data-target') != 'undefiend'){
+	   	 var id = $(this).attr('data-target').replace("target_", "");
+	    }else{
+	   	 var id = $(this).attr('id').replace("target_", "");
+   	    }
+	  
+	   	//$('#'+id).closest('.question').css('background-color','#FCC831');
+	   	//$('#'+id).closest('.question').css('background-color','#26a9e0');
+  	})
+
+	$(document).on('mouseleave','.target-element.active',function() {
+	    if($(this).attr('data-target') != null && $(this).attr('data-target') != '' && $(this).attr('data-target') != 'undefiend'){
+	   	 var id = $(this).attr('data-target').replace("target_", "");
+	    }else{
+	   	 var id = $(this).attr('id').replace("target_", "");
+   	    }
+	  //  $('#'+id).closest('.question').css('background-color','transparent');
+  	});
+
+	var fullmonth_array = $.datepicker.regional['en'].monthNames;
+	$('.datepicker').datepicker({ 
+		changeMonth: true,
+		changeYear: true,
+		dateFormat: 'dd/mm/yy',
+		prevText: '<<',
+		nextText: '>>',
+		yearRange: "-100:+100",
+		monthNamesShort : fullmonth_array
+	});
+
+
+	function formatDate(date) {
+     	let months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"];
+
+		let dateNow = new Date(date);
+		let yearNow = dateNow.getFullYear();
+		let monthNow = months[dateNow.getMonth()];
+		let dayNow = dateNow.getDate();
+		let daySuffix;/*from   w  w w . j a  v  a 2 s.  c  o m*/
+
+		switch (dayNow) {
+		    case 1:
+		    case 21:
+		    case 31:
+		        daySuffix = "st";
+		        break;
+		    case 2:
+		    case 22:
+		        daySuffix = "nd";
+		        break;
+		    case 3:
+		    case 23:
+		        daySuffix = "rd";
+		        break;
+		    default:
+		        daySuffix = "th";
+		        break;
+		}
+		return monthNow+", "+dayNow + daySuffix + " "+yearNow;
+ 	}
+	
+	function update_progress_bar(){
+		var i = 0;
+		var complete = 0;
+		$('form > .step .question').each(function(){
+			if(!$(this).closest('.step').hasClass('hide')){
+				i = i + 1;
+			}
+		});
+		
+		$('form > .step .question').each(function(){
+			if(!$(this).closest('.step').hasClass('active')){
+				if(!$(this).closest('.step').hasClass('hide')){
+					complete = complete + 1;
+				}
+			}else{
+				return false;
+			}
+		});
+		
+		var precent =  Math.round((complete * 100 / i ));
+		$('.progress-bar').css('width',precent+'%');
+		$('.progressCount').html(precent+'%');
+	} 
+	 update_progress_bar();
+	 
+	save_html_for_pdf_and_docs = function(){
+		var data = $('#html-pdf-document').html();
+		$('#created_htm_content').html(data);
+		$('#created_htm_content .hide').each(function(){
+			$(this).remove();
+		});
+		$('#created_htm_content div').each(function(){
+			$(this).css('border','none');
+		});
+		
+		
+		//Export2Word('created_htm_content','word-doc');
+	}    
+
+	/*
+	create_pdf_from_html = function(event){
+		event.preventDefault();
+		$('.target-element.active').removeClass('active'); 
+		$('.progress-bar').css('width','100%');
+		$('.progressCount').html('100%');
+		$('body .contract-form-section').append('<div class="contacto_loader"><span class="loader"></span></div>');   
+		var element = document.getElementById('html-pdf-document'); 
+		var today = new Date();
+		var date = today.getFullYear()+''+(today.getMonth()+1)+''+today.getDate();
+		var time = today.getHours() + "" + today.getMinutes() + "" + today.getSeconds();
+		var dateTime = 'pdf_file'+date+' '+time;
+		var opt = {
+		  margin:       0.5,
+		  filename:     dateTime+'.pdf',
+		  image:        { type: 'jpeg', quality: 0.98 },
+		  html2canvas:  { dpi: 192, letterRendering: true, scale: 2,scrollY: 0 },
+		  jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+		  enableLinks: true,
+		};
+		html2pdf().set(opt).from(element).toPdf().output('blob').then(function (pdfAsString) {	
+			const file = new File([pdfAsString], opt.filename, {type: 'application/pdf'}); 
+			console.log(pdfAsString);		
+			var formData = new FormData();
+			var documentId = $('.document-main-div').attr('data-id');
+			formData.append('action','upload_contract_pdf_to_server');
+			formData.append("file", file);
+			formData.append("document_id",documentId);
+			jQuery.ajax({
+				type: 'POST',
+				url: frontendajax.ajaxurl,
+				data: formData,
+				dataType: 'json',
+				contentType: false,
+				processData: false,
+				beforeSend:function(){
+					
+				},				
+				success: function(response){
+					if(response.url != ''){
+						window.location.href= response.url;
+					}else{
+						window.location.href= response.url;
+					}
+				}
+			});
+		}); 
+	} */
+	
+	create_pdf_from_html = function(event){
+		event.preventDefault();
+		$('.target-element.active').removeClass('active'); 
+		$('.progress-bar').css('width','100%');
+		$('.progressCount').html('100%');
+		$('body .contract-form-section').append('<div class="contacto_loader"><span class="loaderp"></span></div>');  
+
+		var data = $('#html-pdf-document').html();
+		$('#created_htm_content').html(data);
+		$('#created_htm_content .hide').each(function(){
+			$(this).remove();
+		});
+		$('#created_htm_content .blur_content').each(function(){
+			$(this).removeClass('blur_content');
+		});
+		$('#created_htm_content div').each(function(){
+			$(this).css('border','none');
+		});
+		
+		var html_data = $('#created_htm_content').html();
+		var savehtml_form = $('.contract-edit-section').html();
+		
+		var documentId = $('.document-main-div').attr('data-id');
+		
+		var getcurrent_step = $('.step.active').attr('data-id').replace("step-", "");
+		var data_p = $('.main.document-main-div').html();
+		var url_p = $('.main.document-main-div').attr('data-url');
+		var documetn_id = $('.main.document-main-div').attr('data-id');
+		window.localStorage.setItem('document_'+documetn_id+'_step_'+getcurrent_step,data_p);
+		
+		jQuery.ajax({
+			type: 'POST',
+			url: frontendajax.ajaxurl,
+			data: {
+				action: 'upload_contract_pdf_to_server_cart',
+				html: html_data,
+				savehtml_form:savehtml_form,
+				document_id: documentId
+			},
+			dataType: 'json',
+			beforeSend:function(){
+				
+			},				
+			success: function(response){
+				$('body .contract-form-section .contacto_loader').remove(); 
+				if(response.url != ''){
+					window.location.href= response.url;
+				}else{
+					window.location.reload();
+				}
+			}
+		}); 
+	}
+	
+	
+		
+	Export2Word = function (element, filename = ''){
+		var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+		var postHtml = "</body></html>";
+		var html = preHtml+document.getElementById(element).innerHTML+postHtml;
+
+		var blob = new Blob(['\ufeff', html], {
+			type: 'application/msword'
+		});
+		
+		// Specify link url
+		var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+		
+		// Specify file name
+		filename = filename?filename+'.docx':'document.docx';
+		
+		// Create download link element
+		var downloadLink = document.createElement("a");
+
+		document.body.appendChild(downloadLink);
+		
+		if(navigator.msSaveOrOpenBlob ){
+			navigator.msSaveOrOpenBlob(blob, filename);
+		}else{
+			downloadLink.href = url;
+			downloadLink.download = filename;
+			downloadLink.click();
+		}
+		document.body.removeChild(downloadLink);
+	}	
+		
+	
+	$('form#shop_filter button.search-btn').click(function(e){
+		e.preventDefault();
+		var formData = $('form#shop_filter').serialize();
+		jQuery.ajax({
+			type: 'POST',
+			url: frontendajax.ajaxurl,
+			data: formData,
+			dataType: 'json',
+			beforeSend:function(){
+				$('.dock-detail').append('<div class="loader"></div>');
+			},			
+			success: function(response){
+				if(response){
+					$('.dock-detail').html(response.html);
+					var catgory = $('form#shop_filter select.form-control').val();				
+				}
+			}
+		});
+	});
+	
+	
+	$(document).on('click','nav.woocommerce-pagination ul.page-numbers a.page-numbers',function(e){
+		if($('form#shop_filter').length){
+			e.preventDefault();
+			if($(this).hasClass('next')){
+				var current = $('nav.woocommerce-pagination ul.page-numbers .page-numbers.current').text();
+				var paged = parseInt(current) + parseInt(1);
+			}else if($(this).hasClass('prev')){
+				var current = $('nav.woocommerce-pagination ul.page-numbers .page-numbers.current').text();
+				var paged = parseInt(current) - parseInt(1);
+			}else{
+				var paged = $(this).text();
+			} 
+			var formData = $('form#shop_filter').serialize();
+			formData = formData+ "&paged=" + paged
+			jQuery.ajax({
+				type: 'POST',
+				url: frontendajax.ajaxurl,
+				data: formData,
+				dataType: 'json',
+				beforeSend:function(){
+					$('.dock-detail').append('<div class="loader"></div>');
+				},				
+				success: function(response){
+					if(response){
+						$('.dock-detail').html(response.html);
+					}
+				}
+			});
+		}
+	});
+	
+	$('.select-document-foot-wrapper .share-btn').click(function(e){
+		e.preventDefault();
+		$('.social_share_icons_button').toggleClass('active');
+	});
+
+	$(document).on('click','form.checkout.woocommerce-checkout .faq-apperance .faq-head',function(e){
+		e.preventDefault();
+		if(!$(this).find('input').is(':checked')){
+			$('.select_plan_section').append('<div class="loader_plan"><div class="loader"></div></div>'); 
+			var product_id = $(this).find('input').val();
+			jQuery.ajax({
+				type: 'POST',
+				url: frontendajax.ajaxurl,
+				data: {
+					product_id:product_id,
+					action:'add_product_to_cart_checkout',
+				},
+				dataType: 'json',				
+				success: function(response){
+					if(response){
+						$('.select_plan_section').html(response.html);  
+						jQuery('body').trigger('update_checkout');
+					}
+				}
+			});
+		}		
+	});
+	
+	$(document).on('click','.document_like_button',function(e){
+		e.preventDefault();
+		var user_id = $(this).attr('data-userid');
+		var post_id = $(this).attr('data-post_id');
+		var total = $(this).attr('data-count');
+        alert(total);
+		if(user_id != '' && user_id != null && user_id != 'undefiend'){
+			if(!$(this).find('i').hasClass('like')){
+				$(this).find('i').addClass('like');
+				var add_like = 'yes';
+				total = parseInt(total) + parseInt(1);
+			}/*else{
+				$(this).find('i').removeClass('like');
+				var add_like = 'no';
+				total = parseInt(total) - parseInt(1);
+			}*/
+			$(this).attr('data-count',total);
+			if(total > 0){
+				$(this).find('span').html(total);
+			}else{
+				$(this).find('span').html('');
+			}
+			jQuery.ajax({
+				type: 'POST',
+				url: frontendajax.ajaxurl,
+				data: {
+					post_id:post_id,
+					user_id:user_id,
+					like:add_like,
+					action:'document_like_by_ajax',
+				},
+				dataType: 'json',				
+				success: function(response){
+					console.log(response);
+				}
+			});
+		}else{
+			if(!$(this).find('i').hasClass('like')){
+				$(this).find('i').addClass('like');
+				var add_like = 'yes';
+				total = parseInt(total)+ parseInt(1);
+			}/*else{
+				$(this).find('i').removeClass('like');
+				var add_like = 'no';
+				total = parseInt(total) - parseInt(1);
+			}*/
+			$(this).attr('data-count',total);
+			if(total > 0){
+				$(this).find('span').html(total);
+			}else{
+				$(this).find('span').html('');
+			}
+			
+			jQuery.ajax({
+				type: 'POST',
+				url: frontendajax.ajaxurl,
+				data: {
+					post_id:post_id,
+					user_id:'',
+					like:add_like,
+					action:'document_like_by_ajax',
+				},
+				dataType: 'json',				
+				success: function(response){
+					var cname = 'document_like_'+post_id;
+					var cvalue = true;
+					setJqueryCookie(cname, cvalue,30); 
+				}
+			});
+		}
+	})
+	/* var likebtn = document.querySelectorAll(".like-btn")
+	likebtn.forEach((button) => {
+	  button.addEventListener("click", function (e) {
+		e.preventDefault()
+		button.children[0].classList.toggle("like")
+	  })
+	}) */
+	
+	$(document).on('click','.question span.button.tooltip',function(e){
+		e.preventDefault();
+		if(!$(this).hasClass('active')){
+			$(this).addClass('active');
+			$(this).closest('.question').find('.explication').addClass('active');
+		}		
+	})
+	
+	function setJqueryCookie(cname, cvalue, exdays) {
+	  const d = new Date();
+	  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	  let expires = "expires="+ d.toUTCString();
+	  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
+	
+	
+	$(document).click(function(event) {
+		if(!$(event.target).hasClass('tooltip')){
+			$('span.button.tooltip.active').removeClass('active');
+			$('.explication.active').removeClass('active');
+		}
+	});
+	
+	
+	$(document).on('change','form#contract-form input[type="text"], form#contract-form input[type="email"],form#contract-form input[type="number"],form#contract-form input[type="phone"],form#contract-form input[type="date"]',function(){
+		if($(this).val() != '' && $(this).val() != null && $(this).val() != 'undefiend' ){
+			$(this).attr('value',$(this).val());
+		}else{
+			$(this).attr('value','');
+		}
+	});
+	
+	$(document).on('change','form#contract-form textarea',function(){
+		if($(this).val() != '' && $(this).val() != null && $(this).val() != 'undefiend' ){
+			$(this).html($(this).val());
+		}else{
+			$(this).html('');
+		}
+	});
+	
+	$(document).on('click','form#contract-form input[type="radio"]',function(){
+		var name = $(this).attr('name');
+		$('form#contract-form input[name="'+name+'"]').removeAttr('checked');
+		$(this).attr('checked','checked');
+	});
+
+
+	$(document).on('change','form#contract-form select',function(){
+		var val = $(this).val();
+		$(this).find('option:selected').removeAttr('selected');
+		$(this).find('option[selected="selected"]').removeAttr('selected');
+		$(this).find('option[value="'+val+'"]').attr('selected','selected');
+	});
+
+});
+
+jQuery(window).on('load',function(){
+	jQuery('.heateorSssSharingArrow').trigger('click');
+})
+
+window.addEventListener('popstate', function(event) {
+	if(event.state != null && event.state != 'undefiend' && event.state != '' &&  event.state.href != null && event.state.href != 'undefiend' && event.state.href != '' ){
+		var url_string = event.state.href; 
+		var  urlParams = new URL(url_string).searchParams;
+		var document_id = event.state.html;
+		console.log(event);
+		var step = urlParams.get('step');
+		if(document_id != null && document_id != 'undefiend' && document_id != ''){
+			if(step != null && step != 'undefiend' && step != ''){
+				var step = step;
+			}else{ 
+				var step = '1';
+			}
+			//console.log(document_id+'step'+step);
+			var data = window.localStorage.getItem('document_'+document_id+'_step_'+step);
+			if(data != '' && data != null && data != 'undefiend'){
+				$('.main.document-main-div').html(data);
+				$('.datepicker').each(function(){
+					$(this).removeClass('hasDatepicker');
+				});
+				var fullmonth_array = $.datepicker.regional['en'].monthNames;
+				$('.datepicker').datepicker({ 
+					changeMonth: true,
+					changeYear: true,
+					dateFormat: 'dd/mm/yy',
+					prevText: '<<',
+					nextText: '>>',
+					yearRange: "-100:+100",
+					monthNamesShort : fullmonth_array
+				});
+				
+				$('.step.active').removeClass('active');
+				$('.step[data-id="step-'+step+'"]').addClass('active');		
+				$('.target-element.active').removeClass('active');
+				$('.target-element.target-element-'+step).addClass('active');
+			}
+		}
+	}	
+});
+
+//alert("You've accessed " + history.length + " web pages in this session.");
+
+/* var datat = window.history;
+//console.log(datat);
+
+window.onpopstate = (event) => {
+  console.log(event);
+} */
