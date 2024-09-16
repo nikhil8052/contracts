@@ -218,16 +218,18 @@
                var isvalid = true;
 
                if(name === '' || name === undefined || name === null && phone === '' || phone === undefined || phone === null && email === '' || email === undefined || email === null){
-                    $('.error').show();
-                    isvalid = false;
-
+                   
                     const $scroll = $('.for-contant');
 
                     if ($scroll.length) {
                          $('html,body').animate({
                               scrollTop: $scroll.offset().top
-                         }, 500);
+                         }, 200);
                     }
+
+                    $('.error').show();
+                    isvalid = false;
+
                }
 
                if(isvalid){
