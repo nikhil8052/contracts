@@ -78,47 +78,53 @@
                                    <p role="status" aria-live="polite" aria-atomic="true"></p>
                                    <ul></ul>
                               </div>
-                              <form action="/contacto/#wpcf7-f148-o1" method="post" class="wpcf7-form init" aria-label="Contact form" enctype="multipart/form-data" novalidate="novalidate" data-status="init">
+                              <form action="{{ url('/contactusProcc') }}" id="contact-form" method="post" class="wpcf7-form init" aria-label="Contact form" enctype="multipart/form-data" novalidate="novalidate" data-status="init">
+                                   @csrf
                                    <div style="display: none;">
-                                        <input type="hidden" name="_wpcf7" value="148">
+                                        <!-- <input type="hidden" name="_wpcf7" value="148">
                                         <input type="hidden" name="_wpcf7_version" value="5.9.8">
                                         <input type="hidden" name="_wpcf7_locale" value="en_US">
                                         <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f148-o1">
                                         <input type="hidden" name="_wpcf7_container_post" value="0">
                                         <input type="hidden" name="_wpcf7_posted_data_hash" value="">
-                                        <input type="hidden" name="_wpcf7_recaptcha_response" value="">
+                                        <input type="hidden" name="_wpcf7_recaptcha_response" value=""> -->
                                    </div>
                                    <div class="form-group contact-form-fields">
                                         <p>
                                              <label for="exampleInputEmail1">Nombre *</label><br>
-                                             <span class="wpcf7-form-control-wrap" data-name="text"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control" id="exampleInputEmail1" aria-required="true" aria-invalid="false" value="" type="text" name="text"></span>
+                                             <span class="wpcf7-form-control-wrap" data-name="text"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control" id="exampleInputEmail1" aria-required="true" aria-invalid="false" value="" type="text" name="name"></span>
                                         </p>
+                                        <span class="text text-danger error" style="display:none;">This field is required</span>
                                    </div>
                                    <div class="form-group contact-form-fields">
                                         <p>
                                              <label for="exampleInputNumber">Número de teléfono *</label><br>
-                                             <span class="wpcf7-form-control-wrap" data-name="tel"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-tel wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-tel form-control" id="exampleInputNumber" aria-required="true" aria-invalid="false" value="" type="tel" name="tel"></span>
+                                             <span class="wpcf7-form-control-wrap" data-name="tel"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-tel wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-tel form-control" id="exampleInputNumber" aria-required="true" aria-invalid="false" value="" type="tel" name="phone_number"></span>
                                         </p>
+                                        <span class="text text-danger error" style="display:none;">This field is required</span>
                                    </div>
                                    <div class="form-group contact-form-fields">
                                         <p>
                                              <label for="exampleInputAddress">Correo electrónico *</label><br>
                                              <span class="wpcf7-form-control-wrap" data-name="email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control" id="exampleInputAddress" aria-required="true" aria-invalid="false" value="" type="email" name="email"></span>
                                         </p>
+                                        <span class="text text-danger error" style="display:none;">This field is required</span>
                                    </div>
                                    <div class="form-group contact-form-fields">
                                         <p>
                                              <label for="exampleInputAddress">Mensaje</label><br>
-                                             <span class="wpcf7-form-control-wrap" data-name="textarea"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" aria-invalid="false" name="textarea"></textarea></span>
+                                             <span class="wpcf7-form-control-wrap" data-name="textarea"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" aria-invalid="false" name="message"></textarea></span>
                                         </p>
+                                        <span class="text text-danger error" style="display:none;">This field is required</span>
                                    </div>
                                    <div class="form-group file-up contact-form-fields">
                                         <p>
                                              <label class="file-up-label"> Agregar archivo : </label><br>
-                                             <span class="wpcf7-form-control-wrap" data-name="file-doc"><input size="40" class="wpcf7-form-control wpcf7-file" id="file-type-doc-id" accept="image/*,.txt,application/pdf" aria-invalid="false" type="file" name="file-doc"></span>
+                                             <span class="wpcf7-form-control-wrap" data-name="file-doc"><input size="40" class="wpcf7-form-control wpcf7-file" id="file-type-doc-id" aria-invalid="false" type="file" name="file"></span>
                                         </p>
+                                        <span class="text text-danger error" style="display:none;">This field is required</span>
                                    </div>
-                                   <div class="form-group capdata">
+                                   <!-- <div class="form-group capdata">
                                         <span class="wpcf7-form-control-wrap recaptcha" data-name="recaptcha"><span data-sitekey="6LcTRs4pAAAAALTwxwPE7W4jUZk_jwIkmEHt9qJ3" class="wpcf7-form-control wpcf7-recaptcha g-recaptcha"><div style="width: 304px; height: 78px;"><div><iframe title="reCAPTCHA" width="304" height="78" role="presentation" name="a-mvivwzxcg5bt" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LcTRs4pAAAAALTwxwPE7W4jUZk_jwIkmEHt9qJ3&amp;co=aHR0cHM6Ly9kb2N1bWVudG9zLWxlZ2FsZXMubXg6NDQz&amp;hl=es-419&amp;v=WV-mUKO4xoWKy9M4ZzRyNrP_&amp;size=normal&amp;cb=wywgi2mitqrm"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></span>
                                              <noscript>
                                                   <div class="grecaptcha-noscript">
@@ -129,7 +135,7 @@
                                                   </div>
                                              </noscript>
                                         </span>
-                                   </div>
+                                   </div> -->
                                    <p>
                                         <input class="wpcf7-form-control wpcf7-submit has-spinner submit-btn" type="submit" value="Enviar"><span class="wpcf7-spinner"></span>
                                    </p>
@@ -198,5 +204,40 @@
           <div class="__z_48"></div>
      </div> -->
 </div>
+
+<script>
+     $(document).ready(function(){
+          $('.submit-btn').click(function(e){
+               e.preventDefault();
+
+               var name = $("input[name='name']").val();
+               var phone = $("input[name='phone_number']").val();
+               var email = $("input[name='email']").val();
+               var message = $("input[name='message']").val();
+               var file = $("input[name='file']").val();
+               var isvalid = true;
+
+               if(name === '' || name === undefined || name === null && phone === '' || phone === undefined || phone === null && email === '' || email === undefined || email === null){
+                    $('.error').show();
+                    isvalid = false;
+
+                    const $scroll = $('.for-contant');
+
+                    if ($scroll.length) {
+                         $('html,body').animate({
+                              scrollTop: $scroll.offset().top
+                         }, 500);
+                    }
+               }
+
+               if(isvalid){
+                    $('.error').hide();
+                    $('#contact-form').submit();
+               }
+
+          })
+     })
+
+</script>
 
 @endsection
