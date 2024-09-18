@@ -33,11 +33,11 @@
           <link rel="dns-prefetch" href="//netdna.bootstrapcdn.com" />
           <link rel="dns-prefetch" href="//code.jquery.com" />
           <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
-          <link rel="stylesheet" id="dashicons-css" href="https://documentos-legales.mx/wp-includes/css/dashicons.min.css?ver=6.6.1" media="all" />
+        
           <link rel="stylesheet" id="start_rate-css" href="{{ asset('assets/css/star_rt.css') }}" media="all" />
           <link rel="stylesheet" id="fontmon-style-cs-css-css" href="{{ asset('assets/fonts/fontmon-style.css?nocach=0.11217500+1726128914 &#038;ver=6.6.1') }}" media="all" />
           <link rel="stylesheet" id="main-style-cs-css-css" href="{{ asset('assets/css/style-new.css?nocach=0.11218400+1726128914&#038;ver=6.6.1') }}" media="all" />
-          <link rel="stylesheet" id="al_ic_revs_styles-css" href="https://documentos-legales.mx/wp-content/plugins/reviews-plus/css/reviews-plus.min.css?timestamp=1706678958&#038;ver=6.6.1" media="all" />
+
           <!-- Bootstrap -->
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -51,14 +51,12 @@
           <!-- Bootstrap JS -->
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-          <script src="https://documentos-legales.mx/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
-          <script src="https://documentos-legales.mx/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
           <script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js?ver=6.6.1" id="data_tables_script-js"></script>
           <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js?ver=6.6.1" id="bootstrap_script-js"></script>
           <script src="https://code.jquery.com/jquery-3.6.1.min.js?ver=6.6.1" id="ajax-econtrato-js"></script>
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js?ver=6.6.1" id="bootstrap-js-econtrato-js"></script>
           <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js?ver=6.6.1" id="validation-econtrato-js"></script>
-          <script src="https://documentos-legales.mx/wp-content/plugins/reviews-plus/js/reviews-plus.min.js?timestamp=1706678958&amp;ver=6.6.1" id="al_ic_revs_scripts-js"></script>
+          
      
           <style>
                header .desk-lng_drp {
@@ -69,7 +67,7 @@
                }
 		</style>
 
-          <style id='wp-emoji-styles-inline-css'>
+          <style id=''>
 
                img.wp-smiley, img.emoji {
                     display: inline !important;
@@ -83,7 +81,7 @@
                     padding: 0 !important;
                }
           </style>
-          <style id="wp-custom-css">
+          <style id="">
                body {
                     margin-bottom: 0 !important;
                }
@@ -98,7 +96,7 @@
                }
           </style>
      </head>
-     <body class="home page-template page-template-templates page-template-template-home page-template-templatestemplate-home-php page page-id-17 logged-in admin-bar no-customize-support theme-econtract woocommerce-no-js" data-user="1">
+     <body class="" data-user="1">
           <div id="page" class="site">
 
                @include('users_layout.header')
@@ -117,10 +115,10 @@
 				document.body.className = c;
 			})();
 		</script>
-          <style id='contact-form-7-inline-css'>
+          <style id=''>
                .wpcf7 .wpcf7-recaptcha iframe {margin-bottom: 0;}.wpcf7 .wpcf7-recaptcha[data-align="center"] > div {margin: 0 auto;}.wpcf7 .wpcf7-recaptcha[data-align="right"] > div {margin: 0 0 0 auto;}
           </style>
-		<script src="https://documentos-legales.mx/wp-content/themes/econtract/js/navigation.js?ver=1.0.0" id="econtract-navigation-js"></script>
+		
 		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js?ver=1.0.0" id="jquery-ui-js-js"></script>
 		<script src="{{ asset('assets/js/jquerySpellingNumber.js?ver=1.0.0') }}" id="theme-jquerySpellingNumber-js"></script>
 		<script src="{{ asset('assets/js/script.js?nocach=0.11206500+1726128914&amp;ver=1.0.0') }}" id="theme-custom-scripts-js"></script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
 class AdminController extends Controller
 {
     public function index(){
@@ -15,8 +16,5 @@ class AdminController extends Controller
         return view('admin.country.countries');
     }
 
-    public function documents(){
-        return view('admin.documents.document');
-    }
 
 }

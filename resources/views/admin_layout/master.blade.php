@@ -10,12 +10,14 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>Docs | Admin Dashboard</title>
+    <title>Docx | Admin Dashboard</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('admin-theme/assets/css/theme.css?ver=3.1.2') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
@@ -53,14 +55,18 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/documents') }}" class="nk-menu-link"><span class="nk-menu-text">Add Documents</span></a>
                                         </li>
-                                        <!-- <li class="nk-menu-item">
-                                            <a href="" class="nk-menu-link"><span class="nk-menu-text">Add Properties</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="" class="nk-menu-link"><span class="nk-menu-text">Storage Types</span></a>
-                                        </li> -->
                                     </ul>
-
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
+                                        <span class="nk-menu-text">SiteMeta</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/how-it-works') }}" class="nk-menu-link"><span class="nk-menu-text">How It Works</span></a>
+                                        </li>
+                                    </ul>
                                 </li> 
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
@@ -74,9 +80,9 @@
                 <div class="nk-header nk-header-fixed is-light">
                     <div class="container-fluid">
                         <div class="nk-header-wrap">
-                            <div class="nk-menu-trigger d-xl-none ms-n1">
+                            <!-- <div class="nk-menu-trigger d-xl-none ms-n1">
                                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
-                            </div>
+                            </div> -->
                             <div class="nk-header-brand d-xl-none">
                                 <!-- <a href="html/index.html" class="logo-link">
                                     <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
@@ -98,7 +104,7 @@
                             </div> -->
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
-                                    <li class="dropdown language-dropdown d-none d-sm-block me-n1">
+                                    <!-- <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                             <div class="quick-icon border border-light">
                                                 <img class="icon" src="./images/flags/english-sq.png" alt="">
@@ -132,16 +138,19 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </li><!-- .dropdown -->
+                                    </li> -->
                                     <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                                             <div class="user-toggle">
                                                 <div class="user-avatar sm">
                                                     <em class="icon ni ni-user-alt"></em>
                                                 </div>
+                                                <?php
+                                                    $user = App\Models\User::where('is_admin',1)->first();
+                                                ?>
                                                 <div class="user-info d-none d-md-block">
                                                     <div class="user-status">Administrator</div>
-                                                    <div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+                                                    <div class="user-name dropdown-indicator">{{ $user->name ?? '' }}</div>
                                                 </div>
                                             </div>
                                         </a>
@@ -152,19 +161,19 @@
                                                         <span>AB</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                        <span class="sub-text">info@softnio.com</span>
+                                                        <span class="lead-text">{{ $user->name ?? '' }}</span>
+                                                        <span class="sub-text">{{ $user->email ?? '' }}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="dropdown-inner">
+                                            <!-- <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                     <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>
-                                            </div>
+                                            </div> -->
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li><a href="{{ url('/admin-logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
@@ -172,7 +181,7 @@
                                             </div>
                                         </div>
                                     </li><!-- .dropdown -->
-                                    <li class="dropdown notification-dropdown me-n1">
+                                    <!-- <li class="dropdown notification-dropdown me-n1">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                             <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
                                         </a>
@@ -237,13 +246,13 @@
                                                             <div class="nk-notification-time">2 hrs ago</div>
                                                         </div>
                                                     </div>
-                                                </div><!-- .nk-notification -->
-                                            </div><!-- .nk-dropdown-body -->
+                                                </div>
+                                            </div>
                                             <div class="dropdown-foot center">
                                                 <a href="#">View All</a>
                                             </div>
                                         </div>
-                                    </li><!-- .dropdown -->
+                                    </li> -->
                                 </ul><!-- .nk-quick-nav -->
                             </div><!-- .nk-header-tools -->
                         </div><!-- .nk-header-wrap -->
@@ -257,40 +266,6 @@
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
                             <div class="nk-footer-copyright"> &copy; 2024 Legal Documents</a>
-                            </div>
-                            <div class="nk-footer-links">
-                                <ul class="nav nav-sm">
-                                    <li class="nav-item dropup">
-                                        <a href="#" class="dropdown-toggle dropdown-indicator has-indicator nav-link text-base" data-bs-toggle="dropdown" data-offset="0,10"><span>English</span></a>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
-                                            <ul class="language-list">
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">English</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Español</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Français</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Türkçe</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a data-bs-toggle="modal" href="#region" class="nav-link"><em class="icon ni ni-globe"></em><span class="ms-1">Select Region</span></a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -429,6 +404,20 @@
     <script src="{{ asset('admin-theme/assets/js/bundle.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/scripts.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/charts/gd-default.js?ver=3.1.2') }}"></script>
+    <script src="{{ asset('admin-theme/assets/js/example-toastr.js?ver=3.1.2') }}"></script>
+
+    @if(Session::get('error'))
+    <script>
+        toastr.clear();
+        NioApp.Toast('{{ Session::get("error") }}', 'error', {position: 'top-right'});
+    </script>
+    @endif
+    @if(Session::get('success'))
+    <script>
+        toastr.clear();
+        NioApp.Toast('{{ Session::get("success") }}', 'info', {position: 'top-right'});
+    </script>
+    @endif
 
 </body>
 
