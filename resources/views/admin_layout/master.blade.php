@@ -60,11 +60,14 @@
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
-                                        <span class="nk-menu-text">SiteMeta</span>
+                                        <span class="nk-menu-text">Paginas</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/how-it-works') }}" class="nk-menu-link"><span class="nk-menu-text">How It Works</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/faq') }}" class="nk-menu-link"><span class="nk-menu-text">FAQ's</span></a>
                                         </li>
                                     </ul>
                                 </li> 

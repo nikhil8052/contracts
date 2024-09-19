@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('how_it_works', function (Blueprint $table) {
             $table->id();
-            $table->text('title')->nullable();
-            $table->text('slug')->nullable();
-            $table->json('template_section')->nullable();
+            $table->longtext('title')->nullable();
+            $table->longtext('slug')->nullable();
+            $table->longtext('template_section')->nullable();
             $table->string('template_section_image')->nullable();
-            $table->text('second_main_heading')->nullable();
+            $table->longtext('second_main_heading')->nullable();
             $table->longtext('second_short_description')->nullable();
-            $table->json('works')->nullable();
+            $table->longtext('works')->nullable();
             $table->longtext('join_our_community_text')->nullable();
-            $table->text('banner_heading')->nullable();
-            $table->text('banner_sub_heading')->nullable();
-            $table->string('banner_button_label')->nullable();
-            $table->string('banner_button_link')->nullable();
+            $table->longtext('banner_heading')->nullable();
+            $table->longtext('banner_sub_heading')->nullable();
+            $table->longtext('banner_button_label')->nullable();
+            $table->longtext('banner_button_link')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

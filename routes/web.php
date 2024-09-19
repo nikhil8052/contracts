@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\SiteMetaController;
 use App\Http\Controllers\Users\SitePagesController;
+use App\Http\Controllers\Admin\AllPagesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,7 +28,12 @@ Route::get('/',[HomeController::class,'home']);
 Route::get('/contact-us',[ContactUsController::class,'index']);
 Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
 
+// ****************** SitePagesController Start**********************//
 Route::get('/how-it-works',[SitePagesController::class,'howItWork']);
+Route::get('/faq',[SitePagesController::class,'Faq']);
+Route::get('/terms-and-conditions',[SitePagesController::class,'termsAndConditions']);
+Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
+// ****************** SitePagesController End **********************//
 
 
 Route::middleware('admin.redirect')->group(function () {
@@ -45,6 +51,9 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/how-it-works',[SiteMetaController::class,'howItWorks']);
      Route::post('/admin-dashboard/add-how-it-works',[SiteMetaController::class,'addHowItWorks']);
+     Route::get('/admin-dashboard/faq',[AllPagesController::class,'faq']);
+     Route::post('/admin-dashboard/faq-process',[AllPagesController::class,'faqProcess']);
+     
 });
 
 

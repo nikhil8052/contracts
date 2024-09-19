@@ -16,7 +16,7 @@
 							</li>
 							<li id="menu-item-448" class=""><a href="{{ url('/how-it-works') }}" class="nav-link">Así funciona</a></li>
 							<li id="menu-item-180" class="">
-								<a href="" class="nav-link">Preguntas</a>
+								<a href="{{url('/faq')}}" class="nav-link">Preguntas</a>
 							</li>
 						</ul>
 						</div>
@@ -29,10 +29,10 @@
 						<div class="menu-footer-menu-2-container">
 						<ul id="menu-footer-menu-2" class="menu">
 							<li id="menu-item-182" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-182">
-								<a href="" class="nav-link">Términos y condiciones</a>
+								<a href="{{url('terms-and-conditions')}}" class="nav-link">Términos y condiciones</a>
 							</li>
 							<li id="menu-item-10626" class="aviso_cls menu-item menu-item-type-post_type menu-item-object-page menu-item-10626">
-								<a href="" class="nav-link">Aviso de privacidad</a>
+								<a href="{{url('privacy-notice')}}" class="nav-link">Aviso de privacidad</a>
 							</li>
 							<li id="menu-item-450" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-450">
 								<a href="{{ url('/contact-us') }}" class="nav-link">Contacto</a>

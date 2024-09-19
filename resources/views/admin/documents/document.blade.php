@@ -10,12 +10,12 @@
                     <div class="card-inner">
                          <div class="col-md-8 pb-2">
                               <div class="form-group">
-                                   <label class="form-label" for="document-title"><b><h4>Document Title</b></h4></label>
-                                   <input type="text" class="form-control form-control-lg" id="document-title" name="document-title" value="">
+                                   <label class="form-label" for="document-title"><b><h4>Add New Document</b></h4></label>
+                                   <input type="text" class="form-control form-control-lg" id="document-title" name="document-title" placeholder="Add title" value="">
                               </div>
                          </div>
                          <hr>
-                         <h5>First Section</h5>  
+                         <h5>Document Short Description</h5>  
                          <hr>
                          <div class="col-md-8">
                               <div class="form-group">
@@ -25,7 +25,7 @@
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="document-button-text">Button Text</label>
+                                   <label class="form-label" for="document-button-text">Create Document Button Text</label>
                                    <input type="text" class="form-control" id="document-button-text" name="document-button-text" value="">
                               </div>
                          </div>
@@ -33,7 +33,6 @@
                </div>
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
-                         <h6>Second Section</h6>
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="long-description">Long Description</label>
@@ -44,93 +43,117 @@
                </div>
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
-                         <h6>Third Section</h6>
-                         <div class="legal-section m-4">
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="legal-heading">Heading</label>
-                                        <input type="text" class="form-control form-control" id="legal-heading" name="legal-heading" value="">
-                                   </div>
-                              </div>
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="legal-description">Description</label>
-                                        <input type="text" class="form-control form-control" id="legal-description" name="legal-description" value="">
-                                   </div>
-                              </div>
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="button-label">Button Label</label>
-                                        <input type="text" class="form-control form-control" id="button-label" name="button-label" value="">
-                                   </div>
-                              </div>
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="button-link">Button Link</label>
-                                        <input type="text" class="form-control form-control" id="button-link" name="button-link" value="">
-                                   </div>
-                              </div>
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="document-image">Document Image</label>
-                                        <input type="file" class="form-control form-control" id="document-image" name="document-image" value="">
-                                   </div>
-                              </div>
-                         </div>
-                         <hr>
-                         <h5>Fourth Section</h5> 
+                         <h5>Documents Field</h5> 
                          <hr>
                          <h6>Image and text</h6>
-                         <div class="second-sec m-4" id="second-repeat-sec">
-                              <div class="img-txt-section" id="img-txt-section">
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="img-heading">Heading</label>
-                                             <input type="text" class="form-control form-control" id="img-heading" name="img-heading" value="">
+                         <div class="card card-bordered card-preview">
+                              <div class="second-sec m-4" id="second-repeat-sec">
+                                   <div class="img-txt-section" id="img-txt-section">
+                                        <div class="col-md-8">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="img-heading">Heading</label>
+                                                  <input type="text" class="form-control form-control" id="img-heading" name="img-heading" value="">
+                                             </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="description-here">Description Here</label>
+                                                  <textarea id="description-here" name="description-here"></textarea>
+                                             </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="upload-image">Upload Image</label>
+                                                  <input type="file" class="form-control form-control" id="upload-image" name="upload-image" value="">
+                                             </div>
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <br>
+                                   <div class="col-md-5 offset-md-7">
                                         <div class="form-group">
-                                             <label class="form-label" for="description-here">Description Here</label>
-                                             <textarea id="description-here" name="description-here"></textarea>
+                                             <button type="button" class="btn btn-sm btn-primary" id="second-section-add">Add Row</button>
                                         </div>
-                                   </div>
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="upload-image">Upload Image</label>
-                                             <input type="file" class="form-control form-control" id="upload-image" name="upload-image" value="">
-                                        </div>
-                                   </div>
-                              </div>
-                              <br>
-                              <div class="col-md-5 offset-md-7">
-                                   <div class="form-group">
-                                        <button type="button" class="btn btn-sm btn-primary" id="second-section-add">Add Row</button>
                                    </div>
                               </div>
                          </div>
                          <hr>
-                         <h6>Fifth Section</h6>
-                         <div class="guide-section m-4">
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="">Guide Section Main Hedaing</label>
-                                        <input type="text" class="form-control form-control" id="" name="" value="">
+                         <h6>Guide Section</h6>
+                         <div class="card card-bordered card-preview">
+                              <div class="guide-section m-4">
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Guide Section Main Hedaing</label>
+                                             <input type="text" class="form-control form-control" id="" name="" value="">
+                                        </div>
                                    </div>
-                              </div>
-                              <div class="col-md-8">
-                                   <div class="form-group" id="guide-sec-steps">
-                                        <label class="form-label" for="">Guide Section Steps</label>
+                                   <div class="col-md-8">
+                                        <div class="form-group" id="guide-sec-steps">
+                                             <label class="form-label" for="">Guide Section Steps</label>
+                                        </div>
                                    </div>
-                              </div>
-                              <div class="col-md-5 offset-md-7">
-                                   <div class="form-group">
-                                        <button type="button" class="btn btn-sm btn-primary" id="add-guide-sec">Add Row</button>
+                                   <div class="col-md-5 offset-md-7">
+                                        <div class="form-group">
+                                             <button type="button" class="btn btn-sm btn-primary" id="add-guide-sec">Add Row</button>
+                                        </div>
                                    </div>
                               </div>
                          </div>
                          <hr>
-                         <h6>Sixth Section</h6>
+                         <h6>Legal Document</h6>
+                         <div class="card card-bordered card-preview">
+                              <div class="legal-section m-4">
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="legal-heading">Heading</label>
+                                             <input type="text" class="form-control form-control" id="legal-heading" name="legal-heading" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="legal-description">Description</label>
+                                             <input type="text" class="form-control form-control" id="legal-description" name="legal-description" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="button-label">Button Label</label>
+                                             <input type="text" class="form-control form-control" id="button-label" name="button-label" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="button-link">Button Link</label>
+                                             <input type="text" class="form-control form-control" id="button-link" name="button-link" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="document-image">Document Image</label>
+                                             <input type="file" class="form-control form-control" id="document-image" name="document-image" value="">
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         <hr>
+                         <p><b>Approved ?</b></p>
+                         <div class="approved-section m-4">
+                              <div class="col-md-8">
+                                   <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                        <label class="custom-control-label" for="customSwitch1"></label>
+                                   </div>
+                              </div>
+                         </div>
+                         <hr>
+                         <div class="m-4">
+                              <div class="col-md-8">
+                                   <div class="form-group">
+                                        <label class="form-label" for="valid-in">Valid in</label>
+                                        <input type="text" class="form-control form-control" id="valid-in" name="valid-in" value="">
+                                   </div>
+                              </div>
+                         </div>
+                         <h6>Faq</h6>
                          <div class="card card-bordered card-preview">
                               <div class="faq-section m-4">
                                    <div class="col-md-8">
@@ -152,7 +175,7 @@
                               </div>
                          </div>
                          <hr>
-                         <h6>Last Section</h6>
+                         <h6>Related Document Section</h6>
                          <div class="card card-bordered card-preview">
                               <div class="faq-section m-4">
                                    <div class="col-md-8">
@@ -174,25 +197,6 @@
                                                   <option value="">Select</option>
                                              </select>
                                         </div>
-                                   </div>
-                              </div>
-                         </div>
-                         <hr>
-                         <p><b>Approved ?</b></p>
-                         <div class="approved-section m-4">
-                              <div class="col-md-8">
-                                   <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                                        <label class="custom-control-label" for="customSwitch1"></label>
-                                   </div>
-                              </div>
-                         </div>
-                         <hr>
-                         <div class="m-4">
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="valid-in">Valid in</label>
-                                        <input type="text" class="form-control form-control" id="valid-in" name="valid-in" value="">
                                    </div>
                               </div>
                          </div>

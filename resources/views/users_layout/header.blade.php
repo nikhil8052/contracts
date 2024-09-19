@@ -19,9 +19,9 @@
 						<ul id="menu-header-menu" class="navbar-nav ml-auto"><li id="menu-item-241" class=""><a href="" class="nav-link">Crear documento</a></li>
 							<li id="menu-item-4317" class=""><a href="{{ url('/') }}" class="nav-link">Documentos legales</a></li>
 							<li id="menu-item-423" class=""><a href="{{ url('/how-it-works') }}" class="nav-link">Así funciona</a></li>
-							<li id="menu-item-2145" class=""><a href="" class="nav-link">Preguntas</a></li>
-							<li id="custom-menu-item-200" class=""><a href="#">|</a></li>
-							<li class=""><a href="" class="nav-link" aria-label="Read more about Seminole tax hike"><i class="fas fa-user"></i> <strong class="mobile_text" style="display:none">Mi cuenta</strong></a></li>
+							<li id="menu-item-2145" class=""><a href="javascript:void(0)" class="nav-link">Preguntas</a></li>
+							<li id="custom-menu-item-200" class=""><a href="javascript:void(0)">|</a></li>
+							<li class=""><a href="javascript:void(0)" class="nav-link" aria-label="Read more about Seminole tax hike"><i class="fas fa-user"></i> <strong class="mobile_text" style="display:none">Mi cuenta</strong></a></li>
 						</ul>
 					</div>
 				</div>
