@@ -51,8 +51,14 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/how-it-works',[SiteMetaController::class,'howItWorks']);
      Route::post('/admin-dashboard/add-how-it-works',[SiteMetaController::class,'addHowItWorks']);
+     Route::post('/admin-dashboard/deleteworkSec',[SiteMetaController::class,'deleteWorks']);
+     
+     Route::get('/admin-dashboard/terms-and-conditions',[SiteMetaController::class,'termsConditions']);
+     Route::post('/admin-dashboard/add-terms-process',[SiteMetaController::class,'addTermsAndCondition']);
+
      Route::get('/admin-dashboard/faq',[AllPagesController::class,'faq']);
      Route::post('/admin-dashboard/faq-process',[AllPagesController::class,'faqProcess']);
+     Route::get('/admin-dashboard/faq-remove/{id}',[AllPagesController::class,'removeFaq']);
      
 });
 

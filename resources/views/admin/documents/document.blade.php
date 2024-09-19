@@ -388,7 +388,7 @@
                                    <div class="col-md-5">
                                         <div class="form-group">
                                              <label class="form-label" for="step-description">Step Description</label>
-                                             <textarea id="step-description" name="step-description"></textarea>
+                                             <textarea class="form-control" id="step-description" name="step-description"></textarea>
                                         </div>
                                    </div>
                               </div>

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('how_it_works', function (Blueprint $table) {
+        Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->nullable();
-            $table->longtext('value')->nullable();
-            $table->string('type')->nullable();
-            $table->string('work_id')->nullable();
+            $table->string('image');
+            $table->longtext('heading');
+            $table->longtext('description');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('how_it_works');
+        Schema::dropIfExists('works');
     }
 };

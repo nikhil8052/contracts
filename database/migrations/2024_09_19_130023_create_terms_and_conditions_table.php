@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('how_it_works', function (Blueprint $table) {
+        Schema::create('terms_and_conditions', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->nullable();
+            $table->text('key')->nullable();
             $table->longtext('value')->nullable();
-            $table->string('type')->nullable();
-            $table->string('work_id')->nullable();
+            $table->longtext('type')->nullable();
+            $table->longtext('terms')->nullable();
+            $table->longtext('condition')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('how_it_works');
+        Schema::dropIfExists('terms_and_conditions');
     }
 };

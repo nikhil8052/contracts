@@ -2,141 +2,199 @@
 @section('content')
 <div class="nk-content">
     <div class="container-fluid">
-        <form action="{{url('/admin-dashboard/faq-process')}}" method="POST">
+        <form action="{{ url('/admin-dashboard/faq-process') }}" method="POST">
             @csrf
-            <div class="card card-bordered card-preview">
-                <div class="card-inner">
-                    <div class="col-md-8 pb-2">
-                        <div class="form-group">
-                            <label  class="form-label" for="title">Title</label>
-                            <input class="form-control form-control-lg" type="text" id="title" name="title">
-                            @error('title')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        
-                    </div>
+            @if(isset($faqs) && $faqs->isNotEmpty())
+                {{-- First Loop for Question and Answer --}}
+                @foreach($faqs as $faq)
+                    @if($faq->key === 'title')
+                        <div class="col-md-8 pb-2">
+                            <div class="form-group">
+                                <label class="form-label" for="title"><b><h5>Title</b></h5></label>
+                                <input class="form-control form-control-lg" type="text" id="title"  name="title[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                @error('title')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- <button class="btn btn-danger">
+                                <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
+                            </button> -->
 
-                     <div class="col-md-8">
-                        <div class="form-group">
-                            <label class="form-label" for="main_title">Main Title</label>
-                            <input  class="form-control form-control-lg" id="main_title" name="main_title">
-                            @error('main_title')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
-                    </div>
-
-                    <div class="col-md-8" id="faq-div">
-                        <span>FAQ</span>
-                    </div>
-                    <div class="col-md-5 offset-md-7 mt-3">
-                        <div class="form-group">
-                           
-                           
-                             <button type="button" class="btn btn-sm btn-primary" id="add-faq-sec">Add Faq</button>
+                    @endif
+                @endforeach
+                @foreach($faqs as $faq)
+                    @if($faq->key === 'main_title')
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="form-label" for="main_title"><b><h5>Main Title</b></h5></label>
+                                <input class="form-control form-control-lg" id="main_title" name="main_title[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                @error('main_title')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- <button class="btn btn-danger">
+                                <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
+                            </button> -->
                         </div>
-                    </div>
-                
-
-                    <div  class="col-md-8">
-                        <div class="form-group">
-                            <label class="form-label" for="second_banner_heading">Second Banner Heading</label>
-                            <input class="form-control form-control-lg" id="second_banner_heading" name="second_banner_heading">
+                    @endif
+                @endforeach
+                @foreach($faqs as $faq)
+                    @if($faq->key === 'faq')
+                        <div class="template-append-sec">
+                            <div class="col-md-8 mt-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="faq">FAQ:</label>
+                                    <input class="form-control form-control-lg" name="faq[{{ $faq->id }}]" value="{{ isset($faq->question) ? htmlspecialchars($faq->question) : '' }}" />
+                                    @error('faq')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="">Answer</label>
+                                    <textarea class="form-control answer_editor" name="answer[{{ $faq->id }}]">{{ $faq->answer }}</textarea>
+                                    @error('answer')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <button class="btn btn-danger">
+                                    <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
+                                </button>
+                            </div>
+                            <div class="col-md-1 offset-md-11">
+                                <div class="form-group">
+                                    <div class="remove-faq-sec"><span><i class="fa fa-times"></i></span></div>
+                                </div>
+                            </div>
                         </div>
-                        @error('second_banner_heading')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                     <div  class="col-md-8">
-                        <div class="form-group">
-                        <label  class="form-label" for="second_banner_sub_heading">Second Banner Sub Heading</label>
-                        <textarea class="form-control" id="second_banner_sub_heading" name="second_banner_sub_heading"></textarea>
-                        @error('second_banner_sub_heading')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                       </div>
-                    </div>
-
-                    <div class="col-md-8 pb-2">
-                        <div class="form-group">
-                            <label class="form-label" for="button_label">Button Label</label>
-                            <input  class="form-control" type="text" id="button_label" name="button_label">
-                            @error('button_label')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div  class="col-md-8">
-                        <div class="form-group">
-                            <label class="form-label"  for="button_link">Button Link</label>
-                            <input  class="form-control form-control-lg" id="button_link" name="button_link">
-                            @error('button_link')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mt-3">
-                        <button class="btn btn-primary" type="submit">Save</button>
+                    @endif
+                @endforeach
+                 
+                 <div class="col-md-5 offset-md-7 mt-3">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-sm btn-primary" id="add-faq-sec">Add FAQ</button>
                     </div>
                 </div>
-             </div>        
+
+                {{-- New FAQ Input Section --}}
+                <div id="new-faq-container"></div>
+
+                {{-- Second Loop for Other Content --}}
+                @foreach($faqs as $faq)
+                    @if($faq->key === 'second_banner_heading')
+                        <div class="col-md-8 mt-3">
+                            <div class="form-group">
+                                <label class="form-label" for="second_banner_heading"><b><h5>Second Banner Heading</b></h5></label>
+                                <input class="form-control form-control-lg" id="second_banner_heading" name="second_banner_heading[{{ $faq->id }}]" value="{{ $faq->value }}">
+                            </div>
+                            @error('second_banner_heading')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <!-- <button class="btn btn-danger">
+                                <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
+                            </button> -->
+                        </div>
+                    @elseif($faq->key === 'second_banner_sub_heading')
+                        <div class="col-md-8 mt-3">
+                            <div class="form-group">
+                                <label class="form-label" for="second_banner_sub_heading"><b><h5>Second Banner Sub Heading</b></h5></label>
+                                <textarea class="form-control" id="second_banner_sub_heading" name=" second_banner_sub_heading[{{ $faq->id }}]">{{ $faq->value }}</textarea>
+                                @error('second_banner_sub_heading')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                                <!-- <button class="btn btn-danger mt-3">
+                                    <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
+                                </button> -->
+                            </div>
+                        </div>
+                    @elseif($faq->key === 'button_label')
+                        <div class="col-md-8 pb-2 mt-3">
+                            <div class="form-group">
+                                <label class="form-label" for="button_label"><b><h5>Button Label</b></h5></label>
+                                <input class="form-control" type="text" id="button_label" name="button_label[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                @error('button_label')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- <button class="btn btn-danger">
+                                <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
+                            </button> -->
+                        </div>
+                    @elseif($faq->key === 'button_link')
+                        <div class="col-md-8 mt-3">
+                            <div class="form-group">
+                                <label class="form-label" for="button_link"><b><h5>Button Link</b></h5></label>
+                                <input class="form-control form-control-lg" id="button_link" name=" button_link[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                @error('button_link')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                                <!-- <button class="btn btn-danger mt-3">
+                                    <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
+                                </button> -->
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+
+                <div class="mt-3">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            @endif       
         </form>
     </div>
 </div>
-<script>
-    $(document).ready(function(e){
+<script> 
+function initializeCKEditor(element) {
+    ClassicEditor.create(element).catch(error => {
+        console.error(error);
+    });
+}
 
-  $('#add-faq-sec').click(function(e) {
+$(document).ready(function() {
+    // Initialize CKEditor on existing fields
+    $('.answer_editor').each(function() {
+        initializeCKEditor(this);
+    });
 
+    // Handle the click event for adding a new FAQ section
+    $('#add-faq-sec').click(function() {
+        // HTML for the new FAQ section
         let faqHtml = `
-        <div class="template-append-sec" id="remove-faq-section">
+        <div class="template-append-sec">
+            <div class="col-md-8 mt-3">
+                <div class="form-group">
+                    <label class="form-label" for="faq">FAQ:</label>
+                    <input class="form-control form-control-lg" name="faq[]" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="">Answer</label>
+                    <textarea class="form-control answer_editor" name="answer[]"></textarea>
+                </div>
+            </div>
             <div class="col-md-1 offset-md-11">
                 <div class="form-group">
                     <div class="remove-faq-sec"><span><i class="fa fa-times"></i></span></div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="form-label" for="faq">FAQ:</label>
-                <input class="form-control form-control-lg" name="faq[]" />
-                @error('faq')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-                <div class="form-group">
-                    <label class="form-label" for="">Answer</label>
-                    <textarea class="form-control answer_editor" id="answer" name="answer[]"></textarea>
-                        @error('answer')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                </div>
-        </div>        
-        
-        `;
-        $('#faq-div').append(faqHtml);
+        </div>`;
 
-        // Initialize the CKEditor for the newly added textarea
-        $('.answer_editor').each(function() {
-            if (!$(this).data('ckeditor-initialized')) {
-                ClassicEditor.create(this).catch(error => {
-                        console.error(error);
-                    });
-                $(this).data('ckeditor-initialized', true); // Mark as initialized
-            }
-        });
+        // Append the new FAQ section to the bottom of the FAQ list
+        document.getElementById('new-faq-container').insertAdjacentHTML('beforeend', faqHtml);
+
+        // Initialize CKEditor for the newly added textarea
+        const newTextarea = $('.answer_editor').last()[0];
+        if (newTextarea && !$(newTextarea).data('ckeditor-initialized')) {
+            initializeCKEditor(newTextarea);
+            $(newTextarea).data('ckeditor-initialized', true);
+        }
     });
 
+    // Remove FAQ section
+    $('body').on('click', '.remove-faq-sec', function() {
+        $(this).closest('.template-append-sec').remove();
     });
-     ClassicEditor.create( document.querySelector('#answer'))
-     .catch( error => {
-          console.error( error );
-     });
+});
 
-      $('body').delegate('.remove-faq-sec','click',function(){
-            $(this).closest('#remove-faq-section').hide();
-        });
 </script>
 
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\HowItWork;
-use App\MOdels\QuestionAnswer;
+use App\Models\QuestionAnswer;
 class SitePagesController extends Controller
 {
     public function howItWork(){
@@ -16,8 +16,9 @@ class SitePagesController extends Controller
 
     public function Faq()
     {
-        // $faqs = QuestionAnswer::where('key','!=',null)->first();
-        return view('users.site_meta.faq');
+        $faqs = QuestionAnswer::where('key','!=',null)->get();
+        
+        return view('users.site_meta.faq',compact('faqs'));
     }
 
     public function termsAndConditions()

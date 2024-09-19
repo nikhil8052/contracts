@@ -1,29 +1,24 @@
-@extends('users_layout.master')
-@section('content')
-
-@yield('css')
+@extends('users_layout.master') @section('content') @yield('css')
 <style>
-	.work-head-banner-desc p {
-	    padding-top: 20px;
-	}
-	.work-head-desc p {
-	    padding-bottom: 10px;
-	}
-	@media only screen and (max-width: 767px)
-	{
-	    .work-row .p-left {
-	    padding: 15px;
-	    }
-	    .work-text h3 {
-		   margin-bottom: 30px;
-		   font-size: 20px;
-	    }
-	}
-	p.bl_sec {
-	    font-size: 18px;
-	}
+    .work-head-banner-desc p {
+        padding-top: 20px;
+    }
+    .work-head-desc p {
+        padding-bottom: 10px;
+    }
+    @media only screen and (max-width: 767px) {
+        .work-row .p-left {
+            padding: 15px;
+        }
+        .work-text h3 {
+            margin-bottom: 30px;
+            font-size: 20px;
+        }
+    }
+    p.bl_sec {
+        font-size: 18px;
+    }
 </style>
-
 
 <div class="mobile_header_side_bar">
     <div class="header_sidebar_inner">
@@ -105,41 +100,69 @@
     <section class="work-sec p-130 custom_section_p">
         <div class="container">
             <div class="work-head">
-                <h1>{{ $howitwork->second_main_heading ?? '' }}</h1>
+                <h1>Así funciona</h1>
             </div>
             <div class="work-head-desc">
                 <p>
-                    {{ $howitwork->second_short_description ?? '' }}
+                    Descubre una forma sencilla de generar documentos y contratos en Documentos-Legales.mx. Nuestra plataforma te ofrece una amplia selección de documentos legales para cubrir tus necesidades. ¡Comienza a crear tus contratos
+                    personalizados hoy mismo!
                 </p>
             </div>
 
             <div class="work-row-wrapper">
-            @if(isset($howitwork->works) && $howitwork->works != null)
-                <?php 
-                    $work_Section = json_decode($howitwork->works);
-                ?>
-                @foreach($work_Section as $key=>$value)
                 <div class="row work-row">
                     <div class="col-md-6">
                         <div class="work-img">
-                            <img src="{{ asset('site_images/'.$value->image) }}" alt="Work-image" />
+                            <img src="https://documentos-legales.mx/wp-content/uploads/2023/10/work-01-1.jpg" alt="Work-image" />
                         </div>
                     </div>
                     <div class="col-md-6 p-left">
                         <div class="work-text">
-                            <h3>{{ $value->heading ?? '' }}</h3>
+                            <h3>Explora nuestra variedad de documentos y contratos</h3>
                             <p>
-                                {{ $value->description ?? '' }}
+                                Explora nuestra variedad de documentos y contratos En Documentos-Legales.mx, te ofrecemos una amplia selección de documentos legales y contratos para que elijas el que mejor se adapte a tus necesidades. Desde
+                                un Contrato de Arrendamiento Casa Habitación hasta un Contrato de Trabajo y más. Simplemente haz clic en "Crear documento" y elige el contrato que necesites.
                             </p>
                         </div>
                     </div>
                 </div>
-                @endforeach
-            @endif
+                <div class="row work-row">
+                    <div class="col-md-6">
+                        <div class="work-img">
+                            <img src="https://documentos-legales.mx/wp-content/uploads/2023/10/work-02-1.jpg" alt="Work-image" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 p-left">
+                        <div class="work-text">
+                            <h3>Personaliza tu documento fácilmente</h3>
+                            <p>
+                                Una vez seleccionado el contrato, te guiaremos a través de un cuestionario detallado. Responde preguntas específicas y nuestro sistema personalizará el documento según tus requisitos. Estarás tranquilo
+                                sabiendo que cada detalle importante estará cubierto en el documento final.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row work-row">
+                    <div class="col-md-6">
+                        <div class="work-img">
+                            <img src="https://documentos-legales.mx/wp-content/uploads/2023/10/work-03-1.jpg" alt="Work-image" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 p-left">
+                        <div class="work-text">
+                            <h3>Descarga tu documento en diferentes formatos</h3>
+                            <p>
+                                Después de completar el cuestionario, recibirás el contrato totalmente personalizado al instante. En Documentos-Legales.mx, puedes descargar tu documento en formatos PDF y DOCX (Word). El formato PDF es ideal
+                                para compartir y presentar de manera profesional, mientras que el formato DOCX te permite realizar modificaciones según sea necesario. Tú decides cómo utilizarlo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="work-head-banner-desc">
                 <p>
-                    {{ $howitwork->join_our_community_text ?? '' }}
+                    En Documentos-Legales.mx, nos esforzamos por hacer que el proceso de generación de documentos y contratos sea sencillo y conveniente. Obtén documentos legales de calidad de manera rápida y eficiente. ¡Únete a nuestra
+                    comunidad de usuarios satisfechos y simplifica tus trámites legales!
                 </p>
             </div>
         </div>
@@ -148,16 +171,15 @@
     <section class="footer_bann_wreap p-130 g_bck">
         <div class="container">
             <div class="global_content text-center">
-                <h2>{{ $howitwork->banner_heading ?? '' }}</h2>
-                <p class="bl_sec">{{ $howitwork->banner_sub_heading ?? '' }}</p>
+                <h2>Genera tus documentos legales de forma rápida y sencilla</h2>
+                <p class="bl_sec">Nuestro sistema intuitivo te guía paso a paso para crear documentos legales personalizados. Descárgalos al instante en los formatos PDF y DOCX (Word) y tenlos listos en cuestión de minutos.</p>
 
                 <div class="start_new text-center">
-                    <a href="{{ $howitwork->banner_button_link ?? '' }}" class="cta">{{ $howitwork->banner_button_label ?? '' }}</a>
+                    <a href="{{ url('/') }}" class="cta">Comienza ahora</a>
                 </div>
             </div>
         </div>
     </section>
 </div>
-
 
 @endsection

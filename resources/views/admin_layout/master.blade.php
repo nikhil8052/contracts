@@ -69,6 +69,9 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/faq') }}" class="nk-menu-link"><span class="nk-menu-text">FAQ's</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/terms-and-conditions') }}" class="nk-menu-link"><span class="nk-menu-text">Terms & Condition</span></a>
+                                        </li>
                                     </ul>
                                 </li> 
                             </ul><!-- .nk-menu -->
