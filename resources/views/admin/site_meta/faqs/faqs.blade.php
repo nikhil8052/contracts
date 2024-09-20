@@ -4,127 +4,139 @@
     <div class="container-fluid">
         <form action="{{ url('/admin-dashboard/faq-process') }}" method="POST">
             @csrf
-            @if(isset($faqs) && $faqs->isNotEmpty())
-                {{-- First Loop for Question and Answer --}}
-                @foreach($faqs as $faq)
-                    @if($faq->key === 'title')
-                        <div class="col-md-8 pb-2">
-                            <div class="form-group">
-                                <label class="form-label" for="title"><b><h5>Title</b></h5></label>
-                                <input class="form-control form-control-lg" type="text" id="title"  name="title[{{ $faq->id }}]" value="{{ $faq->value }}">
-                                @error('title')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+            <div class="card card-bordered card-preview">
+                <div class="card-inner">
+                    @if(isset($faqs) && $faqs->isNotEmpty())
+                        {{-- First Loop for Question and Answer --}}
+                        @foreach($faqs as $faq)
+                            @if($faq->key === 'title')
+                                <div class="col-md-8 pb-2">
+                                    <div class="form-group">
+                                        <label class="form-label" for="title"><b><h5>Title</b></h5></label>
+                                        <input class="form-control form-control-lg" type="text" id="title"  name="title[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                        @error('title')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                        @foreach($faqs as $faq)
+                            @if($faq->key === 'main_title')
+                            <hr>
+                            <h4>Faq Page</h4>  
+                            <hr>
+                            <h6>Faq Section</h6>
+                            <hr>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="form-label" for="main_title">Main Title</label>
+                                    <input class="form-control form-control-lg" id="main_title" name="main_title[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                    @error('main_title')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            
                             </div>
-                           
-
-                        </div>
-                    @endif
-                @endforeach
-                @foreach($faqs as $faq)
-                    @if($faq->key === 'main_title')
+                            @endif
+                        @endforeach
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label class="form-label" for="main_title"><b><h5>Main Title</b></h5></label>
-                                <input class="form-control form-control-lg" id="main_title" name="main_title[{{ $faq->id }}]" value="{{ $faq->value }}">
-                                @error('main_title')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                <label class="form-label" for="">Faq</label>
                             </div>
-                          
                         </div>
-                    @endif
-                @endforeach
-                @foreach($faqs as $faq)
-                    @if($faq->key === 'faq')
-                        <div class="template-append-sec">
-                            <div class="col-md-8 mt-3">
-                                <div class="form-group">
-                                    <label class="form-label" for="faq">FAQ:</label>
-                                    <input class="form-control form-control-lg" name="faq[{{ $faq->id }}]" value="{{ isset($faq->question) ? htmlspecialchars($faq->question) : '' }}" />
-                                    @error('faq')
+                        @foreach($faqs as $faq)
+                            @if($faq->key === 'faq')
+                                <div class="template-append-sec">
+                                    <div class="col-md-8 mt-3">
+                                        <div class="form-group">
+                                            <label class="form-label" for="faq">Question</label>
+                                            <input class="form-control form-control-lg" name="faq[{{ $faq->id }}]" value="{{ isset($faq->question) ? htmlspecialchars($faq->question) : '' }}" />
+                                            @error('faq')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="">Answer</label>
+                                            <textarea class="form-control answer_editor" name="answer[{{ $faq->id }}]">{{ $faq->answer }}</textarea>
+                                            @error('answer')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-md-1 offset-md-11">
+                                        <div class="form-group">
+                                            <div class="remove-faq-sec" data-id="{{$faq->id}}"><span><i class="fa fa-times"></i></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                        
+                        <div class="col-md-5 offset-md-7 mt-3">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-sm btn-primary" id="add-faq-sec">Add FAQ</button>
+                            </div>
+                        </div>
+
+                        {{-- New FAQ Input Section --}}
+                        <div id="new-faq-container"></div>
+
+                        {{-- Second Loop for Other Content --}}
+                        @foreach($faqs as $faq)
+                            @if($faq->key === 'second_banner_heading')
+                                <div class="col-md-8 mt-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="second_banner_heading"><b><h5>Second Banner Heading</b></h5></label>
+                                        <input class="form-control form-control-lg" id="second_banner_heading" name="second_banner_heading[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                    </div>
+                                    @error('second_banner_heading')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
+                                    
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="">Answer</label>
-                                    <textarea class="form-control answer_editor" name="answer[{{ $faq->id }}]">{{ $faq->answer }}</textarea>
-                                    @error('answer')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                            @elseif($faq->key === 'second_banner_sub_heading')
+                                <div class="col-md-8 mt-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="second_banner_sub_heading"><b><h5>Second Banner Sub Heading</b></h5></label>
+                                        <textarea class="form-control" id="second_banner_sub_heading" name=" second_banner_sub_heading[{{ $faq->id }}]">{{ $faq->value }}</textarea>
+                                        @error('second_banner_sub_heading')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    
+                                    </div>
                                 </div>
+                            @elseif($faq->key === 'button_label')
+                                <div class="col-md-8 pb-2 mt-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="button_label"><b><h5>Button Label</b></h5></label>
+                                        <input class="form-control" type="text" id="button_label" name="button_label[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                        @error('button_label')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
                                 
-                            </div>
-                            <div class="col-md-1 offset-md-11">
-                                <div class="form-group">
-                                    <div class="remove-faq-sec" data-id="{{$faq->id}}"><span><i class="fa fa-times"></i></span></div>
                                 </div>
-                            </div>
+                            @elseif($faq->key === 'button_link')
+                                <div class="col-md-8 mt-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="button_link"><b><h5>Button Link</b></h5></label>
+                                        <input class="form-control form-control-lg" id="button_link" name=" button_link[{{ $faq->id }}]" value="{{ $faq->value }}">
+                                        @error('button_link')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                        
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                        <div class="mt-3">
+                            <button class="btn btn-primary save_and_remove_btn" type="submit">Save</button>
                         </div>
                     @endif
-                @endforeach
-                 
-                 <div class="col-md-5 offset-md-7 mt-3">
-                    <div class="form-group">
-                        <button type="button" class="btn btn-sm btn-primary" id="add-faq-sec">Add FAQ</button>
-                    </div>
                 </div>
-
-                {{-- New FAQ Input Section --}}
-                <div id="new-faq-container"></div>
-
-                {{-- Second Loop for Other Content --}}
-                @foreach($faqs as $faq)
-                    @if($faq->key === 'second_banner_heading')
-                        <div class="col-md-8 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="second_banner_heading"><b><h5>Second Banner Heading</b></h5></label>
-                                <input class="form-control form-control-lg" id="second_banner_heading" name="second_banner_heading[{{ $faq->id }}]" value="{{ $faq->value }}">
-                            </div>
-                            @error('second_banner_heading')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                            
-                        </div>
-                    @elseif($faq->key === 'second_banner_sub_heading')
-                        <div class="col-md-8 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="second_banner_sub_heading"><b><h5>Second Banner Sub Heading</b></h5></label>
-                                <textarea class="form-control" id="second_banner_sub_heading" name=" second_banner_sub_heading[{{ $faq->id }}]">{{ $faq->value }}</textarea>
-                                @error('second_banner_sub_heading')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                               
-                            </div>
-                        </div>
-                    @elseif($faq->key === 'button_label')
-                        <div class="col-md-8 pb-2 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="button_label"><b><h5>Button Label</b></h5></label>
-                                <input class="form-control" type="text" id="button_label" name="button_label[{{ $faq->id }}]" value="{{ $faq->value }}">
-                                @error('button_label')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                           
-                        </div>
-                    @elseif($faq->key === 'button_link')
-                        <div class="col-md-8 mt-3">
-                            <div class="form-group">
-                                <label class="form-label" for="button_link"><b><h5>Button Link</b></h5></label>
-                                <input class="form-control form-control-lg" id="button_link" name=" button_link[{{ $faq->id }}]" value="{{ $faq->value }}">
-                                @error('button_link')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                                
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-                <div class="mt-3">
-                    <button class="btn btn-primary save_and_remove_btn" type="submit">Save</button>
-                </div>
-            @endif       
+            </div>       
         </form>
     </div>
 </div>
@@ -148,7 +160,7 @@ $(document).ready(function() {
         <div class="template-append-sec">
             <div class="col-md-8 mt-3">
                 <div class="form-group">
-                    <label class="form-label" for="faq">FAQ:</label>
+                    <label class="form-label" for="faq">Question</label>
                     <input class="form-control form-control-lg" name="faq[]" />
                 </div>
                 <div class="form-group">
