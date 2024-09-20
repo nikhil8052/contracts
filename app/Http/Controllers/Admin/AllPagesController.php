@@ -150,14 +150,16 @@ class AllPagesController extends Controller
     
             // return redirect()->back()->with('success', 'FAQ created successfully!');
     }
-    public function removeFaq($id)
+    public function removeFaq(Request $request)
     {
-        $removeID = QuestionAnswer::find($id);
-        if ($removeID) {
-            $removeID->delete(); // Delete the entry
-            return redirect()->back()->with('success', 'FAQ deleted successfully!'); // Redirect with a success message
-        }
+        $ids = $request->ids;
+        $deletedRows = QuestionAnswer::whereIn('id', $ids)->delete();
 
-    return redirect()->back()->with('error', 'FAQ not found.');
+        // Return success or error based on deletion result
+        if ($deletedRows > 0) {
+            return response()->json(['success' => true, 'message' => 'FAQs deleted successfully!']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'FAQs not found.']);
+        }
     }
 }

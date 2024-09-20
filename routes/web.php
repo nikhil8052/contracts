@@ -58,7 +58,7 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/faq',[AllPagesController::class,'faq']);
      Route::post('/admin-dashboard/faq-process',[AllPagesController::class,'faqProcess']);
-     Route::get('/admin-dashboard/faq-remove/{id}',[AllPagesController::class,'removeFaq']);
+     Route::post('/admin-dashboard/faq-remove',[AllPagesController::class,'removeFaq']);
      
 });
 

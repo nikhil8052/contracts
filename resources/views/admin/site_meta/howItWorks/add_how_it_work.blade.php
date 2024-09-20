@@ -4,6 +4,7 @@
      <div class="container-fluid">
           <form action="{{ url('admin-dashboard/add-how-it-works') }}" method="post" enctype="multipart/form-data">
                @csrf
+               <input type="hidden" name="delete_work_ids" id="delete_work_ids" value="">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="col-md-8 pb-2">
@@ -199,28 +200,25 @@
                $('#work-section').append(html);
           });
 
-          $('body').delegate('.remove-work-sec','click',function(){
-               id = $(this).data('id');
-console.log(id);
-return true;
+
+          $('body').delegate('.remove-work-sec', 'click', function () {
+               var id = $(this).data('id');
                if($(this).attr('value') === 'appended'){
                     $(this).closest('.work-append-sec').remove();
-                    // return false;
-               }else{
-                    $('.work-append-sec'+id).remove();
+                    return false;
                }
-               
-               // $.ajax({
-               //      method:'post',
-               //      url:"{{ url('/admin-dashboard/deleteworkSec') }}",
-               //      data:{ _token:"{{ csrf_token() }}",id:id,action:'update_work_sec' },
-               //      success:function(response){
-               //           if(response.status === 200){
-               //                $('.work-append-sec'+id).remove();
-               //           }
-               //      }
-               // });
+
+               let deleteIds = $('#delete_work_ids').val();
+               if(deleteIds) {
+                    deleteIds += ',' + id;
+               }else {
+                    deleteIds = id;
+               }
+               $('#delete_work_ids').val(deleteIds);
+
+               $('.work-append-sec'+id).hide();
           });
+
 
      });
 </script>

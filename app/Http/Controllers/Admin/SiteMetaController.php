@@ -43,6 +43,21 @@ class SiteMetaController extends Controller
 
     public function addHowItWorks(Request $request){
         try{
+            if($request->has('delete_work_ids')){
+                $deleteIds = explode(',', $request->delete_work_ids);
+                foreach ($deleteIds as $id) {
+                    $work = Work::find($id);
+                    if ($work) {
+                        $image_path = public_path('site_images/' . $work->image);
+                        if (File::exists($image_path)) {
+                            unlink($image_path);
+                        }
+                        $work->delete();
+                    }
+                    HowItWork::where('work_id', $id)->delete();
+                }
+            }
+            
             if($request->hasFile('work_image')){
                 for($i=0; $i<count($request->file('work_image')); $i++){
                     $file = $request->file('work_image')[$i];

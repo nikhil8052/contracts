@@ -16,9 +16,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <!-- <button class="btn btn-danger">
-                                <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
-                            </button> -->
+                           
 
                         </div>
                     @endif
@@ -33,9 +31,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <!-- <button class="btn btn-danger">
-                                <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
-                            </button> -->
+                          
                         </div>
                     @endif
                 @endforeach
@@ -57,13 +53,11 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <button class="btn btn-danger">
-                                    <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
-                                </button>
+                                
                             </div>
                             <div class="col-md-1 offset-md-11">
                                 <div class="form-group">
-                                    <div class="remove-faq-sec"><span><i class="fa fa-times"></i></span></div>
+                                    <div class="remove-faq-sec" data-id="{{$faq->id}}"><span><i class="fa fa-times"></i></span></div>
                                 </div>
                             </div>
                         </div>
@@ -90,9 +84,7 @@
                             @error('second_banner_heading')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
-                            <!-- <button class="btn btn-danger">
-                                <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
-                            </button> -->
+                            
                         </div>
                     @elseif($faq->key === 'second_banner_sub_heading')
                         <div class="col-md-8 mt-3">
@@ -102,9 +94,7 @@
                                 @error('second_banner_sub_heading')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                <!-- <button class="btn btn-danger mt-3">
-                                    <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
-                                </button> -->
+                               
                             </div>
                         </div>
                     @elseif($faq->key === 'button_label')
@@ -116,9 +106,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <!-- <button class="btn btn-danger">
-                                <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
-                            </button> -->
+                           
                         </div>
                     @elseif($faq->key === 'button_link')
                         <div class="col-md-8 mt-3">
@@ -128,16 +116,13 @@
                                 @error('button_link')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                <!-- <button class="btn btn-danger mt-3">
-                                    <a href="{{ url('/admin-dashboard/faq-remove/' . $faq->id) }}" style="color: white; text-decoration: none;">Delete</a>
-                                </button> -->
+                                
                             </div>
                         </div>
                     @endif
                 @endforeach
-
                 <div class="mt-3">
-                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-primary save_and_remove_btn" type="submit">Save</button>
                 </div>
             @endif       
         </form>
@@ -193,6 +178,60 @@ $(document).ready(function() {
     $('body').on('click', '.remove-faq-sec', function() {
         $(this).closest('.template-append-sec').remove();
     });
+
+let idsToRemove = []; // Array to store IDs for removal
+
+// Toggle the selected ID to remove
+$('.remove-faq-sec').click(function() {
+    let hideId = $(this).data('id');
+    
+    // Toggle the ID in the array
+    if (idsToRemove.includes(hideId)) {
+        idsToRemove = idsToRemove.filter(id => id !== hideId);
+    } else {
+        idsToRemove.push(hideId);
+    }
+
+    // Provide feedback (optional)
+    console.log('IDs to remove:', idsToRemove);
+});
+
+// Save and remove button click handler
+$('.save_and_remove_btn').click(function(e) {
+    // e.preventDefault();
+    
+    if (idsToRemove.length > 0) {
+        $.ajax({
+            url: "{{url('/admin-dashboard/faq-remove')}}",  // Replace with your correct route
+            method: 'POST',
+            data: {
+                ids: idsToRemove,
+                _token: '{{ csrf_token() }}' // Include CSRF token for security
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Feedback (e.g., refresh the page or update the DOM)
+                    alert('Selected FAQs have been removed successfully!');
+                    // Optionally, remove the items from the DOM
+                    idsToRemove.forEach(function(id) {
+                        $(`[data-id="${id}"]`).remove();
+                    });
+                } else {
+                    alert('Error occurred while removing FAQs.');
+                }
+            },
+            error: function() {
+                alert('An error occurred during the request.');
+            }
+        });
+    } else {
+        
+        alert('No IDs selected for removal.');
+    }
+});
+
+
+     
 });
 
 </script>
