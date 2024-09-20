@@ -100,69 +100,39 @@
     <section class="work-sec p-130 custom_section_p">
         <div class="container">
             <div class="work-head">
-                <h1>Así funciona</h1>
+                <h1>{{ $data['main_heading'] ?? '' }}</h1>
             </div>
             <div class="work-head-desc">
                 <p>
-                    Descubre una forma sencilla de generar documentos y contratos en Documentos-Legales.mx. Nuestra plataforma te ofrece una amplia selección de documentos legales para cubrir tus necesidades. ¡Comienza a crear tus contratos
-                    personalizados hoy mismo!
+                    {{ $data['short_description'] ?? '' }}
                 </p>
             </div>
-
             <div class="work-row-wrapper">
+            @if(isset($howitwork) && $howitwork->isNotEmpty())
+            @foreach($howitwork as $value)
+                @if($value->key === 'work')
                 <div class="row work-row">
                     <div class="col-md-6">
                         <div class="work-img">
-                            <img src="https://documentos-legales.mx/wp-content/uploads/2023/10/work-01-1.jpg" alt="Work-image" />
+                            <img src="{{ asset('site_images/'.$value->works->image ) }}" alt="Work-image" />
                         </div>
                     </div>
                     <div class="col-md-6 p-left">
                         <div class="work-text">
-                            <h3>Explora nuestra variedad de documentos y contratos</h3>
+                            <h3>{{ $value->works->heading ?? '' }}</h3>
                             <p>
-                                Explora nuestra variedad de documentos y contratos En Documentos-Legales.mx, te ofrecemos una amplia selección de documentos legales y contratos para que elijas el que mejor se adapte a tus necesidades. Desde
-                                un Contrato de Arrendamiento Casa Habitación hasta un Contrato de Trabajo y más. Simplemente haz clic en "Crear documento" y elige el contrato que necesites.
+                               {{ $value->works->description ?? '' }}
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="row work-row">
-                    <div class="col-md-6">
-                        <div class="work-img">
-                            <img src="https://documentos-legales.mx/wp-content/uploads/2023/10/work-02-1.jpg" alt="Work-image" />
-                        </div>
-                    </div>
-                    <div class="col-md-6 p-left">
-                        <div class="work-text">
-                            <h3>Personaliza tu documento fácilmente</h3>
-                            <p>
-                                Una vez seleccionado el contrato, te guiaremos a través de un cuestionario detallado. Responde preguntas específicas y nuestro sistema personalizará el documento según tus requisitos. Estarás tranquilo
-                                sabiendo que cada detalle importante estará cubierto en el documento final.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row work-row">
-                    <div class="col-md-6">
-                        <div class="work-img">
-                            <img src="https://documentos-legales.mx/wp-content/uploads/2023/10/work-03-1.jpg" alt="Work-image" />
-                        </div>
-                    </div>
-                    <div class="col-md-6 p-left">
-                        <div class="work-text">
-                            <h3>Descarga tu documento en diferentes formatos</h3>
-                            <p>
-                                Después de completar el cuestionario, recibirás el contrato totalmente personalizado al instante. En Documentos-Legales.mx, puedes descargar tu documento en formatos PDF y DOCX (Word). El formato PDF es ideal
-                                para compartir y presentar de manera profesional, mientras que el formato DOCX te permite realizar modificaciones según sea necesario. Tú decides cómo utilizarlo.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                @endif
+            @endforeach
+            @endif
             </div>
             <div class="work-head-banner-desc">
                 <p>
-                    En Documentos-Legales.mx, nos esforzamos por hacer que el proceso de generación de documentos y contratos sea sencillo y conveniente. Obtén documentos legales de calidad de manera rápida y eficiente. ¡Únete a nuestra
-                    comunidad de usuarios satisfechos y simplifica tus trámites legales!
+                   {{ $data['join_our_community_text'] ?? '' }}
                 </p>
             </div>
         </div>
@@ -171,11 +141,11 @@
     <section class="footer_bann_wreap p-130 g_bck">
         <div class="container">
             <div class="global_content text-center">
-                <h2>Genera tus documentos legales de forma rápida y sencilla</h2>
-                <p class="bl_sec">Nuestro sistema intuitivo te guía paso a paso para crear documentos legales personalizados. Descárgalos al instante en los formatos PDF y DOCX (Word) y tenlos listos en cuestión de minutos.</p>
+                <h2>{{ $data['second_banner_heading'] ?? '' }}</h2>
+                <p class="bl_sec">{{ $data['second_banner_sub_heading'] ?? '' }}</p>
 
                 <div class="start_new text-center">
-                    <a href="{{ url('/') }}" class="cta">Comienza ahora</a>
+                    <a href="{{ $data['button_link'] ?? '' }}" class="cta">{{ $data['button_label'] ?? '' }}</a>
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ContactUs;
 use App\Models\Media;
 use App\Services\FileUploadService;
+use App\Models\AdminContactUs;
 use Exception;
 use App\Models\Setting;
 
@@ -19,14 +20,13 @@ class ContactUsController extends Controller
     }
 
     public function index(){
-        return view('users.contact.contactUs');
+        $contact = AdminContactUs::first();
+        return view('users.contact.contactUs',compact('contact'));
     }
 
     public function contactUsProcc(Request $request){
         try{
             $file = $request->file('file');
-       
-            
             $contactUs = new ContactUs;
             $contactUs->name = $request->name;
             $contactUs->phone_number = $request->phone_number;

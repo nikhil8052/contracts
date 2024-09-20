@@ -3,6 +3,7 @@
 
 <section class="faq-sec p-130">
     @if(isset($faqs) && $faqs->isNotEmpty())
+    <?php $count = 1; ?>
     @foreach($faqs as $faq)
     <div class="container">
         @if($faq->key === 'main_title')
@@ -15,21 +16,15 @@
             <div class="accordion" id="faq">
                 <div class="accordion-item">
                     @if($faq->key === 'faq')
-                    <div class="accordion-header" id="faqhead1">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="collapseOne">
+                    <div class="accordion-header" id="faqhead{{ $count ?? '' }}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ $count ?? '' }}" aria-expanded="true" aria-controls="collapseOne">
                             <!-- ¿Qué es la plataforma Documentos-Legales.mx? -->
-                            <p>{{$faq->question}}</p>
+                            <p>{{ $faq->question ?? ''}}</p>
                         </button>
                     </div>
-                    <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faqhead1" data-bs-parent="#faq">
+                    <div id="faq{{ $count ?? '' }}" class="accordion-collapse collapse show" aria-labelledby="faqhead{{ $count ?? '' }}" data-bs-parent="#faq">
                         <div class="accordion-body">
-                            <p></p>
-                            <p>
-                                <!-- Documentos-Legales.mx es una plataforma en línea que te permite generar contratos y documentos legales personalizados según tus necesidades. Después de crear los documentos, puedes descargarlos en los
-                                formatos PDF y DOCX (Word) para imprimirlos, editarlos y/o enviarlos. -->
-                                {!! strip_tags($faq->answer) !!}
-                            </p>
-                            <p></p>
+                           <?php print_r($faq->answer); ?>
                         </div>
                     </div>
                     @endif
@@ -37,6 +32,8 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="num" value="{{ $count ?? '' }}">
+    <?php $count++; ?>
     @endforeach
     @endif
 </section>
@@ -84,7 +81,6 @@
         </div>
     @endif    
 </section>
-
 
 
 @endsection

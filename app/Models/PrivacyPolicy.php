@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class QuestionAnswer extends Model
+class PrivacyPolicy extends Model
 {
     use HasFactory;
-      protected $fillable = [
+     protected $fillable = [
         'key',
         'value',
         'type', // Add your key here
-        'question',
-        'answer'
+        'terms',
+        'condition'
         // other fields...
     ];
 }

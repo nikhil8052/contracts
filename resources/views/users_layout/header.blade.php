@@ -27,7 +27,7 @@
 				</div>
 
 				<div class="col-md-3 mobile_menu_user" style="display: none;">
-					<a class="navbar-brand img-fluid" href="https://documentos-legales.mx" aria-label="Read more about Seminole tax hike">
+					<a class="navbar-brand img-fluid" href="{{ url('/') }}" aria-label="Read more about Seminole tax hike">
 						<i class="mobile_user_icon fas fa-user"></i>
 					</a>
 				</div>

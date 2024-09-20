@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\QuestionAnswer;
 use Illuminate\Support\Str;
-
+use App\Models\PrivacyPolicy;
 class AllPagesController extends Controller
 {
      public function faq()
@@ -16,7 +16,7 @@ class AllPagesController extends Controller
         return view('admin.site_meta.faqs.faqs',compact('faqs'));
     }
 
-    public function faqProcess(Request $request)
+    public function faqAdd(Request $request)
     {
       
          $updated = false;
@@ -153,6 +153,7 @@ class AllPagesController extends Controller
     public function removeFaq(Request $request)
     {
         $ids = $request->ids;
+        
         $deletedRows = QuestionAnswer::whereIn('id', $ids)->delete();
 
         // Return success or error based on deletion result
@@ -160,6 +161,105 @@ class AllPagesController extends Controller
             return response()->json(['success' => true, 'message' => 'FAQs deleted successfully!']);
         } else {
             return response()->json(['success' => false, 'message' => 'FAQs not found.']);
+        }
+    }
+    public function privecyPolicy()
+    {
+        $privacyPolicys = PrivacyPolicy::all();
+        // dd($privacyPolicys);
+        return view('admin.site_meta.terms_and_conditions.privacy_policy',compact('privacyPolicys'));
+    }
+
+    public function addPrivacyPolicy(Request $request)
+    {
+         $updated = false;
+         $added = false;
+        if ($request->has('title')) {
+            foreach ($request->title as $id => $titleUpdate) {
+                $policy = PrivacyPolicy::find($id);
+                if ($policy) {
+                    $policy->value = $titleUpdate; // Assuming 'title' is the column name
+                    $policy->save();
+                    $updated = true;
+                }
+            }
+        }
+
+        // Update descriptions if present
+        if ($request->has('description')) {
+            foreach ($request->description as $id => $descriptionUpdate) {
+                $policy = PrivacyPolicy::find($id);
+                if ($policy) {
+                    $policy->value = $descriptionUpdate; // Assuming 'description' is the column name
+                    $policy->save();
+                    $updated = true;
+                }
+            }
+        }
+        if($request->has('main_heading')){
+            foreach($request->main_heading as $id => $mainHeadingUpdate)
+            {
+                $policy = PrivacyPolicy::find($id);
+                if($policy)
+                {
+                    $policy->value =  $mainHeadingUpdate;
+                    $policy->save();
+                    $updated = true;
+                }
+            }
+        }
+        if($request->has('sub_heading')){
+            foreach($request->sub_heading as $id => $subHeadingUpdate)
+            {
+                $policy = PrivacyPolicy::find($id);
+                if($policy)
+                {
+                    $policy->value = $subHeadingUpdate;
+                    $policy->save();
+                    $updated = true;
+                }
+            }
+        }
+      
+         foreach ($request->terms as $id => $term) {
+            $policy = PrivacyPolicy::find($id);
+            if($policy)
+            {
+                $policy->terms = $term;
+                $policy->condition = $request->condition[$id];
+                $policy->save();
+                $updated = true;
+            }else
+            {
+                PrivacyPolicy::create([
+                'key' => 'privacy_policie',
+                'terms' => $term,
+                'condition' => $request->condition[$id],
+                $added = true
+                
+            ]);
+            }
+           
+        }
+         if ($updated && $added) {
+            return redirect()->back()->with('success', 'Data updated and new New Privacy Policy added successfully!');
+        } elseif ($updated) {
+            return redirect()->back()->with('success', 'Data updated successfully!');
+        } elseif ($added) {
+            return redirect()->back()->with('success', 'New Privacy Policy added successfully!');
+        }
+    }
+    public function removePolicy(Request $request)
+    {
+      
+        $ids = $request->ids;
+        $deletePolicy = PrivacyPolicy::whereIn('id', $ids)->delete();
+        
+        // Return success or error based on deletion result
+        if ($deletePolicy > 0) {
+            return response()->json(['success' => true, 'message' => 'Privacy Policy deleted successfully!']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Privacy Policy not found.']);
         }
     }
 }

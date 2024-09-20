@@ -59,7 +59,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-files"></em></span>
                                         <span class="nk-menu-text">Paginas</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -71,6 +71,12 @@
                                         </li>
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/terms-and-conditions') }}" class="nk-menu-link"><span class="nk-menu-text">Terms & Condition</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/privacy-policy') }}" class="nk-menu-link"><span class="nk-menu-text">Privacy Policy</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/contact-us') }}" class="nk-menu-link"><span class="nk-menu-text">Contact Us</span></a>
                                         </li>
                                     </ul>
                                 </li> 

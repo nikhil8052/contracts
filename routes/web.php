@@ -57,8 +57,15 @@ Route::group(['middleware' =>['auth']],function(){
      Route::post('/admin-dashboard/add-terms-process',[SiteMetaController::class,'addTermsAndCondition']);
 
      Route::get('/admin-dashboard/faq',[AllPagesController::class,'faq']);
-     Route::post('/admin-dashboard/faq-process',[AllPagesController::class,'faqProcess']);
+     Route::post('/admin-dashboard/faq-process',[AllPagesController::class,'faqAdd']);
      Route::post('/admin-dashboard/faq-remove',[AllPagesController::class,'removeFaq']);
+     Route::get('/admin-dashboard/privacy-policy',[AllPagesController::class,'privecyPolicy']);
+     Route::post('/admin-dashboard/privacy-policy-process',[AllPagesController::class,'addPrivacyPolicy']);
+     Route::post('/admin-dashboard/privacy-policy-remove',[AllPagesController::class,'removePolicy']);
+
+     Route::get('/admin-dashboard/contact-us',[SiteMetaController::class,'contactUs']);
+     Route::post('/admin-dashboard/contact-us-procc',[SiteMetaController::class,'addContactProcc']);
+
      
 });
 

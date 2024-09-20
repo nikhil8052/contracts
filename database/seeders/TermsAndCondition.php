@@ -13,7 +13,7 @@ class TermsAndCondition extends Seeder
      */
     public function run(): void
     {
-        DB::table('how_it_works')->insert([
+        DB::table('terms_and_conditions')->insert([
             [
                 'key' => 'title',
                 'value' => 'Términos y condiciones',
@@ -25,6 +25,10 @@ class TermsAndCondition extends Seeder
             [
                 'key' => 'sub_heading',
                 'value' => 'Contenido',
+            ],
+            [
+                'key' => 'description',
+                'value' => null,
             ]
         ]);
     }

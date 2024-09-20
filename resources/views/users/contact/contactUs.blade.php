@@ -15,22 +15,22 @@
 					</form>
 				</div>
 				<ul class="_Ty8L2" data-qa="SidebarMenuList">
-					<li><a href="https://documentos-legales.mx/arrendamiento/">Arrendamiento</a></li>
-					<li><a href="https://documentos-legales.mx/comercio/">Comercio</a></li>
-					<li><a href="https://documentos-legales.mx/consumo/">Consumo</a></li>
-					<li><a href="https://documentos-legales.mx/familia/">Familia</a></li>
-					<li><a href="https://documentos-legales.mx/internet/">Internet</a></li>
-					<li><a href="https://documentos-legales.mx/laboral/">Laboral</a></li>
-					<li><a href="https://documentos-legales.mx/vida-diaria/">Vida diaria</a></li>
+					<li><a href="">Arrendamiento</a></li>
+					<li><a href="">Comercio</a></li>
+					<li><a href="">Consumo</a></li>
+					<li><a href="">Familia</a></li>
+					<li><a href="">Internet</a></li>
+					<li><a href="">Laboral</a></li>
+					<li><a href="">Vida diaria</a></li>
 				</ul>
 
 				<ul class="_Ty8L3" data-qa="SidebarMenuList">
-					<li><a href="https://documentos-legales.mx/asi-funciona/">Así funciona</a></li>
-					<li><a href="https://documentos-legales.mx/preguntas-frecuentes/">Preguntas</a></li>
+					<li><a href="">Así funciona</a></li>
+					<li><a href="">Preguntas</a></li>
 				</ul>
 
 				<div class="mobile_header_buuton">
-					<a class="cta" href="https://documentos-legales.mx/contratos-documentos-legales/">Crear documento</a>
+					<a class="cta" href="">Crear documento</a>
 				</div>
 			</div>
 		</div>
@@ -50,8 +50,8 @@
                               <p class="lgout">¡Bienvenido!</p>
                               <p>Libera todas las opciones con una cuenta gratuita.</p>
                               <div class="mobile_right_header_button">
-                                   <a href="https://documentos-legales.mx/crear-cuenta" class="cta register">Crear cuenta</a>
-                                   <a href="https://documentos-legales.mx/iniciar-sesion" class="cta login">Iniciar sesión</a>
+                                   <a href="" class="cta register">Crear cuenta</a>
+                                   <a href="" class="cta login">Iniciar sesión</a>
                               </div>
                          </div>	
                     </div>
@@ -69,8 +69,8 @@
           <div class="container">
                <div class="wapper-text">
                     <div class="below-text">
-                         <h1>Contáctanos</h1>
-                         <p>Si tienes un comentario o problemas con el uso de nuestra plataforma, déjanos un mensaje y te daremos respuesta lo antes posible.</p>
+                         <h1>{{ $contact->main_title ?? '' }}</h1>
+                         <p>{{ $contact->main_description ?? '' }}</p>
                     </div>    
                     <div class="for-contant">
                          <div class="wpcf7 js" id="wpcf7-f148-o1" lang="en-US" dir="ltr">

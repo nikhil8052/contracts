@@ -211,23 +211,25 @@ $('.save_and_remove_btn').click(function(e) {
             success: function(response) {
                 if (response.success) {
                     // Feedback (e.g., refresh the page or update the DOM)
-                    alert('Selected FAQs have been removed successfully!');
+                    console.log('Selected FAQs have been removed successfully!')
                     // Optionally, remove the items from the DOM
                     idsToRemove.forEach(function(id) {
                         $(`[data-id="${id}"]`).remove();
                     });
                 } else {
-                    alert('Error occurred while removing FAQs.');
+                    console.log('Error occurred while removing FAQs')
                 }
             },
             error: function() {
-                alert('An error occurred during the request.');
+                console.log('An error occurred during the request.')
             }
         });
-    } else {
+    }
+    /* 
+    else {
         
         alert('No IDs selected for removal.');
-    }
+    }*/
 });
 
 
