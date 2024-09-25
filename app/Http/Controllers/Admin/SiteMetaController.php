@@ -8,11 +8,23 @@ use App\Models\HowItWork;
 use App\Models\Work;
 use App\Models\TermsAndCondition;
 use App\Models\AdminContactUs;
+use App\Models\LoginRegister;
+use App\Models\PrepareContract;
+use App\Models\PrepareContractWork;
+use App\Models\Media;
 use Exception;
 use File;
+use App\Services\FileUploadService;
+
 
 class SiteMetaController extends Controller
 {
+    protected $fileUploadService;
+
+    public function __construct(FileUploadService $fileUploadService){
+        $this->fileUploadService = $fileUploadService;
+    }
+
     public function howItWorks(){
         $howitwork = HowItWork::with('works')->get();
 
@@ -216,6 +228,7 @@ class SiteMetaController extends Controller
 
     public function contactUs(){
         $contact = AdminContactUs::first();
+   
         return view('admin.site_meta.contactUs.contact_us',compact('contact'));
     }
 
@@ -243,4 +256,232 @@ class SiteMetaController extends Controller
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
     }
+
+    public function login(){
+        $login = LoginRegister::where('key','login')->first();
+        return view('admin.site_meta.login.login',compact('login'));
+    }
+
+    public function addLogin(Request $request){
+        try{
+            if($request->id != null){
+                $login = LoginRegister::find($request->id);
+                $login->title = $request->title;
+                $login->main_heading = $request->main_heading;
+                $login->update();
+            }else{
+                $login = new LoginRegister;
+                $login->key = 'login';
+                $login->title = $request->title;
+                $login->main_heading = $request->main_heading;
+                $login->save();
+            }
+
+            return redirect()->back()->with('success', 'Data successfully saved');
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    public function register(){
+        $register = LoginRegister::where('key','register')->first();
+        return view('admin.site_meta.register.register',compact('register'));
+    }
+
+    public function addRegister(Request $request){
+        try{
+            if($request->id != null){
+                $register = LoginRegister::find($request->id);           
+            }else{
+                $register = new LoginRegister;    
+            }
+    
+            $register->key = 'register';
+            $register->title = $request->title;
+            $register->save();
+
+
+            return redirect()->back()->with('success', 'Data successfully saved.');
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    public function prepareContract(){
+        $keys = [
+            'title',
+            'fb_link',
+            'twitter_link',
+            'pinterest_link',
+            'short_description',
+            'description',
+            'page_sub_heading',
+            'work_main_heading',
+            'economical_main_heading',
+            'economical_description',
+            'button_text',
+            'button_link'
+        ];
+
+        $results = PrepareContract::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title_name' => $results['title']->value ?? null,
+            'fb_link' => $results['fb_link']->value ?? null,
+            'twitter_link' => $results['twitter_link']->value ?? null,
+            'pinterest_link' => $results['pinterest_link']->value ?? null,
+            'short_description' => $results['short_description']->value ?? null,
+            'description' => $results['description']->value ?? null,
+            'page_sub_heading' => $results['page_sub_heading']->value ?? null,
+            'work_main_heading' => $results['work_main_heading']->value ?? null,
+            'economical_main_heading' => $results['economical_main_heading']->value ?? null,
+            'economical_description' => $results['economical_description']->value ?? null,
+            'button_text' => $results['button_text']->value ?? null,
+            'button_link' => $results['button_link']->value ?? null,
+        ];
+
+        $image = PrepareContract::where('key','image')->whereNotNull('media_id')->with('media')->first();
+        $work_sec =  PrepareContract::where('key','prepare_work')->with('contract_work','media')->get();
+       
+        return view('admin.site_meta.prepare_contract.prepare_contract',compact('data','image','work_sec'));
+    }
+
+    public function prepareContractprocc(Request $request){
+        try{
+            if($request->image_id != null){
+                $prepare_contract = PrepareContract::where('id',$request->image_id)->with('media')->first(); 
+                if($prepare_contract->media){
+                    $image_path = storage_path('/app/'.$prepare_contract->media->file_path);
+                    if (File::exists($image_path)) {
+                        unlink($image_path);
+                    }
+                    $prepare_contract->media_id = null;
+                    $prepare_contract->update();
+                }
+            }
+
+            if($request->hasFile('image')){
+                $image = $request->file('image');
+                $fileupload = $this->fileUploadService->upload($image, 'public');
+            
+                $fileuploadData = $fileupload->getData();
+        
+                if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                    $prepare_contract = PrepareContract::where('key','image')->first();
+                    if($prepare_contract){
+                        $prepare_contract->media_id = $fileuploadData->id;
+                        $prepare_contract->update();
+                    }else{
+                        $prepare_contract = new PrepareContract; 
+                        $prepare_contract->key = 'image';
+                        $prepare_contract->type = 'file';
+                        $prepare_contract->media_id = $fileuploadData->id;
+                        $prepare_contract->save();
+                    }
+                    
+                }elseif($fileuploadData->status == '400') {
+                    return redirect()->back()->with('error', $fileuploadData->error);
+                }
+            }
+
+            if($request->has('work_header')){
+                foreach($request->work_header as $key=>$value){
+                    $prepare_contract_work = PrepareContractWork::find($key);
+                    $prepare_contract_work->header = $value; 
+                    $prepare_contract_work->update();
+                }
+
+                foreach($request->work_short_description as $id=>$description){
+                    $prepare_contract_work = PrepareContractWork::find($key);
+                    $prepare_contract_work->description = $description;    
+                    $prepare_contract_work->update();
+                }
+            }
+
+            if($request->hasFile('new_work_icon')){
+                $icon = $request->file('new_work_icon');
+                for($i=0; $i<count($icon); $i++){
+                    $file = $icon[$i];
+
+                    if($request->has('new_work_header')){
+                        $work_header = $request->new_work_header[$i];
+                    }
+
+                    if($request->has('new_work_short_description')){
+                        $work_short_description = $request->new_work_short_description[$i];
+                    }
+
+                    $fileupload = $this->fileUploadService->upload($file, 'public');
+            
+                    $fileuploadData = $fileupload->getData();
+
+                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                        $prepare_contract = new PrepareContract; 
+                        $prepare_contract->key = 'prepare_work';
+                        $prepare_contract->type = 'work';
+
+                        $prepare_contract_work = new PrepareContractWork;
+                        $prepare_contract_work->header = $work_header;
+                        $prepare_contract_work->description = $work_short_description;    
+                        $prepare_contract_work->save();
+
+                        $prepare_contract->media_id = $fileuploadData->id;
+                        $prepare_contract->prepare_work_id = $prepare_contract_work->id;
+                        $prepare_contract->save();
+            
+                    }elseif($fileuploadData->status == '400') {
+                        return redirect()->back()->with('error', $fileuploadData->error);
+                    }
+                }
+            }
+
+            $fields = [
+                'title' => 'title',
+                'fb_link ' => 'fb_link',
+                'twitter_link' => 'twitter_link',
+                'pinterest_link' => 'pinterest_link',
+                'short_description' => 'short_description',
+                'description' => 'description',
+                'page_sub_heading' => 'page_sub_heading',
+                'work_main_heading' => 'work_main_heading',
+                'economical_main_heading' => 'economical_main_heading',
+                'economical_description' => 'economical_description',
+                'button_text' => 'button_text',
+                'button_link' => 'button_link',
+            ];
+            
+            foreach($fields as $key=>$input){
+                if($request->has($input)) {
+                    $prepare_contract = PrepareContract::where('key', $key)->first();
+                    if ($prepare_contract) {
+                        $prepare_contract->value = $request->$input;
+                        $prepare_contract->update();
+                    }
+                }
+            }
+
+            if($request->work_sec_ids != null){
+                $deleteIds = explode(',', $request->work_sec_ids);
+                foreach($deleteIds as $id){
+                    $prepare_contract_work = PrepareContract::where('prepare_work_id',$id)->with('media')->first();
+                    if($prepare_contract_work->media){
+                        $image_path = storage_path('/app/'.$prepare_contract_work->media->file_path);
+                        if (File::exists($image_path)) {
+                            unlink($image_path);
+                        }
+                        $prepare_contract_work->delete();
+                    }
+                    PrepareContractWork::where('id', $id)->delete();
+                }
+            }
+
+            return redirect()->back()->with('success', 'Data successfully updated');
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+   
 }

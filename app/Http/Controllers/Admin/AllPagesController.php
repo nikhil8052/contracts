@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\QuestionAnswer;
 use Illuminate\Support\Str;
 use App\Models\PrivacyPolicy;
+use App\Models\User;
 class AllPagesController extends Controller
 {
      public function faq()
@@ -260,6 +261,48 @@ class AllPagesController extends Controller
             return response()->json(['success' => true, 'message' => 'Privacy Policy deleted successfully!']);
         } else {
             return response()->json(['success' => false, 'message' => 'Privacy Policy not found.']);
+        }
+    }
+
+    public function allUsers()
+    {
+        $users = User::where('is_admin',null)->get();
+      
+        return view('admin.users.all_users',compact('users'));
+    }
+
+    public function editUser($id)
+    {   
+        $user = User::find($id);
+        
+        return view('admin.users.edit_user',compact('user'));
+    }
+    public function updateUser(Request $request)
+    {
+       
+        $user = User::find($request->id);
+
+        if ($user) {
+            // Update user details
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            // $user->is_admin = $request->is_admin;
+            $user->save();
+
+            return redirect()->route('all.users')->with('success', 'User information successfully updated.');
+        } else {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+    }
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            $user->delete();
+            return redirect()->back()->with('success', 'User deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'User not found.');
         }
     }
 }

@@ -21,7 +21,31 @@
 							<li id="menu-item-423" class=""><a href="{{ url('/how-it-works') }}" class="nav-link">Así funciona</a></li>
 							<li id="menu-item-2145" class=""><a href="javascript:void(0)" class="nav-link">Preguntas</a></li>
 							<li id="custom-menu-item-200" class=""><a href="javascript:void(0)">|</a></li>
-							<li class=""><a href="javascript:void(0)" class="nav-link" aria-label="Read more about Seminole tax hike"><i class="fas fa-user"></i> <strong class="mobile_text" style="display:none">Mi cuenta</strong></a></li>
+							@if(!auth()->user())
+							<li class=""><a href="{{url('/login')}}" class="nav-link" aria-label="Read more about Seminole tax hike"><i class="fas fa-user"></i> <strong class="mobile_text">Login</strong></a></li>
+							@else
+								<li class=""><a href="{{url('/logout')}}" class="nav-link" aria-label="Read more about Seminole tax hike"><i class="fas fa-user"></i> <strong class="mobile_text">{{auth()->user()->first_name}}</strong></a></li>
+							@endif
+							<!-- <div class="dropdown">
+								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									@if(auth()->user())
+										{{ auth()->user()->first_name }}
+									@else
+										<i class="fas fa-user"></i> Login
+									@endif
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									@if(auth()->user())
+										<a class="dropdown-item" href="{{ url('/logout') }}">
+											<i class="fas fa-sign-out-alt"></i> Logout
+										</a>
+									@else
+										<a class="dropdown-item" href="{{ url('/login') }}">
+											<i class="fas fa-user"></i> Login
+										</a>
+									@endif
+								</div>
+							</div> -->
 						</ul>
 					</div>
 				</div>

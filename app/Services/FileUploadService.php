@@ -8,7 +8,6 @@ use App\Models\Media;
 
 class FileUploadService
 {
-    
      public function upload(UploadedFile $file, string $directory){
           try{
                $extension = $file->extension();

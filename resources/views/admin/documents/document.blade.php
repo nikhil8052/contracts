@@ -11,7 +11,7 @@
                          <div class="col-md-8 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="document-title"><b><h4>Add New Document</b></h4></label>
-                                   <input type="text" class="form-control form-control-lg" id="document-title" name="document-title" placeholder="Add title" value="">
+                                   <input type="text" class="form-control form-control-lg" id="document-title" name="doc_title" placeholder="Add title" value="">
                               </div>
                          </div>
                          <hr>
@@ -20,13 +20,13 @@
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="short-description">Short Description</label>
-                                   <textarea id="short-description" name="short-description"></textarea>
+                                   <textarea id="short-description" name="doc_short_des"></textarea>
                               </div>
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="document-button-text">Create Document Button Text</label>
-                                   <input type="text" class="form-control" id="document-button-text" name="document-button-text" value="">
+                                   <input type="text" class="form-control" id="document-button-text" name="doc_btn_text" value="">
                               </div>
                          </div>
                     </div>
@@ -36,10 +36,20 @@
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="long-description">Long Description</label>
-                                   <textarea id="long-description" name="long-description"></textarea>
+                                   <textarea id="long-description" name="doc_long_des"></textarea>
                               </div>
                          </div>
                     </div>
+               </div>
+               <div class="form-group mb-3 mt-3">
+                    <label for="role">categories:</label>
+                    
+                    <select class="form-select" name="category_id" id="category_id">
+                          <option value="" disabled selected>Select a category</option>
+                              @foreach($categories as $category)
+                                   <option value="{{ $category->id }}">{{ $category->name }}</option>
+                              @endforeach
+                    </select>
                </div>
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
@@ -52,19 +62,19 @@
                                         <div class="col-md-8">
                                              <div class="form-group">
                                                   <label class="form-label" for="img-heading">Heading</label>
-                                                  <input type="text" class="form-control form-control" id="img-heading" name="img-heading" value="">
+                                                  <input type="text" class="form-control form-control" id="img-heading" name="img_heading[]" value="">
                                              </div>
                                         </div>
                                         <div class="col-md-8">
                                              <div class="form-group">
                                                   <label class="form-label" for="description-here">Description Here</label>
-                                                  <textarea id="description-here" name="description-here"></textarea>
+                                                  <textarea id="description-here" name="img_des[]"></textarea>
                                              </div>
                                         </div>
                                         <div class="col-md-8">
                                              <div class="form-group">
                                                   <label class="form-label" for="upload-image">Upload Image</label>
-                                                  <input type="file" class="form-control form-control" id="upload-image" name="upload-image" value="">
+                                                  <input type="file" class="form-control form-control" id="upload-image" name="images[]" value="">
                                              </div>
                                         </div>
                                    </div>
@@ -83,7 +93,7 @@
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="">Guide Section Main Hedaing</label>
-                                             <input type="text" class="form-control form-control" id="" name="" value="">
+                                             <input type="text" class="form-control form-control" id="" name="guide_heading" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
@@ -105,31 +115,31 @@
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="legal-heading">Heading</label>
-                                             <input type="text" class="form-control form-control" id="legal-heading" name="legal-heading" value="">
+                                             <input type="text" class="form-control form-control" id="legal-heading" name="legal_heading" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="legal-description">Description</label>
-                                             <input type="text" class="form-control form-control" id="legal-description" name="legal-description" value="">
+                                             <input type="text" class="form-control form-control" id="legal-description" name="legal_des" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="button-label">Button Label</label>
-                                             <input type="text" class="form-control form-control" id="button-label" name="button-label" value="">
+                                             <input type="text" class="form-control form-control" id="button-label" name="legal_btn_text" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="button-link">Button Link</label>
-                                             <input type="text" class="form-control form-control" id="button-link" name="button-link" value="">
+                                             <input type="text" class="form-control form-control" id="button-link" name="legal_btn_link" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="document-image">Document Image</label>
-                                             <input type="file" class="form-control form-control" id="document-image" name="document-image" value="">
+                                             <input type="file" class="form-control form-control" id="document-image" name="legal_doc_image" value="">
                                         </div>
                                    </div>
                               </div>
@@ -139,7 +149,7 @@
                          <div class="approved-section m-4">
                               <div class="col-md-8">
                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1" value="1">
                                         <label class="custom-control-label" for="customSwitch1"></label>
                                    </div>
                               </div>
@@ -149,7 +159,7 @@
                               <div class="col-md-8">
                                    <div class="form-group">
                                         <label class="form-label" for="valid-in">Valid in</label>
-                                        <input type="text" class="form-control form-control" id="valid-in" name="valid-in" value="">
+                                        <input type="text" class="form-control form-control" id="valid-in" name="valid_in" value="">
                                    </div>
                               </div>
                          </div>
@@ -159,7 +169,7 @@
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="faq-heading">Faq heading</label>
-                                             <input type="text" class="form-control form-control" id="faq-heading" name="faq-heading" value="">
+                                             <input type="text" class="form-control form-control" id="faq-heading" name="faq_heading" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
@@ -181,35 +191,23 @@
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="related-heading">Related Document Heading</label>
-                                             <input type="text" class="form-control" id="related-heading" name="related-heading" value="">
+                                             <input type="text" class="form-control" id="related-heading" name="related_doc_heading" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="related-description">Related Document Short Description</label>
-                                             <textarea id="related-description" name="related-description"></textarea>
+                                             <textarea id="related-description" name="related_doc_des"></textarea>
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="select-related-doc">Select Related Documents</label>
-                                             <select class="form-select" id="select-related-doc" name="select-related-doc">
+                                             <select class="form-select" id="select-related-doc" name="select_related_doc[]" >
                                                   <option value="">Select</option>
                                              </select>
                                         </div>
                                    </div>
-                              </div>
-                         </div>
-                    </div>
-               </div>
-               <div class="card card-bordered card-preview">
-                    <div class="card-inner">
-                         <h5>Contrato Form Html</h5> 
-                         <hr>
-                         <div class="col-md-8">
-                              <div class="form-group">
-                                   <label class="form-label" for="contrato-file">Upload Html File</label>
-                                   <input type="file" class="form-control form-control" id="contrato-file" name="contrato-file" value="">
                               </div>
                          </div>
                     </div>
@@ -221,7 +219,7 @@
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="additional-info">Additional Information</label>
-                                   <textarea id="additional-info" name="additional-info"></textarea>
+                                   <textarea id="additional-info" name="additional_info"></textarea>
                               </div>
                          </div>
                     </div>
@@ -233,25 +231,25 @@
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="document-price">Price *</label>
-                                   <input type="text" class="form-control" id="document-price" name="document-price" value="">
+                                   <input type="text" class="form-control" id="document-price" name="doc_price" value="">
                               </div>
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="no-of-downloads">No of downloads</label>
-                                   <input type="number" class="form-control" id="no-of-downloads" name="no-of-downloads" value="">
+                                   <input type="number" class="form-control" id="no-of-downloads" name="no_of_downloads" value="">
                               </div>
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="total-likes">Total Likes</label>
-                                   <input type="text" class="form-control" id="total-likes" name="total-likes" value="">
+                                   <input type="text" class="form-control" id="total-likes" name="total_likes" value="">
                               </div>
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="discount-price">Discount price</label>
-                                   <input type="text" class="form-control" id="discount-price" name="discount-price" value="">
+                                   <input type="text" class="form-control" id="discount-price" name="discount_price" value="">
                               </div>
                          </div>
                     </div>
@@ -330,19 +328,19 @@
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="img-heading">Heading</label>
-                                             <input type="text" class="form-control form-control" id="img-heading" name="img-heading" value="">
+                                             <input type="text" class="form-control form-control" id="img-heading" name="img_heading[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="description-here">Description Here</label>
-                                             <textarea class="description-editor" id="description-here" name="description-here"></textarea>
+                                             <textarea class="description-editor" id="description-here" name="img_des[]"></textarea>
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="upload-image">Upload Image</label>
-                                             <input type="file" class="form-control form-control" id="upload-image" name="upload-image" value="">
+                                             <input type="file" class="form-control form-control" id="upload-image" name="images[]" value="">
                                         </div>
                                    </div>
                               </div>
@@ -361,12 +359,12 @@
                     }
                });
               
-          })
+          });
 
           // Remove second section //
           $('body').delegate('.remove-second-sec','click',function(){
               $(this).closest('.append-container').hide();
-          })
+          });
 
 
           // Append Guide section // 
@@ -382,25 +380,25 @@
                                    <div class="col-md-5">
                                              <div class="form-group">
                                              <label class="form-label" for="step-title">Step Title</label>
-                                             <input type="text" class="form-control form-control" id="step-title" name="step-title" value="">
+                                             <input type="text" class="form-control form-control" id="step-title" name="step_title[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-5">
                                         <div class="form-group">
                                              <label class="form-label" for="step-description">Step Description</label>
-                                             <textarea class="form-control" id="step-description" name="step-description"></textarea>
+                                             <textarea class="form-control" id="step-description" name="step_des[]"></textarea>
                                         </div>
                                    </div>
                               </div>
                          </div>`
 
                $('#guide-sec-steps').append(html);
-          })
+          });
 
           // Remove guide section //
           $('body').delegate('.remove-guide','click',function(){
               $(this).closest('.guide-append-sec').hide();
-          })
+          });
 
 
           // Add Faq Section //
@@ -416,13 +414,13 @@
                                    <div class="col-md-5">
                                         <div class="form-group">
                                              <label class="form-label" for="quiz">Quiz</label>
-                                             <input type="text" class="form-control form-control" id="quiz" name="quiz" value="">
+                                             <input type="text" class="form-control form-control" id="quiz" name="doc_faq[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-5">
                                         <div class="form-group">
                                              <label class="form-label" for="quiz-answer">Answer</label>
-                                             <textarea class="answer-editor" id="quiz-answer" name="quiz-answer"></textarea>
+                                             <textarea class="answer-editor" id="quiz-answer" name="doc_answer[]"></textarea>
                                         </div>
                                    </div>
                               </div>
@@ -442,15 +440,17 @@
                          $(this).data('ckeditor-initialized', true); 
                     }
                });
-          })
+          });
 
 
           // Remove Faq section //
           $('body').delegate('.remove-faq','click',function(){
               $(this).closest('.faq-append-sec').hide();
-          })
+          });
 
-     })
+     });
+
+  
 </script>
 
 

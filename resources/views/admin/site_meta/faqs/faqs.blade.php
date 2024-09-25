@@ -36,7 +36,6 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            
                             </div>
                             @endif
                         @endforeach
@@ -48,26 +47,30 @@
                         @foreach($faqs as $faq)
                             @if($faq->key === 'faq')
                                 <div class="template-append-sec">
-                                    <div class="col-md-8 mt-3">
-                                        <div class="form-group">
-                                            <label class="form-label" for="faq">Question</label>
-                                            <input class="form-control form-control-lg" name="faq[{{ $faq->id }}]" value="{{ isset($faq->question) ? htmlspecialchars($faq->question) : '' }}" />
-                                            @error('faq')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                    <hr>
+                                    <div class="row gy-12">
+                                        <div class="col-md-1 offset-md-11">
+                                            <div class="form-group">
+                                                <div class="remove-faq-sec" data-id="{{$faq->id}}"><span><i class="fa fa-times"></i></span></div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="">Answer</label>
-                                            <textarea class="form-control answer_editor" name="answer[{{ $faq->id }}]">{{ $faq->answer }}</textarea>
-                                            @error('answer')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="form-label" for="faq">Question</label>
+                                                <input class="form-control form-control-lg" name="faq[{{ $faq->id }}]" value="{{ isset($faq->question) ? htmlspecialchars($faq->question) : '' }}" />
+                                                @error('faq')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
                                         </div>
-                                        
-                                    </div>
-                                    <div class="col-md-1 offset-md-11">
-                                        <div class="form-group">
-                                            <div class="remove-faq-sec" data-id="{{$faq->id}}"><span><i class="fa fa-times"></i></span></div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="form-label" for="">Answer</label>
+                                                <textarea class="form-control answer_editor" name="answer[{{ $faq->id }}]">{{ $faq->answer }}</textarea>
+                                                @error('answer')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -158,21 +161,26 @@ $(document).ready(function() {
         // HTML for the new FAQ section
         let faqHtml = `
         <div class="template-append-sec">
-            <div class="col-md-8 mt-3">
-                <div class="form-group">
-                    <label class="form-label" for="faq">Question</label>
-                    <input class="form-control form-control-lg" name="faq[]" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="">Answer</label>
-                    <textarea class="form-control answer_editor" name="answer[]"></textarea>
-                </div>
-            </div>
+        <hr>
+        <div class="row gy-12">
             <div class="col-md-1 offset-md-11">
                 <div class="form-group">
                     <div class="remove-faq-sec"><span><i class="fa fa-times"></i></span></div>
                 </div>
             </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="form-label" for="faq">Question</label>
+                    <input class="form-control form-control-lg" name="faq[]" />
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="form-label" for="">Answer</label>
+                    <textarea class="form-control answer_editor" name="answer[]"></textarea>
+                </div>
+            </div>
+        </div>
         </div>`;
 
         // Append the new FAQ section to the bottom of the FAQ list

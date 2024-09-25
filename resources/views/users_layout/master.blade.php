@@ -33,7 +33,8 @@
           <link rel="dns-prefetch" href="//netdna.bootstrapcdn.com" />
           <link rel="dns-prefetch" href="//code.jquery.com" />
           <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
-        
+          
+
           <link rel="stylesheet" id="start_rate-css" href="{{ asset('assets/css/star_rt.css') }}" media="all" />
           <link rel="stylesheet" id="fontmon-style-cs-css-css" href="{{ asset('assets/fonts/fontmon-style.css?nocach=0.11217500+1726128914 &#038;ver=6.6.1') }}" media="all" />
           <link rel="stylesheet" id="main-style-cs-css-css" href="{{ asset('assets/css/style-new.css?nocach=0.11218400+1726128914&#038;ver=6.6.1') }}" media="all" />

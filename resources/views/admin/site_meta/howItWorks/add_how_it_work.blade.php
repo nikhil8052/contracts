@@ -121,15 +121,6 @@
 </div>
 
 <script>
-     $('#title').on("keyup",function(){
-          const title = $('#title').val();
-          const url = title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-          const slug = $('#slug').val(url);
-     });
-
-</script>
-
-<script>
      $(document).ready(function(){
           // Append Template // 
           $('#add-template-sec').click(function(){

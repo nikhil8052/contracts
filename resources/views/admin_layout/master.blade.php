@@ -55,6 +55,9 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/documents') }}" class="nk-menu-link"><span class="nk-menu-text">Add Documents</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/add-document-category') }}" class="nk-menu-link"><span class="nk-menu-text">Add Documents Category</span></a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="nk-menu-item has-sub">
@@ -78,8 +81,48 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/contact-us') }}" class="nk-menu-link"><span class="nk-menu-text">Contact Us</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/login') }}" class="nk-menu-link"><span class="nk-menu-text">Iniciar sesión</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/register') }}" class="nk-menu-link"><span class="nk-menu-text">Crear cuenta</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/prepare-contract') }}" class="nk-menu-link"><span class="nk-menu-text">Elabora tu Contrato con un Abogado Especializado</span></a>
+                                        </li>
                                     </ul>
                                 </li> 
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-box"></em></span>
+                                        <span class="nk-menu-text">Productos</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/categories') }}" class="nk-menu-link"><span class="nk-menu-text">Categories</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/product-categories') }}" class="nk-menu-link"><span class="nk-menu-text">Add Product Categories</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/all-products') }}" class="nk-menu-link"><span class="nk-menu-text">Products</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/product') }}" class="nk-menu-link"><span class="nk-menu-text">Add Product</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
+                                        <span class="nk-menu-text">Users</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/users') }}" class="nk-menu-link"><span class="nk-menu-text">All Users</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->
