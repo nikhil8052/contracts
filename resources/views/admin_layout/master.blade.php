@@ -53,7 +53,13 @@
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/all/documents') }}" class="nk-menu-link"><span class="nk-menu-text">All Documents</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/documents') }}" class="nk-menu-link"><span class="nk-menu-text">Add Documents</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/document/categories') }}" class="nk-menu-link"><span class="nk-menu-text">Documents Categories</span></a>
                                         </li>
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/add-document-category') }}" class="nk-menu-link"><span class="nk-menu-text">Add Documents Category</span></a>

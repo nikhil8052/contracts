@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('document_faqs', function (Blueprint $table) {
         $table->id();
         $table->integer('document_id')->nullable();
-        $table->text('doc_faq');
-        $table->longText('doc_answer')->nullable(); 
+        $table->text('question')->nullable();
+        $table->longText('answer')->nullable(); 
         $table->integer('status')->default(1); 
         $table->timestamps();
         });

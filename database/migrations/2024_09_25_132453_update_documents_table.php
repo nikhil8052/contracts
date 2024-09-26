@@ -13,27 +13,35 @@ return new class extends Migration
     {
         Schema::table('documents', function (Blueprint $table) {
             // Add new columns
-            $table->text('doc_title')->nullable();
-            $table->text('slug')->nullable()->after('doc_title');
-            $table->longtext('doc_short_des')->nullable();
-            $table->string('doc_btn_text')->nullable();
-            $table->longtext('doc_long_des')->nullable();
-            $table->integer('category_id')->nullable();
-            $table->string('legal_heading')->nullable();
-            $table->longtext('legal_des')->nullable();
+            $table->text('title')->nullable();
+            $table->text('slug')->nullable()->after('title');
+            $table->text('document_image')->nullable();
+            $table->string('document_directory_name')->nullable();
+            $table->text('document_file_path')->nullable();
+            $table->longtext('short_description')->nullable();
+            $table->string('btn_text')->nullable();
+            $table->longtext('long_description')->nullable();
+            $table->text('guide_main_heading')->nullable();
+            $table->text('legal_heading')->nullable();
+            $table->longtext('legal_description')->nullable();
             $table->string('legal_btn_text')->nullable();
-            $table->string('legal_btn_link')->nullable();
+            $table->text('legal_btn_link')->nullable();
+            $table->text('legal_doc_image')->nullable();
+            $table->string('directory_name')->nullable();
+            $table->text('file_path')->nullable();
+            $table->string('approved')->nullable();
             $table->string('valid_in')->nullable();
-            $table->string('related_doc_heading')->nullable();
-            $table->longtext('related_doc_des')->nullable();
-            $table->integer('legal_doc_image')->nullable();
-            $table->string('additional_info')->nullable();
+            $table->json('category_id')->nullable();
+            $table->text('faq_heading')->nullable();
+            $table->text('related_heading')->nullable();
+            $table->longtext('related_description')->nullable();
+            $table->longtext('additional_info')->nullable();
             $table->integer('doc_price')->nullable();
             $table->integer('total_likes')->nullable();
             $table->integer('no_of_downloads')->nullable()->after('total_likes');
             $table->integer('discount_price')->nullable()->after('no_of_downloads');
-            $table->timestamp('created_at')->nullable()->after('discount_price');
-            $table->timestamp('updated_at')->nullable()->after('created_at');
+            $table->tinyInteger('status')->default('1');
+            $table->timestamps();
         });
     }
 

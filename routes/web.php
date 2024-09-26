@@ -68,9 +68,12 @@ Route::group(['middleware' =>['auth']],function(){
      //************************Documents Urls **********************//
      Route::get('/admin-dashboard/documents',[DocumentController::class,'documents']);
      Route::post('/admin-dashboard/add-documents',[DocumentController::class,'addDocuments']);
+     Route::get('/admin-dashboard/all/documents',[DocumentController::class,'allDocuments']);
+     Route::get('/admin-dashboard/edit-document/{slug}',[DocumentController::class,'editDocument']);
      Route::get('/admin-dashboard/add-document-category',[DocumentController::class,'addDocumentCategory'])->name('add.category');
      Route::post('/admin-dashboard/category-process',[DocumentController::class,'CategoryProcess'])->name('category.process');
-     Route::get('/admin-dashboard/edit-category/{id}',[DocumentController::class,'editCategory'])->name('edit.category');
+     Route::get('/admin-dashboard/document/categories',[DocumentController::class,'allCategories'])->name('document.categories');
+     Route::get('/admin-dashboard/edit-category/{slug}',[DocumentController::class,'editCategory'])->name('edit.category');
      //************************End Urls******************//
 
      Route::get('/admin-dashboard/how-it-works',[SiteMetaController::class,'howItWorks']);

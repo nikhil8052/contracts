@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('document_related', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('document_id')->nullable()->constrained('documents')->onDelete('cascade');
-            $table->foreignId('related_document_id')->nullable()->constrained('documents')->onDelete('cascade');
+            $table->string('document_id')->nullable();
+            $table->string('related_document_id')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('document_guides', function (Blueprint $table) {
             $table->id();
             $table->integer('document_id')->nullable();
-            $table->string('guide_heading')->nullable();
             $table->text('step_title')->nullable();
-            $table->longtext('step_des')->nullble();
+            $table->longtext('step_description')->nullble();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

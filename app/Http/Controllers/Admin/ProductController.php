@@ -27,57 +27,39 @@ class ProductController extends Controller
         try{
             if($request->id != null){
                 $productCategory = ProductCategory::find($request->id);
-                $productCategory->title = $request->title;
-                $productCategory->slug = $request->slug;
-                $productCategory->parent_category = $request->parent_category;
-                $productCategory->description = $request->description;
-                $productCategory->display_type = $request->display_type;
-
-                if($request->hasFile('thumbnail')){
-                    $file = $request->file('thumbnail');
-            
-                    $fileupload = $this->fileUploadService->upload($file, 'public');
-                    $fileuploadData = $fileupload->getData();
-                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
-
-                        $productCategory->thumbnail = $fileuploadData->id;
-
-                    }elseif($fileuploadData->status == '400') {
-                        return redirect()->back()->with('error', $fileuploadData->error);
-                    }
-                }
-
-                $productCategory->update();
-
-                return redirect()->back()->with('success','Data Successfully updated');
+                $status = 'updated';
             }else{
                 $productCategory = new ProductCategory;
-                $productCategory->title = $request->title;
-                $productCategory->slug = $request->slug;
-                $productCategory->parent_category = $request->parent_category;
-                $productCategory->description = $request->description;
-                $productCategory->display_type = $request->display_type;
+                $status = 'saved';
+            }
+            $productCategory->title = $request->title;
+            $productCategory->slug = $request->slug;
+            $productCategory->parent_category = $request->parent_category;
+            $productCategory->description = $request->description;
+            $productCategory->display_type = $request->display_type;
 
-                if($request->hasFile('thumbnail')){
-                    $file = $request->file('thumbnail');
-            
-                    $fileupload = $this->fileUploadService->upload($file, 'public');
-                    $fileuploadData = $fileupload->getData();
-                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
+            if($request->hasFile('thumbnail')){
+                $file = $request->file('thumbnail');
+        
+                $fileupload = $this->fileUploadService->upload($file, 'public');
+                $fileuploadData = $fileupload->getData();
+                if(isset($fileuploadData) && $fileuploadData->status == '200'){
 
-                        $productCategory->thumbnail = $fileuploadData->id;
+                    $productCategory->thumbnail = $fileuploadData->id;
 
-                    }elseif($fileuploadData->status == '400') {
-                        return redirect()->back()->with('error', $fileuploadData->error);
-                    }
+                }elseif($fileuploadData->status == '400') {
+                    return redirect()->back()->with('error', $fileuploadData->error);
                 }
+            }
 
-                $productCategory->save();
+            $productCategory->save();
 
+            if($status == 'updated'){
+                return redirect()->back()->with('success','Data Successfully updated');
+            }elseif($status == 'saved'){
                 return redirect()->back()->with('success','Data Successfully saved');
             }
 
-            
         }catch(Exception $e){
             saveLog("Error:", "ProductController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
@@ -104,27 +86,25 @@ class ProductController extends Controller
         try{
             if($request->id != null){
                 $product = Product::find($request->id);
-                $product->name = $request->name;
-                $product->product_description = $request->description;
-                $product->additional_information = $request->additional_information;
-                $product->category_id = $request->product_category;
-                $product->regular_price = $request->regular_price;
-                $product->sale_price = $request->sale_price;
-                $product->update();
-
-                return redirect()->back()->with('success','Data Successfully updated');
+                $status = 'updated';
             }else{
                 $product = new Product;
-                $product->name = $request->name;
-                $product->product_description = $request->description;
-                $product->additional_information = $request->additional_information;
-                $product->category_id = $request->product_category;
-                $product->regular_price = $request->regular_price;
-                $product->sale_price = $request->sale_price;
-                $product->save();
+                $status = 'saved';
+            }
+            $product->name = $request->name;
+            $product->product_description = $request->description;
+            $product->additional_information = $request->additional_information;
+            $product->category_id = $request->product_category;
+            $product->regular_price = $request->regular_price;
+            $product->sale_price = $request->sale_price;
+            $product->save();
 
+            if($status == 'updated'){
+                return redirect()->back()->with('success','Data Successfully updated');
+            }elseif($status == 'saved'){
                 return redirect()->back()->with('success','Data Successfully saved');
             }
+
         }catch(Exception $e){
             saveLog("Error:", "ProductController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');

@@ -19,18 +19,6 @@ class PrepareContract extends Seeder
                 'value' => 'Elabora tu Contrato con un Abogado Especializado',
             ],
             [
-                'key' => 'fb_link',
-                'value' => null,
-            ], 
-            [
-                'key' => 'twitter_link',
-                'value' => null,
-            ],
-            [
-                'key' => 'pinterest_link',
-                'value' => null,
-            ],
-            [
                 'key' => 'short_description',
                 'value' => null,
             ],

@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\documentFaq;
-use App\Models\DocumentGuide;
-use App\Models\DocumentMedia;
 class Document extends Model
 {
     use HasFactory;
-      public function documentFaq()
+      
+    public function documentFaq()
     {
         return $this->hasMany(DocumentFaq::class, 'document_id', 'id');
     }
@@ -18,9 +16,9 @@ class Document extends Model
     {
         return $this->hasMany(DocumentGuide::class,'document_id','id');
     }
-    public function documentMedia()
+    public function documentField()
     {
-         return $this->hasMany(DocumentMedia::class, 'document_id', 'id');
+        return $this->hasMany(DocumentsField::class, 'document_id', 'id');
     }
     public function relatedDocuments()
     {

@@ -47,7 +47,7 @@ class ContractController extends Controller
         $work_sec =  PrepareContract::where('key','prepare_work')->with('contract_work','media')->get();
         $products = Product::where('category_id','4')->get();
 
-        return view('users.contracts.prepare_ your_contract_with_lawyer',compact('data','image','work_sec','products'));
+        return view('users.contracts.prepare_your_contract_with_lawyer',compact('data','image','work_sec','products'));
     }
 
     public function getContract(Request $request){

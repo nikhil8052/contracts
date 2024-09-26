@@ -3,15 +3,26 @@
 
 <div class="nk-content">
      <div class="container-fluid">
+          @if(isset($document) && $document != null)
+          <form action="" method="post" enctype="multipart/form-data">
+          @else
           <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
+          @endif
                @csrf
-               
+               <input type="hidden" name="slug" id="slug" value="">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="col-md-8 pb-2">
                               <div class="form-group">
-                                   <label class="form-label" for="document-title"><b><h4>Add New Document</b></h4></label>
-                                   <input type="text" class="form-control form-control-lg" id="document-title" name="doc_title" placeholder="Add title" value="">
+                                   <label class="form-label" for="title"><b><h4>@if(isset($document) && $document != null) Edit Document @else Add New Document @endif</b></h4></label>
+                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
+                              </div>
+                         </div>
+                         <hr>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="document_image">Image</label>
+                                   <input type="file" class="form-control" id="document_image" name="document_image" value="">
                               </div>
                          </div>
                          <hr>
@@ -19,14 +30,14 @@
                          <hr>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="short-description">Short Description</label>
-                                   <textarea id="short-description" name="doc_short_des"></textarea>
+                                   <label class="form-label" for="short_description">Short Description</label>
+                                   <textarea class="form-control" id="short_description" name="short_description">{{ $document->short_description ?? '' }}</textarea>
                               </div>
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="document-button-text">Create Document Button Text</label>
-                                   <input type="text" class="form-control" id="document-button-text" name="doc_btn_text" value="">
+                                   <label class="form-label" for="document_button_text">Create Document Button Text</label>
+                                   <input type="text" class="form-control" id="document_button_text" name="document_button_text" value="{{ $document->btn_text ?? '' }}">
                               </div>
                          </div>
                     </div>
@@ -35,21 +46,11 @@
                     <div class="card-inner">
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="long-description">Long Description</label>
-                                   <textarea id="long-description" name="doc_long_des"></textarea>
+                                   <label class="form-label" for="long_description">Long Description</label>
+                                   <textarea id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
                               </div>
                          </div>
                     </div>
-               </div>
-               <div class="form-group mb-3 mt-3">
-                    <label for="role">categories:</label>
-                    
-                    <select class="form-select" name="category_id" id="category_id">
-                          <option value="" disabled selected>Select a category</option>
-                              @foreach($categories as $category)
-                                   <option value="{{ $category->id }}">{{ $category->name }}</option>
-                              @endforeach
-                    </select>
                </div>
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
@@ -58,32 +59,37 @@
                          <h6>Image and text</h6>
                          <div class="card card-bordered card-preview">
                               <div class="second-sec m-4" id="second-repeat-sec">
-                                   <div class="img-txt-section" id="img-txt-section">
+                              @if(isset($document->documentField) && $document->documentField != null)
+                                   @foreach($document->documentField as $field)
+                                   <div class="img-txt-section">
                                         <div class="col-md-8">
                                              <div class="form-group">
-                                                  <label class="form-label" for="img-heading">Heading</label>
-                                                  <input type="text" class="form-control form-control" id="img-heading" name="img_heading[]" value="">
+                                                  <label class="form-label" for="img_heading">Heading</label>
+                                                  <input type="text" class="form-control" id="img_heading" name="img_heading[]" value="{{ $field->heading ?? '' }}">
                                              </div>
                                         </div>
                                         <div class="col-md-8">
                                              <div class="form-group">
-                                                  <label class="form-label" for="description-here">Description Here</label>
-                                                  <textarea id="description-here" name="img_des[]"></textarea>
+                                                  <label class="form-label" for="img_description">Description Here</label>
+                                                  <textarea class="form-control" id="img_description" name="img_description[]">{{ $field->description ?? '' }}</textarea>
                                              </div>
                                         </div>
                                         <div class="col-md-8">
                                              <div class="form-group">
-                                                  <label class="form-label" for="upload-image">Upload Image</label>
-                                                  <input type="file" class="form-control form-control" id="upload-image" name="images[]" value="">
+                                                  <label class="form-label" for="upload_image">Upload Image</label>
+                                                  <input type="file" class="form-control" id="upload_image" name="upload_image[]" value="">
                                              </div>
                                         </div>
                                    </div>
+                                   @endforeach
+                                   @endif
                                    <br>
                                    <div class="col-md-5 offset-md-7">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" id="second-section-add">Add Row</button>
                                         </div>
                                    </div>
+                                   <div id="img-txt-section"></div>
                               </div>
                          </div>
                          <hr>
@@ -92,20 +98,47 @@
                               <div class="guide-section m-4">
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="">Guide Section Main Hedaing</label>
-                                             <input type="text" class="form-control form-control" id="" name="guide_heading" value="">
+                                             <label class="form-label" for="guide_heading">Guide Section Main Heading</label>
+                                             <input type="text" class="form-control form-control" id="guide_heading" name="guide_heading" value="{{ $document->guide_main_heading ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
-                                        <div class="form-group" id="guide-sec-steps">
-                                             <label class="form-label" for="">Guide Section Steps</label>
+                                        <div class="form-group">
+                                             <label class="form-label">Guide Section Steps</label>
                                         </div>
                                    </div>
+                                   @if(isset($document->documentGuide) && $document->documentGuide != null)
+                                   @foreach($document->documentGuide as $guide)
+                                   <div class="guide-append-sec">
+                                        <hr>
+                                        <div class="col-md-3 offset-md-9">
+                                             <div class="form-group">
+                                                  <div class="remove-guide"><span><i class="fa fa-times"></i></span></div>
+                                             </div>
+                                        </div>
+                                        <div class="row gy-12">
+                                             <div class="col-md-4">
+                                                       <div class="form-group">
+                                                       <label class="form-label" for="step_title">Step Title</label>
+                                                       <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="{{ $guide->step_title }}">
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-4">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="step_description">Step Description</label>
+                                                       <textarea class="form-control" id="step_description" name="step_description[]">{{ $guide->step_description ?? '' }}</textarea>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   @endforeach
+                                   @endif
                                    <div class="col-md-5 offset-md-7">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" id="add-guide-sec">Add Row</button>
                                         </div>
                                    </div>
+                                   <div id="guide-sec-steps"></div>
                               </div>
                          </div>
                          <hr>
@@ -114,32 +147,32 @@
                               <div class="legal-section m-4">
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="legal-heading">Heading</label>
-                                             <input type="text" class="form-control form-control" id="legal-heading" name="legal_heading" value="">
+                                             <label class="form-label" for="legal_heading">Heading</label>
+                                             <input type="text" class="form-control form-control" id="legal_heading" name="legal_heading" value="{{ $document->legal_heading ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="legal-description">Description</label>
-                                             <input type="text" class="form-control form-control" id="legal-description" name="legal_des" value="">
+                                             <label class="form-label" for="legal_description">Description</label>
+                                             <textarea class="form-control" id="legal_description" name="legal_description">{{ $document->legal_description ?? '' }}</textarea>
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="button-label">Button Label</label>
-                                             <input type="text" class="form-control form-control" id="button-label" name="legal_btn_text" value="">
+                                             <label class="form-label" for="legal_btn_text">Button Label</label>
+                                             <input type="text" class="form-control" id="legal_btn_text" name="legal_btn_text" value="{{ $document->legal_btn_text ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="button-link">Button Link</label>
-                                             <input type="text" class="form-control form-control" id="button-link" name="legal_btn_link" value="">
+                                             <label class="form-label" for="legal_btn_link">Button Link</label>
+                                             <input type="text" class="form-control" id="legal_btn_link" name="legal_btn_link" value="{{ $document->legal_btn_link ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="document-image">Document Image</label>
-                                             <input type="file" class="form-control form-control" id="document-image" name="legal_doc_image" value="">
+                                             <label class="form-label" for="legal_doc_image">Document Image</label>
+                                             <input type="file" class="form-control" id="legal_doc_image" name="legal_doc_image" value="">
                                         </div>
                                    </div>
                               </div>
@@ -149,8 +182,8 @@
                          <div class="approved-section m-4">
                               <div class="col-md-8">
                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitch1" value="1">
-                                        <label class="custom-control-label" for="customSwitch1"></label>
+                                        <input type="checkbox" class="custom-control-input" id="approved" name="approved" value="1">
+                                        <label class="custom-control-label" for="approved"></label>
                                    </div>
                               </div>
                          </div>
@@ -158,8 +191,21 @@
                          <div class="m-4">
                               <div class="col-md-8">
                                    <div class="form-group">
-                                        <label class="form-label" for="valid-in">Valid in</label>
-                                        <input type="text" class="form-control form-control" id="valid-in" name="valid_in" value="">
+                                        <label class="form-label" for="valid_in">Valid in</label>
+                                        <input type="text" class="form-control form-control" id="valid_in" name="valid_in" value="{{ $document->valid_in ?? '' }}">
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="m-4">
+                              <div class="col-md-8">
+                                   <div class="form-group">
+                                        <label class="form-label" for="category_id">Categories</label>   
+                                        <select class="form-select js-select2" multiple="multiple" name="category_id[]" id="category_id">
+                                             <option value="">Select a category</option>
+                                             @foreach($categories as $category)
+                                                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                             @endforeach
+                                        </select>
                                    </div>
                               </div>
                          </div>
@@ -168,13 +214,13 @@
                               <div class="faq-section m-4">
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="faq-heading">Faq heading</label>
-                                             <input type="text" class="form-control form-control" id="faq-heading" name="faq_heading" value="">
+                                             <label class="form-label" for="faq_heading">Faq heading</label>
+                                             <input type="text" class="form-control form-control" id="faq_heading" name="faq_heading" value="{{ $document->faq_heading ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
-                                        <div class="form-group" id="faq-steps">
-                                             <label class="form-label" for="">Question Answers</label>
+                                        <div class="form-group">
+                                             <label class="form-label">Question Answers</label>
                                         </div>
                                    </div>
                                    <div class="col-md-5 offset-md-7">
@@ -182,6 +228,7 @@
                                              <button type="button" class="btn btn-sm btn-primary" id="add-faq-sec">Add Row</button>
                                         </div>
                                    </div>
+                                   <div id="faq-steps"></div>
                               </div>
                          </div>
                          <hr>
@@ -190,20 +237,20 @@
                               <div class="faq-section m-4">
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="related-heading">Related Document Heading</label>
-                                             <input type="text" class="form-control" id="related-heading" name="related_doc_heading" value="">
+                                             <label class="form-label" for="related_heading">Related Document Heading</label>
+                                             <input type="text" class="form-control" id="related_heading" name="related_heading" value="{{ $document->related_heading ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="related-description">Related Document Short Description</label>
-                                             <textarea id="related-description" name="related_doc_des"></textarea>
+                                             <label class="form-label" for="related_description">Related Document Short Description</label>
+                                             <textarea class="form-control" id="related_description" name="related_description">{{ $document->related_description ?? '' }}</textarea>
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="select-related-doc">Select Related Documents</label>
-                                             <select class="form-select" id="select-related-doc" name="select_related_doc[]" >
+                                             <label class="form-label" for="select_related_doc">Select Related Documents</label>
+                                             <select class="form-select" id="select_related_doc" name="select_related_doc[]" >
                                                   <option value="">Select</option>
                                              </select>
                                         </div>
@@ -218,8 +265,8 @@
                          <hr>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="additional-info">Additional Information</label>
-                                   <textarea id="additional-info" name="additional_info"></textarea>
+                                   <label class="form-label" for="additional_info">Additional Information</label>
+                                   <textarea class="form-control" id="additional_info" name="additional_info">{{ $document->additional_info ?? '' }}</textarea>
                               </div>
                          </div>
                     </div>
@@ -230,26 +277,26 @@
                          <hr>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="document-price">Price *</label>
-                                   <input type="text" class="form-control" id="document-price" name="doc_price" value="">
+                                   <label class="form-label" for="doc_price">Price *</label>
+                                   <input type="text" class="form-control" id="doc_price" name="doc_price" value="{{ $document->doc_price ?? '' }}">
                               </div>
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="no-of-downloads">No of downloads</label>
-                                   <input type="number" class="form-control" id="no-of-downloads" name="no_of_downloads" value="">
+                                   <label class="form-label" for="no_of_downloads">No of downloads</label>
+                                   <input type="number" class="form-control" id="no_of_downloads" name="no_of_downloads" value="{{ $document->no_of_downloads ?? '' }}">
                               </div>
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="total-likes">Total Likes</label>
-                                   <input type="text" class="form-control" id="total-likes" name="total_likes" value="">
+                                   <label class="form-label" for="total_likes">Total Likes</label>
+                                   <input type="text" class="form-control" id="total_likes" name="total_likes" value="{{ $document->total_likes ?? '' }}">
                               </div>
                          </div>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="discount-price">Discount price</label>
-                                   <input type="text" class="form-control" id="discount-price" name="discount_price" value="">
+                                   <label class="form-label" for="discount_price">Discount price</label>
+                                   <input type="text" class="form-control" id="discount_price" name="discount_price" value="{{ $document->discount_price ?? '' }}">
                               </div>
                          </div>
                     </div>
@@ -279,32 +326,32 @@
 </div>
 
 <script>
+     $('#title').on('keyup',function(){
+          const name = $(this).val();
+          const url = name.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g, '');
+          $('#slug').val(url);
+     })
+
      ClassicEditor
-     .create( document.querySelector('#short-description'))
+     .create( document.querySelector('#short_description'))
      .catch( error => {
           console.error( error );
      });
 
      ClassicEditor
-     .create( document.querySelector('#long-description'))
+     .create( document.querySelector('#long_description'))
      .catch( error => {
           console.error( error );
      });
 
      ClassicEditor
-     .create( document.querySelector('#description-here'))
-     .catch( error => {
-          console.error( error );
-     });
-
-     ClassicEditor
-     .create( document.querySelector('#related-description'))
+     .create( document.querySelector('#img_description'))
      .catch( error => {
           console.error( error );
      });
     
      ClassicEditor
-     .create( document.querySelector('#additional-info'))
+     .create( document.querySelector('#additional_info'))
      .catch( error => {
           console.error( error );
      });
@@ -327,20 +374,20 @@
                               <div class="second-append-sec" id="second-append-sec">
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="img-heading">Heading</label>
-                                             <input type="text" class="form-control form-control" id="img-heading" name="img_heading[]" value="">
+                                             <label class="form-label" for="img_heading">Heading</label>
+                                             <input type="text" class="form-control" id="img_heading" name="img_heading[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="description-here">Description Here</label>
-                                             <textarea class="description-editor" id="description-here" name="img_des[]"></textarea>
+                                             <label class="form-label" for="img_description">Description Here</label>
+                                             <textarea class="description-editor" id="img_description" name="img_description[]"></textarea>
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="upload-image">Upload Image</label>
-                                             <input type="file" class="form-control form-control" id="upload-image" name="images[]" value="">
+                                             <label class="form-label" for="upload_image">Upload Image</label>
+                                             <input type="file" class="form-control" id="upload_image" name="upload_image[]" value="">
                                         </div>
                                    </div>
                               </div>
@@ -376,17 +423,17 @@
                                         <div class="remove-guide"><span><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
-                              <div class="row gy-4">
-                                   <div class="col-md-5">
+                              <div class="row gy-12">
+                                   <div class="col-md-4">
                                              <div class="form-group">
-                                             <label class="form-label" for="step-title">Step Title</label>
-                                             <input type="text" class="form-control form-control" id="step-title" name="step_title[]" value="">
+                                             <label class="form-label" for="step_title">Step Title</label>
+                                             <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="">
                                         </div>
                                    </div>
-                                   <div class="col-md-5">
+                                   <div class="col-md-4">
                                         <div class="form-group">
-                                             <label class="form-label" for="step-description">Step Description</label>
-                                             <textarea class="form-control" id="step-description" name="step_des[]"></textarea>
+                                             <label class="form-label" for="step_description">Step Description</label>
+                                             <textarea class="form-control" id="step_description" name="step_description[]"></textarea>
                                         </div>
                                    </div>
                               </div>
@@ -405,22 +452,22 @@
           $('#add-faq-sec').click(function(){
                var html = `<div class="faq-append-sec">
                               <hr>
-                              <div class="col-md-2 offset-md-10">
+                              <div class="col-md-3 offset-md-9">
                                    <div class="form-group">
                                         <div class="remove-faq"><span><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="row gy-8">
-                                   <div class="col-md-5">
+                                   <div class="col-md-4">
                                         <div class="form-group">
-                                             <label class="form-label" for="quiz">Quiz</label>
-                                             <input type="text" class="form-control form-control" id="quiz" name="doc_faq[]" value="">
+                                             <label class="form-label" for="doc_question">Quiz</label>
+                                             <input type="text" class="form-control" id="doc_question" name="doc_question[]" value="">
                                         </div>
                                    </div>
-                                   <div class="col-md-5">
+                                   <div class="col-md-4">
                                         <div class="form-group">
-                                             <label class="form-label" for="quiz-answer">Answer</label>
-                                             <textarea class="answer-editor" id="quiz-answer" name="doc_answer[]"></textarea>
+                                             <label class="form-label" for="doc_answer">Answer</label>
+                                             <textarea class="answer-editor" id="doc_answer" name="doc_answer[]"></textarea>
                                         </div>
                                    </div>
                               </div>

@@ -236,21 +236,22 @@ class SiteMetaController extends Controller
         try{
             if($request->id != null){
                 $contact = AdminContactUs::find($request->id);
-                $contact->title = $request->title;
-                $contact->description = $request->description;
-                $contact->main_title = $request->main_title;
-                $contact->main_description = $request->main_description;
-                $contact->update();
+                $status = 'updated';
             }else{
                 $contact = new AdminContactUs;
-                $contact->title = $request->title;
-                $contact->description = $request->description;
-                $contact->main_title = $request->main_title;
-                $contact->main_description = $request->main_description;
-                $contact->save();
+                $status = 'saved';
             }
+            $contact->title = $request->title;
+            $contact->description = $request->description;
+            $contact->main_title = $request->main_title;
+            $contact->main_description = $request->main_description;
+            $contact->save();
 
-            return redirect()->back()->with('success', 'Data successfully saved');
+            if($status == 'updated'){
+                return redirect()->back()->with('success','Data Successfully updated');
+            }elseif($status == 'saved'){
+                return redirect()->back()->with('success','Data Successfully saved');
+            }
         }catch(Exception $e){
             saveLog("Error:", "SiteMetaController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
@@ -265,19 +266,23 @@ class SiteMetaController extends Controller
     public function addLogin(Request $request){
         try{
             if($request->id != null){
-                $login = LoginRegister::find($request->id);
-                $login->title = $request->title;
-                $login->main_heading = $request->main_heading;
-                $login->update();
+                $login = LoginRegister::find($request->id);  
+                $status = 'updated';       
             }else{
-                $login = new LoginRegister;
-                $login->key = 'login';
-                $login->title = $request->title;
-                $login->main_heading = $request->main_heading;
-                $login->save();
+                $login = new LoginRegister; 
+                $status = 'saved';  
+            }
+            $login->key = 'login';
+            $login->title = $request->title;
+            $login->main_heading = $request->main_heading;
+            $login->save();
+        
+            if($status == 'updated'){
+                return redirect()->back()->with('success','Data Successfully updated');
+            }elseif($status == 'saved'){
+                return redirect()->back()->with('success','Data Successfully saved');
             }
 
-            return redirect()->back()->with('success', 'Data successfully saved');
         }catch(Exception $e){
             saveLog("Error:", "SiteMetaController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
@@ -292,17 +297,22 @@ class SiteMetaController extends Controller
     public function addRegister(Request $request){
         try{
             if($request->id != null){
-                $register = LoginRegister::find($request->id);           
+                $register = LoginRegister::find($request->id);    
+                $status = 'updated';       
             }else{
-                $register = new LoginRegister;    
+                $register = new LoginRegister;  
+                $status = 'saved';  
             }
-    
             $register->key = 'register';
             $register->title = $request->title;
             $register->save();
+        
+            if($status == 'updated'){
+                return redirect()->back()->with('success','Data Successfully updated');
+            }elseif($status == 'saved'){
+                return redirect()->back()->with('success','Data Successfully saved');
+            }
 
-
-            return redirect()->back()->with('success', 'Data successfully saved.');
         }catch(Exception $e){
             saveLog("Error:", "SiteMetaController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
@@ -422,6 +432,7 @@ class SiteMetaController extends Controller
                         $prepare_contract->type = 'work';
 
                         $prepare_contract_work = new PrepareContractWork;
+                        $prepare_contract_work->media_id = $fileuploadData->id;
                         $prepare_contract_work->header = $work_header;
                         $prepare_contract_work->description = $work_short_description;    
                         $prepare_contract_work->save();

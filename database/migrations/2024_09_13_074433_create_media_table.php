@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('file_name');
             $table->string('directory_name')->nullable();
-            $table->string('file_path');
+            $table->string('file_path')->nullable();
             $table->string('file_size')->nullable();
             $table->string('file_format')->nullable();
             $table->tinyInteger('status')->default('1');
