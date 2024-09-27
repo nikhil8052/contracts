@@ -25,7 +25,8 @@ class DocumentController extends Controller
 
     public function documents(){
         $categories  = DocumentCategory::all();
-        return view('admin.documents.document',compact('categories'));
+        $related_documents = Document::all();
+        return view('admin.documents.document',compact('categories','related_documents'));
     }
 
     public function addDocuments(Request $request){
@@ -83,13 +84,45 @@ class DocumentController extends Controller
                 }
             }
 
+            if($request->hasFile('new_upload_image')){
+                $upload_image = $request->file('new_upload_image');
+                for($i=0; $i<count($upload_image); $i++){
+                    $file = $upload_image[$i];
+
+                    if($request->has('new_img_heading')){
+                        $img_heading = $request->img_heading[$i];
+                    }
+
+                    if($request->has('new_img_description')){
+                        $img_description = $request->img_description[$i];
+                    }
+
+                    $fileupload = $this->fileUploadService->upload($file, 'public');
+            
+                    $fileuploadData = $fileupload->getData();
+
+                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                        $document_field = new DocumentsField;
+                        $document_field->document_id = $document->id;
+                        $document_field->heading = $img_heading;
+                        $document_field->description = $img_description;
+                        $document_field->media_id = $fileuploadData->id;
+                        $document_field->save();
+            
+                    }elseif($fileuploadData->status == '400') {
+                        DB::rollBack();
+                        return redirect()->back()->with('error', $fileuploadData->error);
+                    }
+                }
+            }
+
             $document->guide_main_heading = $request->guide_heading;
 
-            if($request->has('step_title') && $request->has('step_description')){
-                $step_title = $request->step_title;
+            if($request->has('new_step_title') && $request->has('new_step_description')){
+                $step_title = $request->new_step_title;
                 for($i=0; $i<count($step_title); $i++){
                     $title_steps = $step_title[$i];
-                    $description = $request->step_description[$i];
+                    $description = $request->new_step_description[$i];
 
                     $document_guide = new DocumentGuide;
                     $document_guide->document_id = $document->id;                   
@@ -108,11 +141,11 @@ class DocumentController extends Controller
             $document->valid_in = $request->valid_in;
             $document->faq_heading = $request->faq_heading;
 
-            if($request->has('doc_question') && $request->has('doc_answer')){
-                $doc_question = $request->doc_question;
+            if($request->has('new_doc_question') && $request->has('new_doc_answer')){
+                $doc_question = $request->new_doc_question;
                 for($i=0; $i<count($doc_question); $i++){
                     $quiz = $doc_question[$i];
-                    $answer = $request->doc_answer[$i];
+                    $answer = $request->new_doc_answer[$i];
 
                     $document_faq = new DocumentFaq;
                     $document_faq->document_id = $document->id;                   
@@ -161,7 +194,186 @@ class DocumentController extends Controller
     public function editDocument($slug){
         $document = Document::where('slug',$slug)->with('documentFaq','documentGuide','documentField.media')->first();
         $categories  = DocumentCategory::all();
-        return view('admin.documents.document',compact('categories','document'));
+        $related_documents = Document::all();
+        return view('admin.documents.document',compact('categories','document','related_documents'));
+    }
+
+    public function updateDocument(Request $request){
+        // return $request->all();
+
+        DB::beginTransaction(); 
+        try{
+            $document = Document::find($request->id);
+            $document->title = $request->title;
+            $document->slug = $request->slug;
+            $document->short_description = $request->short_description;
+            $document->btn_text = $request->document_button_text;
+            $document->long_description = $request->long_description;
+
+            if($request->hasFile('new_upload_image')){
+                $upload_image = $request->file('new_upload_image');
+                for($i=0; $i<count($upload_image); $i++){
+                    $file = $upload_image[$i];
+
+                    if($request->has('new_img_heading')){
+                        $img_heading = $request->new_img_heading[$i];
+                    }
+
+                    if($request->has('new_img_description')){
+                        $img_description = $request->new_img_description[$i];
+                    }
+
+                    $fileupload = $this->fileUploadService->upload($file, 'public');
+            
+                    $fileuploadData = $fileupload->getData();
+
+                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                        $document_field = new DocumentsField;
+                        $document_field->document_id = $request->id;
+                        $document_field->heading = $img_heading;
+                        $document_field->description = $img_description;
+                        $document_field->media_id = $fileuploadData->id;
+                        $document_field->save();
+            
+                    }elseif($fileuploadData->status == '400') {
+                        DB::rollBack();
+                        return redirect()->back()->with('error', $fileuploadData->error);
+                    }
+                }
+            }
+
+            if($request->has('img_heading')){
+                $imgHeading = $request->img_heading;
+                foreach($imgHeading as $key=>$val){
+                    $document_field = DocumentsField::find($key);
+                    $document_field->heading = $val;
+                    $document_field->update();
+                }
+
+                $imgDescription = $request->img_description;
+                foreach($imgDescription as $index=>$value){
+                    $document_field = DocumentsField::find($index);
+                    $document_field->description = $value;
+                    $document_field->update();
+                }
+            }
+
+            $document->guide_main_heading = $request->guide_heading;
+
+            if($request->has('new_step_title')){
+                $step_title = $request->new_step_title;
+                for($i=0; $i<count($step_title); $i++){
+                    $title_steps = $step_title[$i];
+
+                    if($request->has('new_step_description')){
+                        $description = $request->new_step_description[$i];
+                    }
+                
+                    $document_guide = new DocumentGuide;
+                    $document_guide->document_id = $request->id;                   
+                    $document_guide->step_title = $title_steps; 
+                    $document_guide->step_description = $description; 
+                    $document_guide->save();
+                }
+            }
+
+            if($request->has('step_title')){
+                foreach($request->step_title as $key=>$val){
+                    $document_guide = DocumentGuide::find($key);
+                    $document_guide->step_title = $val; 
+                    $document_guide->update();
+                }
+
+                foreach($request->step_description as $index=>$value){
+                    $document_guide = DocumentGuide::find($key);
+                    $document_guide->step_description = $value; 
+                    $document_guide->update();
+                }
+            }
+
+            $document->category_id = json_encode($request->category_id);
+            $document->legal_heading = $request->legal_heading;
+            $document->legal_description = $request->legal_description;
+            $document->legal_btn_text = $request->legal_btn_text;
+            $document->legal_btn_link = $request->legal_btn_link;
+
+            if($request->hasFile('legal_doc_image')){
+                $legal_image = $request->file('legal_doc_image');
+                $imagename = time().rand(1,50).'.'.$legal_image->extension();
+                $directory = 'public';
+                $path = $legal_image->storeAs($directory, $imagename);
+
+                $document->legal_doc_image = $imagename;
+                $document->directory_name = $directory;
+                $document->file_path = $path;
+            }
+
+            $document->approved = $request->approved;
+            $document->valid_in = $request->valid_in;
+            $document->faq_heading = $request->faq_heading;
+
+            if($request->has('new_doc_question') && $request->has('new_doc_answer')){
+                $doc_question = $request->new_doc_question;
+                for($i=0; $i<count($doc_question); $i++){
+                    $quiz = $doc_question[$i];
+                    $answer = $request->new_doc_answer[$i];
+
+                    $document_faq = new DocumentFaq;
+                    $document_faq->document_id = $request->id;                   
+                    $document_faq->question = $quiz; 
+                    $document_faq->answer = $answer; 
+                    $document_faq->save();
+                }
+            }
+
+            if($request->has('doc_question')){
+                foreach($request->doc_question as $key=>$val){
+                    $document_faq = DocumentFaq::find($key);                 
+                    $document_faq->question = $val; 
+                    $document_faq->update();
+                }
+
+                foreach($request->doc_answer as $index=>$value){
+                    $document_faq = DocumentFaq::find($index);                 
+                    $document_faq->answer = $value; 
+                    $document_faq->update();
+                }
+            }
+
+            $document->related_heading = $request->related_heading;
+            $document->related_description = $request->related_description;
+            $document->additional_info = $request->additional_info;
+            $document->doc_price = $request->doc_price;
+            $document->no_of_downloads = $request->no_of_downloads;
+            $document->total_likes = $request->total_likes;
+            $document->discount_price = $request->discount_price;
+           
+            if($request->img_sec_ids != null){
+                $removeIds = explode(',', $request->img_sec_ids);
+                $removeDocumentFields = DocumentsField::whereIn('id',$removeIds)->delete();
+            }
+
+            if($request->guide_sec_ids != null){
+                $removeIds = explode(',', $request->guide_sec_ids);
+                $removeGuideSection = DocumentGuide::whereIn('id',$removeIds)->delete();
+            }
+
+            if($request->faq_sec_ids != null){
+                $removeIds = explode(',', $request->faq_sec_ids);
+                $removeFaqSection = DocumentFaq::whereIn('id',$removeIds)->delete();
+            }
+
+            $document->update();
+
+            DB::commit();
+
+            return redirect('admin-dashboard/edit-document/'.$request->slug)->with('success','Document Updated');
+
+        }catch(Exception $e){
+            DB::rollBack();
+            saveLog("Error:", "DocumentController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
     }
 
     public function addDocumentCategory(){

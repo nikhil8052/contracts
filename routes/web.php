@@ -70,6 +70,8 @@ Route::group(['middleware' =>['auth']],function(){
      Route::post('/admin-dashboard/add-documents',[DocumentController::class,'addDocuments']);
      Route::get('/admin-dashboard/all/documents',[DocumentController::class,'allDocuments']);
      Route::get('/admin-dashboard/edit-document/{slug}',[DocumentController::class,'editDocument']);
+     Route::post('/admin-dashboard/update-document',[DocumentController::class,'updateDocument']);
+     
      Route::get('/admin-dashboard/add-document-category',[DocumentController::class,'addDocumentCategory'])->name('add.category');
      Route::post('/admin-dashboard/category-process',[DocumentController::class,'CategoryProcess'])->name('category.process');
      Route::get('/admin-dashboard/document/categories',[DocumentController::class,'allCategories'])->name('document.categories');
@@ -101,6 +103,8 @@ Route::group(['middleware' =>['auth']],function(){
      Route::get('/admin-dashboard/prepare-contract',[SiteMetaController::class,'prepareContract']);
      Route::post('/admin-dashboard/prepare-contract-procc',[SiteMetaController::class,'prepareContractprocc']);
 
+     Route::get('/admin-dashboard/home-content',[SiteMetaController::class,'homepage']);
+     Route::post('/admin-dashboard/add/home-content',[SiteMetaController::class,'addHomeContent']);
      //*********************Product Sections***************//
      Route::get('/admin-dashboard/product',[ProductController::class,'product']);
      Route::post('/admin-dashboard/add-product',[ProductController::class,'addProduct']);

@@ -4,12 +4,17 @@
 <div class="nk-content">
      <div class="container-fluid">
           @if(isset($document) && $document != null)
-          <form action="" method="post" enctype="multipart/form-data">
+          <form action="{{ url('admin-dashboard/update-document') }}" method="post" enctype="multipart/form-data">
           @else
           <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
           @endif
                @csrf
-               <input type="hidden" name="slug" id="slug" value="">
+               <input type="hidden" name="id" value="{{ $document->id ?? '' }}">
+               <input type="hidden" name="img_sec_ids" id="img_sec_ids" value="">
+               <input type="hidden" name="guide_sec_ids" id="guide_sec_ids" value="">
+               <input type="hidden" name="faq_sec_ids" id="faq_sec_ids" value="">
+               <input type="hidden" name="" id="" value="">
+               <input type="hidden" name="slug" id="slug" value="{{ $document->slug ?? '' }}">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="col-md-8 pb-2">
@@ -19,6 +24,9 @@
                               </div>
                          </div>
                          <hr>
+                         @if(isset($document) && $document != null)
+
+                         @else
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="document_image">Image</label>
@@ -26,6 +34,7 @@
                               </div>
                          </div>
                          <hr>
+                         @endif
                          <h5>Document Short Description</h5>  
                          <hr>
                          <div class="col-md-8">
@@ -60,29 +69,57 @@
                          <div class="card card-bordered card-preview">
                               <div class="second-sec m-4" id="second-repeat-sec">
                               @if(isset($document->documentField) && $document->documentField != null)
-                                   @foreach($document->documentField as $field)
-                                   <div class="img-txt-section">
+                                   @foreach($document->documentField as $index=>$field)
+                                   <div class="img-txt-section{{ $field->id ?? '' }}">
+                                        <div class="col-md-4 offset-md-8">
+                                             <div class="form-group">
+                                                  <div><span class="remove-second-sec" data-id="{{ $field->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                             </div>
+                                        </div>
                                         <div class="col-md-8">
                                              <div class="form-group">
                                                   <label class="form-label" for="img_heading">Heading</label>
-                                                  <input type="text" class="form-control" id="img_heading" name="img_heading[]" value="{{ $field->heading ?? '' }}">
+                                                  <input type="text" class="form-control" id="img_heading" name="img_heading[{{ $field->id ?? '' }}]" value="{{ $field->heading ?? '' }}">
                                              </div>
                                         </div>
                                         <div class="col-md-8">
                                              <div class="form-group">
                                                   <label class="form-label" for="img_description">Description Here</label>
-                                                  <textarea class="form-control" id="img_description" name="img_description[]">{{ $field->description ?? '' }}</textarea>
+                                                  <textarea class="form-control" id="img_description{{ $index ?? '' }}" name="img_description[{{ $field->id ?? '' }}]">{{ $field->description ?? '' }}</textarea>
                                              </div>
                                         </div>
+                                        <br>
                                         <div class="col-md-8">
                                              <div class="form-group">
-                                                  <label class="form-label" for="upload_image">Upload Image</label>
-                                                  <input type="file" class="form-control" id="upload_image" name="upload_image[]" value="">
+                                                  <img src="{{ asset('storage/'.$field->media->file_name ?? '' ) }}" height="220px" width="220px">
                                              </div>
                                         </div>
                                    </div>
+                                   <hr>
+                                   <script>  ClassicEditor.create( document.querySelector('#img_description{{ $index }}')); </script>
                                    @endforeach
-                                   @endif
+                              @else
+                              <div class="img-txt-section">
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="img_heading">Heading</label>
+                                             <input type="text" class="form-control" id="img_heading" name="img_heading[]" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="img_description">Description Here</label>
+                                             <textarea class="form-control" id="img_description" name="img_description[]"></textarea>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="upload_image">Upload Image</label>
+                                             <input type="file" class="form-control" id="upload_image" name="upload_image[]" value="">
+                                        </div>
+                                   </div>
+                              </div>
+                              @endif
                                    <br>
                                    <div class="col-md-5 offset-md-7">
                                         <div class="form-group">
@@ -109,30 +146,31 @@
                                    </div>
                                    @if(isset($document->documentGuide) && $document->documentGuide != null)
                                    @foreach($document->documentGuide as $guide)
-                                   <div class="guide-append-sec">
-                                        <hr>
+                                   <div class="guide-append-sec{{ $guide->id ?? '' }}">
                                         <div class="col-md-3 offset-md-9">
                                              <div class="form-group">
-                                                  <div class="remove-guide"><span><i class="fa fa-times"></i></span></div>
+                                                  <div><span class="remove-guide" data-id="{{ $guide->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                              </div>
                                         </div>
                                         <div class="row gy-12">
                                              <div class="col-md-4">
                                                        <div class="form-group">
                                                        <label class="form-label" for="step_title">Step Title</label>
-                                                       <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="{{ $guide->step_title }}">
+                                                       <input type="text" class="form-control form-control" id="step_title" name="step_title[{{ $guide->id ?? '' }}]" value="{{ $guide->step_title ?? '' }}">
                                                   </div>
                                              </div>
                                              <div class="col-md-4">
                                                   <div class="form-group">
                                                        <label class="form-label" for="step_description">Step Description</label>
-                                                       <textarea class="form-control" id="step_description" name="step_description[]">{{ $guide->step_description ?? '' }}</textarea>
+                                                       <textarea class="form-control" id="step_description" name="step_description[{{ $guide->id ?? '' }}]">{{ $guide->step_description ?? '' }}</textarea>
                                                   </div>
                                              </div>
                                         </div>
                                    </div>
+                                   <hr>
                                    @endforeach
                                    @endif
+                                   <br>
                                    <div class="col-md-5 offset-md-7">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" id="add-guide-sec">Add Row</button>
@@ -175,6 +213,13 @@
                                              <input type="file" class="form-control" id="legal_doc_image" name="legal_doc_image" value="">
                                         </div>
                                    </div>
+                                   @if(isset($document->legal_doc_image) && $document->legal_doc_image != null)
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$document->legal_doc_image ) }}" width="200px" height="200px">
+                                        </div>
+                                   </div>
+                                   @endif
                               </div>
                          </div>
                          <hr>
@@ -199,13 +244,24 @@
                          <div class="m-4">
                               <div class="col-md-8">
                                    <div class="form-group">
-                                        <label class="form-label" for="category_id">Categories</label>   
-                                        <select class="form-select js-select2" multiple="multiple" name="category_id[]" id="category_id">
-                                             <option value="">Select a category</option>
-                                             @foreach($categories as $category)
-                                                  <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                             @endforeach
-                                        </select>
+                                        <label class="form-label" for="category_id">Categories</label>  
+                                        <div class="form-control-wrap"> 
+                                             <select class="form-select js-select2" multiple="multiple" name="category_id[]" id="category_id">
+                                                  <option value="">Select a category</option>
+                                                  @foreach($categories as $category)
+                                                       @if(isset($document->category_id) && $document->category_id != null)
+                                                            <?php $categoryIDs = json_decode($document->category_id);?>
+                                                            @if(in_array($category->id,$categoryIDs))
+                                                                 <option value="{{ $category->id ?? '' }}" selected>{{ $category->name ?? '' }}</option>
+                                                            @else
+                                                            <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
+                                                            @endif
+                                                       @else
+                                                       <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
+                                                       @endif
+                                                  @endforeach
+                                             </select>
+                                        </div>
                                    </div>
                               </div>
                          </div>
@@ -223,6 +279,33 @@
                                              <label class="form-label">Question Answers</label>
                                         </div>
                                    </div>
+                                   @if(isset($document->documentFaq) && $document->documentFaq != null)
+                                   @foreach($document->documentFaq as $index=>$faq)
+                                   <div class="faq-append-sec{{ $faq->id ?? '' }}">
+                                        <div class="col-md-3 offset-md-9">
+                                             <div class="form-group">
+                                                  <div><span class="remove-faq" data-id="{{ $faq->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                             </div>
+                                        </div>
+                                        <div class="row gy-8">
+                                             <div class="col-md-4">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="doc_question">Quiz</label>
+                                                       <input type="text" class="form-control" id="doc_question" name="doc_question[{{ $faq->id ?? '' }}]" value="{{ $faq->question ?? '' }}">
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-4">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="doc_answer">Answer</label>
+                                                       <textarea class="form-control" id="doc_answer{{ $index ?? '' }}" name="doc_answer[{{ $faq->id ?? '' }}]">{{ $faq->answer ?? '' }}</textarea>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <script>  ClassicEditor.create( document.querySelector('#doc_answer{{ $index ?? '' }}')); </script>
+                                   @endforeach
+                                   @endif
                                    <div class="col-md-5 offset-md-7">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" id="add-faq-sec">Add Row</button>
@@ -234,7 +317,7 @@
                          <hr>
                          <h6>Related Document Section</h6>
                          <div class="card card-bordered card-preview">
-                              <div class="faq-section m-4">
+                              <div class="related-section m-4">
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="related_heading">Related Document Heading</label>
@@ -249,10 +332,17 @@
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="select_related_doc">Select Related Documents</label>
-                                             <select class="form-select" id="select_related_doc" name="select_related_doc[]" >
-                                                  <option value="">Select</option>
-                                             </select>
+                                             <label class="form-label" for="select_related_doc">Select Related Documents</label>               
+                                             <div class="form-control-wrap">
+                                                  <select class="form-select js-select2" multiple="multiple" id="select_related_doc" name="select_related_doc[]">
+                                                       <option value="">Select</option>
+                                                       @if(isset($related_documents) && $related_documents != null)
+                                                       @foreach($related_documents as $related)
+                                                            <option value="{{ $related->id ?? '' }}">{{ $related->title ?? '' }}</option>
+                                                       @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div>
                                         </div>
                                    </div>
                               </div>
@@ -319,7 +409,11 @@
                     </div>
                </div>
                <div class="mt-3">
+               @if(isset($document) && $document != null)
+                    <button class="btn btn-primary" type="submit">Update</button>
+               @else
                     <button class="btn btn-primary" type="submit">Save</button>
+               @endif
                </div>
           </form>
      </div>
@@ -364,30 +458,29 @@
 
           // Append Second section //
           $('#second-section-add').on('click',function(){
-               var html = `<div class="append-container">
-                              <hr>
+               var html = `<div class="img-txt-section">
                               <div class="col-md-4 offset-md-8">
                                    <div class="form-group">
-                                        <div class="remove-second-sec"><span><i class="fa fa-times"></i></span></div>
+                                        <div><span class="remove-second-sec" value="appended"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="second-append-sec" id="second-append-sec">
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="img_heading">Heading</label>
-                                             <input type="text" class="form-control" id="img_heading" name="img_heading[]" value="">
+                                             <label class="form-label" for="new_img_heading">Heading</label>
+                                             <input type="text" class="form-control" id="new_img_heading" name="new_img_heading[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="img_description">Description Here</label>
-                                             <textarea class="description-editor" id="img_description" name="img_description[]"></textarea>
+                                             <label class="form-label" for="new_img_description">Description Here</label>
+                                             <textarea class="description-editor" id="new_img_description" name="new_img_description[]"></textarea>
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="upload_image">Upload Image</label>
-                                             <input type="file" class="form-control" id="upload_image" name="upload_image[]" value="">
+                                             <label class="form-label" for="new_upload_image">Upload Image</label>
+                                             <input type="file" class="form-control" id="new_upload_image" name="new_upload_image[]" value="">
                                         </div>
                                    </div>
                               </div>
@@ -409,31 +502,43 @@
           });
 
           // Remove second section //
-          $('body').delegate('.remove-second-sec','click',function(){
-              $(this).closest('.append-container').hide();
-          });
+          $('body').delegate('.remove-second-sec', 'click', function () {
+               var id = $(this).data('id');
+               if($(this).attr('value') === 'appended'){
+                    $(this).closest('.img-txt-section').remove();
+                    return false;
+               }
 
+               let deleteIds = $('#img_sec_ids').val();
+               if(deleteIds) {
+                    deleteIds += ',' + id;
+               }else {
+                    deleteIds = id;
+               }
+               $('#img_sec_ids').val(deleteIds);
+
+               $('.img-txt-section'+id).hide();
+          });
 
           // Append Guide section // 
           $('#add-guide-sec').click(function(){
                var html = `<div class="guide-append-sec">
-                              <hr>
                               <div class="col-md-3 offset-md-9">
                                    <div class="form-group">
-                                        <div class="remove-guide"><span><i class="fa fa-times"></i></span></div>
+                                        <div><span class="remove-guide" value="appended"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="row gy-12">
                                    <div class="col-md-4">
                                              <div class="form-group">
-                                             <label class="form-label" for="step_title">Step Title</label>
-                                             <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="">
+                                             <label class="form-label" for="new_step_title">Step Title</label>
+                                             <input type="text" class="form-control form-control" id="new_step_title" name="new_step_title[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-4">
                                         <div class="form-group">
-                                             <label class="form-label" for="step_description">Step Description</label>
-                                             <textarea class="form-control" id="step_description" name="step_description[]"></textarea>
+                                             <label class="form-label" for="new_step_description">Step Description</label>
+                                             <textarea class="form-control" id="new_step_description" name="new_step_description[]"></textarea>
                                         </div>
                                    </div>
                               </div>
@@ -443,31 +548,44 @@
           });
 
           // Remove guide section //
-          $('body').delegate('.remove-guide','click',function(){
-              $(this).closest('.guide-append-sec').hide();
+          $('body').delegate('.remove-guide', 'click', function () {
+               var id = $(this).data('id');
+               if($(this).attr('value') === 'appended'){
+                    $(this).closest('.guide-append-sec').remove();
+                    return false;
+               }
+
+               let deleteIds = $('#guide_sec_ids').val();
+               if(deleteIds) {
+                    deleteIds += ',' + id;
+               }else {
+                    deleteIds = id;
+               }
+               $('#guide_sec_ids').val(deleteIds);
+
+               $('.guide-append-sec'+id).hide();
           });
 
 
           // Add Faq Section //
           $('#add-faq-sec').click(function(){
                var html = `<div class="faq-append-sec">
-                              <hr>
                               <div class="col-md-3 offset-md-9">
                                    <div class="form-group">
-                                        <div class="remove-faq"><span><i class="fa fa-times"></i></span></div>
+                                        <div><span class="remove-faq" value="appended"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="row gy-8">
                                    <div class="col-md-4">
                                         <div class="form-group">
-                                             <label class="form-label" for="doc_question">Quiz</label>
-                                             <input type="text" class="form-control" id="doc_question" name="doc_question[]" value="">
+                                             <label class="form-label" for="new_doc_question">Quiz</label>
+                                             <input type="text" class="form-control" id="new_doc_question" name="new_doc_question[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-4">
                                         <div class="form-group">
-                                             <label class="form-label" for="doc_answer">Answer</label>
-                                             <textarea class="answer-editor" id="doc_answer" name="doc_answer[]"></textarea>
+                                             <label class="form-label" for="new_doc_answer">Answer</label>
+                                             <textarea class="answer-editor" id="new_doc_answer" name="new_doc_answer[]"></textarea>
                                         </div>
                                    </div>
                               </div>
@@ -491,8 +609,22 @@
 
 
           // Remove Faq section //
-          $('body').delegate('.remove-faq','click',function(){
-              $(this).closest('.faq-append-sec').hide();
+          $('body').delegate('.remove-faq', 'click', function () {
+               var id = $(this).data('id');
+               if($(this).attr('value') === 'appended'){
+                    $(this).closest('.faq-append-sec').remove();
+                    return false;
+               }
+
+               let deleteIds = $('#faq_sec_ids').val();
+               if(deleteIds) {
+                    deleteIds += ',' + id;
+               }else {
+                    deleteIds = id;
+               }
+               $('#faq_sec_ids').val(deleteIds);
+
+               $('.faq-append-sec'+id).hide();
           });
 
      });

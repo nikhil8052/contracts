@@ -12,9 +12,12 @@ use App\Models\LoginRegister;
 use App\Models\PrepareContract;
 use App\Models\PrepareContractWork;
 use App\Models\Media;
+use App\Services\FileUploadService;
+use App\Models\Document;
+use App\Models\DocumentCategory;
+use App\Models\HomeContent;
 use Exception;
 use File;
-use App\Services\FileUploadService;
 
 
 class SiteMetaController extends Controller
@@ -494,5 +497,36 @@ class SiteMetaController extends Controller
         }
     }
 
+    public function homepage(){
+        $documents = Document::all();
+        $document_category = DocumentCategory::all();
+
+        $keys = [
+            'title',
+            'banner_title',
+            'most_popular_title',
+            'bottom_heading',
+            'bottom_subheading',
+            'bottom_button_label',
+            'category_title'
+        ];
+
+        $results = HomeContent::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'banner_title' => $results['banner_title']->value ?? null,
+            'most_popular_title' => $results['most_popular_title']->value ?? null,
+            'bottom_heading' => $results['bottom_heading']->value ?? null,
+            'bottom_subheading' => $results['bottom_subheading']->value ?? null,
+            'bottom_button_label' => $results['bottom_button_label']->value ?? null,
+            'category_title' => $results['category_title']->value ?? null,
+        ];
+
+        return view('admin.site_meta.home.home_content',compact('documents','document_category','data'));
+    }
+
+    public function addHomeContent(Request $request){
+        return $request->all();
+    }
    
 }

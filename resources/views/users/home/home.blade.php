@@ -1,551 +1,858 @@
 @extends('users_layout.master')
 @section('content')
 
-<div class="mobile_header_side_bar">
-	<div class="header_sidebar_inner">
-		<div class="sidebar_empty_space"></div>
-		<div class="sidebar_header_content">
-			<div class="sidebar_header_nav">
-				<div class="header_search_form">
-					<form id="header_search_form" method="POST" action="https://documentos-legales.mx/contratos-documentos-legales/" autocomplete="off">
-						<input type="text" class="form-control" name="search" placeholder="Buscar" />
-						<button class="mobilesearch-btn" type="submit">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</form>
+<section class="banner_sec dark" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-7">
+				<div class="banner_content">
+					<h1>Crea Contratos y documentos legales en minutos</h1>
 				</div>
-				<ul class="_Ty8L2" data-qa="SidebarMenuList">
-					<li><a href="https://documentos-legales.mx/arrendamiento/">Arrendamiento</a></li>
-					<li><a href="https://documentos-legales.mx/comercio/">Comercio</a></li>
-					<li><a href="https://documentos-legales.mx/consumo/">Consumo</a></li>
-					<li><a href="https://documentos-legales.mx/familia/">Familia</a></li>
-					<li><a href="https://documentos-legales.mx/internet/">Internet</a></li>
-					<li><a href="https://documentos-legales.mx/laboral/">Laboral</a></li>
-					<li><a href="https://documentos-legales.mx/vida-diaria/">Vida diaria</a></li>
-				</ul>
-
-				<ul class="_Ty8L3" data-qa="SidebarMenuList">
-					<li><a href="https://documentos-legales.mx/asi-funciona/">Así funciona</a></li>
-					<li><a href="https://documentos-legales.mx/preguntas-frecuentes/">Preguntas</a></li>
-				</ul>
-
-				<div class="mobile_header_buuton">
-					<a class="cta" href="https://documentos-legales.mx/contratos-documentos-legales/">Crear documento</a>
+				<div class="search_bar">
+					<div class="wrap">
+						<div class="search">
+							<input type="text" class="searchTerm"
+								placeholder="Nombre del documento ej. Contrato de Trabajo">
+							<button type="submit" class="searchButton">
+								Empezar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-5">
+				<div class="banner_img">
+					<img src="{{ asset('assets/img/col_banner.png') }}" alt="">
 				</div>
 			</div>
 		</div>
 	</div>
-	<div role="button" class="_GtzsW _Gv2_B">
-		<div class="_NRBhu"></div>
+</section>
+    <!------------------------------ tabs section start  ------------------------------------ -->
+
+<section class=" tab_sec_ot p_120">
+	<div class="container">
+		<div class="row">
+			<div class="heading_sec_tabs">
+				<h2 class="doc_h">Documentos más populares</h2>
+			</div>
+		</div>
 	</div>
-	<div class="__z_48"></div>
-</div>
-<div class="mobile_header_side_bar_right">
-	<div class="header_sidebar_inner">
-		<div class="sidebar_empty_space"></div>
-		<div class="sidebar_header_content">
-			<div class="sidebar_header_nav">
-				<div class="header_right_sidebar_content">
-					<div>
-						<p class="logged-in">¡Bienvenido!</p>
-						<div class="mobile_right_header_button loggedin">
-							<a href="https://documentos-legales.mx/mi-cuenta" class="cta login">Mis documentos</a>
-							<a href="https://documentos-legales.mx/mi-cuenta/configuracion/" class="cta register">Configuración</a>
-							<a href="https://documentos-legales.mx/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fdocumentos-legales.mx&amp;_wpnonce=f67ee7e251" class="cta login">Cerrar session</a>
+        <!-- tab1 ///////////////////////////////////////////////////////////////////////////// -->
+	<div class="container ">
+		<div class="wrapper">
+			<div class="tab">
+				<div class="btn active">Negocios y Comercio </div>
+				<div class="btn">Vida Personal</div>
+				<div class="btn">Laboral y Cumplimiento</div>
+				<div class="btn">Tecnología y Consumo</div>
+			</div>
+
+			<div class="tabContentWrap">
+				<!-- tab1 ///////////////////////////////////////////// -->
+				<div class="tabContent show tab_box_sec">
+					<div class="slider">
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Personal
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.6</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+									La Carta de Recomendación Personal es un documento que resalta las
+									cualidades...
+									</div>
+									<div class="tab_btn">
+									<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
 						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Labora
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+									La Carta de Recomendación Laboral es un documento que evidencia el desempeño
+									y las..
+									</div>
+									<div class="tab_btn">
+									<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Renuncia Voluntaria
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+									La Carta de Renuncia Voluntaria es un documento que formaliza la decisión de
+									un empleado..
+									</div>
+									<div class="tab_btn">
+									<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Contrato de Comisión Mercantil
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.9</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+									El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
+									delega a
+									un..
+									</div>
+									<div class="tab_btn">
+									<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Contrato de Comisión Mercantil
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.9</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+									El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
+									delega a
+									un..
+									</div>
+									<div class="tab_btn">
+									<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Labora
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Recomendación Laboral es un documento que evidencia el desempeño
+										y las..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- tab2//////////////////////////////////////////////////////////////////// -->
+
+				<div class="tabContent">
+					<div class="slider">
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Labora
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Recomendación Laboral es un documento que evidencia el desempeño
+										y las..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Personal
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.6</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Recomendación Personal es un documento que resalta las
+										cualidades...
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Contrato de Comisión Mercantil
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.9</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
+										delega a
+										un..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Renuncia Voluntaria
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+									La Carta de Renuncia Voluntaria es un documento que formaliza la decisión de
+									un empleado..
+									</div>
+									<div class="tab_btn">
+									<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Contrato de Comisión Mercantil
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.9</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+									El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
+									delega a
+									un..
+									</div>
+									<div class="tab_btn">
+									<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+					<!-- tab3/////////////////////////////////////////////////////////////// -->
+
+				<div class="tabContent">
+					<div class="slider">
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Personal
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.6</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Recomendación Personal es un documento que resalta las
+										cualidades...
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Labora
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Recomendación Laboral es un documento que evidencia el desempeño
+										y las..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Renuncia Voluntaria
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Renuncia Voluntaria es un documento que formaliza la decisión de
+										un empleado..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Contrato de Comisión Mercantil
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.9</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
+										delega a
+										un..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Contrato de Comisión Mercantil
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.9</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
+										delega a
+										un..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+					<!-- tab4/////////////////////////////////////////////////////////////// -->
+
+				<div class="tabContent">
+					<div class="slider">
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Labora
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Recomendación Laboral es un documento que evidencia el desempeño
+										y las..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Recomendación Personal
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.6</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Recomendación Personal es un documento que resalta las
+										cualidades...
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Contrato de Comisión Mercantil
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.9</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
+										delega a
+										un..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Carta de Renuncia Voluntaria
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.8</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										La Carta de Renuncia Voluntaria es un documento que formaliza la decisión de
+										un empleado..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inside_box_b">
+							<div class="inside_box_tab">
+								<div class="img_tab_sec">
+									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+								</div>
+								<div class="cont_tab_ot">
+									<div class="tab_text">
+										<h5 class=" size20">
+											Contrato de Comisión Mercantil
+										</h5>
+										<ul class="tab_ul">
+											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li>4.9</li>
+										</ul>
+									</div>
+									<div class="tab_2text light">
+										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
+										delega a
+										un..
+									</div>
+									<div class="tab_btn">
+										<a href="" class="cta_org">Crear ahora</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+    <!------------------------------ tabs section end  ------------------------------------ -->
+
+<section class="Comienza_sec dark">
+	<div class="container">
+		<div class="Comienza_bg" style="background-color: #012555;">
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<div class="Comienza-img">
+						<img src="{{ asset('assets/img/Comienza-img.png') }}" alt="">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="Comienza-content">
+						<h2>Comienza a crear Documentos Legales Personalizados</h2>
+						<p>Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
+							tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde el
+							siglo XVI, cuando un impresor desconocido tomó una galería de tipos y los mezcló</p>
+						<a href="" class="">Comienza ahora</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div role="button" class="_GtzsW _Gv2_B _zNNE6"><div class="_NRBhu"></div></div>
-	<div class="__z_48"></div>
-</div>
+</section>
 
-<div class="wn_hght">
-	<section class="banner-sec" style="background-image: url('https://documentos-legales.mx/wp-content/uploads/2024/05/banner-bg-1.svg');">
+    <!---------------- catagors section start ------------------------------- -->
+
+<section class="outer_cate p_120 light">
+	<div class="in_cate">
+		<div class="head_cata">
+			<div class="container">
+				<div class="cata_h">
+					<h2>
+						Categorías principales
+					</h2>
+				</div>
+			</div>
+		</div>
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6">
-					<div class="banner-text">
-						<div class="banner-head">
-						<h1>Crea tus Contratos y Documentos Legales en minutos</h1>
+				<div class="col-lg-3">
+					<div class="in_box_cate">
+						<div class="in_img_cate">
+							<img src="{{ asset('assets/img/cata1.png') }}" alt="">
 						</div>
+						<div class="in_cate_content">
+							<h6>Negocios y Comercio</h6>
+							<p class="in_cate_para">
+								Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
+								tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria.
+							</p>
 
-						<div class="row">
-							<div class="search-container-doc">
-								<form id="searchDocx" action="">
-									<input type="text" id="search_name_doc_id" name="search_name_doc" placeholder="Buscar contrato o documento" />
-
-									<button type="submit" id="searchIcon" aria-label="Name"><i class="fa fa-search"></i></button>
-								</form>
-								<button id="searchClear" style="display: none;"><i class="fa fa-times"></i></button>
-								<div class="spinner-border" role="status" style="display: none;">
-									<span class="sr-only">Loading...</span>
-								</div>
-							</div>
-							<div class="srch_main_content">
-								<ul class="suggestions_doc" id="suggestions_doc_id" style="display: none;"></ul>
-							</div>
+						</div>
+						<div class="cata_btn">
+							<a href="" class="cta_org">Ver documentos  <img src="{{ asset('assets/img/right_arrow_btn.png') }}" alt=""></a>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6 banner-col">
-					<div class="banner-img">
-						<img src="https://documentos-legales.mx/wp-content/uploads/2024/06/banner-image.svg" alt="home banner document image" height="200" width="500" />
+				<div class="col-lg-3">
+					<div class="in_box_cate">
+						<div class="in_img_cate">
+							<img src="{{ asset('assets/img/cata2.png') }}" alt="">
+						</div>
+						<div class="in_cate_content">
+							<h6>Vida Personal</h6>
+							<p class="in_cate_para">
+								Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
+								tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria.
+							</p>
+						</div>
+						<div class="cata_btn">
+							<a href="" class="cta_org">Ver documentos  <img src="{{ asset('assets/img/right_arrow_btn.png') }}" alt=""></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="in_box_cate">
+						<div class="in_img_cate">
+							<img src="{{ asset('assets/img/cata3.png') }}" alt="">
+						</div>
+						<div class="in_cate_content">
+							<h6>Laboral y Cumplimiento</h6>
+							<p class="in_cate_para">
+								Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
+								tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria.
+							</p>
+						</div>
+						<div class="cata_btn">
+							<a href="" class="cta_org">Ver documentos   <img src="{{ asset('assets/img/right_arrow_btn.png') }}" alt=""></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="in_box_cate">
+						<div class="in_img_cate">
+							<img src="{{ asset('assets/img/cata4.png') }}" alt="">
+						</div>
+						<div class="in_cate_content">
+							<h6>Tecnología y Consumo</h6>
+							<p class="in_cate_para">
+								Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
+								tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria.
+							</p>
+						</div>
+						<div class="cata_btn">
+							<a href="" class="cta_org">Ver documentos  <img src="{{ asset('assets/img/right_arrow_btn.png') }}" alt=""></a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 
-	<section class="home document-sec pt-0" style="padding-bottom: 20px;">
-	<div class="container">
-		<div class="selected-doc-text-content">
+    <!---------------- catagors section end ------------------------------- -->
+    <!----------------- card_section start ------------------------>
+
+<section class="card_sec_out">
+	<div class="in_card_bg p_120">
+		<div class="container">
 			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12">
-					<div class="">
-					<div class="select-doc-text_1">
-						<div class="doc-head">
-							<h2>Más Populares</h2>
-						</div>
+				<div class="col-lg-12">
+					<div class="card_ot_lyr">
+						<div class="card_h">
+							<h3>Únete y crea tus documentos en minutos</h3>
 
-						<div class="row home-docs">
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/carta-poder/" class="doc-box">
-									<div class="doc-img"><img src="https://documentos-legales.mx/wp-content/uploads/2023/09/carta-poder.svg" alt="documentos-legales-docx" height="200" width="170" /></div>
-									<div class="doc-text">
-										<p>Carta Poder</p>
-									</div>
-									</a>
-									<div class="doc-footer">
-									<div class="foot-wrapper">
-										<div class="str-rate">
-											<p class="review-rating" data-current_rating="4.8">
-												<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-												<span class="rating-on rate-4" data-rating="4"></span><span class="rating-on rate-5" data-rating="5"></span>
-											</p>
-											4.8
-										</div>
-										<div class="download-btn">
-											<a href="https://documentos-legales.mx/cdl/carta-poder">
-												<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-											</a>
-										</div>
-									</div>
-									</div>
-								</div>
+						</div>
+						<div class="ot_plat dark">
+							<div class="othr_platform">
+								<a class="google" href=""><i class="fa-brands fa-google"></i>Regístrese con <span
+									class="span1"> Google</span> </a>
 							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/contrato-de-arrendamiento-casa-habitacion/" class="doc-box">
-									<div class="doc-img">
-										<img src="https://documentos-legales.mx/wp-content/uploads/2023/02/contrato-arrendamiento-casa-habitacion.svg" alt="documentos-legales-docx" height="200" width="170" />
-									</div>
-									<div class="doc-text">
-										<p>Contrato de Arrendamiento Casa Habitación</p>
-									</div>
-									</a>
-									<div class="doc-footer">
-									<div class="foot-wrapper">
-										<div class="str-rate">
-											<p class="review-rating" data-current_rating="4.9">
-												<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-												<span class="rating-on rate-4" data-rating="4"></span><span class="rating-on rate-5" data-rating="5"></span>
-											</p>
-											4.9
-										</div>
-										<div class="download-btn">
-											<a href="https://documentos-legales.mx/cdl/contrato-de-arrendamiento-casa-habitacion">
-												<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-											</a>
-										</div>
-									</div>
-									</div>
-								</div>
+							<div class="othr_platform">
+								<a class=" facebook" href=""><i class="fa-brands fa-facebook"></i>Regístrese con
+								<span class="span1"> Facebook </span>
+								</a>
 							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/contrato-de-compraventa-de-automovil/" class="doc-box">
-									<div class="doc-img">
-										<img src="https://documentos-legales.mx/wp-content/uploads/2023/03/contrato-compraventa-automovil-2.svg" alt="documentos-legales-docx" height="200" width="170" />
-									</div>
-									<div class="doc-text">
-										<p>Contrato de Compraventa de Automóvil</p>
-									</div>
-									</a>
-									<div class="doc-footer">
-									<div class="foot-wrapper">
-										<div class="str-rate">
-											<p class="review-rating" data-current_rating="4.8">
-												<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-												<span class="rating-on rate-4" data-rating="4"></span><span class="rating-on rate-5" data-rating="5"></span>
-											</p>
-											4.8
-										</div>
-										<div class="download-btn">
-											<a href="https://documentos-legales.mx/cdl/contrato-de-compraventa-de-automovil">
-												<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-											</a>
-										</div>
-									</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/contrato-de-trabajo/" class="doc-box">
-									<div class="doc-img"><img src="https://documentos-legales.mx/wp-content/uploads/2023/05/Contrato-de-Trabajo.svg" alt="documentos-legales-docx" height="200" width="170" /></div>
-									<div class="doc-text">
-										<p>Contrato de Trabajo</p>
-									</div>
-									</a>
-									<div class="doc-footer">
-									<div class="foot-wrapper">
-										<div class="str-rate">
-											<p class="review-rating" data-current_rating="4.7">
-												<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-												<span class="rating-on rate-4" data-rating="4"></span><span class="rating-off rate-half" data-rating="5"></span>
-											</p>
-											4.7
-										</div>
-										<div class="download-btn">
-											<a href="https://documentos-legales.mx/cdl/contrato-de-trabajo">
-												<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-											</a>
-										</div>
-									</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/contrato-de-prestacion-de-servicios/" class="doc-box">
-									<div class="doc-img"><img src="https://documentos-legales.mx/wp-content/uploads/2023/05/Prestacion-de-Servicios.svg" alt="documentos-legales-docx" height="200" width="170" /></div>
-									<div class="doc-text">
-										<p>Contrato de Prestación de Servicios</p>
-									</div>
-									</a>
-									<div class="doc-footer">
-									<div class="foot-wrapper">
-										<div class="str-rate">
-											<p class="review-rating" data-current_rating="4.9">
-												<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-												<span class="rating-on rate-4" data-rating="4"></span><span class="rating-on rate-5" data-rating="5"></span>
-											</p>
-											4.9
-										</div>
-										<div class="download-btn">
-											<a href="https://documentos-legales.mx/cdl/contrato-de-prestacion-de-servicios">
-												<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-											</a>
-										</div>
-									</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/contrato-de-comodato-prestamo-de-bienes/" class="doc-box">
-										<div class="doc-img"><img src="https://documentos-legales.mx/wp-content/uploads/2023/07/Prestamo-de-Bienes-1.svg" alt="documentos-legales-docx" height="200" width="170" /></div>
-										<div class="doc-text">
-											<p>Contrato de Préstamo de Bienes</p>
-										</div>
-									</a>
-									<div class="doc-footer">
-										<div class="foot-wrapper">
-											<div class="str-rate">
-												<p class="review-rating" data-current_rating="4.9">
-													<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-													<span class="rating-on rate-4" data-rating="4"></span><span class="rating-on rate-5" data-rating="5"></span>
-												</p>
-												4.9
-											</div>
-											<div class="download-btn">
-												<a href="https://documentos-legales.mx/cdl/contrato-de-comodato-prestamo-de-bienes">
-													<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/contrato-de-compraventa-de-bien-inmueble/" class="doc-box">
-										<div class="doc-img">
-											<img src="https://documentos-legales.mx/wp-content/uploads/2023/06/Compraventa-de-Bien-Inmueble.svg" alt="documentos-legales-docx" height="200" width="170" />
-										</div>
-										<div class="doc-text">
-											<p>Contrato de Compraventa de Bien Inmueble</p>
-										</div>
-									</a>
-									<div class="doc-footer">
-										<div class="foot-wrapper">
-											<div class="str-rate">
-												<p class="review-rating" data-current_rating="4.8">
-													<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-													<span class="rating-on rate-4" data-rating="4"></span><span class="rating-on rate-5" data-rating="5"></span>
-												</p>
-												4.8
-											</div>
-											<div class="download-btn">
-												<a href="https://documentos-legales.mx/cdl/contrato-de-compraventa-de-bien-inmueble">
-													<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/contrato-de-mutuo-prestamo-de-dinero/" class="doc-box">
-										<div class="doc-img"><img src="https://documentos-legales.mx/wp-content/uploads/2023/06/Prestamo-de-Dinero-1.svg" alt="documentos-legales-docx" height="200" width="170" /></div>
-										<div class="doc-text">
-											<p>Contrato de Préstamo de Dinero</p>
-										</div>
-									</a>
-									<div class="doc-footer">
-										<div class="foot-wrapper">
-											<div class="str-rate">
-												<p class="review-rating" data-current_rating="4.6">
-													<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-													<span class="rating-on rate-4" data-rating="4"></span><span class="rating-off rate-half" data-rating="5"></span>
-												</p>
-												4.6
-											</div>
-											<div class="download-btn">
-												<a href="https://documentos-legales.mx/cdl/contrato-de-mutuo-prestamo-de-dinero">
-													<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/formato-pagare/" class="doc-box">
-									<div class="doc-img"><img src="https://documentos-legales.mx/wp-content/uploads/2023/06/Pagare.svg" alt="documentos-legales-docx" height="200" width="170" /></div>
-									<div class="doc-text">
-										<p>Formato Pagaré</p>
-									</div>
-									</a>
-									<div class="doc-footer">
-									<div class="foot-wrapper">
-										<div class="str-rate">
-											<p class="review-rating" data-current_rating="4.7">
-												<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-												<span class="rating-on rate-4" data-rating="4"></span><span class="rating-off rate-half" data-rating="5"></span>
-											</p>
-											4.7
-										</div>
-										<div class="download-btn">
-											<a href="https://documentos-legales.mx/cdl/formato-pagare">
-												<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-											</a>
-										</div>
-									</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 maincol3">
-								<div class="doc-content">
-									<a href="https://documentos-legales.mx/acuerdo-bilateral-de-confidencialidad/" class="doc-box">
-									<div class="doc-img">
-										<img src="https://documentos-legales.mx/wp-content/uploads/2023/08/Acuerdo-Bilateral-de-Confidencialidad-1.svg" alt="documentos-legales-docx" height="200" width="170" />
-									</div>
-									<div class="doc-text">
-										<p>Acuerdo Bilateral de Confidencialidad</p>
-									</div>
-									</a>
-									<div class="doc-footer">
-									<div class="foot-wrapper">
-										<div class="str-rate">
-											<p class="review-rating" data-current_rating="4.9">
-												<span class="rating-on rate-1" data-rating="1"></span><span class="rating-on rate-2" data-rating="2"></span><span class="rating-on rate-3" data-rating="3"></span>
-												<span class="rating-on rate-4" data-rating="4"></span><span class="rating-on rate-5" data-rating="5"></span>
-											</p>
-											4.9
-										</div>
-										<div class="download-btn">
-											<a href="https://documentos-legales.mx/cdl/acuerdo-bilateral-de-confidencialidad">
-												<img src="https://documentos-legales.mx/wp-content/themes/econtract/assets/images/Union.svg" alt="Docx-image" />
-											</a>
-										</div>
-									</div>
-									</div>
-								</div>
+							<div class="othr_platform">
+								<a class=" email" href=""><i class="fa-regular fa-envelope"></i>Regístrese con <span
+									class="span1"> Email</span> </a>
 							</div>
 						</div>
 					</div>
-					<div class="doc-btn">
-						<a href="https://documentos-legales.mx/contratos-documentos-legales/" class="cta">Todos los documentos</a>
-					</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</section>
-	<section class="footer_bann_wreap p-130">
-	<div class="container">
-		<div class="row home_banner_cs">
-			<div class="col-md-7">
-				<div class="global_content">
-					<h2>Comienza a crear Documentos Legales Personalizados</h2>
-					<p class="bl_sec">Genera y descarga tus documentos legales en formatos PDF y DOCX (Word) al instante, de manera fácil y rápida.</p>
 
-					<div class="start_new text-center">
-					<a href="https://documentos-legales.mx/contratos-documentos-legales/" class="cta">Comienza ahora</a>
-					</div>
 				</div>
-			</div>
-			<div class="col-md-5 imgsec">
-				<img src="https://documentos-legales.mx/wp-content/uploads/2024/05/doc-icon.svg" alt="Docx-image" height="300" width="600" />
 			</div>
 		</div>
 	</div>
-	</section>
 
-	<section class="categ-sec p-130">
+</section>
+    <!----------------- card_section end ------------------------>
+
+<section class="clientes_slider p_140 light">
 	<div class="container">
-		<h2>Categorías</h2>
-		<div class="categ-wrapper">
-			<div class="categ-wrap">
-				<a href="https://documentos-legales.mx/arrendamiento/">
-					<div class="categ-box">
-					<div class="cat-img">
-						<i class="fa-solid fa-building"></i>
-					</div>
-					<div class="cat-text">
-						<p>Arrendamiento</p>
-					</div>
-					</div>
-				</a>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="clientes_data size20">
+					<h2>Lo que dicen nuestros clientes</h2>
+					<p>Valoramos tu opinión - Así nos califican nuestros clientes.</p>
+				</div>
+				<div class="btn-wrap">
+					<button class="prev-btn"><img src="{{ asset('assets/img/left-arrow.png') }}" alt=""></button>
+					<button class="next-btn"><img src="{{ asset('assets/img/right-arrow.png') }}" alt=""></button>
+				</div>
 			</div>
-			<div class="categ-wrap">
-				<a href="https://documentos-legales.mx/comercio/">
-					<div class="categ-box">
-					<div class="cat-img">
-						<i class="fa-solid fa-briefcase"></i>
+			<div class="col-md-8">
+				<div class="client-slider slick-list">
+					<div class="control_box">
+						<div class="d-flex">
+							<div class="slider-img">
+								<img src="{{ asset('assets/img/slider-icon.png') }}" alt="">
+							</div>
+							<div class="txt_slider">
+								<h6>Jesús Castellanos</h6>
+								<span>México </span>
+							</div>
+						</div>
+						<div class="star_img">
+							<img src="{{ asset('assets/img/star.png') }}" alt="">
+						</div>
+						<p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
+						<span>Hace 7 meses</span>
 					</div>
-					<div class="cat-text">
-						<p>Comercio</p>
+					<div class="control_box">
+						<div class="d-flex">
+							<div class="slider-img">
+								<img src="{{ asset('assets/img/slider-icon1.png') }}" alt="">
+							</div>
+							<div class="txt_slider">
+								<h6>Jesús Castellanos</h6>
+								<span>México </span>
+							</div>
+						</div>
+						<div class="star_img">
+							<img src="{{ asset('assets/img/star.png') }}" alt="">
+						</div>
+						<p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
+						<span>Hace 7 meses</span>
 					</div>
+					<div class="control_box">
+						<div class="d-flex">
+							<div class="slider-img">
+								<img src="{{ asset('assets/img/slider-icon2.png') }}" alt="">
+							</div>
+							<div class="txt_slider">
+								<h6>Sara Cabeza</h6>
+								<span>Ciudad de México </span>
+							</div>
+						</div>
+						<div class="star_img">
+							<img src="{{ asset('assets/img/star.png') }}" alt="">
+						</div>
+						<p>“Rápido fácil y completo” </p>
+						<span>Hace 7 meses</span>
 					</div>
-				</a>
-			</div>
-			<div class="categ-wrap">
-				<a href="https://documentos-legales.mx/compra-venta/">
-					<div class="categ-box">
-					<div class="cat-img">
-						<i class="fa-solid fa-hand-holding-dollar"></i>
+					<div class="control_box">
+						<div class="d-flex">
+							<div class="slider-img">
+								<img src="{{ asset('assets/img/slider-icon1.png') }}" alt="">
+							</div>
+							<div class="txt_slider">
+								<h6>Jesús Castellanos</h6>
+								<span>México </span>
+							</div>
+						</div>
+						<div class="star_img">
+							<img src="{{ asset('assets/img/star.png') }}" alt="">
+						</div>
+						<p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
+						<span>Hace 7 meses</span>
 					</div>
-					<div class="cat-text">
-						<p>Compra-Venta</p>
-					</div>
-					</div>
-				</a>
-			</div>
-			<div class="categ-wrap">
-				<a href="https://documentos-legales.mx/consumo/">
-					<div class="categ-box">
-					<div class="cat-img">
-						<i class="fas fa-sack-dollar"></i>
-					</div>
-					<div class="cat-text">
-						<p>Consumo</p>
-					</div>
-					</div>
-				</a>
-			</div>
-			<div class="categ-wrap">
-				<a href="https://documentos-legales.mx/familia/">
-					<div class="categ-box">
-					<div class="cat-img">
-						<i class="fa-solid fa-users"></i>
-					</div>
-					<div class="cat-text">
-						<p>Familia</p>
-					</div>
-					</div>
-				</a>
+				</div>
 			</div>
 		</div>
 	</div>
-	</section>
-	<section class="slider-sec">
-	<div class="container">
-		<div class="logomax-content">
-			<h2>Lo que dicen Nuestros Clientes</h2>
-			<div class="star-rt-feature maindtpage"></div>
-			<p>Valoramos tu opinión - Así nos califican nuestros clientes.</p>
-		</div>
-		<div class="slider slider-nav-review">
-			<div class="cmt-sec review-slide">
-				<div class="uimage_auth">
-					<span class="usrav">JC</span>
-					<div class="uinfo">
-					<h3>Jesús Castellanos</h3>
-					<p class="mp"><i class="fa-solid fa-location-dot"></i> México</p>
-					</div>
-				</div>
-				<div class="im_str imtext">
-					<div class="star_Av">
-					<div class="cmt_star"><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span></div>
-					<p>
-						Hace 7 meses
-					</p>
-					</div>
-					<p class="comnt_cnt">Un excelente documento, bien estructurado, fácil y práctico de llenar</p>
-				</div>
-			</div>
-			<div class="cmt-sec review-slide">
-				<div class="uimage_auth">
-					<span class="usrav">JZ</span>
-					<div class="uinfo">
-					<h3>JORGE ZENTENO</h3>
-					<p class="mp"><i class="fa-solid fa-location-dot"></i> Zacatecas zacatecas</p>
-					</div>
-				</div>
-				<div class="im_str imtext">
-					<div class="star_Av">
-					<div class="cmt_star"><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span></div>
-					<p>
-						Hace 7 meses
-					</p>
-					</div>
-					<p class="comnt_cnt">Rápido fácil y completo</p>
-				</div>
-			</div>
-			<div class="cmt-sec review-slide">
-				<div class="uimage_auth">
-					<span class="usrav">SC</span>
-					<div class="uinfo">
-					<h3>Sara Cabeza</h3>
-					<p class="mp"><i class="fa-solid fa-location-dot"></i> Ciudad de México</p>
-					</div>
-				</div>
-				<div class="im_str imtext">
-					<div class="star_Av">
-					<div class="cmt_star"><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span><span class="fullstar"></span></div>
-					<p>
-						Hace 8 meses
-					</p>
-					</div>
-					<p class="comnt_cnt">Excelente y económico, muchísimas gracias.</p>
-				</div>
-			</div>
-		</div>
-		<div class="cstm-btn slidersec_btn">
-			<a href="https://documentos-legales.mx/contratos-documentos-legales/" class="cta my-document-button-account"> Crea tu Documento </a>
-		</div>
-	</div>
-	</section>
-</div>
+</section>
 
 @endsection
 

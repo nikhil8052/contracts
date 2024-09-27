@@ -1,61 +1,452 @@
 
-<header class="site-header desktop_header">
-	<div class="container">
-		<div class="header-nav">
+<header>
+	<div class="top_header dark">
+		<div class="container-fluid">
 			<nav class="navbar navbar-expand-lg">
-				<div class="col-md-3 brand-ord">
-					<a class="navbar-brand img-fluid" href="{{ url('/') }} " aria-label="Read more about Seminole tax hike">
-						<img src="https://documentos-legales.mx/wp-content/uploads/2023/08/logo-documentos-legales.svg" alt="header-logo" class="img-fluid" height="75" width="175" />
-					</a>
-				</div>
-
-				<div class="col-md-9 header-nav-menu-cs">
-					<button class="navbar-toggler btn-ord" aria-label="Name" type="button">
-						<div class="bars bar1"></div>
-						<div class="bars bar2"></div>
-						<div class="bars bar3"></div>
-					</button>
-					<div id="navbarNavDropdown" class="collapse navbar-collapse">
-						<ul id="menu-header-menu" class="navbar-nav ml-auto"><li id="menu-item-241" class=""><a href="" class="nav-link">Crear documento</a></li>
-							<li id="menu-item-4317" class=""><a href="{{ url('/') }}" class="nav-link">Documentos legales</a></li>
-							<li id="menu-item-423" class=""><a href="{{ url('/how-it-works') }}" class="nav-link">Así funciona</a></li>
-							<li id="menu-item-2145" class=""><a href="javascript:void(0)" class="nav-link">Preguntas</a></li>
-							<li id="custom-menu-item-200" class=""><a href="javascript:void(0)">|</a></li>
-							@if(!auth()->user())
-							<li class=""><a href="{{url('/login')}}" class="nav-link" aria-label="Read more about Seminole tax hike"><i class="fas fa-user"></i> <strong class="mobile_text">Login</strong></a></li>
-							@else
-								<li class=""><a href="{{url('/logout')}}" class="nav-link" aria-label="Read more about Seminole tax hike"><i class="fas fa-user"></i> <strong class="mobile_text">{{auth()->user()->first_name}}</strong></a></li>
-							@endif
-							<!-- <div class="dropdown">
-								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									@if(auth()->user())
-										{{ auth()->user()->first_name }}
-									@else
-										<i class="fas fa-user"></i> Login
-									@endif
-								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									@if(auth()->user())
-										<a class="dropdown-item" href="{{ url('/logout') }}">
-											<i class="fas fa-sign-out-alt"></i> Logout
-										</a>
-									@else
-										<a class="dropdown-item" href="{{ url('/login') }}">
-											<i class="fas fa-user"></i> Login
-										</a>
-									@endif
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<div class="left_menu">
+						<ul class="menu">
+							<li class="menu-item dropdown dropdown-6">
+								<a href="#">
+									<span class="dropdown_tittle">Negocios y Comercio</span>
+									<span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
+								</a>
+								<div class="dropdown_menu dropdown_menu--animated dropdown_menu-6">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>WEBSITES</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>HOSTING</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>GODADDY PRO</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<ul>
+													<li>
+														<a href=""><img src="{{ asset('assets/img/dropdown-col-img.webp') }}" alt=""></a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
 								</div>
-							</div> -->
+							</li>
+							<li class=" menu-item dropdown dropdown-6">
+								<a href="#">
+									<span class="dropdown_tittle">Vida Personal</span>
+									<span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
+								</a>
+
+								<div class="dropdown_menu dropdown_menu--animated dropdown_menu-6">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>WEBSITES</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>HOSTING
+												</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>GODADDY PRO</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li>
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<ul>
+													<li><a href="">
+														<img src="{{ asset('assets/img/dropdown-col-img.webp') }}" alt=""></a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class=" menu-item dropdown dropdown-6">
+								<a href="#">
+									<span class="dropdown_tittle">Laboral y Cumplimiento</span>
+									<span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
+								</a>
+								<div class="dropdown_menu dropdown_menu--animated dropdown_menu-6">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>WEBSITES</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>HOSTING</h6>
+												<ul>
+													<li>
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>GODADDY PRO</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<ul>
+													<li><a href="">
+														<img src="{{ asset('assets/img/dropdown-col-img.webp') }}" alt=""></a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class=" menu-item dropdown dropdown-6">
+								<a href="#">
+									<span class="dropdown_tittle">Tecnología y Consumo</span>
+									<span class="dropdown_toggle"><i class="fa-solid fa-chevron-down"></i></span>
+								</a>
+								<div class="dropdown_menu dropdown_menu--animated dropdown_menu-6">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>WEBSITES</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>HOSTING
+												</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<h6>GODADDY PRO
+												</h6>
+												<ul>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														1</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														2</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														3</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														4</a>
+													</li>
+													<li> 
+														<a href="#"><i class="fa-solid fa-file-lines"></i>Item
+														5</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="dropdown_content">
+												<ul>
+													<li><a href="">
+														<img src="{{ asset('assets/img/dropdown-col-img.webp') }}" alt=""></a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+
+					<div class="right_menu">
+						<ul>
+							<li>
+								<a href="#">Así funciona </a>
+							</li>
+							<li>
+								<a href="#">Ayuda</a>
+							</li>
 						</ul>
 					</div>
 				</div>
-
-				<div class="col-md-3 mobile_menu_user" style="display: none;">
-					<a class="navbar-brand img-fluid" href="{{ url('/') }}" aria-label="Read more about Seminole tax hike">
-						<i class="mobile_user_icon fas fa-user"></i>
-					</a>
-				</div>
 			</nav>
+		</div>
+	</div>
+	<div class="main_header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="hedaer_logo">
+						<img src="{{ asset('assets/img/logo.png') }}" alt="">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="hedaer_bnt">
+						<a href="" class="cta_dark"><i class="fa-solid fa-file-lines"></i>Crear documento</a>
+						<a href="" class="cta_light">Iniciar sesión</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </header>

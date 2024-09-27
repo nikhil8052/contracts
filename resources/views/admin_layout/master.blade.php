@@ -96,6 +96,9 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/prepare-contract') }}" class="nk-menu-link"><span class="nk-menu-text">Elabora tu Contrato con un Abogado Especializado</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/home-content') }}" class="nk-menu-link"><span class="nk-menu-text">Home</span></a>
+                                        </li>
                                     </ul>
                                 </li> 
                                 <li class="nk-menu-item has-sub">
