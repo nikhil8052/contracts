@@ -416,7 +416,20 @@
 <script>
 	$(document).ready(function(){
 		$('.most_popular_btn').on('click',function(){
-			// console.log($(this).data('id'));
+			var data = {
+				id: $(this).data('id'),
+				_token: "{{ csrf_token() }}"
+			}
+			$.ajax({
+				url: "{{ url('/getCategoryDocument') }}",
+				type: "post",
+				data: data,
+				dataType: "json",
+				success: function(response){
+					console.log(response);
+				}
+			})
+			
 		})
 	})
 </script>

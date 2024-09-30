@@ -70,4 +70,8 @@ class HomeController extends Controller
 
         return view('users.home.home',compact('data','home_category','document_category','documents'));
     }
+
+    public function getDocumentByCategory(Request $request){
+        return $request->all();
+    }
 }

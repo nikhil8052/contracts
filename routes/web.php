@@ -31,6 +31,7 @@ use App\Http\Controllers\Users\ContractController;
 // });
 
 Route::get('/',[HomeController::class,'home']);
+Route::post('/getCategoryDocument',[HomeController::class,'getDocumentByCategory']);
 Route::get('/contact-us',[ContactUsController::class,'index']);
 Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
 Route::get('/register',[AuthController::class,'register']);
