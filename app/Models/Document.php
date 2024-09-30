@@ -22,6 +22,6 @@ class Document extends Model
     }
     public function relatedDocuments()
     {
-        return $this->belongsToMany(Document::class, 'document_related', 'document_id', 'related_document_id');
+        return $this->hasOne(DocumentRelated::class, 'document_id', 'id');
     }
 }

@@ -158,6 +158,17 @@ class DocumentController extends Controller
             $document->related_heading = $request->related_heading;
             $document->related_description = $request->related_description;
 
+            if($request->has('select_related_doc')){
+                $related_doc = $request->select_related_doc;
+                for($i=0; $i<count($request->select_related_doc); $i++){
+                    $related_document_id = $related_doc[$i];
+                    $related_document = new DocumentRelated;
+                    $related_document->document_id = $document->id;
+                    $related_document->related_document_id = $related_document_id;
+                    $related_document->save();
+                }
+            }
+
             if($request->hasFile('legal_doc_image')){
                 $legal_image = $request->file('legal_doc_image');
                 $imagename = time().rand(1,50).'.'.$legal_image->extension();
@@ -192,9 +203,10 @@ class DocumentController extends Controller
     }
 
     public function editDocument($slug){
-        $document = Document::where('slug',$slug)->with('documentFaq','documentGuide','documentField.media')->first();
+        $document = Document::where('slug',$slug)->with('documentFaq','documentGuide','documentField.media','relatedDocuments')->first();
         $categories  = DocumentCategory::all();
         $related_documents = Document::all();
+
         return view('admin.documents.document',compact('categories','document','related_documents'));
     }
 
@@ -342,6 +354,18 @@ class DocumentController extends Controller
 
             $document->related_heading = $request->related_heading;
             $document->related_description = $request->related_description;
+
+            // if($request->has('select_related_doc')){
+            //     $related_doc = $request->select_related_doc;
+            //     for($i=0; $i<count($request->select_related_doc); $i++){
+            //         $related_document_id = $related_doc[$i];
+            //         $related_document = new DocumentRelated;
+            //         $related_document->document_id = $request->id;
+            //         $related_document->related_document_id = $related_document_id;
+            //         $related_document->save();
+            //     }
+            // }
+
             $document->additional_info = $request->additional_info;
             $document->doc_price = $request->doc_price;
             $document->no_of_downloads = $request->no_of_downloads;

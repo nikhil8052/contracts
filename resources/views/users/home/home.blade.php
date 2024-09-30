@@ -1,12 +1,14 @@
 @extends('users_layout.master')
 @section('content')
 
-<section class="banner_sec dark" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
+<?php use Illuminate\Support\Str; ?>
+
+<section class="banner_sec dark" style="background-image: url({{ asset('storage/'.$data['background_image'] ?? '' ) }});">
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-md-7">
 				<div class="banner_content">
-					<h1>Crea Contratos y documentos legales en minutos</h1>
+					<h1>{{ $data['banner_title'] ?? '' }}</h1>
 				</div>
 				<div class="search_bar">
 					<div class="wrap">
@@ -14,7 +16,7 @@
 							<input type="text" class="searchTerm"
 								placeholder="Nombre del documento ej. Contrato de Trabajo">
 							<button type="submit" class="searchButton">
-								Empezar
+								{{ $data['button_name'] ?? '' }}
 							</button>
 						</div>
 					</div>
@@ -22,7 +24,7 @@
 			</div>
 			<div class="col-md-5">
 				<div class="banner_img">
-					<img src="{{ asset('assets/img/col_banner.png') }}" alt="">
+					<img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" alt="">
 				</div>
 			</div>
 		</div>
@@ -34,7 +36,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="heading_sec_tabs">
-				<h2 class="doc_h">Documentos más populares</h2>
+				<h2 class="doc_h">{{ $data['most_popular_title'] ?? '' }}</h2>
 			</div>
 		</div>
 	</div>
@@ -42,168 +44,56 @@
 	<div class="container ">
 		<div class="wrapper">
 			<div class="tab">
-				<div class="btn active">Negocios y Comercio </div>
+			@if(isset($document_category) && $document_category != null)
+			@foreach($document_category as $category)
+				<div class="btn most_popular_btn" data-id="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</div>
+				<!-- <div class="btn active">Negocios y Comercio </div>
 				<div class="btn">Vida Personal</div>
 				<div class="btn">Laboral y Cumplimiento</div>
-				<div class="btn">Tecnología y Consumo</div>
+				<div class="btn">Tecnología y Consumo</div> -->
+			@endforeach
+			@endif
 			</div>
 
 			<div class="tabContentWrap">
 				<!-- tab1 ///////////////////////////////////////////// -->
 				<div class="tabContent show tab_box_sec">
 					<div class="slider">
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Recomendación Personal
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.6</li>
-										</ul>
+						@php 
+							$popular_document_ids = json_decode($data['popular']) ?? '';
+						@endphp
+						@if(isset($documents) && $documents != null)
+						@foreach($documents as $document)
+							@if(isset($popular_document_ids) && $popular_document_ids != null)
+							@if(in_array($document->id,$popular_document_ids))
+							<div class="inside_box_b">
+								<div class="inside_box_tab">
+									<div class="img_tab_sec">
+										<img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
 									</div>
-									<div class="tab_2text light">
-									La Carta de Recomendación Personal es un documento que resalta las
-									cualidades...
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Recomendación Labora
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-									La Carta de Recomendación Laboral es un documento que evidencia el desempeño
-									y las..
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">Crear ahora</a>
+									<div class="cont_tab_ot">
+										<div class="tab_text">
+											<h5 class=" size20">
+												{{ $document->title ?? '' }}
+											</h5>
+											<ul class="tab_ul">
+												<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+												<li>4.6</li>
+											</ul>
+										</div>
+										<div class="tab_2text light">
+										<?php print_r(Str::limit($document->short_description, 70, '...')); ?>
+										</div>
+										<div class="tab_btn">
+										<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Renuncia Voluntaria
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-									La Carta de Renuncia Voluntaria es un documento que formaliza la decisión de
-									un empleado..
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Contrato de Comisión Mercantil
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.9</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-									El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
-									delega a
-									un..
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Contrato de Comisión Mercantil
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.9</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-									El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
-									delega a
-									un..
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Recomendación Labora
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										La Carta de Recomendación Laboral es un documento que evidencia el desempeño
-										y las..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
+							@endif
+							@endif
+						@endforeach
+						@endif
 					</div>
 				</div>
 
@@ -211,135 +101,41 @@
 
 				<div class="tabContent">
 					<div class="slider">
+					@php 
+						$popular_document_ids = json_decode($data['popular']) ?? '';
+					@endphp
+					@if(isset($documents) && $documents != null)
+					@foreach($documents as $document)
+						@if(isset($popular_document_ids) && $popular_document_ids != null)
+						@if(in_array($document->id,$popular_document_ids))
 						<div class="inside_box_b">
 							<div class="inside_box_tab">
 								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+									<img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
 								</div>
 								<div class="cont_tab_ot">
 									<div class="tab_text">
 										<h5 class=" size20">
-											Carta de Recomendación Labora
+											{{ $document->title ?? '' }}
 										</h5>
 										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										La Carta de Recomendación Laboral es un documento que evidencia el desempeño
-										y las..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Recomendación Personal
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
 											<li>4.6</li>
 										</ul>
 									</div>
 									<div class="tab_2text light">
-										La Carta de Recomendación Personal es un documento que resalta las
-										cualidades...
+									<?php print_r(Str::limit($document->short_description, 70, '...')); ?>
 									</div>
 									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
+									<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
 									</div>
 								</div>
 							</div>
 						</div>
-						
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Contrato de Comisión Mercantil
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.9</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
-										delega a
-										un..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Renuncia Voluntaria
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-									La Carta de Renuncia Voluntaria es un documento que formaliza la decisión de
-									un empleado..
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Contrato de Comisión Mercantil
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.9</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-									El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
-									delega a
-									un..
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
+						@endif
+						@endif
+					@endforeach
+					@endif
 					</div>
 				</div>
 
@@ -347,268 +143,82 @@
 
 				<div class="tabContent">
 					<div class="slider">
+					@php 
+						$popular_document_ids = json_decode($data['popular']) ?? '';
+					@endphp
+					@if(isset($documents) && $documents != null)
+					@foreach($documents as $document)
+						@if(isset($popular_document_ids) && $popular_document_ids != null)
+						@if(in_array($document->id,$popular_document_ids))
 						<div class="inside_box_b">
 							<div class="inside_box_tab">
 								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+									<img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
 								</div>
 								<div class="cont_tab_ot">
 									<div class="tab_text">
 										<h5 class=" size20">
-											Carta de Recomendación Personal
+											{{ $document->title ?? '' }}
 										</h5>
 										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
 											<li>4.6</li>
 										</ul>
 									</div>
 									<div class="tab_2text light">
-										La Carta de Recomendación Personal es un documento que resalta las
-										cualidades...
+									<?php print_r(Str::limit($document->short_description, 70, '...')); ?>
 									</div>
 									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
+									<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Recomendación Labora
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										La Carta de Recomendación Laboral es un documento que evidencia el desempeño
-										y las..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Renuncia Voluntaria
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										La Carta de Renuncia Voluntaria es un documento que formaliza la decisión de
-										un empleado..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Contrato de Comisión Mercantil
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.9</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
-										delega a
-										un..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Contrato de Comisión Mercantil
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.9</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
-										delega a
-										un..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
+						@endif
+						@endif
+					@endforeach
+					@endif
 					</div>
 				</div>
 
 					<!-- tab4/////////////////////////////////////////////////////////////// -->
-
 				<div class="tabContent">
 					<div class="slider">
+					@php 
+						$popular_document_ids = json_decode($data['popular']) ?? '';
+					@endphp
+					@if(isset($documents) && $documents != null)
+					@foreach($documents as $document)
+						@if(isset($popular_document_ids) && $popular_document_ids != null)
+						@if(in_array($document->id,$popular_document_ids))
 						<div class="inside_box_b">
 							<div class="inside_box_tab">
 								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
+									<img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
 								</div>
 								<div class="cont_tab_ot">
 									<div class="tab_text">
 										<h5 class=" size20">
-											Carta de Recomendación Labora
+											{{ $document->title ?? '' }}
 										</h5>
 										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										La Carta de Recomendación Laboral es un documento que evidencia el desempeño
-										y las..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Recomendación Personal
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+											<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
 											<li>4.6</li>
 										</ul>
 									</div>
 									<div class="tab_2text light">
-										La Carta de Recomendación Personal es un documento que resalta las
-										cualidades...
+									<?php print_r(Str::limit($document->short_description, 70, '...')); ?>
 									</div>
 									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
+									<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
 									</div>
 								</div>
 							</div>
 						</div>
-						
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Contrato de Comisión Mercantil
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.9</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
-										delega a
-										un..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Carta de Renuncia Voluntaria
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.8</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										La Carta de Renuncia Voluntaria es un documento que formaliza la decisión de
-										un empleado..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											Contrato de Comisión Mercantil
-										</h5>
-										<ul class="tab_ul">
-											<li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.9</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-										El Contrato de Comisión Mercantil es un acuerdo en el que un comitente
-										delega a
-										un..
-									</div>
-									<div class="tab_btn">
-										<a href="" class="cta_org">Crear ahora</a>
-									</div>
-								</div>
-							</div>
-						</div>
+						@endif
+						@endif
+					@endforeach
+					@endif
 					</div>
 				</div>
 			</div>
@@ -625,16 +235,14 @@
 			<div class="row align-items-center">
 				<div class="col-md-6">
 					<div class="Comienza-img">
-						<img src="{{ asset('assets/img/Comienza-img.png') }}" alt="">
+						<img src="{{ asset('storage/'.$data['bottom_banner_image'] ?? '' ) }}" alt="">
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="Comienza-content">
-						<h2>Comienza a crear Documentos Legales Personalizados</h2>
-						<p>Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
-							tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde el
-							siglo XVI, cuando un impresor desconocido tomó una galería de tipos y los mezcló</p>
-						<a href="" class="">Comienza ahora</a>
+						<h2>{{ $data['bottom_heading'] ?? '' }}</h2>
+						<p>{{ $data['bottom_subheading'] ?? '' }}</p>
+						<a href="{{ $data['bottom_button_link'] ?? '' }}" class="">{{ $data['bottom_button_label'] ?? '' }}</a>
 					</div>
 				</div>
 			</div>
@@ -650,83 +258,34 @@
 			<div class="container">
 				<div class="cata_h">
 					<h2>
-						Categorías principales
+						{{ $data['category_title'] ?? '' }}
 					</h2>
 				</div>
 			</div>
 		</div>
 		<div class="container">
 			<div class="row">
+			@if(isset($home_category) && $home_category != null)
+			@foreach($home_category as $category)
 				<div class="col-lg-3">
 					<div class="in_box_cate">
 						<div class="in_img_cate">
-							<img src="{{ asset('assets/img/cata1.png') }}" alt="">
+							<img src="{{ asset('storage/'.$category->homeCategory->media->file_name ?? '' ) }}" alt="">
 						</div>
 						<div class="in_cate_content">
-							<h6>Negocios y Comercio</h6>
+							<h6>{{ $category->homeCategory->heading ?? '' }}</h6>
 							<p class="in_cate_para">
-								Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
-								tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria.
+								{{ $category->homeCategory->category_description ?? '' }}
 							</p>
 
 						</div>
 						<div class="cata_btn">
-							<a href="" class="cta_org">Ver documentos  <img src="{{ asset('assets/img/right_arrow_btn.png') }}" alt=""></a>
+							<a href="" class="cta_org">{{ $data['category_btn_text'] ?? '' }}  <img src="{{ asset('storage/'.$data['category_btn_arrow_img'] ?? '' ) }}" alt=""></a>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3">
-					<div class="in_box_cate">
-						<div class="in_img_cate">
-							<img src="{{ asset('assets/img/cata2.png') }}" alt="">
-						</div>
-						<div class="in_cate_content">
-							<h6>Vida Personal</h6>
-							<p class="in_cate_para">
-								Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
-								tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria.
-							</p>
-						</div>
-						<div class="cata_btn">
-							<a href="" class="cta_org">Ver documentos  <img src="{{ asset('assets/img/right_arrow_btn.png') }}" alt=""></a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3">
-					<div class="in_box_cate">
-						<div class="in_img_cate">
-							<img src="{{ asset('assets/img/cata3.png') }}" alt="">
-						</div>
-						<div class="in_cate_content">
-							<h6>Laboral y Cumplimiento</h6>
-							<p class="in_cate_para">
-								Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
-								tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria.
-							</p>
-						</div>
-						<div class="cata_btn">
-							<a href="" class="cta_org">Ver documentos   <img src="{{ asset('assets/img/right_arrow_btn.png') }}" alt=""></a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3">
-					<div class="in_box_cate">
-						<div class="in_img_cate">
-							<img src="{{ asset('assets/img/cata4.png') }}" alt="">
-						</div>
-						<div class="in_cate_content">
-							<h6>Tecnología y Consumo</h6>
-							<p class="in_cate_para">
-								Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
-								tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria.
-							</p>
-						</div>
-						<div class="cata_btn">
-							<a href="" class="cta_org">Ver documentos  <img src="{{ asset('assets/img/right_arrow_btn.png') }}" alt=""></a>
-						</div>
-					</div>
-				</div>
-			</div>
+			@endforeach
+			@endif
 		</div>
 	</div>
 </section>
@@ -741,7 +300,7 @@
 				<div class="col-lg-12">
 					<div class="card_ot_lyr">
 						<div class="card_h">
-							<h3>Únete y crea tus documentos en minutos</h3>
+							<h3>{{ $data['join_us_text'] ?? '' }}</h3>
 
 						</div>
 						<div class="ot_plat dark">
@@ -774,12 +333,12 @@
 		<div class="row">
 			<div class="col-md-4">
 				<div class="clientes_data size20">
-					<h2>Lo que dicen nuestros clientes</h2>
-					<p>Valoramos tu opinión - Así nos califican nuestros clientes.</p>
+					<h2>{{ $data['reviews_heading'] ?? '' }}</h2>
+					<p>{{ $data['reviews_sub_heading'] ?? '' }}</p>
 				</div>
 				<div class="btn-wrap">
-					<button class="prev-btn"><img src="{{ asset('assets/img/left-arrow.png') }}" alt=""></button>
-					<button class="next-btn"><img src="{{ asset('assets/img/right-arrow.png') }}" alt=""></button>
+					<button class="prev-btn"><img src="{{ asset('storage/'.$data['review_left_arrow'] ?? '' ) }}" alt=""></button>
+					<button class="next-btn"><img src="{{ asset('storage/'.$data['review_right_arrow'] ?? '' ) }}" alt=""></button>
 				</div>
 			</div>
 			<div class="col-md-8">
@@ -853,6 +412,14 @@
 		</div>
 	</div>
 </section>
+
+<script>
+	$(document).ready(function(){
+		$('.most_popular_btn').on('click',function(){
+			// console.log($(this).data('id'));
+		})
+	})
+</script>
 
 @endsection
 

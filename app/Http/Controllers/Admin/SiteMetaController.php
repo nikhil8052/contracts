@@ -16,6 +16,8 @@ use App\Services\FileUploadService;
 use App\Models\Document;
 use App\Models\DocumentCategory;
 use App\Models\HomeContent;
+use App\Models\HomeCategories;
+use App\Models\HomeTemplate;
 use Exception;
 use File;
 
@@ -503,30 +505,254 @@ class SiteMetaController extends Controller
 
         $keys = [
             'title',
+            'background_image',
+            'banner_image',         
             'banner_title',
+            'banner_description',
+            'button_name',
             'most_popular_title',
+            'most_popular_btn_text',
+            'popular',
             'bottom_heading',
             'bottom_subheading',
             'bottom_button_label',
-            'category_title'
+            'bottom_button_link',
+            'bottom_banner_image',
+            'category_title',
+            'category_btn_text',
+            'category_btn_arrow_img',
+            'join_us_text',
+            'reviews_heading',
+            'reviews_sub_heading',
+            'review_left_arrow',
+            'review_right_arrow',
         ];
 
         $results = HomeContent::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
             'title' => $results['title']->value ?? null,
+            'background_image' => $results['background_image']->value ?? null,
+            'banner_image' => $results['banner_image']->value ?? null,
             'banner_title' => $results['banner_title']->value ?? null,
+            'banner_description' => $results['banner_description']->value ?? null,
+            'button_name' => $results['button_name']->value ?? null,
             'most_popular_title' => $results['most_popular_title']->value ?? null,
+            'most_popular_btn_text' => $results['most_popular_btn_text']->value ?? null,
+            'popular' => $results['popular']->value ?? null,
             'bottom_heading' => $results['bottom_heading']->value ?? null,
             'bottom_subheading' => $results['bottom_subheading']->value ?? null,
             'bottom_button_label' => $results['bottom_button_label']->value ?? null,
+            'bottom_button_link' => $results['bottom_button_link']->value ?? null,
+            'bottom_banner_image' => $results['bottom_banner_image']->value ?? null,
             'category_title' => $results['category_title']->value ?? null,
+            'category_btn_text' => $results['category_btn_text']->value ?? null,
+            'category_btn_arrow_img' => $results['category_btn_arrow_img']->value ?? null,
+            'join_us_text' => $results['join_us_text']->value ?? null, 
+            'reviews_heading' => $results['reviews_heading']->value ?? null, 
+            'reviews_sub_heading' => $results['reviews_sub_heading']->value ?? null, 
+            'review_left_arrow' => $results['review_left_arrow']->value ?? null,
+            'review_right_arrow' => $results['review_right_arrow']->value ?? null,
         ];
 
-        return view('admin.site_meta.home.home_content',compact('documents','document_category','data'));
+        $home = HomeContent::where('key','category')->with('homeCategory.media')->get();
+
+        return view('admin.site_meta.home.home_content',compact('documents','document_category','data','home'));
     }
 
     public function addHomeContent(Request $request){
-        return $request->all();
+        try{
+            if($request->hasFile('background_image')){
+                $background_image = $request->file('background_image');
+                $directory = 'public';
+                $filename = time().rand(1,50).'.'.$background_image->extension();
+                $background_image->storeAs($directory, $filename);
+
+                $home_content = HomeContent::where('key','background_image')->first();
+                $home_content->value = $filename;
+                $home_content->update();
+            }
+
+            if($request->hasFile('banner_image')){
+                $banner_image = $request->file('banner_image');
+                $directory = 'public';
+                $filename = time().rand(1,50).'.'.$banner_image->extension();
+                $banner_image->storeAs($directory, $filename);
+
+                $home_content = HomeContent::where('key','banner_image')->first();
+                $home_content->value = $filename;
+                $home_content->update();
+            }
+
+            if($request->has('popular_documents')){
+                $popular_documents = $request->popular_documents;
+
+                $home_content = HomeContent::where('key','popular')->first();
+                if(isset($home_content) && $home_content != null){
+                    $home_content->value = json_encode($popular_documents);
+                    $home_content->update();
+                }else{
+                    $home_content = new HomeContent;
+                    $home_content->key = 'popular';
+                    $home_content->value = json_encode($popular_documents);
+                    $home_content->save();
+                }
+            }
+
+            if($request->hasFile('bottom_banner_img')){
+                $file = $request->file('bottom_banner_img');
+                $directory = 'public';
+                $filename = time().rand(1,50).'.'.$file->extension();
+                $file->storeAs($directory, $filename);
+
+                $home_content = HomeContent::where('key','bottom_banner_image')->first();
+                $home_content->value = $filename;
+                $home_content->update();
+            }
+
+            if($request->hasFile('category_btn_arrow_img')){
+                $file = $request->file('category_btn_arrow_img');
+                $directory = 'public';
+                $filename = time().rand(1,50).'.'.$file->extension();
+                $file->storeAs($directory, $filename);
+
+                $home_content = HomeContent::where('key','category_btn_arrow_img')->first();
+                $home_content->value = $filename;
+                $home_content->update();
+            }
+
+            if($request->has('review_left_arrow')){
+                $file = $request->file('review_left_arrow');
+                $directory = 'public';
+                $filename = time().rand(1,50).'.'.$file->extension();
+                $file->storeAs($directory, $filename);
+
+                $home_content = HomeContent::where('key','review_left_arrow')->first();
+                $home_content->value = $filename;
+                $home_content->update();
+            }
+
+            if($request->has('review_right_arrow')){
+                $file = $request->file('review_right_arrow');
+                $directory = 'public';
+                $filename = time().rand(1,50).'.'.$file->extension();
+                $file->storeAs($directory, $filename);
+
+                $home_content = HomeContent::where('key','review_right_arrow')->first();
+                $home_content->value = $filename;
+                $home_content->update();
+            }
+
+            if($request->hasFile('new_cat_img')){
+                $image = $request->file('new_cat_img');
+                for($i=0; $i<count($image); $i++){
+                    $file = $image[$i];
+
+                    if($request->has('new_cat_heading')){
+                        $cat_heading = $request->new_cat_heading[$i];
+                    }
+
+                    if($request->has('new_category')){
+                        $category = $request->new_category[$i];
+                    }
+
+                    if($request->has('new_category_description')){
+                        $category_description = $request->new_category_description[$i];
+                    }
+
+                    $fileupload = $this->fileUploadService->upload($file, 'public');           
+                    $fileuploadData = $fileupload->getData();
+
+                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                        $home_category = new HomeCategories;
+                        $home_category->media_id = $fileuploadData->id;
+                        $home_category->heading = $cat_heading;
+                        $home_category->category_id = $category;
+                        $home_category->category_description = $category_description;
+                        $home_category->save();
+
+                        $home_content = new HomeContent;
+                        $home_content->key = 'category';
+                        $home_content->home_category_id = $home_category->id;
+                        $home_content->save();
+                        
+                    }elseif($fileuploadData->status == '400') {
+                        return redirect()->back()->with('error', $fileuploadData->error);
+                    }
+                }
+            }
+
+            if($request->has('cat_heading')){
+                foreach($request->cat_heading as $key=>$val){
+                    $home_category = HomeCategories::find($key);
+                    $home_category->heading = $val;
+                    $home_category->update();
+                }
+
+                foreach($request->category as $id=>$vl){
+                    $home_category = HomeCategories::find($id);
+                    $home_category->category_id = $vl;
+                    $home_category->update();
+                }
+
+                foreach($request->category_description as $index=>$value){
+                    $home_category = HomeCategories::find($index);
+                    $home_category->category_description = $value;
+                    $home_category->update();
+                }
+            }
+
+            $fields = [
+                'title' => 'title',      
+                'banner_title' => 'banner_title',
+                'button_name' => 'button_name',
+                'banner_description' => 'banner_description',
+                'bottom_button_link' => 'bottom_button_link',
+                'most_popular_title' => 'main_title',
+                'most_popular_btn_text' => 'most_popular_btn_text',
+                'bottom_heading' => 'bottom_heading',
+                'bottom_subheading' => 'bottom_sub_heading',
+                'bottom_button_label' => 'bottom_button_label',
+                'bottom_button_link' => 'bottom_button_link',
+                'category_title' => 'category_main_title',
+                'category_btn_text' => 'category_btn_text',
+                'join_us_text' => 'join_us_text',
+                'reviews_heading' => 'reviews_heading',
+                'reviews_sub_heading' => 'reviews_sub_heading',
+            ];
+
+
+            foreach($fields as $key=>$input){
+                if($request->has($input)) {
+                    $home_content = HomeContent::where('key', $key)->first();
+                    if($home_content){
+                        $home_content->value = $request->$input;
+                        $home_content->update();
+                    }
+                }
+            }
+
+            if($request->category_sec != null){
+                $deleteIds = explode(',', $request->category_sec);
+                foreach($deleteIds as $id){
+                    $home_category = HomeCategories::where('id',$id)->with('media')->first();
+                    if($home_category->media){
+                        $image_path = storage_path('/app/'.$home_category->media->file_path);
+                        if (File::exists($image_path)) {
+                            unlink($image_path);
+                        }
+                        $home_category->delete();
+                    }
+                    HomeContent::where('home_category_id', $id)->delete();
+                    Media::where('id',$home_category->media_id)->delete();
+                }
+            }
+
+            return redirect()->back()->with('success', 'Data successfully saved.');
+
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
     }
    
 }

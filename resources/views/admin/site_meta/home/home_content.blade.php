@@ -5,6 +5,8 @@
      <div class="container-fluid">
           <form action="{{ url('admin-dashboard/add/home-content') }}" method="post" enctype="multipart/form-data">
                @csrf
+               <input type="hidden" id="category_sec" name="category_sec" value="">
+               <input type="hidden" id="template_sec" name="template_sec" value="">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="col-md-8 pb-2">
@@ -24,6 +26,9 @@
                                              <label class="form-label" for="background_image">Background Image</label>
                                              <input type="file" class="form-control" id="background_image" name="background_image" value="">
                                         </div>
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="160px">
+                                        </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
@@ -34,7 +39,7 @@
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="banner_description">Banner Description</label>
-                                             <input type="text" class="form-control" id="banner_description" name="banner_description" value="">
+                                             <input type="text" class="form-control" id="banner_description" name="banner_description" value="{{ $data['banner_description'] ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
@@ -42,10 +47,19 @@
                                              <label class="form-label" for="banner_image">Banner Image</label>
                                              <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
                                         </div>
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" height="140px" width="160px">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="button_name">Button Name</label>
+                                             <input type="text" class="form-control" id="button_name" name="button_name" value="{{ $data['button_name'] ?? '' }}">
+                                        </div>
                                    </div>
                               </div>
                          </div>
-                         <hr>
+                         <!-- <hr>
                          <h5>Template Section</h5>  
                          <hr>
                          <div class="card card-bordered card-preview">
@@ -62,7 +76,7 @@
                                    </div>
                                    <div id="temp_sec"></div>
                               </div>
-                         </div>
+                         </div> -->
                          <hr>
                          <h6>Most popular Documents</h6>  
                          <div class="card card-bordered card-preview">
@@ -78,28 +92,32 @@
                                              <label class="form-label" for="popular_documents">Popular Documents</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2" multiple="multiple" name="popular_documents[]" id="popular_documents">
-                                                       <option value="">Select</option>
                                                   @if(isset($documents) && $documents != null)
                                                   @foreach($documents as $document)
+                                                       @if(isset($data['popular']) && $data['popular'] != null) 
+                                                       <?php 
+                                                            $documentsId = json_decode($data['popular']);
+                                                       ?>
+                                                            @if(in_array($document->id,$documentsId))
+                                                            <option value="{{ $document->id ?? '' }}" selected>{{ $document->title ?? '' }}</option>
+                                                            @else
+                                                            <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                            @endif
+                                                       @else
                                                        <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                       @endif
                                                   @endforeach
                                                   @endif
                                                   </select>
                                              </div>
                                         </div>
                                    </div>
-                                   <!-- <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="button_name">Button Name</label>
-                                             <input type="text" class="form-control" id="button_name" name="button_name" value="">
-                                        </div>
-                                   </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
-                                             <label class="form-label" for="button_url">Button Url</label>
-                                             <input type="text" class="form-control" id="button_url" name="button_url" value="">
+                                             <label class="form-label" for="most_popular_btn_text">Button Text</label>
+                                             <input type="text" class="form-control" id="most_popular_btn_text" name="most_popular_btn_text" value="{{ $data['most_popular_btn_text'] ?? '' }}">
                                         </div>
-                                   </div> -->
+                                   </div>
                               </div>
                          </div>
                          <hr>
@@ -127,13 +145,16 @@
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="bottom_button_link">Button Link</label>
-                                             <input type="text" class="form-control" id="bottom_button_link" name="bottom_button_link" value="">
+                                             <input type="text" class="form-control" id="bottom_button_link" name="bottom_button_link" value="{{ $data['bottom_button_link'] ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="bottom_banner_img">Banner Image</label>
                                              <input type="file" class="form-control" id="bottom_banner_img" name="bottom_banner_img" value="">
+                                        </div>
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$data['bottom_banner_image'] ?? '' ) }}" height="140px" width="160px">
                                         </div>
                                    </div>
                               </div>
@@ -153,12 +174,123 @@
                                              <label class="form-label" for="">Categories</label>
                                         </div>
                                    </div>
-                                   <div class="col-md-6 offset-md-6">
+                                   @if(isset($home) && $home != null)
+                                   @foreach($home as $index=>$value)
+                                   <div class="category-sec{{ $value->homeCategory->id ?? '' }}">
+                                        <hr>
+                                        <div class="col-md-4 offset-md-8">
+                                             <div class="form-group">
+                                                  <div>
+                                                  <span class="remove_category" data-id="{{ $value->homeCategory->id ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <div class="row gy-5">
+                                             <div class="col-md-2">
+                                                  <div class="form-group">
+                                                       <div class="form-group">
+                                                            <img src="{{ asset('storage/'.$value->homeCategory->media->file_name ?? '' ) }}">
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-2">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="cat_heading">Heading</label>
+                                                       <input type="text" class="form-control" id="cat_heading" name="cat_heading[{{ $value->homeCategory->id ?? '' }}]" value="{{ $value->homeCategory->heading ?? '' }}">
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-2">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="category">Category</label>
+                                                       <div class="form-control-wrap"> 
+                                                            <select class="form-select js-select2" name="category[{{ $value->homeCategory->id ?? '' }}]" id="category">
+                                                                 @if(isset($document_category) && $document_category != null)
+                                                                 @foreach($document_category as $catg)
+                                                                      @if(isset($value->homeCategory->category_id) && $value->homeCategory->category_id != null)
+                                                                           @if($value->homeCategory->category_id == $catg->id)
+                                                                           <option value="{{ $catg->id ?? '' }}" selected>{{ $catg->name ?? '' }}</option>
+                                                                           @else
+                                                                           <option value="{{ $catg->id ?? '' }}">{{ $catg->name ?? '' }}</option>
+                                                                           @endif
+                                                                      @else
+                                                                      <option value="{{ $catg->id ?? '' }}">{{ $catg->name ?? '' }}</option>
+                                                                      @endif
+                                                                 @endforeach
+                                                                 @endif
+                                                            </select>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-2">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="category_description">Description</label>
+                                                       <textarea class="form-control" id="category_description" name="category_description[{{ $value->homeCategory->id ?? '' }}]">{{ $value->homeCategory->category_description ?? '' }}</textarea>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   @endforeach
+                                   @endif
+                                   <br>
+                                   <div class="col-md-4 offset-md-8">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" id="add_catgory">Add Row</button>
                                         </div>
                                    </div>
                                    <div id="catg_sec"></div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="category_btn_text">Button Text</label>
+                                             <input type="text" class="form-control" id="category_btn_text" name="category_btn_text" value="{{ $data['category_btn_text'] ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="category_btn_arrow_img">Button Image</label>
+                                             <input type="file" class="form-control" id="category_btn_arrow_img" name="category_btn_arrow_img">
+                                        </div>
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$data['category_btn_arrow_img'] ?? '' ) }}" height="40px" width="60px">
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         <hr>
+                         <div class="card card-bordered card-preview">
+                              <div class="card-inner">
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="join_us_text">Join Us Text</label>
+                                             <input type="text" class="form-control" id="join_us_text" name="join_us_text" value="{{ $data['join_us_text'] ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="reviews_heading">Reviews Heading</label>
+                                             <input type="text" class="form-control" id="reviews_heading" name="reviews_heading" value="{{ $data['reviews_heading'] ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="review_left_arrow">Left button image</label>
+                                             <input type="file" class="form-control" id="review_left_arrow" name="review_left_arrow">
+                                        </div>
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$data['review_left_arrow'] ?? '' ) }}">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="review_right_arrow">Right button image</label>
+                                             <input type="file" class="form-control" id="review_right_arrow" name="review_right_arrow">
+                                        </div>
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$data['review_right_arrow'] ?? '' ) }}">
+                                        </div>
+                                   </div>
                               </div>
                          </div>
                     </div>
@@ -219,14 +351,14 @@
                     return false;
                }
 
-               let deleteIds = $('#remove_ids').val();
+               let deleteIds = $('#template_sec').val();
                
                if(deleteIds) {
                     deleteIds += ',' + id;
                }else{
                     deleteIds = id;
                }
-               $('#remove_ids').val(deleteIds);
+               $('#template_sec').val(deleteIds);
 
                $('.append-sec'+id).hide();
           });
@@ -256,21 +388,21 @@
                          <div class="row gy-5">
                               <div class="col-md-2">
                                    <div class="form-group">
-                                   <label class="form-label" for="cat_img">Image</label>
-                                   <input type="file" class="form-control" id="cat_img" name="cat_img[]">
+                                   <label class="form-label" for="new_cat_img">Image</label>
+                                   <input type="file" class="form-control" id="new_cat_img" name="new_cat_img[]">
                                    </div>
                               </div>
                               <div class="col-md-2">
                                    <div class="form-group">
-                                   <label class="form-label" for="cat_heading">Heading</label>
-                                   <input type="text" class="form-control" id="cat_heading" name="cat_heading[]" value="">
+                                   <label class="form-label" for="new_cat_heading">Heading</label>
+                                   <input type="text" class="form-control" id="new_cat_heading" name="new_cat_heading[]" value="">
                                    </div>
                               </div>
                               <div class="col-md-2">
                                    <div class="form-group">
-                                   <label class="form-label" for="category">Category</label>
+                                   <label class="form-label" for="new_category">Category</label>
                                    <div class="form-control-wrap"> 
-                                        <select class="form-select js-select2" name="category" id="category">
+                                        <select class="form-select js-select2" name="new_category[]" id="new_category">
                                              <option value="" selected disabled>Select</option>
                                              ${category_options_html}
                                         </select>
@@ -279,8 +411,8 @@
                               </div>
                               <div class="col-md-2">
                                    <div class="form-group">
-                                   <label class="form-label" for="cat_icon">Category Icon</label>
-                                   <input type="text" class="form-control" id="cat_icon" name="cat_icon[]" value="">
+                                   <label class="form-label" for="new_category_description">Description</label>
+                                   <textarea class="form-control" id="new_category_description" name="new_category_description[]"></textarea>
                                    </div>
                               </div>
                          </div>
@@ -289,21 +421,21 @@
                $('#catg_sec').append(html);
           });
 
-          $('body').delegate('.remove_category', 'click', function () {
+          $('body').delegate('.remove_category', 'click', function(){
                var id = $(this).data('id');
                if($(this).attr('value') === 'appended'){
                     $(this).closest('.category-sec').remove();
                     return false;
                }
 
-               let deleteIds = $('#remove_ids').val();
+               let deleteIds = $('#category_sec').val();
                
                if(deleteIds) {
                     deleteIds += ',' + id;
                }else{
                     deleteIds = id;
                }
-               $('#remove_ids').val(deleteIds);
+               $('#category_sec').val(deleteIds);
 
                $('.category-sec'+id).hide();
           });

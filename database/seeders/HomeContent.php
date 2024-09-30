@@ -35,16 +35,16 @@ class HomeContent extends Seeder
                 'value' => null,
             ],
             [
+                'key' => 'button_name',
+                'value' => 'Empezar',
+            ],
+            [
                 'key' => 'most_popular_title',
                 'value' => 'Documentos más populares',
             ],
             [
-                'key' => 'most_popular_button_name',
-                'value' => null,
-            ],
-            [
-                'key' => 'most_popular_button_link',
-                'value' => null,
+                'key' => 'most_popular_btn_text',
+                'value' => 'Crear ahora',
             ],
             [
                 'key' => 'bottom_heading',
@@ -69,7 +69,35 @@ class HomeContent extends Seeder
             [
                 'key' => 'category_title',
                 'value' => 'Categorías principales',
-            ]
+            ],
+            [
+                'key' => 'category_btn_text',
+                'value' => 'Ver documentos',
+            ],
+            [
+                'key' => 'category_btn_arrow_img',
+                'value' => null,
+            ],
+            [
+                'key' => 'join_us_text',
+                'value' => 'Únete y crea tus documentos en minutos',
+            ],
+            [
+                'key' => 'reviews_heading',
+                'value' => 'Lo que dicen nuestros clientes',
+            ],
+            [
+                'key' => 'reviews_sub_heading',
+                'value' => 'Valoramos tu opinión - Así nos califican nuestros clientes.',
+            ],
+            [
+                'key' => 'review_left_arrow',
+                'value' => null,
+            ],
+            [
+                'key' => 'review_right_arrow',
+                'value' => null,
+            ],
         ]);
         
     }

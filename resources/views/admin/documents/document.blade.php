@@ -248,6 +248,7 @@
                                         <div class="form-control-wrap"> 
                                              <select class="form-select js-select2" multiple="multiple" name="category_id[]" id="category_id">
                                                   <option value="">Select a category</option>
+                                                  @if(isset($categories) && $categories != null)
                                                   @foreach($categories as $category)
                                                        @if(isset($document->category_id) && $document->category_id != null)
                                                             <?php $categoryIDs = json_decode($document->category_id);?>
@@ -260,6 +261,7 @@
                                                        <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
                                                        @endif
                                                   @endforeach
+                                                  @endif
                                              </select>
                                         </div>
                                    </div>
@@ -338,7 +340,15 @@
                                                        <option value="">Select</option>
                                                        @if(isset($related_documents) && $related_documents != null)
                                                        @foreach($related_documents as $related)
-                                                            <option value="{{ $related->id ?? '' }}">{{ $related->title ?? '' }}</option>
+                                                            @if(isset($document->relatedDocuments) && $document->relatedDocuments)
+                                                                 @if($document->relatedDocuments->related_document_id == $related->id)
+                                                                      <option value="{{ $related->id ?? '' }}" selected>{{ $related->title ?? '' }}</option>
+                                                                 @else
+                                                                      <option value="{{ $related->id ?? '' }}">{{ $related->title ?? '' }}</option>
+                                                                 @endif
+                                                            @else
+                                                                 <option value="{{ $related->id ?? '' }}">{{ $related->title ?? '' }}</option>
+                                                            @endif
                                                        @endforeach
                                                        @endif
                                                   </select>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('media_id')->nullable();
             $table->text('heading')->nullable();
             $table->string('category_id')->nullable();
-            $table->text('category_icon')->nullable();
+            $table->longtext('category_description')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
