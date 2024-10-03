@@ -8,6 +8,7 @@ use App\Models\HomeContent;
 use App\Models\HomeCategories;
 use App\Models\Document;
 use App\Models\DocumentCategory;
+use App\Models\Review;
 
 class HomeController extends Controller
 {
@@ -67,11 +68,8 @@ class HomeController extends Controller
         $home_category = HomeContent::where('key','category')->with('homeCategory.media')->get();
         $document_category = DocumentCategory::limit(4)->get();
         $documents = Document::all();
+        $reviews = Review::with('media')->get();
 
-        return view('users.home.home',compact('data','home_category','document_category','documents'));
-    }
-
-    public function getDocumentByCategory(Request $request){
-        return $request->all();
+        return view('users.home.home',compact('data','home_category','document_category','documents','reviews'));
     }
 }

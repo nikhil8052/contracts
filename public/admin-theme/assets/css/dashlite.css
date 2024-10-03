@@ -41503,4 +41503,13 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
   border-color: #6576ff !important;
 }
 
+.full-stars-example-two .ratings label i{
+  color:#cecece;
+  font-size:32px;
+}
+
+.rating-color{
+  color:#fbc634 !important;
+}
+
 /*! END @iO */

@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Exception;
 use App\Services\FileUploadService;
 use Illuminate\Support\Facades\DB;
+use App\Models\Review;
 
 class DocumentController extends Controller
 {
@@ -355,16 +356,16 @@ class DocumentController extends Controller
             $document->related_heading = $request->related_heading;
             $document->related_description = $request->related_description;
 
-            // if($request->has('select_related_doc')){
-            //     $related_doc = $request->select_related_doc;
-            //     for($i=0; $i<count($request->select_related_doc); $i++){
-            //         $related_document_id = $related_doc[$i];
-            //         $related_document = new DocumentRelated;
-            //         $related_document->document_id = $request->id;
-            //         $related_document->related_document_id = $related_document_id;
-            //         $related_document->save();
-            //     }
-            // }
+            if($request->has('select_related_doc')){
+                $related_doc = $request->select_related_doc;
+                for($i=0; $i<count($request->select_related_doc); $i++){
+                    $related_document_id = $related_doc[$i];
+                    $related_document = new DocumentRelated;
+                    $related_document->document_id = $request->id;
+                    $related_document->related_document_id = $related_document_id;
+                    $related_document->save();
+                }
+            }
 
             $document->additional_info = $request->additional_info;
             $document->doc_price = $request->doc_price;
@@ -443,5 +444,39 @@ class DocumentController extends Controller
         return view('admin.documents.add_document_category',compact('category','parent_category'));
     }
 
+    public function reviews(){
+        $documents = Document::all();
+        return view('admin.reviews.review',compact('documents'));
+    }
 
+    public function addReview(Request $request){
+        try{
+            $review = new Review;
+            if($request->hasFile('profile')){
+                $file = $request->profile;
+                $fileupload = $this->fileUploadService->upload($file, 'app/public');
+                $fileuploadData = $fileupload->getData();
+
+                if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                    $review->media_id = $fileuploadData->id;
+                }elseif($fileuploadData->status == '400') {
+                    return redirect()->back()->with('error', $fileuploadData->error);
+                }
+            }
+
+            $review->document_id = $request->document;
+            $review->rating = $request->rating;
+            $review->first_name = $request->first_name;
+            $review->last_name = $request->last_name;
+            $review->city = $request->city_name;
+            $review->date = $request->date;
+            $review->description = $request->description;
+            $review->save();
+
+            return redirect()->back()->with('success', 'Review added.');
+        }catch(Exception $e){
+            saveLog("Error:", "DocumentController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
 }

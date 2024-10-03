@@ -45,73 +45,34 @@
 		<div class="wrapper">
 			<div class="tab">
 			@if(isset($document_category) && $document_category != null)
-			@foreach($document_category as $category)
-				<div class="btn most_popular_btn" data-id="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</div>
-				<!-- <div class="btn active">Negocios y Comercio </div>
-				<div class="btn">Vida Personal</div>
-				<div class="btn">Laboral y Cumplimiento</div>
-				<div class="btn">Tecnología y Consumo</div> -->
-			@endforeach
+				@foreach($document_category as $category)
+					<div class="btn {{ $loop->first ? 'tab_btn1 active' : 'tab_btn' . $loop->iteration }}" 
+						data-id="{{ $category->id ?? '' }}">
+						{{ $category->name ?? '' }}
+					</div>
+				@endforeach
 			@endif
 			</div>
 
 			<div class="tabContentWrap">
-				<!-- tab1 ///////////////////////////////////////////// -->
-				<div class="tabContent show tab_box_sec">
-					<div class="slider">
-						@php 
-							$popular_document_ids = json_decode($data['popular']) ?? '';
-						@endphp
-						@if(isset($documents) && $documents != null)
-						@foreach($documents as $document)
-							@if(isset($popular_document_ids) && $popular_document_ids != null)
-							@if(in_array($document->id,$popular_document_ids))
-							<div class="inside_box_b">
-								<div class="inside_box_tab">
-									<div class="img_tab_sec">
-										<img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
-									</div>
-									<div class="cont_tab_ot">
-										<div class="tab_text">
-											<h5 class=" size20">
-												{{ $document->title ?? '' }}
-											</h5>
-											<ul class="tab_ul">
-												<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-												<li>4.6</li>
-											</ul>
-										</div>
-										<div class="tab_2text light">
-										<?php print_r(Str::limit($document->short_description, 70, '...')); ?>
-										</div>
-										<div class="tab_btn">
-										<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							@endif
-							@endif
-						@endforeach
-						@endif
-					</div>
-				</div>
-
-				<!-- tab2//////////////////////////////////////////////////////////////////// -->
-
-				<div class="tabContent">
+			@if(isset($document_category) && $document_category != null)
+				@foreach($document_category as $catg)
+				<div class="tabContent tab_box_sec {{ $loop->first ? 'show' : 'tab_btn'.$loop->iteration }}">
 					<div class="slider">
 					@php 
 						$popular_document_ids = json_decode($data['popular']) ?? '';
 					@endphp
-					@if(isset($documents) && $documents != null)
-					@foreach($documents as $document)
-						@if(isset($popular_document_ids) && $popular_document_ids != null)
-						@if(in_array($document->id,$popular_document_ids))
+					@if(isset($popular_document_ids) && $popular_document_ids != null)
+					@foreach($popular_document_ids as $document)
+						<?php 
+							$documents = App\Models\Document::find($document);
+							$category = json_decode($documents->category_id);
+						?>
+						@if(in_array($catg->id,$category))
 						<div class="inside_box_b">
 							<div class="inside_box_tab">
 								<div class="img_tab_sec">
-									<img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
+									<img src="{{ asset('storage/'.$documents->document_image ?? '' ) }}" alt="">
 								</div>
 								<div class="cont_tab_ot">
 									<div class="tab_text">
@@ -124,7 +85,7 @@
 										</ul>
 									</div>
 									<div class="tab_2text light">
-									<?php print_r(Str::limit($document->short_description, 70, '...')); ?>
+									<?php print_r(Str::limit($documents->short_description, 70, '...')); ?>
 									</div>
 									<div class="tab_btn">
 									<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
@@ -133,96 +94,13 @@
 							</div>
 						</div>
 						@endif
-						@endif
 					@endforeach
 					@endif
 					</div>
 				</div>
-
-					<!-- tab3/////////////////////////////////////////////////////////////// -->
-
-				<div class="tabContent">
-					<div class="slider">
-					@php 
-						$popular_document_ids = json_decode($data['popular']) ?? '';
-					@endphp
-					@if(isset($documents) && $documents != null)
-					@foreach($documents as $document)
-						@if(isset($popular_document_ids) && $popular_document_ids != null)
-						@if(in_array($document->id,$popular_document_ids))
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											{{ $document->title ?? '' }}
-										</h5>
-										<ul class="tab_ul">
-											<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.6</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-									<?php print_r(Str::limit($document->short_description, 70, '...')); ?>
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endif
-						@endif
-					@endforeach
-					@endif
-					</div>
-				</div>
-
-					<!-- tab4/////////////////////////////////////////////////////////////// -->
-				<div class="tabContent">
-					<div class="slider">
-					@php 
-						$popular_document_ids = json_decode($data['popular']) ?? '';
-					@endphp
-					@if(isset($documents) && $documents != null)
-					@foreach($documents as $document)
-						@if(isset($popular_document_ids) && $popular_document_ids != null)
-						@if(in_array($document->id,$popular_document_ids))
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											{{ $document->title ?? '' }}
-										</h5>
-										<ul class="tab_ul">
-											<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.6</li>
-										</ul>
-									</div>
-									<div class="tab_2text light">
-									<?php print_r(Str::limit($document->short_description, 70, '...')); ?>
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endif
-						@endif
-					@endforeach
-					@endif
-					</div>
-				</div>
+				@endforeach
+			@endif
 			</div>
-
 		</div>
 	</div>
 </section>
@@ -343,96 +221,32 @@
 			</div>
 			<div class="col-md-8">
 				<div class="client-slider slick-list">
+				@if(isset($reviews) && $reviews != null)
+				@foreach($reviews as $review)
 					<div class="control_box">
 						<div class="d-flex">
 							<div class="slider-img">
-								<img src="{{ asset('assets/img/slider-icon.png') }}" alt="">
+								<img src="{{ asset('storage/'.$review->media->file_name ?? '' ) }}" alt="">
 							</div>
 							<div class="txt_slider">
-								<h6>Jesús Castellanos</h6>
-								<span>México </span>
+								<h6>{{ $review->first_name ?? '' }} {{ $review->last_name ?? '' }}</h6>
+								<span>{{ $review->city ?? '' }}</span>
 							</div>
 						</div>
 						<div class="star_img">
 							<img src="{{ asset('assets/img/star.png') }}" alt="">
 						</div>
-						<p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-						<span>Hace 7 meses</span>
+						<p>“{{ $review->description ?? '' }}”</p>
+						<span>{{ $review->date ?? '' }}</span>
 					</div>
-					<div class="control_box">
-						<div class="d-flex">
-							<div class="slider-img">
-								<img src="{{ asset('assets/img/slider-icon1.png') }}" alt="">
-							</div>
-							<div class="txt_slider">
-								<h6>Jesús Castellanos</h6>
-								<span>México </span>
-							</div>
-						</div>
-						<div class="star_img">
-							<img src="{{ asset('assets/img/star.png') }}" alt="">
-						</div>
-						<p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-						<span>Hace 7 meses</span>
-					</div>
-					<div class="control_box">
-						<div class="d-flex">
-							<div class="slider-img">
-								<img src="{{ asset('assets/img/slider-icon2.png') }}" alt="">
-							</div>
-							<div class="txt_slider">
-								<h6>Sara Cabeza</h6>
-								<span>Ciudad de México </span>
-							</div>
-						</div>
-						<div class="star_img">
-							<img src="{{ asset('assets/img/star.png') }}" alt="">
-						</div>
-						<p>“Rápido fácil y completo” </p>
-						<span>Hace 7 meses</span>
-					</div>
-					<div class="control_box">
-						<div class="d-flex">
-							<div class="slider-img">
-								<img src="{{ asset('assets/img/slider-icon1.png') }}" alt="">
-							</div>
-							<div class="txt_slider">
-								<h6>Jesús Castellanos</h6>
-								<span>México </span>
-							</div>
-						</div>
-						<div class="star_img">
-							<img src="{{ asset('assets/img/star.png') }}" alt="">
-						</div>
-						<p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-						<span>Hace 7 meses</span>
-					</div>
+				@endforeach
+				@endif
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
 
-<script>
-	$(document).ready(function(){
-		$('.most_popular_btn').on('click',function(){
-			var data = {
-				id: $(this).data('id'),
-				_token: "{{ csrf_token() }}"
-			}
-			$.ajax({
-				url: "{{ url('/getCategoryDocument') }}",
-				type: "post",
-				data: data,
-				dataType: "json",
-				success: function(response){
-					console.log(response);
-				}
-			})
-			
-		})
-	})
-</script>
 
 @endsection
 

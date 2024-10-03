@@ -31,7 +31,6 @@ use App\Http\Controllers\Users\ContractController;
 // });
 
 Route::get('/',[HomeController::class,'home']);
-Route::post('/getCategoryDocument',[HomeController::class,'getDocumentByCategory']);
 Route::get('/contact-us',[ContactUsController::class,'index']);
 Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
 Route::get('/register',[AuthController::class,'register']);
@@ -72,6 +71,8 @@ Route::group(['middleware' =>['auth']],function(){
      Route::get('/admin-dashboard/all/documents',[DocumentController::class,'allDocuments']);
      Route::get('/admin-dashboard/edit-document/{slug}',[DocumentController::class,'editDocument']);
      Route::post('/admin-dashboard/update-document',[DocumentController::class,'updateDocument']);
+     Route::get('/admin-dashboard/reviews',[DocumentController::class,'reviews']);
+     Route::post('/admin-dashboard/add-review',[DocumentController::class,'addReview']);
      
      Route::get('/admin-dashboard/add-document-category',[DocumentController::class,'addDocumentCategory'])->name('add.category');
      Route::post('/admin-dashboard/category-process',[DocumentController::class,'CategoryProcess'])->name('category.process');
