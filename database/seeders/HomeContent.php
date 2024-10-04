@@ -71,10 +71,6 @@ class HomeContent extends Seeder
                 'value' => 'Categorías principales',
             ],
             [
-                'key' => 'category_btn_text',
-                'value' => 'Ver documentos',
-            ],
-            [
                 'key' => 'category_btn_arrow_img',
                 'value' => null,
             ],

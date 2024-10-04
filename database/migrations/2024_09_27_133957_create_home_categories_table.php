@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('heading')->nullable();
             $table->string('category_id')->nullable();
             $table->longtext('category_description')->nullable();
+            $table->string('btn_text')->nullable();
+            $table->text('btn_link')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

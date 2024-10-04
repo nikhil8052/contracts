@@ -41512,4 +41512,13 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
   color:#fbc634 !important;
 }
 
+
+ .separate-fields {
+   background-color: #708090;
+   padding: 10px;
+   margin-bottom: 20px;
+   color: #101820;
+}
+
+
 /*! END @iO */

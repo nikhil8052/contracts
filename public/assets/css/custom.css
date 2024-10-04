@@ -393,3 +393,215 @@ footer .select-menu {
     color: #002655 !important;
 
 }
+
+/* ======== remove following css in style.css ========= */
+
+/* ********(banner_sec)*********** */
+.banner_sec.dark.inner-banner.fun-banner h1 {
+    max-width: 429px;
+    margin: auto
+}
+
+
+
+
+
+
+
+
+/* ********(acerca_sec)*********** */
+
+.acerca_sec .row .acerca-txt h2.b-dark {
+    max-width: 624px;
+    margin-bottom: 15px;
+}
+
+
+/* ======== REPLACE vision_sec's CSS WITH THE PREVIOUS ONE PRESENT IN STYLE.CSS ========= */
+
+/* ********(27/9/24)*********** */
+
+/* ********(vision_sec)*********** */
+
+.vision_sec .row.sec-row {
+    padding-inline: 50px;
+    text-align: center;
+    border-radius: 25px;
+}
+
+.vision_sec .row.sec-row .hv-brdr {
+    border-right: 1px solid #FFFFFF26
+}
+
+.vision_sec .row.sec-row .hv-brdr .vision {
+    padding-inline-end: 50px;
+}
+
+.vision_sec .row.sec-row .vision {
+    padding-inline-start: 50px;
+}
+
+.vision_sec .row.sec-row .vision .vision-img {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.vision_sec .row.sec-row .vision .vision-txt h3 {
+    padding-top: 14px;
+}
+
+
+/* ********( v-ofr_sec)*********** */
+
+.acerca_sec.v-ofr_sec .acerca-txt ul.ofrs li span {
+    color: #010101;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: left;
+}
+
+.acerca_sec.v-ofr_sec .acerca-txt p.size18 {
+    max-width: 683px;
+
+}
+
+.acerca_sec.v-ofr_sec .acerca-txt ul.ofrs li.size18 {
+    max-width: 656px;
+    line-height: 1.3;
+    margin-top: 19px;
+}
+
+/* *************** Términos y condiciones PAGE *************** */
+
+/* ********(banner-sec)***********  */
+
+.banner_sec.dark.inner-banner.tc .banner_content h1 {
+    max-width: 815px;
+}
+
+.banner_sec.dark.inner-banner.tc .banner_content p {
+    max-width: 764px;
+}
+
+/* ********(tc-sec)***********  */
+
+
+
+/* ********(30/9/24)*********** */
+
+/* ********(tc-sec)***********  */
+.tc-sec .col-lg-4 .tc-index{
+    position: sticky;
+    top: 0;
+}
+.tc-sec .col-lg-4 .tc-index p.size18 {
+    font-weight: 600;
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item a {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item a:hover {
+    color: #010101;
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links {
+    position: relative;
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links:hover {
+    cursor: pointer;
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links::after {
+    position: absolute;
+    content: " ";
+    top: 0;
+    bottom: 0;
+    background-color: rgba(2, 7, 52, 0.1);
+    width: 1px;
+    left: 18px;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item.active a {
+    color: #012555;
+    font-weight: 600;
+
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item.active::before {
+    color: #012555;
+    font-weight: 600;
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item.active {
+    position: relative;
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item.active::after {
+    position: absolute;
+    content: " ";
+    top: 0;
+    bottom: 0;
+    background-color: #012555;
+    width: 1px;
+    left: -15px;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item {
+    counter-increment: my-awesome-counter;
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    font-size: 14px;
+    padding-block: 6px;
+}
+
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item::before {
+    content: counter(my-awesome-counter);
+    margin-right: 0.5rem;
+    font-size: 14px;
+    width: 25px;
+    height: 25px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+
+}
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item:last-child {
+    padding: 0;
+}
+
+.tc-sec .col-lg-8 h2.b-dark {
+    margin-bottom: 37px;
+}
+
+.tc-sec .col-lg-8 .tc-h6 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 33.57px;
+    text-align: left;
+    margin-bottom: 13px;
+}
+
+.tc-sec .col-lg-8 .tc-cntnt {
+    padding-bottom: 43px;
+}
+
+.tc-sec .col-lg-8 .tc-cntnt:last-child {
+    padding-bottom: 0;
+}

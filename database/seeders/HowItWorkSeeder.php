@@ -19,16 +19,32 @@ class HowItWorkSeeder extends Seeder
                 'value' => 'Así funciona',
             ],
             [
+                'key' => 'background_image',
+                'value' => null,                
+            ],
+            [
+                'key' => 'banner_title',
+                'value' => 'Así funciona'
+            ],
+            [
+                'key' => 'banner_description',
+                'value' => 'Descubre una forma sencilla de generar documentos y contratos en Documentos-Legales.mx. Nuestra plataforma te ofrece una amplia selección de documentos legales para cubrir tus necesidades. ¡Comienza a crear tus contratos personalizados hoy mismo!'
+            ],
+            [
+                'key' => 'banner_image',
+                'value' => null,
+            ],
+            [
                 'key' => 'main_heading',
-                'value' => 'Así funciona',
+                'value' => 'Crea Documentos en Pocos Pasos',
             ], 
             [
                 'key' => 'short_description',
-                'value' => 'Descubre una forma sencilla de generar documentos y contratos en Documentos-Legales.mx. Nuestra plataforma te ofrece una amplia selección de documentos legales para cubrir tus necesidades. ¡Comienza a crear tus contratos personalizados hoy mismo!',
+                'value' => 'Genera y descarga tus documentos legales en formatos PDF y DOCX (Word) al instante, de manera fácil y rápida.',
             ],
             [
-                'key' => 'join_our_community_text',
-                'value' => 'En Documentos-Legales.mx, nos esforzamos por hacer que el proceso de generación de documentos y contratos sea sencillo y conveniente. Obtén documentos legales de calidad de manera rápida y eficiente. ¡Únete a nuestra comunidad de usuarios satisfechos y simplifica tus trámites legales!',
+                'key' => 'second_banner_img',
+                'value' => null,
             ],
             [
                 'key' => 'second_banner_heading',
@@ -46,8 +62,6 @@ class HowItWorkSeeder extends Seeder
                 'key' => 'button_link',
                 'value' => 'https://sagmetic.site/2023/laravel/contracts/public/',
             ],
-            
-
         ]);
     }
 }
