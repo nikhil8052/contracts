@@ -7,10 +7,50 @@
                <input type="hidden" name="delete_work_ids" id="delete_work_ids" value="">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
+                         <div class="d-flex justify-content-end p-2">
+                              <div class="nk-block-head-content">
+                                   <div class="mbsc-form-group">
+                                        <a href="{{ url('/how-it-works') }}" class="btn btn-default">View Page</a>
+                                   </div>
+                              </div>
+                         </div>
                          <div class="col-md-8 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ $data['title_name'] ?? '' }}">
+                              </div>
+                         </div>
+                         <hr>
+                         <h5>Banner Section</h5>
+                         <hr>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="background_image">Background Image</label>
+                                   <input type="file" class="form-control" id="background_image" name="background_image" value="">
+                              </div>
+                              <div class="form-group">
+                                   <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="160px">
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="banner_title">Banner Title</label>
+                                   <input type="text" class="form-control" id="banner_title" name="banner_title" value="{{ $data['banner_title'] ?? '' }}">
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="banner_description">Banner Description</label>
+                                   <textarea class="form-control" id="banner_description" name="banner_description">{{ $data['banner_description'] ?? '' }}</textarea>
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="banner_image">Banner Image</label>
+                                   <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
+                              </div>
+                              <div class="form-group">
+                                   <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" height="200px" width="250px">
                               </div>
                          </div>
                          <hr>
@@ -35,33 +75,31 @@
                                    <label class="form-label" for="">Works</label>
                               </div>
                          </div>
-                         @if(isset($howitwork) && $howitwork->isNotEmpty())
-                         @foreach($howitwork as $dataItem)
-                         @if($dataItem->key == 'work')
-                         <div class="work-append-sec{{ $dataItem->works->id ?? '' }}">
+                         @if(isset($works) && $works->isNotEmpty())
+                         @foreach($works as $work)
+                         <div class="work-append-sec{{ $work->works->id ?? '' }}">
                               <hr>
                               <div class="row gy-12">
-                                   <div class="text-end"><span class="remove-work-sec" data-id="{{ $dataItem->works->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                   <div class="text-end"><span class="remove-work-sec" data-id="{{ $work->works->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                    <div class="col-md-2">
                                         <div class="form-group">
-                                             <img src="{{ asset('site_images/'.$dataItem->works->image) }}" alt="">
+                                             <img src="{{ asset('storage/'.$work->works->media->file_name ?? '' ) }}" alt="">
                                         </div>
                                    </div>
                                    <div class="col-md-4">
                                         <div class="form-group">
                                              <label class="form-label" for="work_heading">Heading</label>
-                                             <input type="text" class="form-control" id="work_heading" name="work_heading[{{$dataItem->works->id}}]" value="{{ $dataItem->works->heading ?? '' }}">
+                                             <input type="text" class="form-control" id="work_heading" name="work_heading[{{$work->works->id}}]" value="{{ $work->works->heading ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-4">
                                         <div class="form-group">
                                              <label class="form-label" for="work_description">Description</label>
-                                             <textarea class="form-control" id="work_description" name="work_description[{{$dataItem->works->id}}]">{{ $dataItem->works->description ?? '' }}</textarea>
+                                             <textarea class="form-control" id="work_description" name="work_description[{{$work->works->id}}]">{{ $work->works->description ?? '' }}</textarea>
                                         </div>
                                    </div>
                               </div>
                          </div>
-                         @endif
                          @endforeach
                          @endif
                          <br>
@@ -72,13 +110,6 @@
                          </div>
                          <div id="work-section">
                          </div>
-                         <hr>
-                         <div class="col-md-8">
-                              <div class="form-group">
-                                   <label class="form-label" for="join_our_community">Join our community text</label>
-                                   <textarea class="form-control" id="join_our_community" name="join_our_community">{{ $data['join_our_community_text'] ?? '' }}</textarea>
-                              </div>
-                         </div>
                     </div>
                </div>
                <div class="card card-bordered card-preview">
@@ -88,6 +119,15 @@
                          <div class="legal-section m-4">
                               <div class="col-md-8">
                                    <div class="form-group">
+                                        <label class="form-label" for="second_banner_img">Banner Image</label>
+                                        <input type="file" class="form-control" id="second_banner_img" name="second_banner_img">
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['second_banner_img'] ?? '' ) }}" height="140px" width="160px">
+                                   </div>
+                              </div>
+                              <div class="col-md-8">
+                                   <div class="form-group">
                                         <label class="form-label" for="banner_heading">Heading</label>
                                         <input type="text" class="form-control" id="banner_heading" name="banner_heading" value="{{ $data['second_banner_heading'] ?? '' }}">
                                    </div>
@@ -95,7 +135,7 @@
                               <div class="col-md-8">
                                    <div class="form-group">
                                         <label class="form-label" for="sub_heading">Sub Heading</label>
-                                        <textarea class="form-control" id="sub_heading" name="sub_heading">{{ $data['second_banner_sub_heading'] ?? '' }}</textarea>
+                                        <textarea class="form-control" id="sub_heading" name="sub_heading">x</textarea>
                                    </div>
                               </div>
                               <div class="col-md-8">

@@ -7,16 +7,50 @@
                <input type="hidden" name="remove_ids" id="remove_ids" value="">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
+                         <div class="d-flex justify-content-end p-2">
+                              <div class="nk-block-head-content">
+                                   <div class="mbsc-form-group">
+                                        <a href="{{ url('/terms-and-conditions') }}" class="btn btn-default">View Page</a>
+                                   </div>
+                              </div>
+                         </div>
                          <div class="col-md-8 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ $data['title_name'] ?? '' }}">
                               </div>
                          </div>
+                         <hr>
+                         <h5>Banner Section</h5>
+                         <hr>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="description"></label>
-                                   <textarea class="form-control" id="description" name="description">{{ $data['description'] ?? ''}}</textarea>
+                                   <label class="form-label" for="background_image">Background Image</label>
+                                   <input type="file" class="form-control" id="background_image" name="background_image" value="">
+                              </div>
+                              <div class="form-group">
+                                   <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="160px">
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="banner_title">Banner Title</label>
+                                   <input type="text" class="form-control" id="banner_title" name="banner_title" value="{{ $data['banner_title'] ?? '' }}">
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="banner_description">Banner Description</label>
+                                   <textarea class="form-control" id="banner_description" name="banner_description">{{ $data['banner_description'] ?? '' }}</textarea>
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="banner_image">Banner Image</label>
+                                   <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
+                              </div>
+                              <div class="form-group">
+                                   <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}">
                               </div>
                          </div>
                          <hr>
@@ -29,12 +63,6 @@
                                         <div class="form-group">
                                              <label class="form-label" for="main_heading">Main Heading</label>
                                              <input type="text" class="form-control" id="main_heading" name="main_heading" value="{{ $data['main_heading'] ?? '' }}">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="sub_heading">Sub Heading</label>
-                                             <input type="text" class="form-control" id="sub_heading" name="sub_heading" value="{{ $data['sub_heading'] ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-8">

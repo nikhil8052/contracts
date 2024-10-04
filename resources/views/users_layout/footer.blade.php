@@ -1,3 +1,7 @@
+@php 
+    $setting = App\Models\Setting::where('key', 'footer_logo')->get()->keyBy('key');
+@endphp
+
 <footer>
 	<div class="outer_foot_bg dark">
 		<div class="container">
@@ -5,8 +9,8 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="fot_logo">
-						<a href="">
-							<img src="{{ asset('assets/img/foot_logo.png') }}" alt="">
+						<a href="{{ url('/') }}">
+							<img src="{{ asset('storage/'.$setting['footer_logo']->value ?? '') }}" alt="">
 						</a>
 					</div>
 				</div>
@@ -35,7 +39,7 @@
 						<ul class="foot_ul">
 							<li class="foot_li"> <a href="">Quiénes Somos</a></li>
 							<li class="foot_li"><a href="">Precios </a></li>
-							<li class="foot_li"><a href="">Contacto </a></li>
+							<li class="foot_li"><a href="{{ url('/contact-us') }}">Contacto </a></li>
 						</ul>
 					</div>
 				</div>
@@ -48,7 +52,7 @@
 							</h5>
 						</div>
 						<ul class="foot_ul">
-							<li class="foot_li"> <a href="">Así funciona </a></li>
+							<li class="foot_li"> <a href="{{ url('/how-it-works') }}">Así funciona </a></li>
 							<li class="foot_li"><a href="">Centro de Ayuda </a></li>
 							<li class="foot_li"><a href="">Preguntas Frecuentes </a></li>
 						</ul>
@@ -62,7 +66,7 @@
 							</h5>
 						</div>
 						<ul class="foot_ul">
-							<li class="foot_li"> <a href="">Términos y Condiciones </a></li>
+							<li class="foot_li"> <a href="{{ url('/terms-and-conditions') }}">Términos y Condiciones </a></li>
 							<li class="foot_li"><a href="">Política de Privacidad </a></li>
 							<li class="foot_li"><a href="">Aviso Legal </a></li>
 						</ul>

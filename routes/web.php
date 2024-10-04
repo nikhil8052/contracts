@@ -73,7 +73,8 @@ Route::group(['middleware' =>['auth']],function(){
      Route::post('/admin-dashboard/update-document',[DocumentController::class,'updateDocument']);
      Route::get('/admin-dashboard/reviews',[DocumentController::class,'reviews']);
      Route::post('/admin-dashboard/add-review',[DocumentController::class,'addReview']);
-     
+     Route::get('/admin-dashboard/all-reviews',[DocumentController::class,'allreview']);
+
      Route::get('/admin-dashboard/add-document-category',[DocumentController::class,'addDocumentCategory'])->name('add.category');
      Route::post('/admin-dashboard/category-process',[DocumentController::class,'CategoryProcess'])->name('category.process');
      Route::get('/admin-dashboard/document/categories',[DocumentController::class,'allCategories'])->name('document.categories');
@@ -107,6 +108,10 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/home-content',[SiteMetaController::class,'homepage']);
      Route::post('/admin-dashboard/add/home-content',[SiteMetaController::class,'addHomeContent']);
+
+     Route::get('/admin-dashboard/web-setting',[SiteMetaController::class,'webSetting']);
+     Route::post('/admin-dashboard/add/web-setting',[SiteMetaController::class,'addWebsetting']);
+
      //*********************Product Sections***************//
      Route::get('/admin-dashboard/product',[ProductController::class,'product']);
      Route::post('/admin-dashboard/add-product',[ProductController::class,'addProduct']);

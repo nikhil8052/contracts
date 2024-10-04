@@ -46,8 +46,7 @@
 			<div class="tab">
 			@if(isset($document_category) && $document_category != null)
 				@foreach($document_category as $category)
-					<div class="btn {{ $loop->first ? 'tab_btn1 active' : 'tab_btn' . $loop->iteration }}" 
-						data-id="{{ $category->id ?? '' }}">
+					<div class="btn {{ $loop->first ? 'tab_btn1 active' : 'tab_btn' . $loop->iteration }}">
 						{{ $category->name ?? '' }}
 					</div>
 				@endforeach
@@ -158,7 +157,7 @@
 
 						</div>
 						<div class="cata_btn">
-							<a href="" class="cta_org">{{ $data['category_btn_text'] ?? '' }}  <img src="{{ asset('storage/'.$data['category_btn_arrow_img'] ?? '' ) }}" alt=""></a>
+							<a href="" class="cta_org">{{ $category->homeCategory->btn_text ?? '' }}  <img src="{{ asset('storage/'.$data['category_btn_arrow_img'] ?? '' ) }}" alt=""></a>
 						</div>
 					</div>
 				</div>
@@ -233,11 +232,82 @@
 								<span>{{ $review->city ?? '' }}</span>
 							</div>
 						</div>
-						<div class="star_img">
+						<!-- <div class="star_img">
 							<img src="{{ asset('assets/img/star.png') }}" alt="">
-						</div>
+						</div> -->
+						@if(isset($review->rating) && $review->rating != null)
+						<div id="full-stars-example-two">
+							<div class="ratings">
+							@if($review->rating == 1)
+								<label for="rating1">
+									<i rate="1" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+							@elseif($review->rating == 2)
+								<label for="rating1">
+									<i rate="1" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+								<label for="rating2">
+									<i rate="2" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
+							@elseif($review->rating == 3)
+								<label for="rating1">
+									<i rate="1" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+								<label for="rating2">
+									<i rate="2" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
+								<label for="rating3">
+									<i rate="3" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
+							@elseif($review->rating == 4)
+								<label for="rating1">
+									<i rate="1" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+								<label for="rating2">
+									<i rate="2" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
+								<label for="rating3">
+									<i rate="3" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
+								<label for="rating4">
+									<i rate="4" class="star fa fa-star rating-color"></i>
+								</label>
+							@elseif($review->rating == 5)
+								<label for="rating1">
+									<i rate="1" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+								<label for="rating2">
+									<i rate="2" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
+								<label for="rating3">
+									<i rate="3" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
+								<label for="rating4">
+									<i rate="4" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating4" class="chkbox" style="display:none;" value="4">
+								<label for="rating5">
+									<i rate="5" class="star fa fa-star rating-color"></i>
+								</label>
+								<input name="rating" id="rating5" class="chkbox" style="display:none;" value="5" checked>
+							@endif
+							</div>
+                        </div>
+						@endif
 						<p>“{{ $review->description ?? '' }}”</p>
-						<span>{{ $review->date ?? '' }}</span>
+						<span>{{ $review->date ? \Carbon\Carbon::parse($review->date)->diffForHumans() : '' }}</span>
 					</div>
 				@endforeach
 				@endif
@@ -247,6 +317,55 @@
 	</div>
 </section>
 
+<script>
+$(document).ready(function(){
+	$(".client-slider").slick({
+		slidesToShow: 2,
+		slidesToScroll: 1,
+		arrows: true,
+		infinite: true,
+		autoplay: false,
+		responsive: [
+			{
+				breakpoint: 991,
+				settings: {
+				slidesToShow: 3,
+				},
+			},
+			{
+				breakpoint: 767,
+				settings: {
+				slidesToShow: 1,
+				},
+			},
+		],
+	});
+
+	$(".prev-btn").click(function () {
+		$(".client-slider").slick("slickPrev");
+	});
+
+	$('.next-btn').on('click', function() {
+        $('.client-slider').slick('slickNext'); 
+    });
+
+	$(".prev-btn").addClass("slick-disabled");
+	$(".slick-list").on("afterChange", function () {
+		if ($(".slick-prev").hasClass("slick-disabled")) {
+			$(".prev-btn").addClass("slick-disabled");
+		} else {
+			$(".prev-btn").removeClass("slick-disabled");
+		}
+		if ($(".slick-next").hasClass("slick-disabled")) {
+			$(".next-btn").addClass("slick-disabled");
+		} else {
+			$(".next-btn").removeClass("slick-disabled");
+		}
+	});
+})
+
+
+</script>
 
 @endsection
 

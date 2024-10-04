@@ -15,6 +15,54 @@
                <input type="hidden" name="faq_sec_ids" id="faq_sec_ids" value="">
                <input type="hidden" name="" id="" value="">
                <input type="hidden" name="slug" id="slug" value="{{ $document->slug ?? '' }}">
+               <div class="card card-bordered card-preview separate-fields">
+                    <div class="card-inner">
+                         <p><b>Approved ?</b></p>
+                         <div class="approved-section m-4">
+                              <div class="col-md-8">
+                                   <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="approved" name="approved" value="1">
+                                        <label class="custom-control-label" for="approved"></label>
+                                   </div>
+                              </div>
+                         </div>
+                         <hr>
+                         <div class="valid-in">
+                              <div class="col-md-8">
+                                   <div class="form-group">
+                                        <label class="form-label" for="valid_in">Valid in</label>
+                                        <input type="text" class="form-control form-control" id="valid_in" name="valid_in" value="{{ $document->valid_in ?? '' }}">
+                                   </div>
+                              </div>
+                         </div>
+                         <hr>
+                         <div class="categories">
+                              <div class="col-md-8">
+                                   <div class="form-group">
+                                        <label class="form-label" for="category_id">Categories</label>  
+                                        <div class="form-control-wrap"> 
+                                             <select class="form-select js-select2" multiple="multiple" name="category_id[]" id="category_id">
+                                                  @if(isset($categories) && $categories != null)
+                                                  @foreach($categories as $category)
+                                                       @if(isset($document->category_id) && $document->category_id != null)
+                                                            <?php $categoryIDs = json_decode($document->category_id);?>
+                                                            @if(in_array($category->id,$categoryIDs))
+                                                                 <option value="{{ $category->id ?? '' }}" selected>{{ $category->name ?? '' }}</option>
+                                                            @else
+                                                            <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
+                                                            @endif
+                                                       @else
+                                                       <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
+                                                       @endif
+                                                  @endforeach
+                                                  @endif
+                                             </select>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="col-md-8 pb-2">
@@ -223,50 +271,6 @@
                               </div>
                          </div>
                          <hr>
-                         <p><b>Approved ?</b></p>
-                         <div class="approved-section m-4">
-                              <div class="col-md-8">
-                                   <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="approved" name="approved" value="1">
-                                        <label class="custom-control-label" for="approved"></label>
-                                   </div>
-                              </div>
-                         </div>
-                         <hr>
-                         <div class="m-4">
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="valid_in">Valid in</label>
-                                        <input type="text" class="form-control form-control" id="valid_in" name="valid_in" value="{{ $document->valid_in ?? '' }}">
-                                   </div>
-                              </div>
-                         </div>
-                         <div class="m-4">
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="category_id">Categories</label>  
-                                        <div class="form-control-wrap"> 
-                                             <select class="form-select js-select2" multiple="multiple" name="category_id[]" id="category_id">
-                                                  <option value="">Select a category</option>
-                                                  @if(isset($categories) && $categories != null)
-                                                  @foreach($categories as $category)
-                                                       @if(isset($document->category_id) && $document->category_id != null)
-                                                            <?php $categoryIDs = json_decode($document->category_id);?>
-                                                            @if(in_array($category->id,$categoryIDs))
-                                                                 <option value="{{ $category->id ?? '' }}" selected>{{ $category->name ?? '' }}</option>
-                                                            @else
-                                                            <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
-                                                            @endif
-                                                       @else
-                                                       <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
-                                                       @endif
-                                                  @endforeach
-                                                  @endif
-                                             </select>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
                          <h6>Faq</h6>
                          <div class="card card-bordered card-preview">
                               <div class="faq-section m-4">
@@ -339,17 +343,14 @@
                                                   <select class="form-select js-select2" multiple="multiple" id="select_related_doc" name="select_related_doc[]">
                                                        <option value="">Select</option>
                                                        @if(isset($related_documents) && $related_documents != null)
-                                                       @foreach($related_documents as $related)
-                                                            @if(isset($document->relatedDocuments) && $document->relatedDocuments)
-                                                                 @if($document->relatedDocuments->related_document_id == $related->id)
-                                                                      <option value="{{ $related->id ?? '' }}" selected>{{ $related->title ?? '' }}</option>
-                                                                 @else
-                                                                      <option value="{{ $related->id ?? '' }}">{{ $related->title ?? '' }}</option>
-                                                                 @endif
-                                                            @else
-                                                                 <option value="{{ $related->id ?? '' }}">{{ $related->title ?? '' }}</option>
-                                                            @endif
-                                                       @endforeach
+                                                            @foreach($related_documents as $related)
+                                                                 @php
+                                                                      $isSelected = isset($document->relatedDocuments) && $document->relatedDocuments->contains('related_document_id', $related->id);
+                                                                 @endphp
+                                                                 <option value="{{ $related->id ?? '' }}" {{ $isSelected ? 'selected' : '' }}>
+                                                                      {{ $related->title ?? '' }}
+                                                                 </option>
+                                                            @endforeach
                                                        @endif
                                                   </select>
                                              </div>

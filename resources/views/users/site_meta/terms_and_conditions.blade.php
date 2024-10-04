@@ -1,35 +1,60 @@
-@extends('users_layout.master')
+@extends('users_layout.other_master')
 @section('content')
 
-<section class="term-condition-sec p-130">
+<section class="banner_sec dark inner-banner tc" style="background-image: url({{ asset('storage/'.$data['background_image'] ?? '' ) }});">
     <div class="container">
-        <div class="term-condition-content">
-            <h1>{{ $data['main_heading'] ?? '' }}</h1>
-            <div class="shortdesc"></div>
-            <div class="row">
-                <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                    <div class="leftside-wrapper">
-                        <h5></h5>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="#"></a>
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <div class="banner_content">
+                    <h1>{{ $data['banner_title'] ?? '' }}</h1>
+                    <p>{{ $data['banner_description'] ?? '' }}</p>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="banner_img">
+                    <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="tc-sec p_110">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="tc-index">
+                    <p class="size18">
+                        {{ $data['main_heading'] ?? '' }}
+                    </p>
+                    <ol class="tc-links mb-0">
+                    @if(!empty($termsAndCondition))
+                        @foreach($termsAndCondition as $term)
+                            <li class="tc-item {{ $loop->first ? 'active' : '' }}">
+                                <a href="#c{{ $loop->iteration }}">{{ $term->terms ?? '' }}</a>
                             </li>
-                        </ul>
-                    </div>
-                </div> -->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="rightside-wrapper">
-                    @if(isset($termsAndCondition) && $termsAndCondition->isNotEmpty())
-                        <?php $i=1;?>
-                        @foreach($termsAndCondition as $index=>$value)
-                        <div class="privacy-cont" id="{{ $i }}">
-                            <?php print_r($value->condition ?? '' ); ?>
-                        </div>
-                        <?php $i++; ?>
                         @endforeach
                     @endif
+
+                    </ol>
+                    <div class="tc-p mt-3">
+                        <p class="size18">
+                            Política de Privacidad
+                        </p>
+                        <p class="size18">
+                            Aviso Legal </p>
                     </div>
+
                 </div>
+            </div>
+            <div class="col-lg-8">
+                <h2 class="b-dark">{{ $data['main_heading'] ?? '' }}</h2>
+                @if(!empty($termsAndCondition))
+                    @foreach($termsAndCondition as $condition)
+                    <div class="b-dark tc-cntnt" id="c{{ $loop->iteration ?? '' }}">
+                        <?php print_r($condition->condition) ?>
+                    </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

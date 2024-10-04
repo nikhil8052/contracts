@@ -59,24 +59,6 @@
                                    </div>
                               </div>
                          </div>
-                         <!-- <hr>
-                         <h5>Template Section</h5>  
-                         <hr>
-                         <div class="card card-bordered card-preview">
-                              <div class="card-inner">
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="">Templates</label>
-                                        </div>
-                                   </div>
-                                   <div class="col-md-6 offset-md-6">
-                                        <div class="form-group">
-                                             <button type="button" class="btn btn-sm btn-primary" id="addnewrow">Add Row</button>
-                                        </div>
-                                   </div>
-                                   <div id="temp_sec"></div>
-                              </div>
-                         </div> -->
                          <hr>
                          <h6>Most popular Documents</h6>  
                          <div class="card card-bordered card-preview">
@@ -87,7 +69,7 @@
                                              <input type="text" class="form-control" id="main_title" name="main_title" value="{{ $data['most_popular_title'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <!-- <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="popular_documents">Popular Documents</label>
                                              <div class="form-control-wrap"> 
@@ -96,7 +78,7 @@
                                                   @foreach($documents as $document)
                                                        @if(isset($data['popular']) && $data['popular'] != null) 
                                                        <?php 
-                                                            $documentsId = json_decode($data['popular']);
+                                                            // $documentsId = json_decode($data['popular']);
                                                        ?>
                                                             @if(in_array($document->id,$documentsId))
                                                             <option value="{{ $document->id ?? '' }}" selected>{{ $document->title ?? '' }}</option>
@@ -105,6 +87,31 @@
                                                             @endif
                                                        @else
                                                        <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                       @endif
+                                                  @endforeach
+                                                  @endif
+                                                  </select>
+                                             </div>
+                                        </div>
+                                   </div> -->
+                                   <div class="col-md-8">
+                                        <div class="form-group">
+                                             <label class="form-label" for="popular_documents">Popular Documents</label>
+                                             <div class="form-control-wrap"> 
+                                                  <select class="form-select js-select2" multiple="multiple" name="popular_documents[]" id="popular_documents">
+                                                  @if(isset($document_category) && $document_category != null)
+                                                  @foreach($document_category as $document)
+                                                       @if(isset($data['popular']) && $data['popular'] != null) 
+                                                       <?php 
+                                                            $documentsId = json_decode($data['popular']);
+                                                       ?>
+                                                            @if(in_array($document->id,$documentsId))
+                                                            <option value="{{ $document->id ?? '' }}" selected>{{ $document->name ?? '' }}</option>
+                                                            @else
+                                                            <option value="{{ $document->id ?? '' }}">{{ $document->name ?? '' }}</option>
+                                                            @endif
+                                                       @else
+                                                       <option value="{{ $document->id ?? '' }}">{{ $document->name ?? '' }}</option>
                                                        @endif
                                                   @endforeach
                                                   @endif
@@ -178,7 +185,7 @@
                                    @foreach($home as $index=>$value)
                                    <div class="category-sec{{ $value->homeCategory->id ?? '' }}">
                                         <hr>
-                                        <div class="col-md-4 offset-md-8">
+                                        <div class="text-end">
                                              <div class="form-group">
                                                   <div>
                                                   <span class="remove_category" data-id="{{ $value->homeCategory->id ?? '' }}">
@@ -225,6 +232,18 @@
                                              </div>
                                              <div class="col-md-2">
                                                   <div class="form-group">
+                                                       <label class="form-label" for="category_btn_text">Button Text</label>
+                                                       <input type="text" class="form-control" id="category_btn_text" name="category_btn_text[{{ $value->homeCategory->id ?? '' }}]" value="{{ $value->homeCategory->btn_text ?? '' }}">
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-2">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="category_btn_link">Button Link</label>
+                                                       <input type="text" class="form-control" id="category_btn_link" name="category_btn_link[{{ $value->homeCategory->id ?? '' }}]" value="{{ $value->homeCategory->btn_link ?? '' }}">
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-2">
+                                                  <div class="form-group">
                                                        <label class="form-label" for="category_description">Description</label>
                                                        <textarea class="form-control" id="category_description" name="category_description[{{ $value->homeCategory->id ?? '' }}]">{{ $value->homeCategory->category_description ?? '' }}</textarea>
                                                   </div>
@@ -234,18 +253,12 @@
                                    @endforeach
                                    @endif
                                    <br>
-                                   <div class="col-md-4 offset-md-8">
+                                   <div class="text-end">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" id="add_catgory">Add Row</button>
                                         </div>
                                    </div>
                                    <div id="catg_sec"></div>
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="category_btn_text">Button Text</label>
-                                             <input type="text" class="form-control" id="category_btn_text" name="category_btn_text" value="{{ $data['category_btn_text'] ?? '' }}">
-                                        </div>
-                                   </div>
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="category_btn_arrow_img">Button Image</label>
@@ -376,7 +389,7 @@
                var html = `
                     <div class="category-sec">
                          <hr>
-                         <div class="col-md-4 offset-md-8">
+                         <div class="text-end">
                               <div class="form-group">
                                    <div>
                                    <span class="remove_category" value="appended">
@@ -407,6 +420,18 @@
                                              ${category_options_html}
                                         </select>
                                    </div>
+                                   </div>
+                              </div>
+                              <div class="col-md-2">
+                                   <div class="form-group">
+                                   <label class="form-label" for="new_category_btn_text">Button Text</label>
+                                   <input type="text" class="form-control" id="new_category_btn_text" name="new_category_btn_text[]" value="">
+                                   </div>
+                              </div>
+                              <div class="col-md-2">
+                                   <div class="form-group">
+                                   <label class="form-label" for="new_category_btn_link">Button Link</label>
+                                   <input type="text" class="form-control" id="new_category_btn_link" name="new_category_btn_link[]" value="">
                                    </div>
                               </div>
                               <div class="col-md-2">

@@ -1,4 +1,6 @@
-
+@php 
+    $setting = App\Models\Setting::where('key', 'header_logo')->get()->keyBy('key');
+@endphp
 <header>
 	<div class="top_header dark">
 		<div class="container-fluid">
@@ -421,7 +423,7 @@
 					<div class="right_menu">
 						<ul>
 							<li>
-								<a href="#">Así funciona </a>
+								<a href="{{ url('/how-it-works') }}">Así funciona </a>
 							</li>
 							<li>
 								<a href="#">Ayuda</a>
@@ -437,7 +439,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="hedaer_logo">
-						<img src="{{ asset('assets/img/logo.png') }}" alt="">
+						<a href="{{ url('/') }}"><img src="{{ asset('storage/'.$setting['header_logo']->value ?? '') }}" alt=""></a>
 					</div>
 				</div>
 				<div class="col-md-6">
