@@ -363,7 +363,7 @@ class DocumentController extends Controller
                     $related_document = new DocumentRelated;
                     $related_document->document_id = $request->id;
                     $related_document->related_document_id = $related_document_id;
-                    $related_document->save();
+                    $related_document->save();  
                 }
             }
 
@@ -454,7 +454,7 @@ class DocumentController extends Controller
             $review = new Review;
             if($request->hasFile('profile')){
                 $file = $request->profile;
-                $fileupload = $this->fileUploadService->upload($file, 'app/public');
+                $fileupload = $this->fileUploadService->upload($file, 'public');
                 $fileuploadData = $fileupload->getData();
 
                 if(isset($fileuploadData) && $fileuploadData->status == '200'){
@@ -478,5 +478,10 @@ class DocumentController extends Controller
             saveLog("Error:", "DocumentController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
+    }
+
+    public function allreview(){
+        $reviews = Review::all();
+        return view('admin.reviews.all_reviews',compact('reviews'));
     }
 }

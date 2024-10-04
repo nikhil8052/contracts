@@ -12,4 +12,8 @@ class Review extends Model
     public function media(){
         return $this->hasOne(Media::class,'id','media_id');
     }
+
+    public function document(){
+        return $this->hasOne(Document::class,'id','document_id');
+    }
 }

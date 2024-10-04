@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('admin_contact_us', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->longtext('description')->nullable();
+            $table->string('background_image')->nullable();
+            $table->string('banner_title')->nullable();
+            $table->longtext('banner_description')->nullable();
+            $table->string('banner_image')->nullable();
             $table->text('main_title')->nullable();
-            $table->longtext('main_description')->nullable();
             $table->timestamps();
         });
     }

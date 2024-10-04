@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Work extends Model
 {
     use HasFactory;
+
+    public function media(){
+        return $this->hasOne(Media::class,'id','media_id');
+    }
 }

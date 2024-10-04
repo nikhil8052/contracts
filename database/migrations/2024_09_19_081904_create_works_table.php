@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
-            $table->longtext('heading');
-            $table->longtext('description');
+            $table->string('media_id')->nullable();
+            $table->longtext('heading')->nullable();
+            $table->longtext('description')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
