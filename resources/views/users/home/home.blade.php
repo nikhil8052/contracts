@@ -58,43 +58,47 @@
 				@foreach($document_category as $catg)
 				<div class="tabContent tab_box_sec {{ $loop->first ? 'show' : 'tab_btn'.$loop->iteration }}">
 					<div class="slider">
-					@php 
-						$popular_document_ids = json_decode($data['popular']) ?? '';
-					@endphp
-					@if(isset($popular_document_ids) && $popular_document_ids != null)
-					@foreach($popular_document_ids as $document)
-						<?php 
-							$documents = App\Models\Document::find($document);
-							$category = json_decode($documents->category_id);
-						?>
-						@if(in_array($catg->id,$category))
-						<div class="inside_box_b">
-							<div class="inside_box_tab">
-								<div class="img_tab_sec">
-									<img src="{{ asset('storage/'.$documents->document_image ?? '' ) }}" alt="">
-								</div>
-								<div class="cont_tab_ot">
-									<div class="tab_text">
-										<h5 class=" size20">
-											{{ $document->title ?? '' }}
-										</h5>
-										<ul class="tab_ul">
-											<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-											<li>4.6</li>
-										</ul>
+						@php 
+							$popular_document_ids = json_decode($data['popular']) ?? '';
+						@endphp
+						@if(isset($popular_document_ids) && $popular_document_ids != null)
+							@foreach($popular_document_ids as $document)
+							@php 
+								$documents = App\Models\Document::find($document);
+							@endphp
+							@if($documents && $documents->category_id != null)
+								@php 
+									$doc_category = json_decode($documents->category_id);
+								@endphp
+								@if(in_array($catg->id, $doc_category))
+									<div class="inside_box_b">
+										<div class="inside_box_tab">
+											<div class="img_tab_sec">
+											<img src="{{ asset('storage/'.$documents->document_image ?? '' ) }}" alt="">
+											</div>
+											<div class="cont_tab_ot">
+											<div class="tab_text">
+												<h5 class="size20">
+													{{ $documents->title ?? '' }}
+												</h5>
+												<ul class="tab_ul">
+													<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+													<li>4.6</li>
+												</ul>
+											</div>
+											<div class="tab_2text light">
+												<?php print_r(Str::limit($documents->short_description, 70, '...')); ?> 
+											</div>
+											<div class="tab_btn">
+												<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
+											</div>
+											</div>
+										</div>
 									</div>
-									<div class="tab_2text light">
-									<?php print_r(Str::limit($documents->short_description, 70, '...')); ?>
-									</div>
-									<div class="tab_btn">
-									<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
-									</div>
-								</div>
-							</div>
-						</div>
+								@endif
+							@endif
+							@endforeach
 						@endif
-					@endforeach
-					@endif
 					</div>
 				</div>
 				@endforeach
@@ -119,7 +123,7 @@
 					<div class="Comienza-content">
 						<h2>{{ $data['bottom_heading'] ?? '' }}</h2>
 						<p>{{ $data['bottom_subheading'] ?? '' }}</p>
-						<a href="{{ $data['bottom_button_link'] ?? '' }}" class="">{{ $data['bottom_button_label'] ?? '' }}</a>
+						<a href="{{ $data['bottom_button_link'] ?? '' }}" class="">{{ $data['bottom_button_label'] ?? '' }} <i class="fa-solid fa-arrow-right-long"></i></a>
 					</div>
 				</div>
 			</div>
@@ -157,7 +161,7 @@
 
 						</div>
 						<div class="cata_btn">
-							<a href="" class="cta_org">{{ $category->homeCategory->btn_text ?? '' }}  <img src="{{ asset('storage/'.$data['category_btn_arrow_img'] ?? '' ) }}" alt=""></a>
+							<a href="" class="cta_org">{{ $category->homeCategory->btn_text ?? '' }}  <i class="fa-solid fa-arrow-right-long"></i></a>
 						</div>
 					</div>
 				</div>

@@ -32,7 +32,7 @@
                                                        <th scope="row">{{ $count ?? '' }}</th>
                                                        <td><a href="{{ url('admin-dashboard/edit-document/'.$data->slug) }}">{{ $data->title ?? '' }}</a></td>
                                                        <td>
-                                                       @if(isset($data->category_id))
+                                                       @if(isset($data->category_id) && $data->category_id != null)
                                                             <?php 
                                                                  $category = json_decode($data->category_id); 
                                                                  foreach($category as $cat){

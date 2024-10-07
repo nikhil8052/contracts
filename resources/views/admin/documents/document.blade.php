@@ -4,7 +4,7 @@
 <div class="nk-content">
      <div class="container-fluid">
           @if(isset($document) && $document != null)
-          <form action="{{ url('admin-dashboard/update-document') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
           @else
           <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
           @endif
@@ -12,8 +12,7 @@
                <input type="hidden" name="id" value="{{ $document->id ?? '' }}">
                <input type="hidden" name="img_sec_ids" id="img_sec_ids" value="">
                <input type="hidden" name="guide_sec_ids" id="guide_sec_ids" value="">
-               <input type="hidden" name="faq_sec_ids" id="faq_sec_ids" value="">
-               <input type="hidden" name="" id="" value="">
+               <input type="hidden" name="agg_sec_ids" id="agg_sec_ids" value="">
                <input type="hidden" name="slug" id="slug" value="{{ $document->slug ?? '' }}">
                <div class="card card-bordered card-preview separate-fields">
                     <div class="card-inner">
@@ -21,7 +20,7 @@
                          <div class="approved-section m-4">
                               <div class="col-md-8">
                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="approved" name="approved" value="1">
+                                        <input type="checkbox" class="custom-control-input approved" id="approved" name="approved" value="0">
                                         <label class="custom-control-label" for="approved"></label>
                                    </div>
                               </div>
@@ -101,12 +100,56 @@
                </div>
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
+                         <h5>Agreement Section</h5>
+                         <hr>
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="long_description">Long Description</label>
                                    <textarea id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
                               </div>
                          </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="">Agreement Steps</label>
+                              </div>
+                         </div>  
+                         @if(isset($document->documentAgreement) && $document->documentAgreement != null)
+                         @foreach($document->documentAgreement as $agrmnt)
+                         <div class="faq-append-sec{{ $agrmnt->id ?? '' }}">
+                              <div class="col-md-2 offset-md-10">
+                                   <div class="form-group">
+                                        <div><span class="remove-faq" data-id="{{ $agrmnt->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                   </div>
+                              </div>
+                              <div class="row gy-8">
+                                   <div class="col-md-3">
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$agrmnt->media->file_name ?? '' ) }}" alt="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-3">
+                                        <div class="form-group">
+                                             <label class="form-label" for="agreement_heading">Heading</label>
+                                             <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[{{ $agrmnt->id ?? '' }}]" value="{{ $agrmnt->heading ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-4">
+                                        <div class="form-group">
+                                             <label class="form-label" for="agreement_description">Description</label>
+                                             <textarea class="form-control" id="agreement_description" name="agreement_description[{{ $agrmnt->id ?? '' }}]">{{ $agrmnt->description ?? '' }}</textarea>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         @endforeach
+                         @endif
+                         <br>
+                         <div class="col-md-3 offset-md-9">
+                              <div class="form-group">
+                                   <button type="button" class="btn btn-sm btn-primary" id="add-sec">Add Row</button>
+                              </div>
+                         </div>                      
+                         <div id="steps"></div>
                     </div>
                </div>
                <div class="card card-bordered card-preview">
@@ -202,7 +245,7 @@
                                         </div>
                                         <div class="row gy-12">
                                              <div class="col-md-4">
-                                                       <div class="form-group">
+                                                  <div class="form-group">
                                                        <label class="form-label" for="step_title">Step Title</label>
                                                        <input type="text" class="form-control form-control" id="step_title" name="step_title[{{ $guide->id ?? '' }}]" value="{{ $guide->step_title ?? '' }}">
                                                   </div>
@@ -219,7 +262,7 @@
                                    @endforeach
                                    @endif
                                    <br>
-                                   <div class="col-md-5 offset-md-7">
+                                   <div class="col-md-2 offset-md-10">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" id="add-guide-sec">Add Row</button>
                                         </div>
@@ -268,56 +311,6 @@
                                         </div>
                                    </div>
                                    @endif
-                              </div>
-                         </div>
-                         <hr>
-                         <h6>Faq</h6>
-                         <div class="card card-bordered card-preview">
-                              <div class="faq-section m-4">
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="faq_heading">Faq heading</label>
-                                             <input type="text" class="form-control form-control" id="faq_heading" name="faq_heading" value="{{ $document->faq_heading ?? '' }}">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label">Question Answers</label>
-                                        </div>
-                                   </div>
-                                   @if(isset($document->documentFaq) && $document->documentFaq != null)
-                                   @foreach($document->documentFaq as $index=>$faq)
-                                   <div class="faq-append-sec{{ $faq->id ?? '' }}">
-                                        <div class="col-md-3 offset-md-9">
-                                             <div class="form-group">
-                                                  <div><span class="remove-faq" data-id="{{ $faq->id ?? '' }}"><i class="fa fa-times"></i></span></div>
-                                             </div>
-                                        </div>
-                                        <div class="row gy-8">
-                                             <div class="col-md-4">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="doc_question">Quiz</label>
-                                                       <input type="text" class="form-control" id="doc_question" name="doc_question[{{ $faq->id ?? '' }}]" value="{{ $faq->question ?? '' }}">
-                                                  </div>
-                                             </div>
-                                             <div class="col-md-4">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="doc_answer">Answer</label>
-                                                       <textarea class="form-control" id="doc_answer{{ $index ?? '' }}" name="doc_answer[{{ $faq->id ?? '' }}]">{{ $faq->answer ?? '' }}</textarea>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <script>  ClassicEditor.create( document.querySelector('#doc_answer{{ $index ?? '' }}')); </script>
-                                   @endforeach
-                                   @endif
-                                   <div class="col-md-5 offset-md-7">
-                                        <div class="form-group">
-                                             <button type="button" class="btn btn-sm btn-primary" id="add-faq-sec">Add Row</button>
-                                        </div>
-                                   </div>
-                                   <div id="faq-steps"></div>
                               </div>
                          </div>
                          <hr>
@@ -400,6 +393,30 @@
                                    <input type="text" class="form-control" id="discount_price" name="discount_price" value="{{ $document->discount_price ?? '' }}">
                               </div>
                          </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="format">Format</label>
+                                   <div class="form-control-wrap">
+                                        <select class="form-select js-select2" multiple="multiple" id="format" name="format[]">
+                                        @if(isset($document->format) && $document->format != null)
+                                        <?php 
+                                             $formats = json_decode($document->format);
+                                        ?>
+                                        @foreach($formats as $format)
+                                             @if($format == 'pdf')
+                                             <option value="pdf" selected>PDF</option>
+                                             @elseif($format == 'docx')
+                                             <option value="docx" selected>DOCX</option>
+                                             @endif
+                                        @endforeach
+                                        @else
+                                        <option value="pdf">PDF</option>
+                                        <option value="docx">DOCX</option>
+                                        @endif
+                                        </select>
+                                   </div>
+                              </div>
+                         </div>
                     </div>
                </div>
                <div class="card card-bordered card-preview">
@@ -408,15 +425,49 @@
                          <hr>
                          <div class="col-md-8">
                               <div class="custom-control custom-checkbox">
-                                   <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
-                                   <label class="custom-control-label" for="customCheck1">Allow reviews.</label>
+                              @if($reviews->isNotEmpty())
+                                   <input type="checkbox" class="custom-control-input reviews" id="reviews" name="reviews" value="0">
+                              @else
+                                   <input type="checkbox" class="custom-control-input reviews" id="reviews" name="reviews" value="1" checked>
+                              @endif
+                                   <label class="custom-control-label" for="reviews">Allow reviews.</label>
                               </div>
                          </div>
-                         <div class="col-md-8">
-                              <div class="form-group">
-                                   <p>No reviews yet.</p>
+                         <hr>
+                         @if($reviews->isNotEmpty())
+                         @foreach($reviews as $rev)
+                         <div class="row gy-12">
+                              <div class="col-md-3">
+                                   <div class="form-group">
+                                   {{ $rev->first_name ?? '' }} {{ $rev->last_name ?? '' }}
+                                   {{ $rev->email ?? '' }}
+                                   </div>
+                              </div>
+                              <div class="col-md-3">
+                              @if(isset($rev->rating) && $rev->rating != null)
+                              <div id="full-stars-example-two">
+                                   <div class="ratings">
+                                   @for($i = 1; $i <= 5; $i++)
+                                   <label for="rating{{ $i }}">
+                                        <i rate="{{ $i }}" class="star fa fa-star {{ $rev->rating >= $i ? 'rating-color' : '' }}"></i>
+                                   </label>
+                                   <input name="rating" id="rating{{ $i }}" class="chkbox" style="display:none;" value="{{ $i }}" {{ $rev->rating == $i ? 'checked' : '' }}>
+                                   @endfor
+                                   </div>
+                              </div>
+                              @endif
+                              </div>
+                              <div class="col-md-4">
+                                   <div class="form-group">
+                                        {{ $rev->description ?? '' }}
+                                   </div>
                               </div>
                          </div>
+                         <br>
+                         @endforeach
+                         @else
+                         <p>No reviews yet.</p>
+                         @endif
                     </div>
                </div>
                <div class="mt-3">
@@ -579,43 +630,36 @@
 
 
           // Add Faq Section //
-          $('#add-faq-sec').click(function(){
+          $('#add-sec').click(function(){
                var html = `<div class="faq-append-sec">
-                              <div class="col-md-3 offset-md-9">
+                              <div class="col-md-2 offset-md-10">
                                    <div class="form-group">
                                         <div><span class="remove-faq" value="appended"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="row gy-8">
-                                   <div class="col-md-4">
+                                   <div class="col-md-3">
                                         <div class="form-group">
-                                             <label class="form-label" for="new_doc_question">Quiz</label>
-                                             <input type="text" class="form-control" id="new_doc_question" name="new_doc_question[]" value="">
+                                             <label class="form-label" for="new_agreement_image">Image</label>
+                                             <input type="file" class="form-control" id="new_agreement_image" name="new_agreement_image[]" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-3">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_agreement_heading">Heading</label>
+                                             <input type="text" class="form-control" id="new_agreement_heading" name="new_agreement_heading[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-4">
                                         <div class="form-group">
-                                             <label class="form-label" for="new_doc_answer">Answer</label>
-                                             <textarea class="answer-editor" id="new_doc_answer" name="new_doc_answer[]"></textarea>
+                                             <label class="form-label" for="new_agreement_description">Description</label>
+                                             <textarea class="form-control" id="new_agreement_description" name="new_agreement_description[]"></textarea>
                                         </div>
                                    </div>
                               </div>
                          </div>`
 
-               $('#faq-steps').append(html);
-
-               // Intialized ck editor with appended row //
-
-               $('.answer-editor').each(function() {
-                    if (!$(this).data('ckeditor-initialized')) {
-                         ClassicEditor
-                              .create(this)
-                              .catch(error => {
-                                   console.error(error);
-                              });
-                         $(this).data('ckeditor-initialized', true); 
-                    }
-               });
+               $('#steps').append(html);
           });
 
 
@@ -627,21 +671,31 @@
                     return false;
                }
 
-               let deleteIds = $('#faq_sec_ids').val();
+               let deleteIds = $('#agg_sec_ids').val();
                if(deleteIds) {
                     deleteIds += ',' + id;
                }else {
                     deleteIds = id;
                }
-               $('#faq_sec_ids').val(deleteIds);
+               $('#agg_sec_ids').val(deleteIds);
 
                $('.faq-append-sec'+id).hide();
           });
 
      });
-
-  
 </script>
 
+<script>
+$(document).ready(function(){
+     $('.approved').click(function(){
+          $('.approved').val('1');
+
+     })
+
+     $('.reviews').change(function(){
+          $('.reviews').val('1');
+     })
+})
+</script>
 
 @endsection

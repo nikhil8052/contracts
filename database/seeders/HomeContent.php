@@ -71,10 +71,6 @@ class HomeContent extends Seeder
                 'value' => 'Categorías principales',
             ],
             [
-                'key' => 'category_btn_arrow_img',
-                'value' => null,
-            ],
-            [
                 'key' => 'join_us_text',
                 'value' => 'Únete y crea tus documentos en minutos',
             ],

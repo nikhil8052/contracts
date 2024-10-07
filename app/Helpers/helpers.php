@@ -29,4 +29,9 @@ use App\Models\Setting;
           return $response;
      }
 
+     function generateFileName($file){
+          return time() . rand(1, 50) . '.' . $file->extension();
+     }
+
+
 ?>

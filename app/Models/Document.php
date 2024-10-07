@@ -7,21 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     use HasFactory;
-      
-    public function documentFaq()
-    {
-        return $this->hasMany(DocumentFaq::class, 'document_id', 'id');
+
+    public function documentAgreement(){
+        return $this->hasMany(DocumentAgreement::class,'document_id','id');
     }
-    public function documentGuide()
-    {
+
+    public function documentGuide(){
         return $this->hasMany(DocumentGuide::class,'document_id','id');
     }
-    public function documentField()
-    {
+
+    public function documentField(){
         return $this->hasMany(DocumentsField::class, 'document_id', 'id');
     }
-    public function relatedDocuments()
-    {
+
+    public function relatedDocuments(){
         return $this->hasMany(DocumentRelated::class, 'document_id', 'id');
+    }
+
+    public function reviews(){
+        return $this->hasOne(Review::class,'document_id','id');
     }
 }

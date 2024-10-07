@@ -3,11 +3,11 @@
 <div class="nk-content">
     <div class="container-fluid">  
         @if(isset($user))
-        <div class="container centered-form d-flex justify-content-center align-items-center">
+        <div class="container centered-form d-flex">
             <div class="card w-50"> <!-- Card wrapper -->
                 <div class="card-body">
                     <h5 class="card-title">User Information</h5>
-                    <form action="{{route('update.user')}}" method="post">
+                    <form action="{{ route('update.user') }}" method="post">
                         @csrf
                         <div class="form-group mb-3">
                             <input type="hidden" name="id" value="{{$user->id}}">

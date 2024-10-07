@@ -132,7 +132,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
                                         <span class="nk-menu-text">Users</span>
                                     </a>
                                     <ul class="nk-menu-sub">

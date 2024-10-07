@@ -50,7 +50,7 @@
                                    <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
                               </div>
                               <div class="form-group">
-                                   <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" height="200px" width="250px">
+                                   <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" height="200px" width="280px">
                               </div>
                          </div>
                          <hr>
@@ -135,7 +135,7 @@
                               <div class="col-md-8">
                                    <div class="form-group">
                                         <label class="form-label" for="sub_heading">Sub Heading</label>
-                                        <textarea class="form-control" id="sub_heading" name="sub_heading">x</textarea>
+                                        <textarea class="form-control" id="sub_heading" name="sub_heading">{{ $data['second_banner_sub_heading'] ?? '' }}</textarea>
                                    </div>
                               </div>
                               <div class="col-md-8">

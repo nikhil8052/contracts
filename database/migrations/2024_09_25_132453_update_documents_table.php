@@ -32,7 +32,6 @@ return new class extends Migration
             $table->string('approved')->nullable();
             $table->string('valid_in')->nullable();
             $table->json('category_id')->nullable();
-            $table->text('faq_heading')->nullable();
             $table->text('related_heading')->nullable();
             $table->longtext('related_description')->nullable();
             $table->longtext('additional_info')->nullable();
@@ -40,6 +39,8 @@ return new class extends Migration
             $table->integer('total_likes')->nullable();
             $table->integer('no_of_downloads')->nullable()->after('total_likes');
             $table->integer('discount_price')->nullable()->after('no_of_downloads');
+            $table->string('format')->nullable();
+            $table->string('reviews')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

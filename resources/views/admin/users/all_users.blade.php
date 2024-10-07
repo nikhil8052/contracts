@@ -4,11 +4,11 @@
     <div class="container-fluid">
         @if(isset($users) && $users->isNotEmpty())
         <div class="container">
-            <h2 class="mb-4">User Data</h2>
-            <table class="table table-bordered">
+            <h2 class="mb-4">All Users</h2>
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>#</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
@@ -17,14 +17,15 @@
                         <th class="text-center action-column">Action</th>
                     </tr>
                 </thead>
+                <?php $count=1; ?>
                 @foreach($users as $id => $user)
                     <tbody>
                         <tr>
-                            <td>{{$user->id}}</td>
-                            <td>{{$user->first_name}}</td>
-                            <td>{{$user->last_name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->is_admin ?? 'user'}}</td>
+                            <td>{{ $count ?? '' }}</td>
+                            <td>{{ $user->first_name ?? '' }}</td>
+                            <td>{{ $user->last_name ?? '' }}</td>
+                            <td>{{ $user->email ?? '' }}</td>
+                            <td>{{ $user->is_admin ?? 'user'}}</td>
                             <td>{{ $user->created_at->format('Y-m-d') }}</td>
                             <td class="text-center">
                                 <a href="{{url('/admin-dashboard/edit-user/'.$user->id)}}" class="btn btn-primary btn-sm me-3">Edit</a>
@@ -32,6 +33,7 @@
                             </td>
                         </tr>
                     </tbody>
+                <?php $count++; ?>
                 @endforeach
             </table>
         </div>

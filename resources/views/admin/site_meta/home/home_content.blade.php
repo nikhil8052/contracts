@@ -9,6 +9,13 @@
                <input type="hidden" id="template_sec" name="template_sec" value="">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
+                         <div class="d-flex justify-content-end p-2">
+                              <div class="nk-block-head-content">
+                                   <div class="mbsc-form-group">
+                                        <a href="{{ url('/') }}" class="btn btn-default">View Page</a>
+                                   </div>
+                              </div>
+                         </div>
                          <div class="col-md-8 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
@@ -259,15 +266,6 @@
                                         </div>
                                    </div>
                                    <div id="catg_sec"></div>
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="category_btn_arrow_img">Button Image</label>
-                                             <input type="file" class="form-control" id="category_btn_arrow_img" name="category_btn_arrow_img">
-                                        </div>
-                                        <div class="form-group">
-                                             <img src="{{ asset('storage/'.$data['category_btn_arrow_img'] ?? '' ) }}" height="40px" width="60px">
-                                        </div>
-                                   </div>
                               </div>
                          </div>
                          <hr>
