@@ -11,6 +11,13 @@
                                    <div class="nk-block-head-content">
                                         <h4 class="nk-block-title">Documents</h4>
                                    </div>
+                                   <div class="d-flex justify-content-end p-2">
+                                        <div class="nk-block-head-content">
+                                             <div class="mbsc-form-group">
+                                                  <a href="{{ url('/admin-dashboard/documents') }}" class="btn btn-light">Add Document</a>
+                                             </div>
+                                        </div>
+                                   </div>
                               </div>
                               <div class="card card-bordered card-preview">
                                    <div class="card-inner">

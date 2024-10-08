@@ -72,4 +72,11 @@ class HomeController extends Controller
 
         return view('users.home.home',compact('data','home_category','document_category','documents','reviews'));
     }
+
+    public function getDocument($slug)
+    {
+        $document = Document::where('slug',$slug)->with(['documentAgreement.media','documentField.media','documentGuide','relatedDocuments'])->first();
+
+        return view('users.contracts.contract_details',compact('document'));
+    }
 }

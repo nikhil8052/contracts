@@ -20,7 +20,7 @@
      <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 
      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-     <link rel="stylesheet" href="{{ asset('assets/css/style.css?utii') }}">
+     <link rel="stylesheet" href="{{ asset('assets/css/style.css?jhjhh') }}">
      <link rel="stylesheet" href="{{ asset('assets/css/custom.css?kkoko') }}">
      <link rel="stylesheet" href="{{ asset('assets/css/responsive.css?kjkjkj') }}">
      

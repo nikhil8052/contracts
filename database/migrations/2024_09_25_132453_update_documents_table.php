@@ -40,7 +40,7 @@ return new class extends Migration
             $table->integer('no_of_downloads')->nullable()->after('total_likes');
             $table->integer('discount_price')->nullable()->after('no_of_downloads');
             $table->string('format')->nullable();
-            $table->string('reviews')->nullable();
+            $table->string('reviews')->default('1');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

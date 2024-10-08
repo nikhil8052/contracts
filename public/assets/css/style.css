@@ -657,6 +657,17 @@ section.tab_sec_ot {
     margin-top: 42px;
 }
 
+.padd-cta {
+    padding: 20px 40px;
+    border-radius: 130px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 0;
+    font-size: 18px;
+}
 
 .tab_btn_box {
     display: flex;
@@ -670,9 +681,6 @@ section.tab_sec_ot {
     margin-bottom: 50px;
 
 }
-
-
-
 
 
 

@@ -21,10 +21,10 @@ class Document extends Model
     }
 
     public function relatedDocuments(){
-        return $this->hasMany(DocumentRelated::class, 'document_id', 'id');
+        return $this->belongsToMany(Document::class,  'document_related', 'document_id', 'related_document_id');
     }
 
     public function reviews(){
-        return $this->hasOne(Review::class,'document_id','id');
+        return $this->hasMany(Review::class,'document_id','id');
     }
 }

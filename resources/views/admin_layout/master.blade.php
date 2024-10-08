@@ -33,7 +33,7 @@
                     </div>
                     <div class="nk-sidebar-brand">
                         <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                            <h3 style="color:white">Docx</h3>
+                            <h3>Legalio</h3>
                             <!-- <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
                             <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark"> -->
                         </a>
@@ -48,36 +48,50 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-box"></em></span>
+                                        <span class="nk-menu-text">Orders</span>
+                                    </a>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-star"></em></span>
+                                        <span class="nk-menu-text">Reviews</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/published-reviews') }}" class="nk-menu-link"><span class="nk-menu-text">Published Reviews</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/pending-reviews') }}" class="nk-menu-link"><span class="nk-menu-text">Pending Reviews</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/reviews') }}" class="nk-menu-link"><span class="nk-menu-text">Add Reviews</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
                                         <span class="nk-menu-text">Documents</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/all/documents') }}" class="nk-menu-link"><span class="nk-menu-text">All Documents</span></a>
+                                            <a href="{{ url('/admin-dashboard/all/documents') }}" class="nk-menu-link"><span class="nk-menu-text">Documents</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/documents') }}" class="nk-menu-link"><span class="nk-menu-text">Add Documents</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/document/categories') }}" class="nk-menu-link"><span class="nk-menu-text">Documents Categories</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/add-document-category') }}" class="nk-menu-link"><span class="nk-menu-text">Add Documents Category</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/reviews') }}" class="nk-menu-link"><span class="nk-menu-text">Add Review</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/all-reviews') }}" class="nk-menu-link"><span class="nk-menu-text">All Reviews</span></a>
+                                            <a href="{{ url('/admin-dashboard/document/categories') }}" class="nk-menu-link"><span class="nk-menu-text">Categories</span></a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-files"></em></span>
-                                        <span class="nk-menu-text">Paginas</span>
+                                        <span class="nk-menu-text">Pages</span>
                                     </a>
                                     <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/home-content') }}" class="nk-menu-link"><span class="nk-menu-text">Home</span></a>
+                                        </li>
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/how-it-works') }}" class="nk-menu-link"><span class="nk-menu-text">How It Works</span></a>
                                         </li>
@@ -100,17 +114,11 @@
                                             <a href="{{ url('/admin-dashboard/register') }}" class="nk-menu-link"><span class="nk-menu-text">Crear cuenta</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/prepare-contract') }}" class="nk-menu-link"><span class="nk-menu-text">Elabora tu Contrato con un Abogado Especializado</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/home-content') }}" class="nk-menu-link"><span class="nk-menu-text">Home</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/web-setting') }}" class="nk-menu-link"><span class="nk-menu-text">Web Setting</span></a>
                                         </li>
                                     </ul>
                                 </li> 
-                                <li class="nk-menu-item has-sub">
+                                <!-- <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-box"></em></span>
                                         <span class="nk-menu-text">Productos</span>
@@ -129,11 +137,11 @@
                                             <a href="{{ url('/admin-dashboard/product') }}" class="nk-menu-link"><span class="nk-menu-text">Add Product</span></a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
-                                        <span class="nk-menu-text">Users</span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
+                                        <span class="nk-menu-text">Configuration</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">

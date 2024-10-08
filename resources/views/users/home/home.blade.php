@@ -90,7 +90,7 @@
 												<?php print_r(Str::limit($documents->short_description, 70, '...')); ?> 
 											</div>
 											<div class="tab_btn">
-												<a href="" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
+												<a href="{{ url('document') }}/{{ $documents->slug }}" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
 											</div>
 											</div>
 										</div>
@@ -123,7 +123,7 @@
 					<div class="Comienza-content">
 						<h2>{{ $data['bottom_heading'] ?? '' }}</h2>
 						<p>{{ $data['bottom_subheading'] ?? '' }}</p>
-						<a href="{{ $data['bottom_button_link'] ?? '' }}" class="">{{ $data['bottom_button_label'] ?? '' }} <i class="fa-solid fa-arrow-right-long"></i></a>
+						<a href="{{ $data['bottom_button_link'] ?? '' }}" class="cta_org padd-cta">{{ $data['bottom_button_label'] ?? '' }} <i class="fa-solid fa-arrow-right-long"></i></a>
 					</div>
 				</div>
 			</div>
@@ -229,16 +229,18 @@
 					<div class="control_box">
 						<div class="d-flex">
 							<div class="slider-img">
-								<img src="{{ asset('storage/'.$review->media->file_name ?? '' ) }}" alt="">
+							@if(isset($review->media->file_name) && $review->media->file_name != null)
+								<img src="{{ asset('storage/'.$review->media->file_name) }}" alt="">
+							@else
+							<?php $initials = strtoupper(substr($review->first_name, 0, 1)) . strtoupper(substr($review->last_name, 0, 1)); ?>
+							<span>{{ $initials ?? '' }}</span>
+							@endif
 							</div>
 							<div class="txt_slider">
 								<h6>{{ $review->first_name ?? '' }} {{ $review->last_name ?? '' }}</h6>
 								<span>{{ $review->city ?? '' }}</span>
 							</div>
 						</div>
-						<!-- <div class="star_img">
-							<img src="{{ asset('assets/img/star.png') }}" alt="">
-						</div> -->
 						@if(isset($review->rating) && $review->rating != null)
 						<div id="full-stars-example-two">
 							<div class="ratings">

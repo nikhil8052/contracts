@@ -14,29 +14,77 @@
                <input type="hidden" name="guide_sec_ids" id="guide_sec_ids" value="">
                <input type="hidden" name="agg_sec_ids" id="agg_sec_ids" value="">
                <input type="hidden" name="slug" id="slug" value="{{ $document->slug ?? '' }}">
-               <div class="card card-bordered card-preview separate-fields">
+               <div class="card card-bordered card-preview">
                     <div class="card-inner">
-                         <p><b>Approved ?</b></p>
-                         <div class="approved-section m-4">
-                              <div class="col-md-8">
+                         <div class="row gy-12">
+                              <div class="col-md-8 pb-2">
+                                   <div class="form-group">
+                                        <label class="form-label" for="title"><b><h4>@if(isset($document) && $document != null) Edit Document @else Add New Document @endif</b></h4></label>
+                                        <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
+                                   </div>
+                              </div>
+                              <div class="col-md-3">
+                                   <p><b>Published</b></p>
                                    <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input approved" id="approved" name="approved" value="0">
                                         <label class="custom-control-label" for="approved"></label>
                                    </div>
-                              </div>
-                         </div>
-                         <hr>
-                         <div class="valid-in">
-                              <div class="col-md-8">
                                    <div class="form-group">
-                                        <label class="form-label" for="valid_in">Valid in</label>
-                                        <input type="text" class="form-control form-control" id="valid_in" name="valid_in" value="{{ $document->valid_in ?? '' }}">
+                                        <button type="button" class="btn btn-light">AI Autofill</button>
+                                   </div>
+                                   <div class="form-group">
+                                        <button type="button" class="btn btn-light">Document generator</button>
                                    </div>
                               </div>
                          </div>
+                         @if(isset($document) && $document != null)
+
+                         @else
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="document_image">Image</label>
+                                   <input type="file" class="form-control" id="document_image" name="document_image" value="">
+                              </div>
+                         </div>
+                         @endif
+                         <h5>Document Short Description</h5>  
                          <hr>
-                         <div class="categories">
+                         <div class="row gy-12">
                               <div class="col-md-8">
+                                   <div class="form-group">
+                                        <label class="form-label" for="short_description">Short Description</label>
+                                        <textarea class="form-control" id="short_description" name="short_description">{{ $document->short_description ?? '' }}</textarea>
+                                   </div>
+                              </div>
+                              <div class="col-md-3">
+                                   <div class="form-group">
+                                        <button type="button" class="btn btn-light">Document questions</button>
+                                   </div>
+                                   <div class="form-group">
+                                        <button type="button" class="btn btn-light">Document Text</button>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="document_button_text">Create Document Button Text</label>
+                                   <input type="text" class="form-control" id="document_button_text" name="document_button_text" value="{{ $document->btn_text ?? '' }}">
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <div class="card card-bordered card-preview">
+                    <div class="card-inner">
+                         <h5>Agreement Section</h5>
+                         <hr>
+                         <div class="row gy-12">
+                              <div class="col-md-8">
+                                   <div class="form-group">
+                                        <label class="form-label" for="long_description">Long Description</label>
+                                        <textarea id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
+                                   </div>
+                              </div>
+                              <div class="col-md-3">
                                    <div class="form-group">
                                         <label class="form-label" for="category_id">Categories</label>  
                                         <div class="form-control-wrap"> 
@@ -58,54 +106,10 @@
                                              </select>
                                         </div>
                                    </div>
-                              </div>
-                         </div>
-                    </div>
-               </div>
-               <div class="card card-bordered card-preview">
-                    <div class="card-inner">
-                         <div class="col-md-8 pb-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="title"><b><h4>@if(isset($document) && $document != null) Edit Document @else Add New Document @endif</b></h4></label>
-                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
-                              </div>
-                         </div>
-                         <hr>
-                         @if(isset($document) && $document != null)
-
-                         @else
-                         <div class="col-md-8">
-                              <div class="form-group">
-                                   <label class="form-label" for="document_image">Image</label>
-                                   <input type="file" class="form-control" id="document_image" name="document_image" value="">
-                              </div>
-                         </div>
-                         <hr>
-                         @endif
-                         <h5>Document Short Description</h5>  
-                         <hr>
-                         <div class="col-md-8">
-                              <div class="form-group">
-                                   <label class="form-label" for="short_description">Short Description</label>
-                                   <textarea class="form-control" id="short_description" name="short_description">{{ $document->short_description ?? '' }}</textarea>
-                              </div>
-                         </div>
-                         <div class="col-md-8">
-                              <div class="form-group">
-                                   <label class="form-label" for="document_button_text">Create Document Button Text</label>
-                                   <input type="text" class="form-control" id="document_button_text" name="document_button_text" value="{{ $document->btn_text ?? '' }}">
-                              </div>
-                         </div>
-                    </div>
-               </div>
-               <div class="card card-bordered card-preview">
-                    <div class="card-inner">
-                         <h5>Agreement Section</h5>
-                         <hr>
-                         <div class="col-md-8">
-                              <div class="form-group">
-                                   <label class="form-label" for="long_description">Long Description</label>
-                                   <textarea id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
+                                   <div class="form-group">
+                                        <label class="form-label" for="doc_price">Price *</label>
+                                        <input type="text" class="form-control" id="doc_price" name="doc_price" value="{{ $document->doc_price ?? '' }}">
+                                   </div>
                               </div>
                          </div>
                          <div class="col-md-8">
@@ -116,13 +120,13 @@
                          @if(isset($document->documentAgreement) && $document->documentAgreement != null)
                          @foreach($document->documentAgreement as $agrmnt)
                          <div class="faq-append-sec{{ $agrmnt->id ?? '' }}">
-                              <div class="col-md-2 offset-md-10">
+                              <div class="col-md-4 offset-md-8">
                                    <div class="form-group">
                                         <div><span class="remove-faq" data-id="{{ $agrmnt->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="row gy-8">
-                                   <div class="col-md-3">
+                                   <div class="col-md-2">
                                         <div class="form-group">
                                              <img src="{{ asset('storage/'.$agrmnt->media->file_name ?? '' ) }}" alt="">
                                         </div>
@@ -133,7 +137,7 @@
                                              <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[{{ $agrmnt->id ?? '' }}]" value="{{ $agrmnt->heading ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-4">
+                                   <div class="col-md-3">
                                         <div class="form-group">
                                              <label class="form-label" for="agreement_description">Description</label>
                                              <textarea class="form-control" id="agreement_description" name="agreement_description[{{ $agrmnt->id ?? '' }}]">{{ $agrmnt->description ?? '' }}</textarea>
@@ -144,7 +148,7 @@
                          @endforeach
                          @endif
                          <br>
-                         <div class="col-md-3 offset-md-9">
+                         <div class="col-md-5 offset-md-7">
                               <div class="form-group">
                                    <button type="button" class="btn btn-sm btn-primary" id="add-sec">Add Row</button>
                               </div>
@@ -238,7 +242,7 @@
                                    @if(isset($document->documentGuide) && $document->documentGuide != null)
                                    @foreach($document->documentGuide as $guide)
                                    <div class="guide-append-sec{{ $guide->id ?? '' }}">
-                                        <div class="col-md-3 offset-md-9">
+                                        <div class="col-md-4 offset-md-8">
                                              <div class="form-group">
                                                   <div><span class="remove-guide" data-id="{{ $guide->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                              </div>
@@ -262,7 +266,7 @@
                                    @endforeach
                                    @endif
                                    <br>
-                                   <div class="col-md-2 offset-md-10">
+                                   <div class="col-md-5 offset-md-7">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" id="add-guide-sec">Add Row</button>
                                         </div>
@@ -292,12 +296,12 @@
                                              <input type="text" class="form-control" id="legal_btn_text" name="legal_btn_text" value="{{ $document->legal_btn_text ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <!-- <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="legal_btn_link">Button Link</label>
                                              <input type="text" class="form-control" id="legal_btn_link" name="legal_btn_link" value="{{ $document->legal_btn_link ?? '' }}">
                                         </div>
-                                   </div>
+                                   </div> -->
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="legal_doc_image">Document Image</label>
@@ -311,6 +315,15 @@
                                         </div>
                                    </div>
                                    @endif
+                              </div>
+                         </div>
+                         <hr>
+                         <div class="valid-in">
+                              <div class="col-md-8">
+                                   <div class="form-group">
+                                        <label class="form-label" for="valid_in">Valid in</label>
+                                        <input type="text" class="form-control form-control" id="valid_in" name="valid_in" value="{{ $document->valid_in ?? '' }}">
+                                   </div>
                               </div>
                          </div>
                          <hr>
@@ -337,12 +350,14 @@
                                                        <option value="">Select</option>
                                                        @if(isset($related_documents) && $related_documents != null)
                                                             @foreach($related_documents as $related)
-                                                                 @php
-                                                                      $isSelected = isset($document->relatedDocuments) && $document->relatedDocuments->contains('related_document_id', $related->id);
-                                                                 @endphp
-                                                                 <option value="{{ $related->id ?? '' }}" {{ $isSelected ? 'selected' : '' }}>
-                                                                      {{ $related->title ?? '' }}
-                                                                 </option>
+                                                                 @if($related->id != $document->id)
+                                                                      @php
+                                                                           $isSelected = isset($document->relatedDocuments) && $document->relatedDocuments->contains('related_document_id', $related->id);
+                                                                      @endphp
+                                                                      <option value="{{ $related->id ?? '' }}" {{ $isSelected ? 'selected' : '' }}>
+                                                                           {{ $related->title ?? '' }}
+                                                                      </option>
+                                                                 @endif
                                                             @endforeach
                                                        @endif
                                                   </select>
@@ -365,7 +380,7 @@
                          </div>
                     </div>
                </div>
-               <div class="card card-bordered card-preview">
+              {{-- <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <h5>Document Price</h5> 
                          <hr>
@@ -399,19 +414,19 @@
                                    <div class="form-control-wrap">
                                         <select class="form-select js-select2" multiple="multiple" id="format" name="format[]">
                                         @if(isset($document->format) && $document->format != null)
-                                        <?php 
-                                             $formats = json_decode($document->format);
-                                        ?>
-                                        @foreach($formats as $format)
-                                             @if($format == 'pdf')
-                                             <option value="pdf" selected>PDF</option>
-                                             @elseif($format == 'docx')
-                                             <option value="docx" selected>DOCX</option>
-                                             @endif
-                                        @endforeach
-                                        @else
-                                        <option value="pdf">PDF</option>
-                                        <option value="docx">DOCX</option>
+                                             <?php 
+                                                  // $formats = json_decode($document->format);
+                                             ?>
+                                             @foreach($formats as $format)
+                                                  @if($format == 'pdf')
+                                                  <option value="pdf" selected>PDF</option>
+                                                  @elseif($format == 'docx')
+                                                  <option value="docx" selected>DOCX</option>
+                                                  @endif
+                                             @endforeach
+                                             @else
+                                             <option value="pdf">PDF</option>
+                                             <option value="docx">DOCX</option>
                                         @endif
                                         </select>
                                    </div>
@@ -425,11 +440,7 @@
                          <hr>
                          <div class="col-md-8">
                               <div class="custom-control custom-checkbox">
-                              @if($reviews->isNotEmpty())
-                                   <input type="checkbox" class="custom-control-input reviews" id="reviews" name="reviews" value="0">
-                              @else
                                    <input type="checkbox" class="custom-control-input reviews" id="reviews" name="reviews" value="1" checked>
-                              @endif
                                    <label class="custom-control-label" for="reviews">Allow reviews.</label>
                               </div>
                          </div>
@@ -469,7 +480,7 @@
                          <p>No reviews yet.</p>
                          @endif
                     </div>
-               </div>
+               </div> --}}
                <div class="mt-3">
                @if(isset($document) && $document != null)
                     <button class="btn btn-primary" type="submit">Update</button>
@@ -585,7 +596,7 @@
           // Append Guide section // 
           $('#add-guide-sec').click(function(){
                var html = `<div class="guide-append-sec">
-                              <div class="col-md-3 offset-md-9">
+                              <div class="col-md-4 offset-md-8">
                                    <div class="form-group">
                                         <div><span class="remove-guide" value="appended"><i class="fa fa-times"></i></span></div>
                                    </div>
@@ -632,13 +643,13 @@
           // Add Faq Section //
           $('#add-sec').click(function(){
                var html = `<div class="faq-append-sec">
-                              <div class="col-md-2 offset-md-10">
+                              <div class="col-md-4 offset-md-8">
                                    <div class="form-group">
                                         <div><span class="remove-faq" value="appended"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="row gy-8">
-                                   <div class="col-md-3">
+                                   <div class="col-md-2">
                                         <div class="form-group">
                                              <label class="form-label" for="new_agreement_image">Image</label>
                                              <input type="file" class="form-control" id="new_agreement_image" name="new_agreement_image[]" value="">
@@ -650,7 +661,7 @@
                                              <input type="text" class="form-control" id="new_agreement_heading" name="new_agreement_heading[]" value="">
                                         </div>
                                    </div>
-                                   <div class="col-md-4">
+                                   <div class="col-md-3">
                                         <div class="form-group">
                                              <label class="form-label" for="new_agreement_description">Description</label>
                                              <textarea class="form-control" id="new_agreement_description" name="new_agreement_description[]"></textarea>

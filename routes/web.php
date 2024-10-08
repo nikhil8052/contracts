@@ -31,6 +31,7 @@ use App\Http\Controllers\Users\ContractController;
 // });
 
 Route::get('/',[HomeController::class,'home']);
+Route::get('/document/{slug}',[HomeController::class,'getDocument']);
 Route::get('/contact-us',[ContactUsController::class,'index']);
 Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
 Route::get('/register',[AuthController::class,'register']);
@@ -73,7 +74,12 @@ Route::group(['middleware' =>['auth']],function(){
      Route::post('/admin-dashboard/update-document',[DocumentController::class,'updateDocument']);
      Route::get('/admin-dashboard/reviews',[DocumentController::class,'reviews']);
      Route::post('/admin-dashboard/add-review',[DocumentController::class,'addReview']);
-     Route::get('/admin-dashboard/all-reviews',[DocumentController::class,'allreview']);
+     Route::get('/admin-dashboard/published-reviews',[DocumentController::class,'publishedReview']);
+     Route::get('/admin-dashboard/edit-review/{id}',[DocumentController::class,'editReview']);
+     Route::post('/admin-dashboard/delete-review',[DocumentController::class,'deleteReview']);
+     Route::post('/admin-dashboard/publish-review',[DocumentController::class,'reviewStatus']);
+     Route::get('/admin-dashboard/pending-reviews',[DocumentController::class,'pendingReviews']);
+     Route::post('/admin-dashboard/reject-reviews',[DocumentController::class,'rejectReviews']);
 
      Route::get('/admin-dashboard/add-document-category',[DocumentController::class,'addDocumentCategory'])->name('add.category');
      Route::post('/admin-dashboard/category-process',[DocumentController::class,'CategoryProcess'])->name('category.process');
