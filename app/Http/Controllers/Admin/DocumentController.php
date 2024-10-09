@@ -32,6 +32,7 @@ class DocumentController extends Controller
         return view('admin.documents.document',compact('categories','related_documents','reviews'));
     }
 
+    
     public function addDocuments(Request $request){
         DB::beginTransaction(); 
         try{
@@ -122,68 +123,34 @@ class DocumentController extends Controller
 
                 }
             }
-
-            if($request->hasFile('upload_image')){
-                $upload_image = $request->file('upload_image');
-                for($i=0; $i<count($upload_image); $i++){
-                    $file = $upload_image[$i];
-
-                    if($request->has('img_heading')){
-                        $img_heading = $request->img_heading[$i];
-                    }
-
+            
+            if($request->has('img_heading')){
+                for($i=0; $i<count($request->img_heading); $i++){
+                    $img_heading = $request->img_heading[$i];
                     if($request->has('img_description')){
                         $img_description = $request->img_description[$i];
                     }
 
-                    $fileupload = $this->fileUploadService->upload($file, 'public');
-            
-                    $fileuploadData = $fileupload->getData();
-
-                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
-                        $document_field = new DocumentsField;
-                        $document_field->document_id = $document->id;
-                        $document_field->heading = $img_heading;
-                        $document_field->description = $img_description;
-                        $document_field->media_id = $fileuploadData->id;
-                        $document_field->save();
-            
-                    }elseif($fileuploadData->status == '400') {
-                        DB::rollBack();
-                        return redirect()->back()->with('error', $fileuploadData->error);
-                    }
+                    $document_field = new DocumentsField;
+                    $document_field->document_id = $document->id;
+                    $document_field->heading = $img_heading;
+                    $document_field->description = $img_description;
+                    $document_field->save();
                 }
             }
 
-            if($request->hasFile('new_upload_image')){
-                $upload_image = $request->file('new_upload_image');
-                for($i=0; $i<count($upload_image); $i++){
-                    $file = $upload_image[$i];
-
-                    if($request->has('new_img_heading')){
-                        $img_heading = $request->new_img_heading[$i];
-                    }
-
+            if($request->has('new_img_heading')){
+                for($i=0; $i<count($request->new_img_heading); $i++){
+                    $img_heading = $request->new_img_heading[$i];
                     if($request->has('new_img_description')){
                         $img_description = $request->new_img_description[$i];
                     }
 
-                    $fileupload = $this->fileUploadService->upload($file, 'public');
-            
-                    $fileuploadData = $fileupload->getData();
-
-                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
-                        $document_field = new DocumentsField;
-                        $document_field->document_id = $document->id;
-                        $document_field->heading = $img_heading;
-                        $document_field->description = $img_description;
-                        $document_field->media_id = $fileuploadData->id;
-                        $document_field->save();
-            
-                    }elseif($fileuploadData->status == '400') {
-                        DB::rollBack();
-                        return redirect()->back()->with('error', $fileuploadData->error);
-                    }
+                    $document_field = new DocumentsField;
+                    $document_field->document_id = $document->id;
+                    $document_field->heading = $img_heading;
+                    $document_field->description = $img_description;
+                    $document_field->save();
                 }
             }
 
@@ -256,7 +223,7 @@ class DocumentController extends Controller
             // $document->total_likes = $request->total_likes;
             // $document->discount_price = $request->discount_price;
             // $document->format = json_encode($request->format);
-            $document->reviews = $request->reviews;
+            $document->reviews = 1;
 
             if($request->img_sec_ids != null){
                 $removeIds = explode(',', $request->img_sec_ids);
@@ -371,7 +338,6 @@ class DocumentController extends Controller
             $review->city = $request->city_name;
             $review->date = $request->date;
             $review->description = $request->description;
-            $review->status = 1;
             $review->save();
 
             if($status == 'updated'){
