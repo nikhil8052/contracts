@@ -41,7 +41,6 @@ Route::get('/forget-password',[AuthController::class,'forgetPassword']);
 Route::post('/forget-password-email',[AuthController::class,'forgetPasswordEmail']);
 Route::get('password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
-Route::get('/prepare-your-contract-with-lawyer',[ContractController::class,'lawyerContract']);
 Route::post('/get-contract',[ContractController::class,'getContract']);
 
 Route::post('/registerProcc',[AuthController::class,'registerProcc']);
@@ -53,6 +52,9 @@ Route::get('/how-it-works',[SitePagesController::class,'howItWork']);
 Route::get('/faq',[SitePagesController::class,'Faq']);
 Route::get('/terms-and-conditions',[SitePagesController::class,'termsAndConditions']);
 Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
+Route::get('/prices',[SitePagesController::class,'prices']);
+Route::post('/ckeditor/upload',[SitePagesController::class,'upload'])->name('ckeditor.upload');
+Route::get('/help',[SitePagesController::class,'HelpCenter'])->name('help.center');
 // ****************** SitePagesController End **********************//
 
 
@@ -79,7 +81,7 @@ Route::group(['middleware' =>['auth']],function(){
      Route::post('/admin-dashboard/delete-review',[DocumentController::class,'deleteReview']);
      Route::post('/admin-dashboard/publish-review',[DocumentController::class,'reviewStatus']);
      Route::get('/admin-dashboard/pending-reviews',[DocumentController::class,'pendingReviews']);
-     Route::post('/admin-dashboard/reject-reviews',[DocumentController::class,'rejectReviews']);
+     Route::post('/admin-dashboard/reject-reviews',[DocumentController::class,'rejectReviews']);  
 
      Route::get('/admin-dashboard/add-document-category',[DocumentController::class,'addDocumentCategory'])->name('add.category');
      Route::post('/admin-dashboard/category-process',[DocumentController::class,'CategoryProcess'])->name('category.process');
@@ -98,6 +100,9 @@ Route::group(['middleware' =>['auth']],function(){
      Route::post('/admin-dashboard/add-login',[SiteMetaController::class,'addLogin']);
      Route::get('/admin-dashboard/register',[SiteMetaController::class,'register']);
      Route::post('/admin-dashboard/add-register',[SiteMetaController::class,'addRegister']);
+
+     Route::get('/admin-dashboard/prices',[SiteMetaController::class,'prices']);
+     Route::post('/admin-dashboard/add-price',[SiteMetaController::class,'addPriceContent']);
 
      Route::get('/admin-dashboard/faq',[AllPagesController::class,'faq']);
      Route::post('/admin-dashboard/faq-process',[AllPagesController::class,'faqAdd']);
@@ -134,7 +139,7 @@ Route::group(['middleware' =>['auth']],function(){
 
      //*********************Users Sections***************//
      Route::get('/admin-dashboard/users',[AllPagesController::class,'allUsers'])->name('all.users');
-     Route::get('/admin-dashboard/edit-user/{id}',[AllPagesController::class,'EditUser']);
+     Route::get('/admin-dashboard/edit-user/{id?}',[AllPagesController::class,'EditUser']);
      Route::post('/admin-dashboard/update-user',[AllPagesController::class,'updateUser'])->name('update.user');
      Route::get('/admin-dashboard/delete-user/{id}',[AllPagesController::class,'deleteUser'])->name('delete.user');
 

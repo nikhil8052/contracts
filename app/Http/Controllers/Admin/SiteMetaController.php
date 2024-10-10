@@ -19,6 +19,7 @@ use App\Models\HomeContent;
 use App\Models\HomeCategories;
 use App\Models\HomeTemplate;
 use App\Models\Setting;
+use App\Models\PricesContent;
 use Exception;
 use File;
 
@@ -226,7 +227,7 @@ class SiteMetaController extends Controller
         try{
             if($request->hasFile('background_image')){
                 $file = $request->file('background_image');
-                $filename = 'SiteImages' . time() . rand(1, 100) . '.' . $file->extension();
+                $filename = generateFileName($file);
                 $directory = 'public';
                 $path = $file->storeAs($directory, $filename);
 
@@ -237,7 +238,7 @@ class SiteMetaController extends Controller
 
             if($request->hasFile('banner_image')){
                 $file = $request->file('banner_image');
-                $filename = 'SiteImages' . time() . rand(1, 100) . '.' . $file->extension();
+                $filename = generateFileName($file);
                 $directory = 'public';
                 $path = $file->storeAs($directory, $filename);
 
@@ -280,10 +281,8 @@ class SiteMetaController extends Controller
             $keys = [
                 'title' => 'title',
                 'main_heading' => 'main_heading',
-                'background_image' => 'background_image',
                 'banner_title' => 'banner_title',
                 'banner_description' => 'banner_description',
-                'banner_image' => 'banner_image',
             ];
             
             foreach($keys as $key=>$input){
@@ -326,7 +325,7 @@ class SiteMetaController extends Controller
 
             if($request->hasFile('background_image')){
                 $file = $request->file('background_image');
-                $filename = 'SiteImages' . time() . rand(1, 100) . '.' . $file->extension();
+                $filename = generateFileName($file);
                 $directory = 'public';
                 $path = $file->storeAs($directory, $filename);
                 $contact->background_image = $filename;
@@ -334,7 +333,7 @@ class SiteMetaController extends Controller
 
             if($request->hasFile('banner_image')){
                 $file = $request->file('banner_image');
-                $filename = 'SiteImages' . time() . rand(1, 100) . '.' . $file->extension();
+                $filename = generateFileName($file);
                 $directory = 'public';
                 $path = $file->storeAs($directory, $filename);
                 $contact->banner_image = $filename;
@@ -645,7 +644,7 @@ class SiteMetaController extends Controller
             'review_right_arrow' => $results['review_right_arrow']->value ?? null,
         ];
 
-        $home = HomeContent::where('key','category')->with('homeCategory.media')->get();
+        $home = HomeCategories::with('media')->get();;
 
         return view('admin.site_meta.home.home_content',compact('document_category','data','home'));
     }
@@ -655,7 +654,7 @@ class SiteMetaController extends Controller
             if($request->hasFile('background_image')){
                 $background_image = $request->file('background_image');
                 $directory = 'public';
-                $filename = time().rand(1,50).'.'.$background_image->extension();
+                $filename = generateFileName($background_image);
                 $background_image->storeAs($directory, $filename);
 
                 $home_content = HomeContent::where('key','background_image')->first();
@@ -666,7 +665,7 @@ class SiteMetaController extends Controller
             if($request->hasFile('banner_image')){
                 $banner_image = $request->file('banner_image');
                 $directory = 'public';
-                $filename = time().rand(1,50).'.'.$banner_image->extension();
+                $filename = generateFileName($banner_image);
                 $banner_image->storeAs($directory, $filename);
 
                 $home_content = HomeContent::where('key','banner_image')->first();
@@ -692,7 +691,7 @@ class SiteMetaController extends Controller
             if($request->hasFile('bottom_banner_img')){
                 $file = $request->file('bottom_banner_img');
                 $directory = 'public';
-                $filename = time().rand(1,50).'.'.$file->extension();
+                $filename = generateFileName($file);
                 $file->storeAs($directory, $filename);
 
                 $home_content = HomeContent::where('key','bottom_banner_image')->first();
@@ -703,7 +702,7 @@ class SiteMetaController extends Controller
             if($request->hasFile('category_btn_arrow_img')){
                 $file = $request->file('category_btn_arrow_img');
                 $directory = 'public';
-                $filename = time().rand(1,50).'.'.$file->extension();
+                $filename = generateFileName($file);
                 $file->storeAs($directory, $filename);
 
                 $home_content = HomeContent::where('key','category_btn_arrow_img')->first();
@@ -714,7 +713,7 @@ class SiteMetaController extends Controller
             if($request->has('review_left_arrow')){
                 $file = $request->file('review_left_arrow');
                 $directory = 'public';
-                $filename = time().rand(1,50).'.'.$file->extension();
+                $filename = generateFileName($file);
                 $file->storeAs($directory, $filename);
 
                 $home_content = HomeContent::where('key','review_left_arrow')->first();
@@ -725,7 +724,7 @@ class SiteMetaController extends Controller
             if($request->has('review_right_arrow')){
                 $file = $request->file('review_right_arrow');
                 $directory = 'public';
-                $filename = time().rand(1,50).'.'.$file->extension();
+                $filename = generateFileName($file);
                 $file->storeAs($directory, $filename);
 
                 $home_content = HomeContent::where('key','review_right_arrow')->first();
@@ -770,11 +769,6 @@ class SiteMetaController extends Controller
                         $home_category->btn_text = $category_btn_text;
                         $home_category->btn_link = $category_btn_link;
                         $home_category->save();
-
-                        $home_content = new HomeContent;
-                        $home_content->key = 'category';
-                        $home_content->home_category_id = $home_category->id;
-                        $home_content->save();
                         
                     }elseif($fileuploadData->status == '400') {
                         return redirect()->back()->with('error', $fileuploadData->error);
@@ -884,26 +878,185 @@ class SiteMetaController extends Controller
         try{
             if($request->hasFile('header_logo')){
                 $file = $request->file('header_logo');
-                $filename = 'Logo' . time() . rand(1, 100) . '.' . $file->extension();
+                $filename = 'Logo' .generateFileName($file);;
                 $directory = 'public';
                 $path = $file->storeAs($directory, $filename);
 
-                $web_setting = new Setting;
-                $web_setting->key = 'header_logo';
-                $web_setting->value = $filename;
-                $web_setting->save();
+                $web_setting = Setting::key('header_logo')->first();
+                if(!$web_setting){
+                    $web_setting = new Setting;
+                    $web_setting->key = 'header_logo';
+                    $web_setting->value = $filename;
+                    $web_setting->save();
+                }else{
+                    $web_setting->value = $filename;
+                    $web_setting->update();
+                }
+                
             }
 
             if($request->hasFile('footer_logo')){
                 $file = $request->file('footer_logo');
-                $filename = 'Logo' . time() . rand(1, 100) . '.' . $file->extension();
+                $filename = 'Logo' .generateFileName($file);;
                 $directory = 'public';
                 $path = $file->storeAs($directory, $filename);
 
-                $web_setting = new Setting;
-                $web_setting->key = 'footer_logo';
-                $web_setting->value = $filename;
-                $web_setting->save();
+                $web_setting = Setting::key('footer_logo')->first();
+                if(!$web_setting){
+                    $web_setting = new Setting;
+                    $web_setting->key = 'footer_logo';
+                    $web_setting->value = $filename;
+                    $web_setting->save();
+                }else{
+                    $web_setting->value = $filename;
+                    $web_setting->update();
+                }
+               
+            }
+
+            return redirect()->back()->with('success', 'Data successfully saved.');
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    public function prices(){
+        $keys = [
+            'title',
+            'background_image',
+            'banner_title',
+            'banner_description',
+            'banner_image',
+            'document_heading',
+            'description_heading',
+            'price_heading',
+        ];
+
+        $results = PricesContent::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'background_image' => $results['background_image']->value ?? null,
+            'banner_title' => $results['banner_title']->value ?? null,
+            'banner_description' => $results['banner_description']->value ?? null,
+            'banner_image' => $results['banner_image']->value ?? null,
+            'document_heading' => $results['document_heading']->value ?? null,
+            'description_heading' => $results['description_heading']->value ?? null,
+            'price_heading' => $results['price_heading']->value ?? null,
+        ];
+
+        $document = Document::all();
+        $document_price_description = PricesContent::where('key', 'price_content')->get();
+        return view('admin.site_meta.prices.price',compact('data','document','document_price_description'));
+    }
+
+    public function addPriceContent(Request $request){
+        // return $request->all();
+        try{
+            if($request->hasFile('background_image')){
+                $background_image = $request->file('background_image');
+                $directory = 'public';
+                $filename = generateFileName($background_image);
+                $background_image->storeAs($directory, $filename);
+
+                $price_content = PricesContent::where('key','background_image')->first();
+                $price_content->value = $filename;
+                $price_content->update();
+            }
+
+            if($request->hasFile('banner_image')){
+                $banner_image = $request->file('banner_image');
+                $directory = 'public';
+                $filename = generateFileName($banner_image);
+                $banner_image->storeAs($directory, $filename);
+
+                $price_content = PricesContent::where('key','banner_image')->first();
+                $price_content->value = $filename;
+                $price_content->update();
+            }
+
+            if($request->has('document')){
+                $document = $request->document;
+                $button_text = $request->button_text;
+                $price = $request->price;
+                $description = $request->description;
+            
+                foreach($document as $key => $document){
+                    $price_content = PricesContent::find($key);
+                    $price_content->document = $document;
+                    $price_content->update(); 
+                }
+
+                foreach($button_text as $index => $button){
+                    $price_content = PricesContent::find($index);
+                    $price_content->button_text = $button;
+                    $price_content->update(); 
+                }
+
+                foreach($price as $idx => $price){
+                    $price_content = PricesContent::find($idx);
+                    $price_content->price = $price;
+                    $price_content->update(); 
+                }
+
+                foreach($description as $keyy => $description){
+                    $price_content = PricesContent::find($keyy);
+                    $price_content->description = $description;
+                    $price_content->update(); 
+                }
+            }
+
+            if($request->has('new_document')){
+                for($i=0; $i<count($request->new_document); $i++){
+                    $document = $request->new_document[$i];
+
+                    if($request->has('new_button_text')){
+                        $button_text = $request->new_button_text[$i];
+                    }
+
+                    if($request->has('new_price')){
+                        $price = $request->new_price[$i];
+                    }
+
+                    if($request->has('new_description')){
+                        $description = $request->new_description[$i];
+                    }
+
+                    $price_content = new PricesContent;
+                    $price_content->key = 'price_content';
+                    $price_content->document = $document;
+                    $price_content->button_text = $button_text;
+                    $price_content->price = $price;
+                    $price_content->description = $description;
+                    $price_content->save();
+                }
+            }
+
+            $keys = [
+                'title' => 'title',
+                'banner_title' => 'banner_title',
+                'banner_description' => 'banner_description',
+                'document_heading' => 'document_heading',
+                'description_heading' => 'description_heading',
+                'price_heading' => 'price_heading',
+            ];
+            
+            foreach($keys as $key=>$input){
+                if($request->has($input)){
+                    $price_content = PricesContent::where('key', $key)->first();
+                    if ($price_content) {
+                        $price_content->value = $request->$input;
+                        $price_content->update();
+                    }
+                }
+            }
+
+            if($request->delete_content_ids != null){
+                $deleteIds = explode(',', $request->delete_content_ids);
+                foreach($deleteIds as $id){
+                    $price_content = PricesContent::find($id);
+                    $price_content->delete();
+                }
             }
 
             return redirect()->back()->with('success', 'Data successfully saved.');

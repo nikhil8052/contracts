@@ -9,6 +9,7 @@ use App\Models\Work;
 use App\Models\QuestionAnswer;
 use App\Models\TermsAndCondition;
 use App\Models\PrivacyPolicy;
+use App\Models\PricesContent;
 
 class SitePagesController extends Controller
 {
@@ -84,4 +85,54 @@ class SitePagesController extends Controller
     
         return view('users.site_meta.privacy_policy',compact('policys'));
     }
+
+    public function upload(Request $request){
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+            $filename = generateFileName($file);
+            $path = $file->storeAs('public', $filename);
+            $url = asset('storage/' .$filename);
+
+            return response()->json([
+                'uploaded' => 1,
+                'url' => $url
+            ]);
+        }
+        return response()->json(['uploaded' => 0, 'error' => ['message' => 'File upload failed.']], 400);
+    }
+    
+    public function prices(){
+        $keys = [
+            'title',
+            'background_image',
+            'banner_title',
+            'banner_description',
+            'banner_image',
+            'document_heading',
+            'description_heading',
+            'price_heading',
+        ];
+
+        $results = PricesContent::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'background_image' => $results['background_image']->value ?? null,
+            'banner_title' => $results['banner_title']->value ?? null,
+            'banner_description' => $results['banner_description']->value ?? null,
+            'banner_image' => $results['banner_image']->value ?? null,
+            'document_heading' => $results['document_heading']->value ?? null,
+            'description_heading' => $results['description_heading']->value ?? null,
+            'price_heading' => $results['price_heading']->value ?? null,
+        ];
+
+        $document_price_description = PricesContent::where('key', 'price_content')->with('documentname')->get();
+
+        return view('users.site_meta.prices',compact('data','document_price_description'));
+    }
+
+    public function HelpCenter(Request $request)
+    {
+        return view('users.site_meta.support.support');
+    }
+
 }

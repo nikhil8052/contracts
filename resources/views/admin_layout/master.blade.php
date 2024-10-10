@@ -114,6 +114,9 @@
                                             <a href="{{ url('/admin-dashboard/register') }}" class="nk-menu-link"><span class="nk-menu-text">Crear cuenta</span></a>
                                         </li>
                                         <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/prices') }}" class="nk-menu-link"><span class="nk-menu-text">Prices</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/web-setting') }}" class="nk-menu-link"><span class="nk-menu-text">Web Setting</span></a>
                                         </li>
                                     </ul>

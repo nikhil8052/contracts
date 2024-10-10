@@ -8,6 +8,8 @@ use App\Models\QuestionAnswer;
 use Illuminate\Support\Str;
 use App\Models\PrivacyPolicy;
 use App\Models\User;
+use Hash;
+
 class AllPagesController extends Controller
 {
      public function faq()
@@ -266,34 +268,60 @@ class AllPagesController extends Controller
 
     public function allUsers()
     {
-        $users = User::where('is_admin',null)->get();
+        $users = User::where('is_admin',false)->get();
       
         return view('admin.users.all_users',compact('users'));
     }
 
-    public function editUser($id)
+    public function editUser($id = null)
     {   
         $user = User::find($id);
         
         return view('admin.users.edit_user',compact('user'));
     }
+
     public function updateUser(Request $request)
     {
-       
-        $user = User::find($request->id);
+        $request->validate([
+            'first_name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $request->id,
+        ]);
 
-        if ($user) {
-            // Update user details
+        if($request->id){
+            $user = User::find($request->id);
+
+            if ($user) {
+                $user->first_name = $request->first_name;
+                $user->last_name = $request->last_name;
+                $user->email = $request->email;
+                if($request->password){
+                    $user->password = Hash::make($request->password);
+                }
+                $user->is_admin = $request->is_admin;
+                $user->save();
+    
+                return redirect()->route('all.users')->with('success', 'User information updated successfully.');
+            } else {
+                return redirect()->back()->with('error', 'User not found.');
+            }
+        } else {
+            $request->validate([
+                'password' => 'required',
+            ]);
+
+            $user = new User();
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
-            // $user->is_admin = $request->is_admin;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->is_admin = $request->is_admin;
             $user->save();
 
-            return redirect()->route('all.users')->with('success', 'User information successfully updated.');
-        } else {
-            return redirect()->back()->with('error', 'User not found.');
+            return redirect()->route('all.users')->with('success', 'User Created successfully.');
+           
         }
     }
+    
     public function deleteUser($id)
     {
         $user = User::find($id);

@@ -76,31 +76,6 @@
                                              <input type="text" class="form-control" id="main_title" name="main_title" value="{{ $data['most_popular_title'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <!-- <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="popular_documents">Popular Documents</label>
-                                             <div class="form-control-wrap"> 
-                                                  <select class="form-select js-select2" multiple="multiple" name="popular_documents[]" id="popular_documents">
-                                                  @if(isset($documents) && $documents != null)
-                                                  @foreach($documents as $document)
-                                                       @if(isset($data['popular']) && $data['popular'] != null) 
-                                                       <?php 
-                                                            // $documentsId = json_decode($data['popular']);
-                                                       ?>
-                                                            @if(in_array($document->id,$documentsId))
-                                                            <option value="{{ $document->id ?? '' }}" selected>{{ $document->title ?? '' }}</option>
-                                                            @else
-                                                            <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
-                                                            @endif
-                                                       @else
-                                                       <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
-                                                       @endif
-                                                  @endforeach
-                                                  @endif
-                                                  </select>
-                                             </div>
-                                        </div>
-                                   </div> -->
                                    <div class="col-md-8">
                                         <div class="form-group">
                                              <label class="form-label" for="popular_documents">Popular Documents</label>
@@ -190,12 +165,12 @@
                                    </div>
                                    @if(isset($home) && $home != null)
                                    @foreach($home as $index=>$value)
-                                   <div class="category-sec{{ $value->homeCategory->id ?? '' }}">
+                                   <div class="category-sec{{ $value->id ?? '' }}">
                                         <hr>
                                         <div class="text-end">
                                              <div class="form-group">
                                                   <div>
-                                                  <span class="remove_category" data-id="{{ $value->homeCategory->id ?? '' }}">
+                                                  <span class="remove_category" data-id="{{ $value->id ?? '' }}">
                                                        <i class="fa fa-times"></i>
                                                   </span>
                                                   </div>
@@ -205,54 +180,55 @@
                                              <div class="col-md-2">
                                                   <div class="form-group">
                                                        <div class="form-group">
-                                                            <img src="{{ asset('storage/'.$value->homeCategory->media->file_name ?? '' ) }}">
+                                                            <img src="{{ asset('storage/'.$value->media->file_name ?? '' ) }}">
                                                        </div>
                                                   </div>
                                              </div>
                                              <div class="col-md-2">
                                                   <div class="form-group">
                                                        <label class="form-label" for="cat_heading">Heading</label>
-                                                       <input type="text" class="form-control" id="cat_heading" name="cat_heading[{{ $value->homeCategory->id ?? '' }}]" value="{{ $value->homeCategory->heading ?? '' }}">
+                                                       <input type="text" class="form-control" id="cat_heading" name="cat_heading[{{ $value->id ?? '' }}]" value="{{ $value->heading ?? '' }}">
                                                   </div>
                                              </div>
                                              <div class="col-md-2">
                                                   <div class="form-group">
                                                        <label class="form-label" for="category">Category</label>
-                                                       <div class="form-control-wrap"> 
-                                                            <select class="form-select js-select2" name="category[{{ $value->homeCategory->id ?? '' }}]" id="category">
-                                                                 @if(isset($document_category) && $document_category != null)
-                                                                 @foreach($document_category as $catg)
-                                                                      @if(isset($value->homeCategory->category_id) && $value->homeCategory->category_id != null)
-                                                                           @if($value->homeCategory->category_id == $catg->id)
-                                                                           <option value="{{ $catg->id ?? '' }}" selected>{{ $catg->name ?? '' }}</option>
-                                                                           @else
-                                                                           <option value="{{ $catg->id ?? '' }}">{{ $catg->name ?? '' }}</option>
-                                                                           @endif
-                                                                      @else
-                                                                      <option value="{{ $catg->id ?? '' }}">{{ $catg->name ?? '' }}</option>
-                                                                      @endif
-                                                                 @endforeach
+                                                       <div class="form-control-wrap">
+                                                            <select class="form-select js-select2" name="category[{{ $value->id ?? '' }}]" id="category">
+                                                                 <option value="" selected disabled>Select</option>
+                                                                 @if(isset($document_category) && count($document_category) > 0)
+                                                                      @foreach($document_category as $catg)
+                                                                           @php
+                                                                           $isSelected = isset($value->category_id) && $value->category_id == $catg->id;
+                                                                           @endphp
+                                                                           <option value="{{ $catg->id }}" {{ $isSelected ? 'selected' : '' }}>
+                                                                           {{ $catg->name ?? '' }}
+                                                                           </option>
+                                                                      @endforeach
+                                                                 @else
+                                                                      <option value="" disabled>No categories available</option>
                                                                  @endif
                                                             </select>
                                                        </div>
                                                   </div>
+
                                              </div>
                                              <div class="col-md-2">
                                                   <div class="form-group">
                                                        <label class="form-label" for="category_btn_text">Button Text</label>
-                                                       <input type="text" class="form-control" id="category_btn_text" name="category_btn_text[{{ $value->homeCategory->id ?? '' }}]" value="{{ $value->homeCategory->btn_text ?? '' }}">
+                                                       <input type="text" class="form-control" id="category_btn_text" name="category_btn_text[{{ $value->id ?? '' }}]" value="{{ $value->btn_text ?? '' }}">
                                                   </div>
                                              </div>
                                              <div class="col-md-2">
                                                   <div class="form-group">
                                                        <label class="form-label" for="category_btn_link">Button Link</label>
-                                                       <input type="text" class="form-control" id="category_btn_link" name="category_btn_link[{{ $value->homeCategory->id ?? '' }}]" value="{{ $value->homeCategory->btn_link ?? '' }}">
+                                                       <input type="text" class="form-control" id="category_btn_link" name="category_btn_link[{{ $value->id ?? '' }}]" value="{{ $value->btn_link ?? '' }}">
                                                   </div>
                                              </div>
                                              <div class="col-md-2">
                                                   <div class="form-group">
                                                        <label class="form-label" for="category_description">Description</label>
-                                                       <textarea class="form-control" id="category_description" name="category_description[{{ $value->homeCategory->id ?? '' }}]">{{ $value->homeCategory->category_description ?? '' }}</textarea>
+                                                       <textarea class="form-control" id="category_description" name="category_description[{{ $value->id ?? '' }}]">{{ $value->category_description ?? '' }}</textarea>
                                                   </div>
                                              </div>
                                         </div>

@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('home_contents', function (Blueprint $table) {
+        Schema::create('prices_contents', function (Blueprint $table) {
             $table->id();
             $table->text('key')->nullable();
-            $table->longtext('value')->nullable();
+            $table->longText('value')->nullable();
             $table->string('type')->nullable();
+            $table->text('document')->nullable();
+            $table->text('button_text')->nullable();
+            $table->string('price')->nullable();
+            $table->longText('description')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('home_contents');
+        Schema::dropIfExists('prices_contents');
     }
 };

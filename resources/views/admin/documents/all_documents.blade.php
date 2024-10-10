@@ -22,6 +22,7 @@
                               <div class="card card-bordered card-preview">
                                    <div class="card-inner">
                                         <table class="table" id="catg_table">
+                                        @if(isset($documents) && $documents->isNotEmpty())
                                              <thead>
                                                   <tr>
                                                        <th scope="col">#</th>
@@ -30,31 +31,32 @@
                                                   </tr>
                                              </thead>
                                              <tbody>
-                                             @if(isset($documents) && $documents->isNotEmpty())
-                                                  <?php 
-                                                       $count = 1;
-                                                  ?>
-                                                  @foreach($documents as $data)
-                                                  <tr>
-                                                       <th scope="row">{{ $count ?? '' }}</th>
-                                                       <td><a href="{{ url('admin-dashboard/edit-document/'.$data->slug) }}">{{ $data->title ?? '' }}</a></td>
-                                                       <td>
-                                                       @if(isset($data->category_id) && $data->category_id != null)
-                                                            <?php 
-                                                                 $category = json_decode($data->category_id); 
-                                                                 foreach($category as $cat){
-                                                                      $documentCategory = App\Models\DocumentCategory::find($cat);
-                                                                      print_r($documentCategory->name);
-                                                                      echo ',';
-                                                                 }
-                                                            ?>
-                                                       @endif
-                                                       </td>
-                                                  </tr>
-                                                  <?php $count++; ?>
-                                                  @endforeach
-                                             @endif
+                                             <?php 
+                                                  $count = 1;
+                                             ?>
+                                             @foreach($documents as $data)
+                                             <tr>
+                                                  <th scope="row">{{ $count ?? '' }}</th>
+                                                  <td><a href="{{ url('admin-dashboard/edit-document/'.$data->slug) }}">{{ $data->title ?? '' }}</a></td>
+                                                  <td>
+                                                  @if(isset($data->category_id) && $data->category_id != null)
+                                                       <?php 
+                                                            $category = json_decode($data->category_id); 
+                                                            foreach($category as $cat){
+                                                                 $documentCategory = App\Models\DocumentCategory::find($cat);
+                                                                 print_r($documentCategory->name);
+                                                                 echo ',';
+                                                            }
+                                                       ?>
+                                                  @endif
+                                                  </td>
+                                             </tr>
+                                             <?php $count++; ?>
+                                             @endforeach
                                              </tbody>
+                                        @else
+                                        No Documents found.
+                                        @endif
                                         </table>
                                    </div>
                               </div><!-- .card-preview -->

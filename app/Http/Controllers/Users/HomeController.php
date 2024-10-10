@@ -65,7 +65,7 @@ class HomeController extends Controller
         ];
 
 
-        $home_category = HomeContent::where('key','category')->with('homeCategory.media')->get();
+        $home_category = HomeCategories::with('media')->get();
         $document_category = DocumentCategory::limit(4)->get();
         $documents = Document::all();
         $reviews = Review::with('media')->get();
@@ -73,10 +73,24 @@ class HomeController extends Controller
         return view('users.home.home',compact('data','home_category','document_category','documents','reviews'));
     }
 
-    public function getDocument($slug)
-    {
+    public function getDocument($slug){
         $document = Document::where('slug',$slug)->with(['documentAgreement.media','documentField.media','documentGuide','relatedDocuments'])->first();
+        $reviews = Document::where('reviews',1)->with('reviews')->get();
+        $keys = [
+            'reviews_heading',
+            'reviews_sub_heading',
+            'review_left_arrow',
+            'review_right_arrow',
+        ];
 
-        return view('users.contracts.contract_details',compact('document'));
+        $results = HomeContent::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'reviews_heading' => $results['reviews_heading']->value ?? null, 
+            'reviews_sub_heading' => $results['reviews_sub_heading']->value ?? null, 
+            'review_left_arrow' => $results['review_left_arrow']->value ?? null,
+            'review_right_arrow' => $results['review_right_arrow']->value ?? null,
+        ];
+        
+        return view('users.contracts.contract_details',compact('document','reviews','data'));
     }
 }

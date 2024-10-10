@@ -15,7 +15,6 @@ class FileUploadService
                $value = json_decode($setting->value);
 
                if(in_array($extension,$value)){
-                    // $filename = time().rand(1,50).'.'.$file->extension();
                     $filename = generateFileName($file);
                     $path = $file->storeAs($directory, $filename);
 

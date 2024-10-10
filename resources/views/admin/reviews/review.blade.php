@@ -3,7 +3,7 @@
 
 <div class="nk-content">
      <div class="container-fluid">
-          <form action="{{ url('/admin-dashboard/add-review') }}" method="post" enctype="multipart/form-data">
+          <form id="review-form" action="{{ url('/admin-dashboard/add-review') }}" method="post" enctype="multipart/form-data">
                @csrf
                <input type="hidden" name="id" value="{{ $review->id ?? '' }}">
                <div class="card card-bordered card-preview">
@@ -30,12 +30,13 @@
                                    @error('document')
                                    <span class="text text-danger">{{ $message }}</span>
                                    @enderror
+                                   <span class="text text-danger" id="error" style="display:none;">This field is required</span>
                               </div>
                          </div>
                          <br>
                          <div class="col-md-8">
                               <div class="form-group">
-                                   <label class="form-label" for="regular_price">Document Rating</label>
+                                   <label class="form-label" for="rating">Document Rating</label>
                               </div>
                               <div id="full-stars-example-two">
                                    <div class="ratings">
@@ -68,6 +69,7 @@
                                         </label>
                                         <input type="checkbox" name="rating" id="rating5" class="chkbox" style="display:none;" value="5" checked>
                                    @endif
+                                   <span class="text text-danger" id="error" style="display:none;">This field is required</span>
                                    </div>
                               </div>
                               @error('rating')
@@ -79,9 +81,7 @@
                               <div class="form-group">
                                    <label class="form-label" for="first_name">First Name</label>
                                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ $review->first_name ?? '' }}">
-                                   @error('first_name')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                   @enderror
+                                   <span class="text text-danger" id="error" style="display:none;">This field is required</span>
                               </div>
                          </div>
                          <br>
@@ -89,9 +89,7 @@
                               <div class="form-group">
                                    <label class="form-label" for="last_name">Last Name</label>
                                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ $review->last_name ?? '' }}">
-                                   @error('last_name')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                   @enderror
+                                   <span class="text text-danger" id="error" style="display:none;">This field is required</span>
                               </div>
                          </div>
                          <br>
@@ -99,9 +97,7 @@
                               <div class="form-group">
                                    <label class="form-label" for="city_name">City Name</label>
                                    <input type="text" class="form-control" id="city_name" name="city_name" value="{{ $review->city ?? '' }}">
-                                   @error('city_name')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                   @enderror
+                                   <span class="text text-danger" id="error" style="display:none;">This field is required</span>
                               </div>
                          </div>
                          <br>
@@ -109,9 +105,7 @@
                               <div class="form-group">
                                    <label class="form-label" for="date">Date</label>
                                    <input type="date" class="form-control" id="date" name="date" value="{{ $review->date ?? '' }}">
-                                   @error('date')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                   @enderror
+                                   <span class="text text-danger" id="error" style="display:none;">This field is required</span>
                               </div>
                          </div>
                          <br>
@@ -119,18 +113,16 @@
                               <div class="form-group">
                                    <label class="form-label" for="description">Document Review Description</label>
                                    <textarea class="form-control" id="description" name="description">{{ $review->description ?? '' }}</textarea>
-                                   @error('description')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                   @enderror
+                                   <span class="text text-danger" id="error" style="display:none;">This field is required</span>
                               </div>
                          </div>
                     </div>
                </div>
                <div class="mt-3">
                     @if(isset($review) && $review != null)
-                    <button class="btn btn-primary" type="submit">Edit</button>
+                    <button class="btn btn-primary submitform" type="submit">Update</button>
                     @else
-                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-primary submitform" type="submit">Save</button>
                     @endif
                </div>
           </form>
@@ -150,6 +142,57 @@ $('.chkbox').change(function(){
      }
 });
 
+</script>
+
+<script>
+     $(document).ready(function(){
+          $('.submitform').on('click', function(e){
+               e.preventDefault();
+               $('.text-danger').hide();
+
+               var document = $('#document').val();
+               var rating = $("input[name='rating']:checked").val(); // Get selected rating
+               var first_name = $('#first_name').val();
+               var last_name = $('#last_name').val();
+               var city_name = $('#city_name').val();
+               var date = $('#date').val();
+               var description = $('#description').val();
+               var isValid = true;
+
+               if(!document){
+                    $('#document').siblings('.text-danger').show();
+                    isValid = false;
+               }
+               if(!rating){
+                    $('#full-stars-example-two .text-danger').show();
+                    isValid = false;
+               }
+               if(!first_name){
+                    $('#first_name').siblings('.text-danger').show();
+                    isValid = false;
+               }
+               if(!last_name){
+                    $('#last_name').siblings('.text-danger').show();
+                    isValid = false;
+               }
+               if(!city_name){
+                    $('#city_name').siblings('.text-danger').show();
+                    isValid = false;
+               }
+               if(!date){
+                    $('#date').siblings('.text-danger').show();
+                    isValid = false;
+               }
+               if(!description){
+                    $('#description').siblings('.text-danger').show();
+                    isValid = false;
+               }
+
+               if(isValid){
+                    $('#review-form').submit();
+               }
+          });
+     })
 </script>
 
 @endsection

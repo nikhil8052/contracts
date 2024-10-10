@@ -51,7 +51,7 @@
                                    <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
                               </div>
                               <div class="form-group">
-                                   <img src="{{ asset('storage/'.$contact->banner_image ?? '' ) }}" height="200px" width="250px">
+                                   <img src="{{ asset('storage/'.$contact->banner_image ?? '' ) }}" height="200px" width="280px">
                               </div>
                          </div>
                          <hr>

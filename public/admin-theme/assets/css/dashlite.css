@@ -13996,6 +13996,7 @@ a.alert:hover {
   font-size: 16px;
   padding: 10px 30px;
   border: 1px solid #FD5602;
+ 
 }
 .nk-header.nk-header-fixed.is-light {
   padding: 2px;
@@ -41570,3 +41571,16 @@ li.nk-menu-item.has-sub:hover .nk-menu-toggle:after {
 }
 
 /*! END @iO */
+.doc-short-des .ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
+    min-height: 200px;
+}
+.col-md-12.doc-title {
+  margin-top: 24px;
+}
+.doc-top-butns {
+  display: flex;
+  gap: 21px;
+}
+.doc-top-butns button.btn {
+  color: #fff;
+}

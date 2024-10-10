@@ -151,17 +151,17 @@
 				<div class="col-lg-3">
 					<div class="in_box_cate">
 						<div class="in_img_cate">
-							<img src="{{ asset('storage/'.$category->homeCategory->media->file_name ?? '' ) }}" alt="">
+							<img src="{{ asset('storage/'.$category->media->file_name ?? '' ) }}" alt="">
 						</div>
 						<div class="in_cate_content">
-							<h6>{{ $category->homeCategory->heading ?? '' }}</h6>
+							<h6>{{ $category->heading ?? '' }}</h6>
 							<p class="in_cate_para">
-								{{ $category->homeCategory->category_description ?? '' }}
+								{{ $category->category_description ?? '' }}
 							</p>
 
 						</div>
 						<div class="cata_btn">
-							<a href="" class="cta_org">{{ $category->homeCategory->btn_text ?? '' }}  <i class="fa-solid fa-arrow-right-long"></i></a>
+							<a href="" class="cta_org">{{ $category->btn_text ?? '' }}  <i class="fa-solid fa-arrow-right-long"></i></a>
 						</div>
 					</div>
 				</div>

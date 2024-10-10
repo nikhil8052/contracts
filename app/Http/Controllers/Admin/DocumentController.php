@@ -38,19 +38,19 @@ class DocumentController extends Controller
         try{
             if(isset($request->id) && $request->id != null){
                 $document = Document::find($request->id);
-                if($request->has('img_heading')){
-                    $imgHeading = $request->img_heading;
-                    foreach($imgHeading as $key=>$val){
-                        $document_field = DocumentsField::find($key);
-                        $document_field->heading = $val;
-                        $document_field->update();
-                    }
+
+                if($request->has('new_img_heading')){
+                    for($i=0; $i<count($request->new_img_heading); $i++){
+                        $img_heading = $request->new_img_heading[$i];
+                        if($request->has('new_img_description')){
+                            $img_description = $request->new_img_description[$i];
+                        }
     
-                    $imgDescription = $request->img_description;
-                    foreach($imgDescription as $index=>$value){
-                        $document_field = DocumentsField::find($index);
-                        $document_field->description = $value;
-                        $document_field->update();
+                        $document_field = new DocumentsField;
+                        $document_field->document_id = $document->id;
+                        $document_field->heading = $img_heading;
+                        $document_field->description = $img_description;
+                        $document_field->save();
                     }
                 }
 
@@ -123,37 +123,25 @@ class DocumentController extends Controller
 
                 }
             }
-            
+
             if($request->has('img_heading')){
-                for($i=0; $i<count($request->img_heading); $i++){
-                    $img_heading = $request->img_heading[$i];
-                    if($request->has('img_description')){
-                        $img_description = $request->img_description[$i];
+                $img_headings = $request->img_heading;
+                $img_descriptions = $request->img_description;
+            
+                foreach($img_headings as $key => $img_heading){
+                    $document_field = DocumentsField::find($key);
+            
+                    if(!$document_field){
+                        $document_field = new DocumentsField;
+                        $document_field->document_id = $document->id;
                     }
 
-                    $document_field = new DocumentsField;
-                    $document_field->document_id = $document->id;
                     $document_field->heading = $img_heading;
-                    $document_field->description = $img_description;
-                    $document_field->save();
+                    $document_field->description = $img_descriptions[$key] ?? ''; 
+                    $document_field->save(); 
                 }
             }
-
-            if($request->has('new_img_heading')){
-                for($i=0; $i<count($request->new_img_heading); $i++){
-                    $img_heading = $request->new_img_heading[$i];
-                    if($request->has('new_img_description')){
-                        $img_description = $request->new_img_description[$i];
-                    }
-
-                    $document_field = new DocumentsField;
-                    $document_field->document_id = $document->id;
-                    $document_field->heading = $img_heading;
-                    $document_field->description = $img_description;
-                    $document_field->save();
-                }
-            }
-
+        
             $document->guide_main_heading = $request->guide_heading;
 
             if($request->has('new_step_title') && $request->has('new_step_description')){
@@ -194,14 +182,25 @@ class DocumentController extends Controller
 
             if($request->has('select_related_doc')){
                 $related_doc = $request->select_related_doc;
-                for($i=0; $i<count($request->select_related_doc); $i++){
+                $current_related_docs = DocumentRelated::where('document_id', $document->id)->pluck('related_document_id')->toArray();
+                $docs_to_delete = array_diff($current_related_docs, $related_doc);
+
+                DocumentRelated::where('document_id', $document->id)
+                ->whereIn('related_document_id', $docs_to_delete)
+                ->delete();
+
+                for ($i = 0; $i < count($related_doc); $i++) {
                     $related_document_id = $related_doc[$i];
-                    $related_document = new DocumentRelated;
-                    $related_document->document_id = $document->id;
-                    $related_document->related_document_id = $related_document_id;
-                    $related_document->save();
+            
+                    if (!in_array($related_document_id, $current_related_docs)) {
+                        $related_document = new DocumentRelated;
+                        $related_document->document_id = $document->id;
+                        $related_document->related_document_id = $related_document_id;
+                        $related_document->save();
+                    }
                 }
             }
+           
 
             $document->related_heading = $request->related_heading;
             $document->related_description = $request->related_description;
@@ -250,6 +249,7 @@ class DocumentController extends Controller
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
     }
+  
 
     public function allDocuments(){
         $documents = Document::all();
@@ -317,17 +317,7 @@ class DocumentController extends Controller
             if($request->id != null){
                 $review = Review::find($request->id);
                 $status = 'updated';
-            }else{
-                $request->validate([
-                    'document' => 'required',
-                    'rating' => 'required',
-                    'first_name' => 'required',
-                    'last_name' => 'required',
-                    'city' => 'required',
-                    'date' => 'required',
-                    'description' => 'required',
-                ]);
-                
+            }else{ 
                 $review = new Review;
                 $status = 'added';
             }
@@ -338,6 +328,7 @@ class DocumentController extends Controller
             $review->city = $request->city_name;
             $review->date = $request->date;
             $review->description = $request->description;
+            $review->type = 'custom';
             $review->save();
 
             if($status == 'updated'){

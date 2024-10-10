@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('home_contents', function (Blueprint $table) {
+        Schema::create('help_centers', function (Blueprint $table) {
             $table->id();
-            $table->text('key')->nullable();
-            $table->longtext('value')->nullable();
-            $table->string('type')->nullable();
-            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('home_contents');
+        Schema::dropIfExists('help_centers');
     }
 };
