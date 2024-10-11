@@ -624,7 +624,8 @@ class SiteMetaController extends Controller
         $results = HomeContent::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
             'title' => $results['title']->value ?? null,
-            'favicon' => $results['favicon']->value ?? null,
+            'favicon_id' => $results['favicon']->id ?? null,
+            'favicon' => str_replace('public/', '', $results['favicon']->file_path ?? null),
             'background_image_id' => $results['background_image']->id ?? null,
             'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
             'banner_image_id' =>  $results['banner_image']->id ?? null,
@@ -865,6 +866,21 @@ class SiteMetaController extends Controller
                 }
             }
 
+            if($request->favicon_image_id != null){
+                $home_content = HomeContent::where('id',$request->favicon_image_id)->first();
+                $file_path = getFilePath($home_content->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $home_content->value = null;
+                $home_content->file_path = null;
+                $home_content->save();
+            }
+
             if($request->bg_image_id != null){
                 $home_content = HomeContent::where('id',$request->bg_image_id)->first();
                 $file_path = getFilePath($home_content->file_path);
@@ -990,20 +1006,15 @@ class SiteMetaController extends Controller
     public function updateCategoryImage(Request $request){
         if($request->category_id != null){
             $id = $request->category_id;
-    
-            // Ensure the file is present
             if($request->hasFile('cat_image')) {
                 $file = $request->file('cat_image');
                 $home_category = HomeCategories::find($id);
                 $timestamp = now()->timestamp;
                 $directory = "public/home_categories/{$id}_{$timestamp}";
-    
-                // Ensure the fileUploadService handles this correctly
                 $fileupload = $this->fileUploadService->upload($file, $directory);
                 $fileuploadData = $fileupload->getData();
     
-                if(isset($fileuploadData) && $fileuploadData->status == '200') {
-                    // Assuming media_id needs to be updated
+                if(isset($fileuploadData) && $fileuploadData->status == '200'){
                     $home_category->media_id = $fileuploadData->id;
                     $home_category->update();
     
@@ -1012,7 +1023,7 @@ class SiteMetaController extends Controller
                         'status' => 'success',
                     ];
     
-                } elseif($fileuploadData->status == '400') {
+                }elseif($fileuploadData->status == '400') {
                     $response = [
                         'code' => $fileuploadData->status,
                         'status' => 'fail',

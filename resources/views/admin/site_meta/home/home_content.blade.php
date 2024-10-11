@@ -7,6 +7,7 @@
                @csrf
                <input type="hidden" id="category_sec" name="category_sec" value="">
                <input type="hidden" id="template_sec" name="template_sec" value="">
+               <input type="hidden" id="favicon_image_id" name="favicon_image_id" value="">
                <input type="hidden" id="bg_image_id" name="bg_image_id" value="">
                <input type="hidden" id="baner_image_id" name="baner_image_id" value="">
                <input type="hidden" id="btom_banner_id" name="btom_banner_id" value="">
@@ -33,9 +34,18 @@
                                    <label class="form-label" for="favicon">Favicon</label>
                                    <input type="file" class="form-control" id="favicon" name="favicon">
                               </div>
-                              <div class="form-group">
-                                   <!-- <img src="{{ asset('storage/'.$data['favicon'] ?? '' ) }}" height="140px" width="160px"> -->
+                              @if($data['favicon'] != null)
+                              <div class="fav_image_div" id="fav_image_div{{ $data['favicon_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-10 offset-md-2 remove_favicon" data-id="{{ $data['favicon_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['favicon'] ?? '' ) }}" height="140px" width="170px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <hr>
                          <h5>Home Page</h5>  
@@ -399,36 +409,11 @@ $(document).ready(function(){
           });
      });
 
-     // $('.update_category_img').click(function(){
-     //      var id = $(this).data('id');
-     //      $('#category_up_img'+id).trigger('click');
-     // });
-
-     // $('.up_img').change(function() {
-     //      var id = $(this).data('id');
-     //      var file = this.files[0]; 
-     //      var formData = new FormData(); 
-     //      formData.append('cat_image', file);
-     //      formData.append('_token', "{{ csrf_token() }}");
-     //      formData.append('category_id', id)
-
-     //      $.ajax({
-     //           url: "{{ url('/update/homecategory/image') }}", 
-     //           type: 'POST',
-     //           data: formData,
-     //           processData: false,  
-     //           contentType: false, 
-     //           dataType: "json",
-     //           success: function(response){
-     //                console.log(response);
-     //                // NioApp.Toast('Image updated', 'info', {position: 'top-right'});
-     //                // setTimeout(() => {                        
-     //                //      location.reload();  
-     //                // }, 1000);
-     //           }
-     //      });
-     // });
-
+     $('.remove_favicon').click(function(){
+          id = $(this).data('id');
+          $('#favicon_image_id').val(id);
+          $('#fav_image_div'+id).hide();
+     });
 
      $('.remove_background_image').click(function(){
           id = $(this).data('id');
