@@ -316,27 +316,32 @@ class DocumentController extends Controller
         try{
             if($request->id != null){
                 $review = Review::find($request->id);
-                $status = 'updated';
+                $review->document_id = $request->document;
+                $review->rating = $request->rating;
+                $review->first_name = $request->first_name;
+                $review->last_name = $request->last_name;
+                $review->city = $request->city_name;
+                $review->date = $request->date;
+                $review->description = $request->description;
+                $review->update();
+                
+                return redirect()->back()->with('success', 'Review updated.');
             }else{ 
                 $review = new Review;
-                $status = 'added';
-            }
-            $review->document_id = $request->document;
-            $review->rating = $request->rating;
-            $review->first_name = $request->first_name;
-            $review->last_name = $request->last_name;
-            $review->city = $request->city_name;
-            $review->date = $request->date;
-            $review->description = $request->description;
-            $review->type = 'custom';
-            $review->save();
+                $review->document_id = $request->document;
+                $review->rating = $request->rating;
+                $review->first_name = $request->first_name;
+                $review->last_name = $request->last_name;
+                $review->city = $request->city_name;
+                $review->date = $request->date;
+                $review->description = $request->description;
+                $review->type = 'custom';
+                $review->status = 0;
+                $review->save();
 
-            if($status == 'updated'){
-                return redirect()->back()->with('success', 'Review updated.');
-            }elseif($status == 'added'){
                 return redirect()->back()->with('success', 'Review added.');
             }
-
+            
         }catch(Exception $e){
             saveLog("Error:", "DocumentController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');

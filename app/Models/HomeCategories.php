@@ -9,6 +9,14 @@ class HomeCategories extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'heading',
+        'category_description',
+        'btn_text',
+        'btn_link',
+        'category_id', 
+    ];
+
     public function media(){
         return $this->hasOne(Media::class,'id','media_id');
     }

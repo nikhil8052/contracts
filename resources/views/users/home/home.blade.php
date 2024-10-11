@@ -14,7 +14,7 @@
 					<div class="wrap">
 						<div class="search">
 							<input type="text" class="searchTerm"
-								placeholder="Nombre del documento ej. Contrato de Trabajo">
+								placeholder="{{ $data['banner_placeholder'] ?? '' }}">
 							<button type="submit" class="searchButton">
 								{{ $data['button_name'] ?? '' }}
 							</button>
@@ -148,10 +148,13 @@
 			<div class="row">
 			@if(isset($home_category) && $home_category != null)
 			@foreach($home_category as $category)
+			<?php 
+				$path = str_replace('public/', '', $category->media->file_path ?? null);
+			?>
 				<div class="col-lg-3">
 					<div class="in_box_cate">
 						<div class="in_img_cate">
-							<img src="{{ asset('storage/'.$category->media->file_name ?? '' ) }}" alt="">
+							<img src="{{ asset('storage/'.$path ?? '' ) }}" alt="">
 						</div>
 						<div class="in_cate_content">
 							<h6>{{ $category->heading ?? '' }}</h6>
@@ -236,10 +239,12 @@
 							<span>{{ $initials ?? '' }}</span>
 							@endif
 							</div>
+							@if($review->type == 'custom')
 							<div class="txt_slider">
 								<h6>{{ $review->first_name ?? '' }} {{ $review->last_name ?? '' }}</h6>
 								<span>{{ $review->city ?? '' }}</span>
 							</div>
+							@endif
 						</div>
 						@if(isset($review->rating) && $review->rating != null)
 						<div id="full-stars-example-two">

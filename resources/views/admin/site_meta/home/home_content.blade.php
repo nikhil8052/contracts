@@ -7,6 +7,12 @@
                @csrf
                <input type="hidden" id="category_sec" name="category_sec" value="">
                <input type="hidden" id="template_sec" name="template_sec" value="">
+               <input type="hidden" id="bg_image_id" name="bg_image_id" value="">
+               <input type="hidden" id="baner_image_id" name="baner_image_id" value="">
+               <input type="hidden" id="btom_banner_id" name="btom_banner_id" value="">
+               <input type="hidden" id="rght_id" name="rght_id" value="">
+               <input type="hidden" id="lft_id" name="lft_id" value="">
+               <input type="hidden" id="category_img_id" name="category_img_id" value="">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="d-flex justify-content-end p-2">
@@ -16,10 +22,19 @@
                                    </div>
                               </div>
                          </div>
-                         <div class="col-md-8 pb-2">
+                         <div class="col-md-12 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ $data['title'] ?? '' }}">
+                              </div>
+                         </div>
+                         <div class="col-md-12 pb-2">
+                              <div class="form-group">
+                                   <label class="form-label" for="favicon">Favicon</label>
+                                   <input type="file" class="form-control" id="favicon" name="favicon">
+                              </div>
+                              <div class="form-group">
+                                   <!-- <img src="{{ asset('storage/'.$data['favicon'] ?? '' ) }}" height="140px" width="160px"> -->
                               </div>
                          </div>
                          <hr>
@@ -28,37 +43,61 @@
                          <h6>Banner Section</h6>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="background_image">Background Image</label>
                                              <input type="file" class="form-control" id="background_image" name="background_image" value="">
                                         </div>
-                                        <div class="form-group">
-                                             <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="160px">
+                                        @if($data['background_image'] != null)
+                                        <div class="bg_image_div" id="bg_image{{ $data['background_image_id'] ?? '' }}">
+                                             <div class="form-group">
+                                                  <span class="col-md-10 offset-md-2 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="170px">
+                                             </div>
                                         </div>
+                                        @endif
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="banner_title">Banner Title</label>
                                              <input type="text" class="form-control" id="banner_title" name="banner_title" value="{{ $data['banner_title'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="banner_description">Banner Description</label>
                                              <input type="text" class="form-control" id="banner_description" name="banner_description" value="{{ $data['banner_description'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="banner_image">Banner Image</label>
                                              <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
                                         </div>
+                                        @if($data['banner_image'] != null)
+                                        <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
+                                             <div class="form-group">
+                                                  <span class="col-md-10 offset-md-2 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" height="140px" width="160px">
+                                             </div>
+                                        </div>
+                                        @endif
+                                   </div>
+                                   <div class="col-md-12">
                                         <div class="form-group">
-                                             <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" height="140px" width="160px">
+                                             <label class="form-label" for="banner_placeholder">Placeholder</label>
+                                             <input type="text" class="form-control" id="banner_placeholder" name="banner_placeholder" value="{{ $data['banner_placeholder'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="button_name">Button Name</label>
                                              <input type="text" class="form-control" id="button_name" name="button_name" value="{{ $data['button_name'] ?? '' }}">
@@ -70,13 +109,13 @@
                          <h6>Most popular Documents</h6>  
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="main_title">Main Title</label>
                                              <input type="text" class="form-control" id="main_title" name="main_title" value="{{ $data['most_popular_title'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="popular_documents">Popular Documents</label>
                                              <div class="form-control-wrap"> 
@@ -101,7 +140,7 @@
                                              </div>
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="most_popular_btn_text">Button Text</label>
                                              <input type="text" class="form-control" id="most_popular_btn_text" name="most_popular_btn_text" value="{{ $data['most_popular_btn_text'] ?? '' }}">
@@ -113,38 +152,47 @@
                          <h6>Bottom Banner</h6>  
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="bottom_heading">Heading</label>
                                              <input type="text" class="form-control" id="bottom_heading" name="bottom_heading" value="{{ $data['bottom_heading'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="bottom_sub_heading">Sub Heading</label>
                                              <textarea class="form-control" id="bottom_sub_heading" name="bottom_sub_heading">{{ $data['bottom_subheading'] ?? '' }}</textarea>
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="bottom_button_label">Button Label</label>
                                              <input type="text" class="form-control" id="bottom_button_label" name="bottom_button_label" value="{{ $data['bottom_button_label'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="bottom_button_link">Button Link</label>
                                              <input type="text" class="form-control" id="bottom_button_link" name="bottom_button_link" value="{{ $data['bottom_button_link'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="bottom_banner_img">Banner Image</label>
                                              <input type="file" class="form-control" id="bottom_banner_img" name="bottom_banner_img" value="">
                                         </div>
-                                        <div class="form-group">
-                                             <img src="{{ asset('storage/'.$data['bottom_banner_image'] ?? '' ) }}" height="140px" width="160px">
+                                        @if($data['bottom_banner_image'] != null)
+                                        <div class="bottom_bnnr" id="bottom_bnnr{{ $data['bottom_banner_id'] ?? '' }}">
+                                             <div class="form-group">
+                                                  <span class="col-md-10 offset-md-2 remove_bottom_banner" data-id="{{ $data['bottom_banner_id'] ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$data['bottom_banner_image'] ?? '' ) }}" height="140px" width="160px">
+                                             </div>
                                         </div>
+                                        @endif
                                    </div>
                               </div>
                          </div>
@@ -152,35 +200,45 @@
                          <h6>Categories Section</h6>  
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="category_main_title">Main Title</label>
                                              <input type="text" class="form-control" id="category_main_title" name="category_main_title" value="{{ $data['category_title'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="">Categories</label>
                                         </div>
                                    </div>
                                    @if(isset($home) && $home != null)
                                    @foreach($home as $index=>$value)
+                                   <?php 
+                                        $path = str_replace('public/', '', $value->media->file_path ?? null);
+                                   ?>
                                    <div class="category-sec{{ $value->id ?? '' }}">
                                         <hr>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <div>
                                                   <span class="remove_category" data-id="{{ $value->id ?? '' }}">
                                                        <i class="fa fa-times"></i>
                                                   </span>
-                                                  </div>
                                              </div>
                                         </div>
-                                        <div class="row gy-5">
-                                             <div class="col-md-2">
+                                        <div class="row gy-12">
+                                             <div class="col-md-2 catg_img_div" id="catg_img_div{{ $value->id ?? '' }}">
+                                                  <div class="form-group">
+                                                       <input type="file" name="category_up_img" class="up_img" data-id="{{ $value->id ?? '' }}" id="category_up_img{{ $value->id ?? '' }}" style="display:none;">
+                                                       <span class="update_category_img" data-id="{{ $value->id ?? '' }}">
+                                                            <i class="fa fa-pen"></i>
+                                                       </span>
+                                                       <span class="col-md-7 offset-md-5 remove_category_img" data-id="{{ $value->id ?? '' }}">
+                                                            <i class="fa fa-times"></i>
+                                                       </span>
+                                                  </div>
                                                   <div class="form-group">
                                                        <div class="form-group">
-                                                            <img src="{{ asset('storage/'.$value->media->file_name ?? '' ) }}">
+                                                            <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Category image">
                                                        </div>
                                                   </div>
                                              </div>
@@ -247,36 +305,54 @@
                          <hr>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="join_us_text">Join Us Text</label>
                                              <input type="text" class="form-control" id="join_us_text" name="join_us_text" value="{{ $data['join_us_text'] ?? '' }}">
                                         </div>
                                    </div>
                                    <hr>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="reviews_heading">Reviews Heading</label>
                                              <input type="text" class="form-control" id="reviews_heading" name="reviews_heading" value="{{ $data['reviews_heading'] ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="review_left_arrow">Left button image</label>
                                              <input type="file" class="form-control" id="review_left_arrow" name="review_left_arrow">
                                         </div>
-                                        <div class="form-group">
-                                             <img src="{{ asset('storage/'.$data['review_left_arrow'] ?? '' ) }}">
+                                        @if($data['review_left_arrow'] != null)
+                                        <div class="left_arrow_div" id="left_arrow_div{{ $data['left_arrow_id'] ?? '' }}">
+                                             <div class="form-group">
+                                                  <span class="col-md-10 offset-md-2 remove_left_arrow" data-id="{{ $data['left_arrow_id'] ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$data['review_left_arrow'] ?? '' ) }}">
+                                             </div>
                                         </div>
+                                        @endif
                                    </div>
-                                   <div class="col-md-8">
+                                   <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="review_right_arrow">Right button image</label>
                                              <input type="file" class="form-control" id="review_right_arrow" name="review_right_arrow">
                                         </div>
-                                        <div class="form-group">
-                                             <img src="{{ asset('storage/'.$data['review_right_arrow'] ?? '' ) }}">
+                                        @if($data['review_right_arrow'] != null)
+                                        <div class="right_arrow_div" id="right_arrow_div{{ $data['right_arrow_id'] ?? '' }}">
+                                             <div class="form-group">
+                                                  <span class="col-md-10 offset-md-2 remove_right_arrow" data-id="{{ $data['right_arrow_id'] ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$data['review_right_arrow'] ?? '' ) }}">
+                                             </div>
                                         </div>
+                                        @endif
                                    </div>
                               </div>
                          </div>
@@ -288,6 +364,119 @@
           </form>
      </div>
 </div>
+
+<script>
+$(document).ready(function(){
+     $('.update_category_img').click(function(){
+          var id = $(this).data('id');
+          $('#category_up_img' + id).trigger('click');
+     });
+
+     $('.up_img').change(function() {
+          var id = $(this).data('id');
+          var file = this.files[0]; 
+          var formData = new FormData(); 
+          formData.append('cat_image', file);
+          formData.append('_token', "{{ csrf_token() }}");
+          formData.append('category_id', id);
+
+          $.ajax({
+               url: "{{ url('/update/homecategory/image') }}", 
+               type: 'POST',
+               data: formData,
+               processData: false,  
+               contentType: false, 
+               dataType: "json",
+               success: function(response){
+                    console.log(response);
+                    // NioApp.Toast('Image updated', 'info', {position: 'top-right'});
+                    // setTimeout(() => { location.reload(); }, 1000);
+               },
+               error: function(response) {
+                    console.log(response.responseText);  // Log the response to see the actual error
+                    alert('Error uploading image');
+               }
+          });
+     });
+
+     // $('.update_category_img').click(function(){
+     //      var id = $(this).data('id');
+     //      $('#category_up_img'+id).trigger('click');
+     // });
+
+     // $('.up_img').change(function() {
+     //      var id = $(this).data('id');
+     //      var file = this.files[0]; 
+     //      var formData = new FormData(); 
+     //      formData.append('cat_image', file);
+     //      formData.append('_token', "{{ csrf_token() }}");
+     //      formData.append('category_id', id)
+
+     //      $.ajax({
+     //           url: "{{ url('/update/homecategory/image') }}", 
+     //           type: 'POST',
+     //           data: formData,
+     //           processData: false,  
+     //           contentType: false, 
+     //           dataType: "json",
+     //           success: function(response){
+     //                console.log(response);
+     //                // NioApp.Toast('Image updated', 'info', {position: 'top-right'});
+     //                // setTimeout(() => {                        
+     //                //      location.reload();  
+     //                // }, 1000);
+     //           }
+     //      });
+     // });
+
+
+     $('.remove_background_image').click(function(){
+          id = $(this).data('id');
+          $('#bg_image_id').val(id);
+          $('#bg_image'+id).hide();
+     });
+
+     $('.remove_banner_image').click(function(){
+          id = $(this).data('id');
+          $('#baner_image_id').val(id);
+          $('#banner_div'+id).hide();
+     });
+
+     $('.remove_bottom_banner').click(function(){
+          id = $(this).data('id');
+          $('#btom_banner_id').val(id);
+          $('#bottom_bnnr'+id).hide();
+     });
+
+     $('.remove_left_arrow').click(function(){
+          id = $(this).data('id');
+          $('#lft_id').val(id);
+          $('#left_arrow_div'+id).hide();
+     });
+
+     $('.remove_right_arrow').click(function(){
+          id = $(this).data('id');
+          $('#rght_id').val(id);
+          $('#right_arrow_div'+id).hide();
+     });
+
+     $('.remove_category_img').click(function(){
+          id = $(this).data('id');
+          let removeIds = $('#category_img_id').val();
+          
+          if(removeIds) {
+               removeIds += ',' + id;
+          }else{
+               removeIds = id;
+          }
+          $('#category_img_id').val(removeIds);
+
+          $('#catg_img_div'+id).hide();
+     })
+
+})
+
+</script>
 
 <script>
      $(document).ready(function(){
@@ -372,11 +561,11 @@
                                    </div>
                               </div>
                          </div>
-                         <div class="row gy-5">
+                         <div class="row gy-12">
                               <div class="col-md-2">
                                    <div class="form-group">
-                                   <label class="form-label" for="new_cat_img">Image</label>
-                                   <input type="file" class="form-control" id="new_cat_img" name="new_cat_img[]">
+                                        <label class="form-label" for="new_cat_img">Image</label>
+                                        <input type="file" class="form-control" id="new_cat_img" name="new_cat_img[]">
                                    </div>
                               </div>
                               <div class="col-md-2">

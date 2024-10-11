@@ -19,6 +19,10 @@ class HomeContent extends Seeder
                 'value' => 'Home',
             ],
             [
+                'key' => 'favicon',
+                'value' => null ,
+            ],
+            [
                 'key' => 'background_image',
                 'value' => null,
             ], 
@@ -32,6 +36,10 @@ class HomeContent extends Seeder
             ],
             [
                 'key' => 'banner_image',
+                'value' => null,
+            ],
+            [
+                'key' => 'banner_placeholder',
                 'value' => null,
             ],
             [

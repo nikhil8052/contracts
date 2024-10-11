@@ -119,6 +119,7 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/home-content',[SiteMetaController::class,'homepage']);
      Route::post('/admin-dashboard/add/home-content',[SiteMetaController::class,'addHomeContent']);
+     Route::post('/update/homecategory/image',[SiteMetaController::class,'updateCategoryImage']);
 
      Route::get('/admin-dashboard/web-setting',[SiteMetaController::class,'webSetting']);
      Route::post('/admin-dashboard/add/web-setting',[SiteMetaController::class,'addWebsetting']);

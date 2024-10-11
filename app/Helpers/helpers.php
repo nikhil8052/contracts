@@ -33,5 +33,9 @@ use App\Models\Setting;
           return time() . rand(1, 50) . '.' . $file->extension();
      }
 
+     function getFilePath($filePath){
+         return storage_path('app/' . $filePath);
+     }
+
 
 ?>
