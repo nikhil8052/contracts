@@ -16,28 +16,24 @@ class QuestionAnswerSeeder extends Seeder
         DB::table('question_answers')->insert([
             [
                 'key' => 'title',
-                'value' => 'Preguntas',
+                'value' => 'Preguntas Frecuentes',
             ],
             [
-                'key' => 'main_title',
-                'value' => 'Preguntas frecuentes',
-            ], 
-            [
-                'key' => 'second_banner_heading',
-                'value' => 'Empieza a crear tus documentos legales',
+                'key' => 'background_image',
+                'value' => null,
             ],
             [
-                'key' => 'second_banner_sub_heading',
-                'value' => 'Nuestro sistema te guía paso a paso, genera tus documentos totalmente personalizados y te permite descargarlos en los formatos PDF y DOCX (Word) de forma inmediata.',
+                'key' => 'banner_title',
+                'value' => null,
             ],
             [
-                'key' => 'button_label',
-                'value' => 'Comienza ahora',
+                'key' => 'banner_description',
+                'value' => null,
             ],
             [
-                'key' => 'button_link',
-                'value' => 'https://sagmetic.site/2023/laravel/contracts/public/',
-            ],
+                'key' => 'banner_image',
+                'value' => null
+            ]
 
         ]);
     }

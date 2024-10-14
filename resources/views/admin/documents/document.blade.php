@@ -59,6 +59,7 @@
                <input type="hidden" name="guide_sec_ids" id="guide_sec_ids" value="">
                <input type="hidden" name="agg_sec_ids" id="agg_sec_ids" value="">
                <input type="hidden" name="slug" id="slug" value="{{ $document->slug ?? '' }}">
+               <input type="hidden" name="published" id="published" value="">
                <div class="card card-bordered card-preview mt-2">
                     <div class="card-inner">
                          @if(isset($document) && $document != null)
@@ -83,7 +84,7 @@
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <button type="button" class="published btn btn-light" id="published">Published</button>
+                                        <button type="button" class="publish btn btn-light" id="publish">Published</button>
                                    </div>
                                    <div class="form-group">
                                         <button type="button" class="btn btn-light">AI Autofill</button>
@@ -220,12 +221,10 @@
                                         })
                                         .then(editor => {
                                              console.log('Editor was initialized', editor);
-
-                                             // Handle upload response
                                              editor.model.document.on('change:data', () => {
                                                   const url = editor.data.get('upload');
                                                   if (url) {
-                                                  console.log('Upload response:', url);
+                                                       console.log('Upload response:', url);
                                                   }
                                              });
                                         })
@@ -598,188 +597,19 @@
      
 
 </script>
-<!-- 
+
 <script>
-     $(document).ready(function(){
+     $('#publish').on('click',function(){
+          var published = 1;
+          $('#published').val(published);
 
-          // Append Second section //
-          $('#second-section-add').on('click',function(){
-               var html = `<div class="img-txt-section">
-                              <div class="col-md-4 offset-md-8">
-                                   <div class="form-group">
-                                        <div><span class="remove-second-sec" value="appended"><i class="fa fa-times"></i></span></div>
-                                   </div>
-                              </div>
-                              <div class="second-append-sec" id="second-append-sec">
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_img_heading">Heading</label>
-                                             <input type="text" class="form-control" id="new_img_heading" name="new_img_heading[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_img_description">Description Here</label>
-                                             <textarea class="description-editor" id="new_img_description" name="new_img_description[]"></textarea>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>`
-               $('#img-txt-section').append(html);
-
-               // Intialized ck editor with appended row //
-               $('.description-editor').each(function() {
-                    if (!$(this).data('ckeditor-initialized')) {
-                         ClassicEditor
-                         .create(this), {
-                              toolbar: [
-                                   'heading', '|', 'bold', 'italic', 'link',
-                                   'bulletedList', 'numberedList', 'blockQuote',
-                                   'imageUpload', 'undo', 'redo'
-                              ],
-                              ckfinder: {
-                                   uploadUrl: "{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}"
-                              }
-                         })
-                         .then(editor => {
-                              console.log('Editor was initialized', editor);
-                         })
-                         .catch(error => {
-                              console.error('Error initializing editor:', error);
-                         });
-
-                         editor.model.document.on('change:data', () => {
-                              const url = editor.data.get('upload');
-                              if (url) {
-                                   console.log('Upload response:', url);
-                              }
-                         });
-                    }
-               });
-              
-          });
-
-          // Remove second section //
-          $('body').delegate('.remove-second-sec', 'click', function () {
-               var id = $(this).data('id');
-               if($(this).attr('value') === 'appended'){
-                    $(this).closest('.img-txt-section').remove();
-                    return false;
-               }
-
-               let deleteIds = $('#img_sec_ids').val();
-               if(deleteIds) {
-                    deleteIds += ',' + id;
-               }else {
-                    deleteIds = id;
-               }
-               $('#img_sec_ids').val(deleteIds);
-
-               $('.img-txt-section'+id).hide();
-          });
-
-          // Append Guide section // 
-          $('#add-guide-sec').click(function(){
-               var html = `<div class="guide-append-sec">
-                              <div class="col-md-4 offset-md-8">
-                                   <div class="form-group">
-                                        <div><span class="remove-guide" value="appended"><i class="fa fa-times"></i></span></div>
-                                   </div>
-                              </div>
-                              <div class="row gy-12">
-                                   <div class="col-md-4">
-                                             <div class="form-group">
-                                             <label class="form-label" for="new_step_title">Step Title</label>
-                                             <input type="text" class="form-control form-control" id="new_step_title" name="new_step_title[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_step_description">Step Description</label>
-                                             <textarea class="form-control" id="new_step_description" name="new_step_description[]"></textarea>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>`
-
-               $('#guide-sec-steps').append(html);
-          });
-
-          // Remove guide section //
-          $('body').delegate('.remove-guide', 'click', function () {
-               var id = $(this).data('id');
-               if($(this).attr('value') === 'appended'){
-                    $(this).closest('.guide-append-sec').remove();
-                    return false;
-               }
-
-               let deleteIds = $('#guide_sec_ids').val();
-               if(deleteIds) {
-                    deleteIds += ',' + id;
-               }else {
-                    deleteIds = id;
-               }
-               $('#guide_sec_ids').val(deleteIds);
-
-               $('.guide-append-sec'+id).hide();
-          });
-
-
-          // Add Faq Section //
-          $('#add-sec').click(function(){
-               var html = `<div class="faq-append-sec">
-                              <div class="col-md-4 offset-md-8">
-                                   <div class="form-group">
-                                        <div><span class="remove-faq" value="appended"><i class="fa fa-times"></i></span></div>
-                                   </div>
-                              </div>
-                              <div class="row gy-8">
-                                   <div class="col-md-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_agreement_image">Image</label>
-                                             <input type="file" class="form-control" id="new_agreement_image" name="new_agreement_image[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-3">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_agreement_heading">Heading</label>
-                                             <input type="text" class="form-control" id="new_agreement_heading" name="new_agreement_heading[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-3">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_agreement_description">Description</label>
-                                             <textarea class="form-control" id="new_agreement_description" name="new_agreement_description[]"></textarea>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>`
-
-               $('#steps').append(html);
-          });
-
-
-          // Remove Faq section //
-          $('body').delegate('.remove-faq', 'click', function () {
-               var id = $(this).data('id');
-               if($(this).attr('value') === 'appended'){
-                    $(this).closest('.faq-append-sec').remove();
-                    return false;
-               }
-
-               let deleteIds = $('#agg_sec_ids').val();
-               if(deleteIds) {
-                    deleteIds += ',' + id;
-               }else {
-                    deleteIds = id;
-               }
-               $('#agg_sec_ids').val(deleteIds);
-
-               $('.faq-append-sec'+id).hide();
-          });
-
+          if($('#published').val === 1){
+               $('#publish').prop('disabled', true);
+          }
      });
-</script> -->
+
+</script>
+
 <script>
 $(document).ready(function(){
 $('#second-section-add').on('click',function(){

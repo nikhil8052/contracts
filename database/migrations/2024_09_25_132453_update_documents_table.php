@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('documents', function (Blueprint $table) {
             // Add new columns
+            $table->id();
             $table->text('title')->nullable();
             $table->text('slug')->nullable()->after('title');
             $table->text('document_image')->nullable();
@@ -29,7 +30,7 @@ return new class extends Migration
             $table->text('legal_doc_image')->nullable();
             $table->string('directory_name')->nullable();
             $table->text('file_path')->nullable();
-            $table->string('approved')->nullable();
+            $table->string('published')->nullable();
             $table->string('valid_in')->nullable();
             $table->json('category_id')->nullable();
             $table->text('related_heading')->nullable();
@@ -41,7 +42,7 @@ return new class extends Migration
             $table->integer('discount_price')->nullable()->after('no_of_downloads');
             $table->string('format')->nullable();
             $table->string('reviews')->default('1');
-            $table->tinyInteger('status')->default('1');
+            $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });
     }

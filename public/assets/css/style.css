@@ -170,11 +170,10 @@ input:focus {
 
 /* ------------------------------------------ css start ---------------------------------------------------- */
 
-.dropdown:hover .rotate_icon{
+.dropdown:hover .rotate_icon {
     transform: rotate(180deg);
     transition: 0.3s ease;
 }
-
 
 header {
     position: absolute;
@@ -342,7 +341,6 @@ div#navbarSupportedContent {
     max-width: 583px;
     margin-left: auto;
 }
-
 /*  */
 
 .banner_sec .search {
@@ -355,7 +353,7 @@ div#navbarSupportedContent {
     border-radius: 160px;
 }
 
-.banner_sec .searchTerm {
+banner_sec .searchTerm {
     width: 100%;
     padding: 0 20px;
     background-color: transparent;
@@ -2043,23 +2041,6 @@ header.fun-header {
     padding-right: 60px;
 }
 
-/* ********(vision_sec)*********** */
-
-/* .vision_sec .row.sec-row {
-    padding-inline: 50px;
-    text-align: center;
-    border-radius: 25px;
-} */
-
-/* .vision_sec .row.sec-row .col-lg-6 {
-    border-right: 1px solid #FFFFFF26
-} */
-
-/* .vision_sec .row.sec-row .vision .vision-img {
-    width: 80px;
-    height: 80px;
-} */
-
 /* ********(25/9/24)***********   */
 
 
@@ -2668,7 +2649,7 @@ header.fun-header {
 .table_ot_precio .prec{
     border-top-right-radius: 25px;
 
-}clientes_slider button
+}
 .table_ot_precio .docom{
     border-top-left-radius: 25px;
 
@@ -2681,9 +2662,39 @@ header.fun-header {
 
 /* ******** replace the css in cstm.css at line no:38 with the following css********* */
 
-.vision_sec .row.sec-row .col-lg-6:nth-child(2) .vision {
+.vision_sec .row.sec-row {
+    padding-inline: 50px;
+    text-align: center;
+    border-radius: 25px;
+}
+
+.vision_sec .row.sec-row .hv-brdr {
+    border-right: 1px solid #FFFFFF26
+}
+
+.vision_sec .row.sec-row .hv-brdr .vision {
+    padding-inline-end: 50px;
+}
+
+.vision_sec .row.sec-row .vision {
     padding-inline-start: 50px;
 }
+
+.vision_sec .row.sec-row .vision .vision-img {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.vision_sec .row.sec-row .vision .vision-txt h3 {
+    padding-top: 14px;
+}
+
 .clientes_data {                /* ********in style.css line no:515 with the following css********* */
     position: relative;
     z-index: 9;

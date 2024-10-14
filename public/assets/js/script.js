@@ -32,6 +32,96 @@ document.addEventListener("click", (event) => {
   }
 });
 
+// ===================================
+// contact page
+let index = 1;
+
+const on = (listener, query, fn) => {
+  document.querySelectorAll(query).forEach((item) => {
+    item.addEventListener(listener, (el) => {
+      fn(el);
+    });
+  });
+};
+
+on("click", ".selectBtn", (item) => {
+  const next = item.target.nextElementSibling;
+  if (next) {
+    next.classList.toggle("toggle");
+  }
+});
+
+on("click", ".option", (item) => {
+  const dropdown = item.target.closest(".select");
+  if (dropdown) {
+    dropdown.classList.remove("toggle");
+    const parent = dropdown.querySelector(".selectBtn");
+    parent.setAttribute("data-type", item.target.getAttribute("data-type"));
+    parent.innerHTML = item.target.innerHTML; // Copy the inner HTML including the image
+  }
+});
+
+document.addEventListener("click", (event) => {
+  const select = document.querySelectorAll(".select");
+  select.forEach((dropdown) => {
+    if (!dropdown.contains(event.target)) {
+      dropdown.classList.remove("toggle");
+    }
+  });
+});
+
+// ===============
+
+//////////////////////////////////////////////
+document.addEventListener("DOMContentLoaded", function () {
+  const selectBtn = document.querySelector(".selectBtn");
+  const options = document.querySelectorAll(".option");
+  const selectDropdown = document.querySelector(".selectDropdown");
+
+  // Function to toggle the dropdown
+  function toggleDropdown() {
+    const isDisplayed = selectDropdown.style.display === "block";
+    selectDropdown.style.display = isDisplayed ? "none" : "block";
+  }
+
+  // Event listener for the select button
+  selectBtn.addEventListener("click", function () {
+    toggleDropdown();
+  });
+
+  // Close the dropdown when an option is selected
+  options.forEach((option) => {
+    option.addEventListener("click", function () {
+      const rating = this.innerHTML;
+      selectBtn.innerHTML = rating; // Update the select button with the selected option
+      selectDropdown.style.display = "none"; // Close the dropdown
+    });
+  });
+
+  // Optional: Close the dropdown if clicked outside
+  document.addEventListener("click", function (event) {
+    if (
+      !selectBtn.contains(event.target) &&
+      !selectDropdown.contains(event.target)
+    ) {
+      selectDropdown.style.display = "none";
+    }
+  });
+});
+
+// /////////////////////////30sep/////////////////////////////////
+
+$(document).ready(function () {
+  $(".tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item").click(function () {
+    $(this)
+      .closest(".tc-sec .col-lg-4 .tc-index ol.tc-links > li.tc-item")
+      .toggleClass("active")
+      .siblings()
+      .removeClass("active");
+  });
+});
+
+
 // tabinatin slider ---//////////////////////////////////////
 $(function () {
   // vars

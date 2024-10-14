@@ -20,9 +20,9 @@
      <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 
      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-     <link rel="stylesheet" href="{{ asset('assets/css/style.css?jhjhh') }}">
-     <link rel="stylesheet" href="{{ asset('assets/css/custom.css?kkoko') }}">
-     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css?kjkjkj') }}">
+     <link rel="stylesheet" href="{{ asset('assets/css/style.css?iuutrfg') }}">
+     <link rel="stylesheet" href="{{ asset('assets/css/custom.css?fdgvfg') }}">
+     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css?uiyu') }}">
      
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
           integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="

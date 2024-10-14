@@ -54,7 +54,7 @@
 						<ul class="foot_ul">
 							<li class="foot_li"> <a href="{{ url('/how-it-works') }}">Así funciona </a></li>
 							<li class="foot_li"><a href="">Centro de Ayuda </a></li>
-							<li class="foot_li"><a href="">Preguntas Frecuentes </a></li>
+							<li class="foot_li"><a href="{{ url('/faq') }}">Preguntas Frecuentes </a></li>
 						</ul>
 					</div>
 				</div>

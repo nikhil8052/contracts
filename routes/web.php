@@ -54,7 +54,7 @@ Route::get('/terms-and-conditions',[SitePagesController::class,'termsAndConditio
 Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
 Route::get('/prices',[SitePagesController::class,'prices']);
 Route::post('/ckeditor/upload',[SitePagesController::class,'upload'])->name('ckeditor.upload');
-Route::get('/help',[SitePagesController::class,'HelpCenter'])->name('help.center');
+Route::get('/help-center',[SitePagesController::class,'HelpCenter'])->name('help.center');
 // ****************** SitePagesController End **********************//
 
 
@@ -106,7 +106,11 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/faq',[AllPagesController::class,'faq']);
      Route::post('/admin-dashboard/faq-process',[AllPagesController::class,'faqAdd']);
-     Route::post('/admin-dashboard/faq-remove',[AllPagesController::class,'removeFaq']);
+     Route::get('/admin-dashboard/faq-category',[AllPagesController::class,'allFaqCategory']);
+     Route::get('/admin-dashboard/add/faq-category',[AllPagesController::class,'faqCategory']);
+     Route::post('/admin-dashboard/add/procc',[AllPagesController::class,'addCategory']);
+     Route::get('/admin-dashboard/edit/faq-category/{slug}',[AllPagesController::class,'editFaqCategory']);
+
      Route::get('/admin-dashboard/privacy-policy',[AllPagesController::class,'privecyPolicy']);
      Route::post('/admin-dashboard/privacy-policy-process',[AllPagesController::class,'addPrivacyPolicy']);
      Route::post('/admin-dashboard/privacy-policy-remove',[AllPagesController::class,'removePolicy']);

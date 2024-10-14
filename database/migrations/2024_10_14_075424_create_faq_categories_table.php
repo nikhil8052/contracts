@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('question_answers', function (Blueprint $table) {
+        Schema::create('faq_categories', function (Blueprint $table) {
             $table->id();
-            $table->text('key')->nullable();
-            $table->longtext('value')->nullable();
-            $table->longtext('file_path')->nullable();
-            $table->string('type')->nullable();
-            $table->longtext('question')->nullable();
-            $table->longtext('answer')->nullable();
-            $table->string('category_id')->nullable();
+            $table->text('category_name')->nullable();
+            $table->text('slug')->nullable();
+            $table->longText('description')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('question_answers');
+        Schema::dropIfExists('faq_categories');
     }
 };

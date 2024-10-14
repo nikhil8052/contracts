@@ -239,6 +239,7 @@ class DocumentController extends Controller
                 $removeAgreementSection = DocumentAgreement::whereIn('id',$removeIds)->delete();
             }
 
+            $document->status = 0;
             $document->save();
             DB::commit(); 
 

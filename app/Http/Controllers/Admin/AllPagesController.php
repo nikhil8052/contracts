@@ -8,164 +8,197 @@ use App\Models\QuestionAnswer;
 use Illuminate\Support\Str;
 use App\Models\PrivacyPolicy;
 use App\Models\User;
+use App\Models\FaqCategory;
 use Hash;
 
 class AllPagesController extends Controller
 {
-     public function faq()
-    {
-        $faqs = QuestionAnswer::whereNotNull('key')->get();
 
-        return view('admin.site_meta.faqs.faqs',compact('faqs'));
+    public function faqCategory(){
+        return view('admin.site_meta.faqs.add_faq_category');
     }
 
-    public function faqAdd(Request $request)
-    {
-      
-         $updated = false;
-         $added = false;
-        // $request->validate([
-        //     'title'   =>  'required',
-        //     'main_title'   =>  'required',
-        //     'second_banner_heading' =>  'required',
-        //     'second_banner_sub_heading' =>  'required',
-        //     'button_label'     =>  'required',
-        //     'button_link'    =>  'required',
-        //     'faq.*'      => 'required|string',
-        //     'answer.*' => 'required|string',
-        // ]);
-       if ($request->has('title')) {
-            // Loop through each title in the request
-            foreach ($request->title as $id => $titleValue) {
-                // Find the FAQ entry by its ID
-                $faq = QuestionAnswer::find($id);
-              
-                // If the FAQ entry exists, update its value
-                if ($faq) {
-                    $faq->value = $titleValue; // Set the new title
-                    $faq->save(); // Save the changes
-                    $updated = true;
-                }
-            }
-        }
-        if($request->has('main_title')){
-
-             foreach ($request->main_title as $id => $main_title_value) {
-                // Find the FAQ entry by its ID
-                $faq = QuestionAnswer::find($id);
-                // If the FAQ entry exists, update its value
-                if ($faq) {
-                    $faq->value = $main_title_value; // Set the new title
-                    $faq->save(); // Save the changes
-                    $updated = true;
-                }
-            }
-        }
-        if($request->has('second_banner_heading')){
-
-            foreach ($request->second_banner_heading as $id => $second_banner_heading_value) {
-                // Find the FAQ entry by its ID
-                $faq = QuestionAnswer::find($id);
-               
-                // If the FAQ entry exists, update its value
-                if ($faq) {
-                    $faq->value = $second_banner_heading_value; // Set the new title
-                    $faq->save(); // Save the changes
-                    $updated = true;
-                }
-            }
-        }
-        if($request->has('second_banner_sub_heading')){
-
-            foreach ($request->second_banner_sub_heading as $id => $second_banner_sub_heading_value) {
-                // Find the FAQ entry by its ID
-                $faq = QuestionAnswer::find($id);
-               
-                // If the FAQ entry exists, update its value
-                if ($faq) {
-                    $faq->value = $second_banner_sub_heading_value; // Set the new title
-                    $faq->save(); // Save the changes
-                    $updated = true;
-                }
-            }
-        }
-        if($request->has('button_label')){
-
-            foreach ($request->button_label as $id => $button_label_value) {
-                // Find the FAQ entry by its ID
-                $faq = QuestionAnswer::find($id);
-               
-                // If the FAQ entry exists, update its value
-                if ($faq) {
-                    $faq->value = $button_label_value; // Set the new title
-                    $faq->save(); // Save the changes
-                    $updated = true;
-                }
-            }
-        }
-        if($request->has('button_link')){
-
-            foreach ($request->button_link as $id => $button_link_value) {
-                // Find the FAQ entry by its ID
-                $faq = QuestionAnswer::find($id);
-               
-                // If the FAQ entry exists, update its value
-                if ($faq) {
-                    $faq->value = $button_link_value; // Set the new title
-                    $faq->save(); // Save the changes
-                    $updated = true;
-                }
-            }
-        }
-        if ($request->has('faq') && is_array($request->faq) && count($request->faq) > 0) {
-            foreach ($request->faq as $id => $faqUpdate) {
-                // Check if the FAQ entry exists
-                $faq = QuestionAnswer::find($id);
-                if ($faq) {
-                    // If it exists, update the question and answer
-                    $faq->question = $faqUpdate; // Update the question
-                    $faq->answer = $request->answer[$id]; // Update the answer
-                    $faq->save(); // Save the changes
-                    $updated = true;
-                } else {
-                    // If it does not exist, create a new FAQ entry
-                    $faq = new QuestionAnswer();
-                    $faq->key = 'faq';
-                    $faq->type = 'faq';
-                    $faq->id = $id; // Assign the provided ID
-                    $faq->question = $faqUpdate; // Set the new question
-                    $faq->answer = $request->answer[$id]; // Set the answer
-                    $faq->save(); // Save the new entry
-                    $added = true;
-                }
-            }
-        }
-            // Now, save the FAQ questions and answers
-        if ($updated && $added) {
-            return redirect()->back()->with('success', 'Data updated and new FAQs added successfully!');
-        } elseif ($updated) {
-            return redirect()->back()->with('success', 'Data updated successfully!');
-        } elseif ($added) {
-            return redirect()->back()->with('success', 'New FAQs added successfully!');
-        }
-
-        return redirect()->back()->with('info', 'No changes made.');
+    public function addCategory(Request $request){
+        try{
+            $messages = [
+                'slug.unique' => 'The slug has already been taken. Please choose another one.',
+            ];
+            if(isset($request->id) && $request->id != null){
+                $request->validate([
+                    'name' => 'required',
+                    'slug' => 'required',
+                ]);
     
-            // return redirect()->back()->with('success', 'FAQ created successfully!');
-    }
-    public function removeFaq(Request $request)
-    {
-        $ids = $request->ids;
-        
-        $deletedRows = QuestionAnswer::whereIn('id', $ids)->delete();
+                $faqCategory = FaqCategory::find($request->id);
+                $status = 'edit';
 
-        // Return success or error based on deletion result
-        if ($deletedRows > 0) {
-            return response()->json(['success' => true, 'message' => 'FAQs deleted successfully!']);
-        } else {
-            return response()->json(['success' => false, 'message' => 'FAQs not found.']);
+            }else{
+                $request->validate([
+                    'name' => 'required',
+                    'slug' => 'unique:faq_categories,slug',
+                ],$messages);
+    
+                $faqCategory = new FaqCategory;
+                $status = 'add';
+            }
+    
+            $faqCategory->category_name = $request->name;
+            $faqCategory->slug = $request->slug;
+            $faqCategory->description = $request->description;
+            $faqCategory->save();
+    
+            if($status == 'edit'){
+                return redirect('/admin-dashboard/edit/faq-category/'.$faqCategory->slug)->with('success','FAQ category updated');
+            }elseif($status == 'add'){
+                return redirect()->back()->with('success','FAQ category added');
+            }
+
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+        
+    }
+    
+    public function allFaqCategory(){
+        $faqCategory = FaqCategory::all();
+        return view('admin.site_meta.faqs.faq_category',compact('faqCategory'));
+    }
+
+    public function editFaqCategory($slug){
+        $faqCategory = FaqCategory::where('slug',$slug)->first();
+        return view('admin.site_meta.faqs.add_faq_category',compact('faqCategory'));
+    }
+
+     public function faq(){
+        $keys = [
+            'title',
+            'background_image',
+            'banner_title',
+            'banner_description',
+            'banner_image',
+        ];
+
+        $results = QuestionAnswer::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'background_image_id' => $results['background_image']->id ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
+            'banner_title' => $results['banner_title']->value ?? null,
+            'banner_description' => $results['banner_description']->value ?? null,
+            'banner_image_id' =>  $results['banner_image']->id ?? null,
+            'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
+        ];
+
+        $faqCategory = FaqCategory::all();
+        $faqs = QuestionAnswer::where('key','faq')->with('category')->get();
+
+        return view('admin.site_meta.faqs.faqs',compact('faqCategory','data','faqs'));
+    }
+
+    public function faqAdd(Request $request){
+        try{
+            if($request->hasFile('background_image')){
+                $faq = QuestionAnswer::where('key','background_image')->first();
+                
+                $background_image = $request->file('background_image');
+                $directory = "public/faq_images";
+                $filename = generateFileName($background_image);
+                $filepath = $background_image->storeAs($directory, $filename);
+
+                $faq->value = $filename;
+                $faq->file_path = $filepath;
+                $faq->update();
+            }
+
+            if($request->hasFile('banner_image')){
+                $faq = QuestionAnswer::where('key','banner_image')->first();
+
+                $banner_image = $request->file('banner_image');
+                $directory = "public/faq_images";
+                $filename = generateFileName($banner_image);
+                $filepath = $banner_image->storeAs($directory, $filename);
+
+                $faq->value = $filename;
+                $faq->file_path = $filepath;
+                $faq->update();
+            }
+
+            if($request->has('new_question')){
+                for($i=0; $i<count($request->new_question); $i++){
+                    $question = $request->new_question[$i];
+
+                    if($request->has('new_answer')){
+                        $answer = $request->new_answer[$i];
+                    }
+    
+                    if($request->has('new_category')){
+                        $category = $request->new_category[$i];
+                    }
+    
+                    $faq = new QuestionAnswer;
+                    $faq->key = 'faq';
+                    $faq->question = $question;
+                    $faq->answer = $answer;
+                    $faq->category_id = $category;
+                    $faq->save();
+                } 
+            }
+
+            if($request->has('category')){
+                foreach($request->category as $index=>$value){
+                    $faq = QuestionAnswer::find($index);
+                    $faq->category_id = $value;
+                    $faq->update();
+                }
+
+                foreach($request->question as $key=>$val){
+                    $faq = QuestionAnswer::find($key);
+                    $faq->question = $val;
+                    $faq->update();
+                }
+
+                foreach($request->answer as $idx=>$vlu){
+                    $faq = QuestionAnswer::find($idx);
+                    $faq->answer = $vlu;
+                    $faq->update();
+                }
+            }
+
+            $fields = [
+                'title' => 'title',
+                'banner_title' => 'banner_title',
+                'banner_description' => 'banner_description',
+            ];
+
+            foreach($fields as $key=>$input){
+                if($request->has($input)) {
+                    $faq = QuestionAnswer::where('key', $key)->first();
+                    if($faq){
+                        $faq->value = $request->$input;
+                        $faq->update();
+                    }
+                }
+            }
+
+            if($request->removefaq != null){
+                $deleteIds = explode(',', $request->removefaq);
+                foreach($deleteIds as $id){
+                    $remove_faq = QuestionAnswer::find($id);
+                    if($remove_faq){
+                        $remove_faq->delete();
+                    }
+                }
+            }
+
+            return redirect()->back()->with("success", "FAQ's added.");
+
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
     }
+
     public function privecyPolicy()
     {
         $privacyPolicys = PrivacyPolicy::all();
@@ -333,4 +366,5 @@ class AllPagesController extends Controller
             return redirect()->back()->with('error', 'User not found.');
         }
     }
+
 }

@@ -99,6 +99,9 @@
                                             <a href="{{ url('/admin-dashboard/faq') }}" class="nk-menu-link"><span class="nk-menu-text">FAQ's</span></a>
                                         </li>
                                         <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/faq-category') }}" class="nk-menu-link"><span class="nk-menu-text">FAQ's Categories</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/terms-and-conditions') }}" class="nk-menu-link"><span class="nk-menu-text">Terms & Condition</span></a>
                                         </li>
                                         <li class="nk-menu-item">

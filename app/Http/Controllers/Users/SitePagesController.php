@@ -10,6 +10,7 @@ use App\Models\QuestionAnswer;
 use App\Models\TermsAndCondition;
 use App\Models\PrivacyPolicy;
 use App\Models\PricesContent;
+use App\Models\FaqCategory;
 
 class SitePagesController extends Controller
 {
@@ -51,8 +52,29 @@ class SitePagesController extends Controller
     }
 
     public function Faq(){
-        $faqs = QuestionAnswer::where('key','!=',null)->get();        
-        return view('users.site_meta.faq',compact('faqs'));
+        $keys = [
+            'title',
+            'background_image',
+            'banner_title',
+            'banner_description',
+            'banner_image',
+        ];
+
+        $results = QuestionAnswer::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'background_image_id' => $results['background_image']->id ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
+            'banner_title' => $results['banner_title']->value ?? null,
+            'banner_description' => $results['banner_description']->value ?? null,
+            'banner_image_id' =>  $results['banner_image']->id ?? null,
+            'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
+        ];
+
+        $faqCategory = FaqCategory::all();
+        $faqs = QuestionAnswer::where('key','faq')->with('category')->get();
+
+        return view('users.site_meta.faq',compact('faqs','data','faqCategory'));
     }
 
     public function termsAndConditions(){
@@ -130,8 +152,7 @@ class SitePagesController extends Controller
         return view('users.site_meta.prices',compact('data','document_price_description'));
     }
 
-    public function HelpCenter(Request $request)
-    {
+    public function HelpCenter(Request $request){
         return view('users.site_meta.support.support');
     }
 
