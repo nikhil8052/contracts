@@ -398,7 +398,7 @@ footer .select-menu {
 
 /* ********(banner_sec)*********** */
 .banner_sec.dark.inner-banner.fun-banner h1 {
-    max-width: 429px;
+    /* max-width: 429px; */
     margin: auto
 }
 

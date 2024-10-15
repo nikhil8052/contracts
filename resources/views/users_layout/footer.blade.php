@@ -1,5 +1,6 @@
 @php 
-    $setting = App\Models\Setting::where('key', 'footer_logo')->get()->keyBy('key');
+    	$setting = App\Models\Setting::where('key', 'footer_logo')->first();
+	$path = str_replace('public/', '', $setting->file_path ?? null);
 @endphp
 
 <footer>
@@ -10,7 +11,7 @@
 				<div class="col-lg-3">
 					<div class="fot_logo">
 						<a href="{{ url('/') }}">
-							<img src="{{ asset('storage/'.$setting['footer_logo']->value ?? '') }}" alt="">
+							<img src="{{ asset('storage/'.$path) }}" alt="">
 						</a>
 					</div>
 				</div>
@@ -53,7 +54,7 @@
 						</div>
 						<ul class="foot_ul">
 							<li class="foot_li"> <a href="{{ url('/how-it-works') }}">Así funciona </a></li>
-							<li class="foot_li"><a href="">Centro de Ayuda </a></li>
+							<li class="foot_li"><a href="{{ url('/help-center') }}">Centro de Ayuda </a></li>
 							<li class="foot_li"><a href="{{ url('/faq') }}">Preguntas Frecuentes </a></li>
 						</ul>
 					</div>

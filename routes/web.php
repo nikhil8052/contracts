@@ -96,6 +96,9 @@ Route::group(['middleware' =>['auth']],function(){
      Route::get('/admin-dashboard/terms-and-conditions',[SiteMetaController::class,'termsConditions']);
      Route::post('/admin-dashboard/add-terms-process',[SiteMetaController::class,'addTermsAndCondition']);
 
+     Route::get('/admin-dashboard/help-center',[SiteMetaController::class,'helpCenter']);
+     Route::post('/admin-dashboard/help-center-proccess',[SiteMetaController::class,'helpProcc']);
+
      Route::get('/admin-dashboard/login',[SiteMetaController::class,'login']);
      Route::post('/admin-dashboard/add-login',[SiteMetaController::class,'addLogin']);
      Route::get('/admin-dashboard/register',[SiteMetaController::class,'register']);

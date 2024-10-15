@@ -20,6 +20,8 @@ use App\Models\HomeCategories;
 use App\Models\HomeTemplate;
 use App\Models\Setting;
 use App\Models\PricesContent;
+use App\Models\HelpCenter;
+use App\Models\HelpYou;
 use Exception;
 use File;
 
@@ -1080,8 +1082,8 @@ class SiteMetaController extends Controller
 
         $results = Setting::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
-            'header_logo' => $results['header_logo']->value ?? null,
-            'footer_logo' => $results['footer_logo']->value ?? null,
+            'header_logo' => str_replace('public/', '', $results['header_logo']->file_path ?? null),
+            'footer_logo' => str_replace('public/', '', $results['footer_logo']->file_path ?? null),
         ];
         return view('admin.site_meta.web_setting.web_setting',compact('data'));
     }
@@ -1090,39 +1092,27 @@ class SiteMetaController extends Controller
         try{
             if($request->hasFile('header_logo')){
                 $file = $request->file('header_logo');
-                $filename = 'Logo' .generateFileName($file);;
-                $directory = 'public';
-                $path = $file->storeAs($directory, $filename);
+                $directory = "public/logos";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
 
-                $web_setting = Setting::key('header_logo')->first();
-                if(!$web_setting){
-                    $web_setting = new Setting;
-                    $web_setting->key = 'header_logo';
-                    $web_setting->value = $filename;
-                    $web_setting->save();
-                }else{
-                    $web_setting->value = $filename;
-                    $web_setting->update();
-                }
+                $web_setting = Setting::where('key','header_logo')->first();
+                $web_setting->value = $filename;
+                $web_setting->file_path = $filepath;
+                $web_setting->update();
                 
             }
 
             if($request->hasFile('footer_logo')){
                 $file = $request->file('footer_logo');
-                $filename = 'Logo' .generateFileName($file);;
-                $directory = 'public';
-                $path = $file->storeAs($directory, $filename);
+                $directory = "public/logos";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
 
-                $web_setting = Setting::key('footer_logo')->first();
-                if(!$web_setting){
-                    $web_setting = new Setting;
-                    $web_setting->key = 'footer_logo';
-                    $web_setting->value = $filename;
-                    $web_setting->save();
-                }else{
-                    $web_setting->value = $filename;
-                    $web_setting->update();
-                }
+                $web_setting = Setting::where('key','footer_logo')->first();
+                $web_setting->value = $filename;
+                $web_setting->file_path = $filepath;
+                $web_setting->update();
                
             }
 
@@ -1272,6 +1262,178 @@ class SiteMetaController extends Controller
             }
 
             return redirect()->back()->with('success', 'Data successfully saved.');
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    public function helpCenter(){
+        $keys = [
+            'title',
+            'background_image',
+            'banner_title',
+            'banner_placeholder',
+            'banner_image',
+            'main_title',
+            'faq_heading',
+            'faq_description',
+            'bottom_banner_image',
+            'banner_heading',
+            'banner_description',
+            'button_text',
+        ];
+
+        $results = HelpCenter::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'background_image_id' => $results['background_image']->id ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
+            'banner_title' => $results['banner_title']->value ?? null,
+            'banner_placeholder' => $results['banner_placeholder']->value ?? null,
+            'banner_image_id' =>  $results['banner_image']->id ?? null,
+            'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
+            'main_title' => $results['main_title']->value ?? null,
+            'faq_heading' => $results['faq_heading']->value ?? null,
+            'faq_description' => $results['faq_description']->value ?? null,
+            'bottom_image_id' =>  $results['bottom_banner_image']->id ?? null,
+            'bottom_banner_image' =>  str_replace('public/', '', $results['bottom_banner_image']->file_path ?? null),
+            'banner_heading' => $results['banner_heading']->value ?? null,
+            'banner_description' => $results['banner_description']->value ?? null,
+            'button_text' => $results['button_text']->value ?? null,
+        ];
+
+        $faqs = HelpCenter::where('key','faq')->get();
+
+        return view('admin.site_meta.support.support',compact('data','faqs'));
+    }
+
+    public function helpProcc(Request $request){
+        // return $request->all();
+        try{
+            if($request->hasFile('background_image')){
+                $help_center = HelpCenter::where('key','background_image')->first();
+                $background_image = $request->file('background_image');
+                
+                $directory = "public/help_center";
+                $filename = generateFileName($background_image);
+                $filepath = $background_image->storeAs($directory, $filename);
+
+                $help_center->value = $filename;
+                $help_center->file_path = $filepath;
+                $help_center->update();
+            }
+
+            if($request->hasFile('banner_image')){
+                $help_center = HelpCenter::where('key','banner_image')->first();
+                $banner_image = $request->file('banner_image');
+                
+                $directory = "public/help_center";
+                $filename = generateFileName($banner_image);
+                $filepath = $banner_image->storeAs($directory, $filename);
+
+                $help_center->value = $filename;
+                $help_center->file_path = $filepath;
+                $help_center->update();
+            }
+
+            if($request->hasFile('bottom_banner_image')){
+                $help_center = HelpCenter::where('key','bottom_banner_image')->first();
+                $file = $request->file('bottom_banner_image');
+                
+                $directory = "public/help_center";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
+
+                $help_center->value = $filename;
+                $help_center->file_path = $filepath;
+                $help_center->update();
+            }
+
+            if($request->has('question')){
+                foreach($request->question as $key=>$val){
+                    $help_center = HelpCenter::find($key);
+                    $help_center->question = $val;
+                    $help_center->update();
+                }
+
+                foreach($request->answer as $index=>$value){
+                    $help_center = HelpCenter::find($index);
+                    $help_center->answer = $value;
+                    $help_center->update();
+                }
+
+            }
+
+            if($request->has('new_question')){
+                for($i=0; $i<count($request->new_question); $i++){
+                    $question = $request->new_question[$i];
+
+                    if($request->has('new_answer')){
+                        $answer = $request->new_answer[$i];
+                    }
+
+                    $help_center = new HelpCenter;
+                    $help_center->key = 'faq';
+                    $help_center->question = $question;
+                    $help_center->answer = $answer;
+                    $help_center->save();
+                }
+            }
+
+            if($request->hasFile('icon')){
+                $icon = $request->file('icon');
+                for($i=0; $i<count($icon); $i++){
+                    $file = $icon[$i];
+
+                    if($request->has('heading')){
+                        $heading = $request->heading[$i];
+                    }
+
+                    if($request->has('description')){
+                        $description = $request->description[$i];
+                    }
+
+                    $directory = "public/help_center";
+                    $fileupload = $this->fileUploadService->upload($file, $directory);
+                    $fileuploadData = $fileupload->getData();
+            
+                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                        
+                        $help_you = new HelpYou;
+                        $help_you->media_id = $fileuploadData->id;
+                        $help_you->heading = $heading;
+                        $help_you->description = $description;
+                        $help_you->save();
+
+                    }elseif($fileuploadData->status == '400') {
+                        return redirect()->back()->with('error', $fileuploadData->error);
+                    }
+                }
+            }
+
+            $keys = [
+                'title' => 'title',
+                'banner_title' => 'banner_title',
+                'banner_placeholder' => 'banner_placeholder',
+                'main_title' => 'main_title',
+                'faq_heading' => 'faq_heading',
+                'faq_description' => 'faq_description',
+                'banner_heading' => 'banner_heading',
+                'banner_description' => 'banner_description',
+                'button_text' => 'button_text',
+            ];
+            
+            foreach($keys as $key=>$input){
+                if($request->has($input)){
+                    $help_center = HelpCenter::where('key', $key)->first();
+                    if ($help_center) {
+                        $help_center->value = $request->$input;
+                        $help_center->update();
+                    }
+                }
+            }
+            return redirect()->back()->with('success', 'Data successfully updated.');
         }catch(Exception $e){
             saveLog("Error:", "SiteMetaController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');

@@ -1,5 +1,6 @@
 @php 
-    $setting = App\Models\Setting::where('key', 'header_logo')->get()->keyBy('key');
+    	$setting = App\Models\Setting::where('key', 'header_logo')->first();
+	$path = str_replace('public/', '', $setting->file_path ?? null);
 @endphp
 
 <header>
@@ -8,7 +9,7 @@
 			<div class="row">
 			<div class="col-md-6">
 				<div class="hedaer_logo">
-					<a href="{{ url('/') }}"><img src="{{ asset('storage/'.$setting['header_logo']->value ?? '') }}" alt=""></a>
+					<a href="{{ url('/') }}"><img src="{{ asset('storage/'.$path) }}" alt=""></a>
 				</div>
 			</div>
 			<div class="col-md-6 ">
@@ -331,7 +332,7 @@
 				<div class="right_menu">
 					<ul>
 						<li>
-							<a href="#">Así funciona </a>
+							<a href="{{ url('/how-it-works') }}">Así funciona </a>
 						</li>
 						<li>
 							<a href="#">Ayuda</a>
@@ -340,7 +341,7 @@
 				</div>
 			</div>
 			<div class="hedaer_logo">
-				<img src="{{ asset('storage/'.$setting['header_logo']->value ?? '') }}" alt="">
+				<img src="{{ asset('storage/'.$path) }}" alt="">
 			</div>
 			</nav>
 		</div>

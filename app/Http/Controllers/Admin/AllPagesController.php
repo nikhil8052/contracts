@@ -10,6 +10,7 @@ use App\Models\PrivacyPolicy;
 use App\Models\User;
 use App\Models\FaqCategory;
 use Hash;
+use File;
 
 class AllPagesController extends Controller
 {
@@ -191,7 +192,37 @@ class AllPagesController extends Controller
                 }
             }
 
-            return redirect()->back()->with("success", "FAQ's added.");
+            if($request->bg_image_id != null){
+                $faq = QuestionAnswer::where('id',$request->bg_image_id)->first();
+                $file_path = getFilePath($faq->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $faq->value = null;
+                $faq->file_path = null;
+                $faq->save();
+            }
+
+            if($request->baner_image_id != null){
+                $faq = QuestionAnswer::where('id',$request->baner_image_id)->first();
+                $file_path = getFilePath($faq->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $faq->value = null;
+                $faq->file_path = null;
+                $faq->save();
+            }
+
+            return redirect()->back()->with("success", "FAQ's updated.");
 
         }catch(Exception $e){
             saveLog("Error:", "SiteMetaController", $e->getMessage());

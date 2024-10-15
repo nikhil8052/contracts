@@ -5,15 +5,21 @@
         <form action="{{ url('/admin-dashboard/faq-process') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="removefaq" id="removefaq" value="">
+            <input type="hidden" id="bg_image_id" name="bg_image_id" value="">
+            <input type="hidden" id="baner_image_id" name="baner_image_id" value="">
             <div class="card card-bordered card-preview">
                 <div class="card-inner">
+                    <div class="d-flex justify-content-end p-2">
+                        <div class="nk-block-head-content">
+                            <div class="mbsc-form-group">
+                                <a href="{{ url('/faq') }}" target="_blank" class="btn btn-default">View Page</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-12 pb-2">
                         <div class="form-group">
                             <label class="form-label" for="title"><b><h5>Title</b></h5></label>
                             <input class="form-control form-control-lg" type="text" id="title"  name="title" value="{{ $data['title'] ?? '' }}">
-                            @error('title')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                     </div>        
                     <hr>
@@ -24,11 +30,18 @@
                             <label class="form-label" for="background_image">Background Image</label>
                             <input type="file" class="form-control" id="background_image" name="background_image">
                         </div>
-                        <div class="form-group">
-                            @if(isset($data['background_image']) && $data['background_image'] != null)
-                            <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="180px" width="180px">
-                            @endif
+                        @if(isset($data['background_image']) && $data['background_image'] != null)
+                        <div class="bg_image_div" id="bg_image{{ $data['background_image_id'] ?? '' }}">
+                            <div class="form-group">
+                                <span class="col-md-10 offset-md-2 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                               <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="160px" width="160px">
+                            </div>
                         </div>
+                        @endif
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -47,11 +60,18 @@
                             <label class="form-label" for="banner_image">Banner Image</label>
                             <input type="file" class="form-control" id="banner_image" name="banner_image">
                         </div>
-                        <div class="form-group">
-                            @if(isset($data['banner_image']) && $data['banner_image'] != null)
-                            <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="200px" width="280px">
-                            @endif
+                        @if(isset($data['banner_image']) && $data['banner_image'] != null)
+                        <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
+                            <div class="form-group">
+                                <span class="col-md-10 offset-md-2 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="140px" width="160px">
+                            </div>
                         </div>
+                        @endif
                     </div>
                     <hr>
                     <h6>Faq Section</h6>
@@ -122,6 +142,25 @@
         </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('.remove_background_image').click(function(){
+            id = $(this).data('id');
+            $('#bg_image_id').val(id);
+            $('#bg_image'+id).hide();
+        });
+
+        $('.remove_banner_image').click(function(){
+            id = $(this).data('id');
+            $('#baner_image_id').val(id);
+            $('#banner_div'+id).hide();
+        });
+    })
+   
+</script>
+
+
 <script> 
 function initializeCKEditor(element) {
     ClassicEditor.create(element).catch(error => {

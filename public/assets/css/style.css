@@ -353,7 +353,7 @@ div#navbarSupportedContent {
     border-radius: 160px;
 }
 
-banner_sec .searchTerm {
+.banner_sec .searchTerm {
     width: 100%;
     padding: 0 20px;
     background-color: transparent;

@@ -177,8 +177,8 @@ class DocumentController extends Controller
             $document->legal_description = $request->legal_description;
             $document->legal_btn_text = $request->legal_btn_text;
             $document->legal_btn_link = $request->legal_btn_link;
-            $document->approved = $request->approved;
             $document->valid_in = $request->valid_in;
+            $document->published = $request->published;
 
             if($request->has('select_related_doc')){
                 $related_doc = $request->select_related_doc;
@@ -216,7 +216,7 @@ class DocumentController extends Controller
                 $document->file_path = $path;
             }
             
-            $document->additional_info = $request->additional_info;
+            // $document->additional_info = $request->additional_info;
             $document->doc_price = $request->doc_price;
             // $document->no_of_downloads = $request->no_of_downloads;
             // $document->total_likes = $request->total_likes;
@@ -253,7 +253,7 @@ class DocumentController extends Controller
   
 
     public function allDocuments(){
-        $documents = Document::all();
+        $documents = Document::where('published',1)->get();
         return view('admin.documents.all_documents',compact('documents'));
     }
 

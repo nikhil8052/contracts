@@ -41584,3 +41584,47 @@ li.nk-menu-item.has-sub:hover .nk-menu-toggle:after {
 .doc-top-butns button.btn {
   color: #fff;
 }
+
+/* !Start @iO */
+
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-x: hidden;
+}
+
+.tab {
+  position: relative;
+  max-width: 1036px;
+  margin: auto;
+  margin-bottom: 20px;
+  overflow: hidden;
+  padding: 8px 10px;
+  border: 2px solid #0125554D;
+  border-radius: 100px;
+}
+
+
+.tab_btn {
+  position: relative;
+  padding: 18px 30px;
+  border: 0;
+  border-radius: 50px;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color .3s;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #fff;
+}
+
+.tab_btn:hover {
+  background-color: #FD5602;
+  color: #fff;
+}
+.tab_btn.active {
+  background-color: #FD5602;
+  color: #fff;
+}

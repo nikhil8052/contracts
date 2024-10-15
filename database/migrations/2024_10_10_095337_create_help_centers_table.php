@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('help_centers', function (Blueprint $table) {
             $table->id();
+            $table->text('key')->nullable();
+            $table->longtext('value')->nullable();
+            $table->text('file_path')->nullable();
+            $table->string('type')->nullable();
+            $table->text('question')->nullable();
+            $table->longtext('answer')->nullable();
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }

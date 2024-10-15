@@ -1,5 +1,6 @@
 @php 
-    $setting = App\Models\Setting::where('key', 'header_logo')->get()->keyBy('key');
+    $setting = App\Models\Setting::where('key', 'header_logo')->first();
+	$path = str_replace('public/', '', $setting->file_path ?? null);
 @endphp
 
 <header class="inner-header fun-header">
@@ -9,7 +10,7 @@
                 <div class="hedaer_logo mobile-hide">
                
                     <a href="{{ url('/') }}">
-                    <img src="{{ asset('storage/'.$setting['header_logo']->value ?? '') }}" alt="">
+                    <img src="{{ asset('storage/'.$path) }}" alt="">
                     </a>
                 </div>
                 <div class="form">
@@ -343,7 +344,7 @@
                     </div>
                 </div>
                 <div class="hedaer_logo">
-                    <a href="{{ url('/') }}"><img src="{{ asset('storage/'.$setting['header_logo']->value ?? '') }}" alt=""></a>
+                    <a href="{{ url('/') }}"><img src="{{ asset('storage/'.$path) }}" alt=""></a>
                 </div>
             </nav>
         </div>

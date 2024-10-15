@@ -11,6 +11,9 @@ use App\Models\TermsAndCondition;
 use App\Models\PrivacyPolicy;
 use App\Models\PricesContent;
 use App\Models\FaqCategory;
+use App\Models\HomeContent;
+use App\Models\Review;
+
 
 class SitePagesController extends Controller
 {
@@ -71,10 +74,29 @@ class SitePagesController extends Controller
             'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
         ];
 
-        $faqCategory = FaqCategory::all();
-        $faqs = QuestionAnswer::where('key','faq')->with('category')->get();
+        $keys2 = [
+            'reviews_heading',
+            'reviews_sub_heading',
+            'review_left_arrow',
+            'review_right_arrow',
+        ];
 
-        return view('users.site_meta.faq',compact('faqs','data','faqCategory'));
+        $results2 = HomeContent::whereIn('key', $keys2)->get()->keyBy('key');
+        $data2 = [
+            'reviews_heading' => $results2['reviews_heading']->value ?? null, 
+            'reviews_sub_heading' => $results2['reviews_sub_heading']->value ?? null, 
+            'review_left_arrow' => str_replace('public/', '', $results2['review_left_arrow']->file_path ?? null),
+            'review_right_arrow' => str_replace('public/', '', $results2['review_right_arrow']->file_path ?? null),
+        ];
+
+        $faqCategory = FaqCategory::all();
+        $faqs1 = QuestionAnswer::where([['key','faq'],['category_id','1']])->with('category')->get();
+        $faqs2 = QuestionAnswer::where([['key','faq'],['category_id','2']])->with('category')->get();
+        $faqs3 = QuestionAnswer::where([['key','faq'],['category_id','3']])->with('category')->get();
+
+        $reviews = Review::where('status',1)->with('media')->get();
+
+        return view('users.site_meta.faq',compact('faqs1','faqs2','faqs3','data','faqCategory','data2','reviews'));
     }
 
     public function termsAndConditions(){

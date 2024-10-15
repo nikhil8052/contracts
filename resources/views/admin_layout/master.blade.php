@@ -32,10 +32,10 @@
                         <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                     </div>
                     <div class="nk-sidebar-brand">
-                        <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                            <h3>Legalio</h3>
-                            <!-- <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
-                            <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark"> -->
+                        <a href="{{ url('admin-dashboard') }}" class="logo-link nk-sidebar-logo">
+                            <!-- <h3>Legalio</h3> -->
+                            <img class="logo-light logo-img" src="{{ asset('assets/img/logo-legalio-mx-new.svg') }}" srcset="{{ asset('assets/img/logo-legalio-mx-new.svg') }}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('assets/img/logo-legalio-mx-new.svg') }}" srcset="{{ asset('assets/img/logo-legalio-mx-new.svg') }}" alt="logo-dark">
                         </a>
                     </div>
                 </div><!-- .nk-sidebar-element -->
@@ -105,6 +105,9 @@
                                             <a href="{{ url('/admin-dashboard/terms-and-conditions') }}" class="nk-menu-link"><span class="nk-menu-text">Terms & Condition</span></a>
                                         </li>
                                         <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/help-center') }}" class="nk-menu-link"><span class="nk-menu-text">Help Center</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/privacy-policy') }}" class="nk-menu-link"><span class="nk-menu-text">Privacy Policy</span></a>
                                         </li>
                                         <li class="nk-menu-item">
@@ -118,9 +121,6 @@
                                         </li>
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/prices') }}" class="nk-menu-link"><span class="nk-menu-text">Prices</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/web-setting') }}" class="nk-menu-link"><span class="nk-menu-text">Web Setting</span></a>
                                         </li>
                                     </ul>
                                 </li> 
@@ -152,6 +152,9 @@
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/users') }}" class="nk-menu-link"><span class="nk-menu-text">All Users</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/web-setting') }}" class="nk-menu-link"><span class="nk-menu-text">Logos</span></a>
                                         </li>
                                     </ul>
                                 </li>

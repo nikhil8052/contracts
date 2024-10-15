@@ -9,9 +9,24 @@
           <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
           @endif
                @csrf
-               <div class="nk-block-head">
-                    <div class="nk-block-head-content doc-outer-div">
-                         <div class="doc-top-butns">
+               <div class="nk-block-head doc-outer-div">
+                    <div class="nk-block-head-content wrapper">
+                         <div class="tab">
+                              @if(isset($document) && $document != null)
+                              <a href="{{ url('document/'.$document->slug ?? '' ) }}" class="btn tab_btn active" target="_blank">Frontpage</a>
+                              @endif
+                              <button type="button" class="btn tab_btn">Document generator</button>
+                              <button type="button" class="btn tab_btn">Document questions</button>
+                              <button type="button" class="btn tab_btn">Document Text</button>
+                         </div>
+                         <!-- <div class="doc-top-butns">
+                              @if(isset($document) && $document != null)
+                              <div class="doc-view-btn">
+                                   <div class="form-group">
+                                        <a href="{{ url('document/'.$document->slug ?? '' ) }}" class="btn" target="_blank">Frontpage</a>
+                                   </div>
+                              </div>
+                              @endif
                               <div class="doc-genr">
                                    <div class="form-group">
                                         <button type="button" class="btn">Document generator</button>
@@ -26,10 +41,15 @@
                                    <div class="form-group">
                                         <button type="button" class="btn">Document Text</button>
                                    </div>
+                              </div>   
+                         </div> -->
+                         <div class="doc-top-butns2 mt-4">
+                              <div class="form-group">
+                                   <button type="button" class="btn btn-light">AI Autofill</button>
                               </div>
                          </div>
                     </div>
-                    <div class="row gy-12">
+                    <div class="row gy-12 mt-4">
                          @if(isset($document) && $document != null)
                          <div class="col-md-8 doc-title">
                               <div class="form-group">
@@ -44,15 +64,8 @@
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
                               </div>
                          </div>
-                         @endif
-                         @if(isset($document) && $document != null)
-                         <div class="col-md-4 d-flex justify-content-end doc-view-btn">
-                              <div class="form-group">
-                                   <a href="{{ url('document/'.$document->slug ?? '' ) }}" class="btn btn-light">View Page</a>
-                              </div>
-                         </div>
+                         @endif 
                     </div>
-                    @endif
                </div>
                <input type="hidden" name="id" value="{{ $document->id ?? '' }}">
                <input type="hidden" name="img_sec_ids" id="img_sec_ids" value="">
@@ -84,10 +97,21 @@
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <button type="button" class="publish btn btn-light" id="publish">Published</button>
-                                   </div>
-                                   <div class="form-group">
-                                        <button type="button" class="btn btn-light">AI Autofill</button>
+                                        <p>Published</p>
+                                        <div class="custom-control custom-switch">
+                                        @if(isset($document->published) && $document->published != null) 
+                                             @if($document->published == '1')
+                                             <input type="checkbox" class="custom-control-input publish" id="publish1" checked>
+                                             <label class="custom-control-label" for="publish1"></label>
+                                             @else
+                                             <input type="checkbox" class="custom-control-input publish" id="publish1">
+                                             <label class="custom-control-label" for="publish1"></label>
+                                             @endif
+                                        @else
+                                             <input type="checkbox" class="custom-control-input publish" id="publish1">
+                                             <label class="custom-control-label" for="publish1"></label>
+                                        @endif
+                                        </div>
                                    </div>
                                    <div class="form-group">
                                         <label class="form-label" for="category_id">Categories</label>  
@@ -408,7 +432,7 @@
                          </div>
                     </div>
                </div>
-               <div class="card card-bordered card-preview">
+               {{--<div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <h5>Additional Information</h5> 
                          <hr>
@@ -420,7 +444,7 @@
                          </div>
                     </div>
                </div>
-              {{-- <div class="card card-bordered card-preview">
+               <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <h5>Document Price</h5> 
                          <hr>
@@ -599,13 +623,18 @@
 </script>
 
 <script>
-     $('#publish').on('click',function(){
-          var published = 1;
-          $('#published').val(published);
-
-          if($('#published').val === 1){
-               $('#publish').prop('disabled', true);
-          }
+     $(document).ready(function(){
+          var switchStatus = false;
+          $(".publish").on('change', function() {
+               if ($(this).is(':checked')) {
+                    switchStatus = $(this).is(':checked');
+                    $('#published').val(1);
+               }
+               else {
+                    switchStatus = $(this).is(':checked');
+                    $('#published').val(0);
+               }
+          })
      });
 
 </script>
@@ -774,19 +803,6 @@ $('body').delegate('.remove-faq', 'click', function () {
 
 });
 
-</script>
-
-<script>
-$(document).ready(function(){
-     $('.approved').click(function(){
-          $('.approved').val('1');
-
-     })
-
-     $('.reviews').change(function(){
-          $('.reviews').val('1');
-     })
-})
 </script>
 
 @endsection

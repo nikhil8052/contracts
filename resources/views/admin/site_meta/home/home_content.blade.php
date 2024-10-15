@@ -19,7 +19,7 @@
                          <div class="d-flex justify-content-end p-2">
                               <div class="nk-block-head-content">
                                    <div class="mbsc-form-group">
-                                        <a href="{{ url('/') }}" class="btn btn-default">View Page</a>
+                                        <a href="{{ url('/') }}" target="_blank" class="btn btn-default">View Page</a>
                                    </div>
                               </div>
                          </div>
@@ -330,6 +330,12 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
+                                             <label class="form-label" for="reviews_sub_heading">Reviews Sub Heading</label>
+                                             <input type="text" class="form-control" id="reviews_sub_heading" name="reviews_sub_heading" value="{{ $data['reviews_sub_heading'] ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
                                              <label class="form-label" for="review_left_arrow">Left button image</label>
                                              <input type="file" class="form-control" id="review_left_arrow" name="review_left_arrow">
                                         </div>
@@ -399,11 +405,9 @@ $(document).ready(function(){
                dataType: "json",
                success: function(response){
                     console.log(response);
-                    // NioApp.Toast('Image updated', 'info', {position: 'top-right'});
-                    // setTimeout(() => { location.reload(); }, 1000);
                },
                error: function(response) {
-                    console.log(response.responseText);  // Log the response to see the actual error
+                    console.log(response.responseText); 
                     alert('Error uploading image');
                }
           });
