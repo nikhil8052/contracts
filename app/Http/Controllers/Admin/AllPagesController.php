@@ -398,4 +398,8 @@ class AllPagesController extends Controller
         }
     }
 
+    public function aboutUs(){
+        return view('admin.site_meta.about_us.who_we_are');
+    }
+
 }

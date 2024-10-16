@@ -1,7 +1,11 @@
 @extends('users_layout.other_master')
 @section('content')
 
-<section class="banner_sec dark inner-banner tc" style="background-image: url({{ asset('storage/'.$data['background_image'] ?? '' ) }});">
+@if(isset($data['background_image']) && $data['background_image'] != null)
+<section class="banner_sec dark inner-banner tc" style="background-image: url({{ asset('storage/'.$data['background_image']) }});">
+@else
+<section class="banner_sec dark inner-banner tc" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
+@endif
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-7">
@@ -12,7 +16,11 @@
             </div>
             <div class="col-md-5">
                 <div class="banner_img">
+                @if(isset($data['banner_image']) && $data['banner_image'] != null)
                     <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" alt="">
+                @else
+                    <img src="{{ asset('assets/img/term-bg.png') }}" alt="">
+                @endif
                 </div>
             </div>
         </div>
@@ -51,7 +59,7 @@
                 @if(!empty($termsAndCondition))
                     @foreach($termsAndCondition as $condition)
                     <div class="b-dark tc-cntnt" id="c{{ $loop->iteration ?? '' }}">
-                        <?php print_r($condition->condition) ?>
+                        <?php print_r($condition->condition); ?>
                     </div>
                     @endforeach
                 @endif

@@ -7,7 +7,10 @@
                @csrf
                <input type="hidden" name="removefaq" id="removefaq" value="">
                <input type="hidden" id="removehelp" name="removehelp" value="">
-               <!-- <input type="hidden" id="baner_image_id" name="baner_image_id" value=""> -->
+               <input type="hidden" id="helpimageId" name="helpimageId" value="">
+               <input type="hidden" id="bg_image_id" name="bg_image_id" value="">
+               <input type="hidden" id="baner_image_id" name="baner_image_id" value="">
+               <input type="hidden" id="btom_banner_id" name="btom_banner_id" value="">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="d-flex justify-content-end p-2">
@@ -33,11 +36,11 @@
                               </div>
                               @if(isset($data['background_image']) && $data['background_image'] != null)
                               <div class="bg_image_div" id="bg_image{{ $data['background_image_id'] ?? '' }}">
-                                   <!-- <div class="form-group">
+                                   <div class="form-group">
                                         <span class="col-md-10 offset-md-2 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
-                                   </div> -->
+                                   </div>
                                    <div class="form-group">
                                         <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="160px" width="160px">
                                    </div>
@@ -63,11 +66,11 @@
                               </div>
                               @if(isset($data['banner_image']) && $data['banner_image'] != null)
                               <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
-                                   <!-- <div class="form-group">
+                                   <div class="form-group">
                                         <span class="col-md-10 offset-md-2 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
-                                   </div> -->
+                                   </div>
                                    <div class="form-group">
                                         <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="140px" width="160px">
                                    </div>
@@ -83,6 +86,49 @@
                                    <input type="text" class="form-control" id="main_title" name="main_title" value="{{ $data['main_title'] ?? '' }}">
                               </div>
                          </div>
+                         @if(isset($help_you) && $help_you != null)
+                         @foreach($help_you as $help)
+                         <?php 
+                              $path = str_replace('public/', '', $help->media->file_path ?? null);
+                         ?>
+                         <div class="help-append-sec{{ $help->id ?? '' }}">
+                              <hr>
+                              <div class="row gy-12">
+                                   <div class="text-end">
+                                        <div class="form-group">
+                                             <div><span class="remove-help-sec" data-id="{{ $help->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-2 help_img_div" id="help_img_div{{ $help->id ?? '' }}">
+                                        <div class="form-group">
+                                             <input type="file" name="help_up_img" class="help_img" data-id="{{ $help->id ?? '' }}" id="help_up_img{{ $help->id ?? '' }}" style="display:none;">
+                                             <span class="update_help_img" data-id="{{ $help->id ?? '' }}">
+                                                  <i class="fa fa-pen"></i>
+                                             </span>
+                                             <span class="col-md-7 offset-md-5 remove_help_img" data-id="{{ $help->id ?? '' }}">
+                                                  <i class="fa fa-times"></i>
+                                             </span>
+                                        </div>
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Category image">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-5">
+                                        <div class="form-group">
+                                             <label class="form-label" for="heading">Heading</label>
+                                             <input class="form-control" name="heading[{{ $help->id ?? '' }}]" id="heading" value="{{ $help->heading ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-5">
+                                        <div class="form-group">
+                                             <label class="form-label" for="description">Description</label>
+                                             <textarea class="form-control" name="description[{{ $help->id ?? '' }}]" id="description">{{ $help->description ?? '' }}</textarea>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         @endforeach
+                         @endif
                          <div id="help-container"></div>
                          <br>
                          <div class="text-end">
@@ -152,12 +198,12 @@
                                    <input type="file" class="form-control" id="bottom_banner_image" name="bottom_banner_image">
                               </div>
                               @if(isset($data['bottom_banner_image']) && $data['bottom_banner_image'] != null)
-                              <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
-                                   <!-- <div class="form-group">
-                                        <span class="col-md-10 offset-md-2 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                              <div class="bottom_bnnr_div" id="bottom_bnnr{{ $data['bottom_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-10 offset-md-2 remove_bottom_banner" data-id="{{ $data['bottom_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
-                                   </div> -->
+                                   </div>
                                    <div class="form-group">
                                         <img src="{{ asset('storage/'.$data['bottom_banner_image']) }}" alt="banner_img" height="140px" width="160px">
                                    </div>
@@ -190,6 +236,75 @@
           </form>
      </div>
 </div>
+
+
+<script>
+     $(document).ready(function(){
+
+     $('.update_help_img').click(function(){
+          var id = $(this).data('id');
+          $('#help_up_img' + id).trigger('click');
+     });
+
+     $('.help_img').change(function() {
+          var id = $(this).data('id');
+          var file = this.files[0]; 
+          var formData = new FormData(); 
+          formData.append('help_image', file);
+          formData.append('_token', "{{ csrf_token() }}");
+          formData.append('image_id', id);
+
+          $.ajax({
+               url: "{{ url('/update/help/image') }}", 
+               type: 'POST',
+               data: formData,
+               processData: false,  
+               contentType: false, 
+               dataType: "json",
+               success: function(response){
+                    console.log(response);
+               },
+               error: function(response) {
+                    console.log(response.responseText); 
+                    alert('Error uploading image');
+               }
+          });
+     });
+
+     $('.remove_help_img').click(function(){
+          id = $(this).data('id');
+          let removeIds = $('#helpimageId').val();
+          
+          if(removeIds) {
+               removeIds += ',' + id;
+          }else{
+               removeIds = id;
+          }
+          $('#helpimageId').val(removeIds);
+
+          $('#help_img_div'+id).hide();
+     })
+
+
+     $('.remove_background_image').click(function(){
+          id = $(this).data('id');
+          $('#bg_image_id').val(id);
+          $('#bg_image'+id).hide();
+     });
+
+     $('.remove_banner_image').click(function(){
+          id = $(this).data('id');
+          $('#baner_image_id').val(id);
+          $('#banner_div'+id).hide();
+     });
+
+     $('.remove_bottom_banner').click(function(){
+          id = $(this).data('id');
+          $('#btom_banner_id').val(id);
+          $('#bottom_bnnr'+id).hide();
+     });
+})
+</script>
 
 <script>
 function initializeCKEditor(element) {
@@ -268,20 +383,20 @@ $(document).ready(function() {
                     </div>
                     <div class="col-md-2">
                          <div class="form-group">
-                              <label class="form-label" for="icon">Icon</label>
-                              <input type="file" class="form-control" id="icon" name="icon[]">
+                              <label class="form-label" for="new_icon">Icon</label>
+                              <input type="file" class="form-control" id="new_icon" name="new_icon[]">
                          </div>
                     </div>
                     <div class="col-md-5">
                          <div class="form-group">
-                              <label class="form-label" for="heading">Heading</label>
-                              <input class="form-control" name="heading[]" id="heading" value="">
+                              <label class="form-label" for="new_heading">Heading</label>
+                              <input class="form-control" name="new_heading[]" id="new_heading" value="">
                          </div>
                     </div>
                     <div class="col-md-5">
                          <div class="form-group">
-                              <label class="form-label" for="description">Description</label>
-                              <textarea class="form-control" name="description[]" id="description"></textarea>
+                              <label class="form-label" for="new_description">Description</label>
+                              <textarea class="form-control" name="new_description[]" id="new_description"></textarea>
                          </div>
                     </div>
                </div>

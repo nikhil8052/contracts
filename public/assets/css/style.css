@@ -632,17 +632,6 @@ div#navbarSupportedContent {
     text-align: center;
 }
 
-.padd-cta {
-    padding: 20px 40px;
-    border-radius: 130px;
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border: 0;
-    font-size: 18px;
-}
 section.tab_sec_ot {
     padding-top: 200px;
 }

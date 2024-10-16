@@ -10,7 +10,7 @@
                          <div class="d-flex justify-content-end p-2">
                               <div class="nk-block-head-content">
                                    <div class="mbsc-form-group">
-                                        <a href="{{ url('/terms-and-conditions') }}" class="btn btn-default">View Page</a>
+                                        <a href="{{ url('/terms-and-conditions') }}" class="btn btn-default" target="_blank">View Page</a>
                                    </div>
                               </div>
                          </div>

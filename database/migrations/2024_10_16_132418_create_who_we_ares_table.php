@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('login_registers', function (Blueprint $table) {
+        Schema::create('who_we_ares', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->nullable();
-            $table->text('title')->nullable();
-            $table->text('main_heading')->nullable();
-            $table->text('main_sub_heading')->nullable();
-            $table->string('background_image')->nullable();
+            $table->text('key')->nullable();
+            $table->longtext('value')->nullable();
             $table->text('file_path')->nullable();
+            $table->string('type')->nullable();
+            $table->text('offer_section_heading')->nullable();
+            $table->longtext('offer_section_description')->nullable();
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('login_registers');
+        Schema::dropIfExists('who_we_ares');
     }
 };

@@ -41590,22 +41590,36 @@ li.nk-menu-item.has-sub:hover .nk-menu-toggle:after {
 
 .wrapper {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: space-between;
   overflow-x: hidden;
+  align-items: center;
 }
 
 .tab {
   position: relative;
-  max-width: 1036px;
-  margin: auto;
-  margin-bottom: 20px;
+  /* max-width: 1036px;
+  margin: auto; */
+  /* margin-bottom: 20px; */
   overflow: hidden;
   padding: 8px 10px;
   border: 2px solid #0125554D;
   border-radius: 100px;
 }
 
+.doc_view_btn:hover {
+  background: unset;
+  align-items: center;
+  background: #FD5602;
+  border-radius: 130px;
+  font-size: 16px;
+  /* / padding: 10px 30px; / */
+  border: 1px solid #FD5602;
+}
+
+.doc_view_btn a {
+  color: #fff;
+}
 
 .tab_btn {
   position: relative;

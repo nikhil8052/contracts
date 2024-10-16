@@ -3,7 +3,11 @@
 
 <?php use Illuminate\Support\Str; ?>
 
+@if(isset($data['background_image']) && $data['background_image'] != null)
 <section class="banner_sec dark" style="background-image: url({{ asset('storage/'.$data['background_image'] ?? '' ) }});">
+@else
+<section class="banner_sec dark" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
+@endif
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-md-7">
@@ -24,7 +28,11 @@
 			</div>
 			<div class="col-md-5">
 				<div class="banner_img">
+				@if(isset($data['banner_image']) && $data['banner_image'] != null)
 					<img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" alt="">
+				@else
+					<img src="{{ asset('assets/img/col_banner.png') }}" alt="">
+				@endif
 				</div>
 			</div>
 		</div>
@@ -116,14 +124,18 @@
 			<div class="row align-items-center">
 				<div class="col-md-6">
 					<div class="Comienza-img">
+					@if(isset($data['bottom_banner_image']) && $data['bottom_banner_image'] != null)
 						<img src="{{ asset('storage/'.$data['bottom_banner_image'] ?? '' ) }}" alt="">
+					@else
+						<img src="{{ asset('assets/img/Comienza-img.png') }}" alt="">
+					@endif
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="Comienza-content">
 						<h2>{{ $data['bottom_heading'] ?? '' }}</h2>
 						<p>{{ $data['bottom_subheading'] ?? '' }}</p>
-						<a href="{{ $data['bottom_button_link'] ?? '' }}" class="cta_org padd-cta">{{ $data['bottom_button_label'] ?? '' }} <i class="fa-solid fa-arrow-right-long"></i></a>
+						<a href="{{ $data['bottom_button_link'] ?? '' }}" class="cta_org">{{ $data['bottom_button_label'] ?? '' }} <i class="fa-solid fa-arrow-right-long"></i></a>
 					</div>
 				</div>
 			</div>
@@ -221,8 +233,20 @@
 					<p>{{ $data['reviews_sub_heading'] ?? '' }}</p>
 				</div>
 				<div class="btn-wrap">
-					<button class="prev-btn"><img src="{{ asset('storage/'.$data['review_left_arrow'] ?? '' ) }}" alt=""></button>
-					<button class="next-btn"><img src="{{ asset('storage/'.$data['review_right_arrow'] ?? '' ) }}" alt=""></button>
+					<button class="prev-btn">
+					@if(isset($data['review_left_arrow']) && $data['review_left_arrow'] != null)
+						<img src="{{ asset('storage/'.$data['review_left_arrow'] ?? '' ) }}" alt="">
+					@else
+						<img src="{{ asset('assets/img/left-arrow.png') }}" alt="">
+					@endif
+					</button>
+					<button class="next-btn">
+					@if(isset($data['review_right_arrow']) && $data['review_right_arrow'] != null)
+						<img src="{{ asset('storage/'.$data['review_right_arrow'] ?? '' ) }}" alt="">
+					@else
+						<img src="{{ asset('assets/img/right-arrow.png') }}" alt="">
+					@endif
+					</button>
 				</div>
 			</div>
 			<div class="col-md-8">

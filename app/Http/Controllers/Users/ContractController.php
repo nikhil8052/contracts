@@ -67,4 +67,8 @@ class ContractController extends Controller
             saveLog("Error:", "ContractController", $e->getMessage());
         }
     }
+
+    public function legalDocument(){
+        return view('users.contracts.legal_document');
+    }
 }

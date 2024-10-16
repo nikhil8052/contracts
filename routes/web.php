@@ -43,6 +43,8 @@ Route::get('password/reset/{token}', [AuthController::class, 'showResetForm'])->
 Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
 Route::post('/get-contract',[ContractController::class,'getContract']);
 
+Route::get('/legal-document',[ContractController::class,'legalDocument']);
+
 Route::post('/registerProcc',[AuthController::class,'registerProcc']);
 Route::get('logout',[AuthController::class,'logout']);
 
@@ -55,6 +57,7 @@ Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
 Route::get('/prices',[SitePagesController::class,'prices']);
 Route::post('/ckeditor/upload',[SitePagesController::class,'upload'])->name('ckeditor.upload');
 Route::get('/help-center',[SitePagesController::class,'HelpCenter'])->name('help.center');
+Route::get('/info',[SitePagesController::class,'whoWeAre']);
 // ****************** SitePagesController End **********************//
 
 
@@ -98,6 +101,10 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/help-center',[SiteMetaController::class,'helpCenter']);
      Route::post('/admin-dashboard/help-center-proccess',[SiteMetaController::class,'helpProcc']);
+     Route::post('/update/help/image',[SiteMetaController::class,'updateHelpImage']);
+
+     Route::get('/admin-dashboard/who-we-are',[AllPagesController::class,'aboutUs']);
+
 
      Route::get('/admin-dashboard/login',[SiteMetaController::class,'login']);
      Route::post('/admin-dashboard/add-login',[SiteMetaController::class,'addLogin']);

@@ -113,6 +113,9 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/contact-us') }}" class="nk-menu-link"><span class="nk-menu-text">Contact Us</span></a>
                                         </li>
+                                        <!-- <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/who-we-are') }}" class="nk-menu-link"><span class="nk-menu-text">Who We Are</span></a>
+                                        </li> -->
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/login') }}" class="nk-menu-link"><span class="nk-menu-text">Iniciar sesión</span></a>
                                         </li>

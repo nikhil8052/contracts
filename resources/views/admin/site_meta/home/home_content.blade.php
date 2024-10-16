@@ -247,9 +247,7 @@
                                                        </span>
                                                   </div>
                                                   <div class="form-group">
-                                                       <div class="form-group">
-                                                            <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Category image">
-                                                       </div>
+                                                       <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Category image">
                                                   </div>
                                              </div>
                                              <div class="col-md-2">

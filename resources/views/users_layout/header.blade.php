@@ -15,7 +15,7 @@
 			<div class="col-md-6 ">
 				<div class="hedaer_bnt">
 					<a href="" class="cta_dark"><i class="fa-solid fa-file-lines"></i>Crear documento</a>
-					<a href="" class="cta_light">Iniciar sesión</a>
+					<a href="{{ url('/login') }}" class="cta_light">Iniciar sesión</a>
 				</div>
 
 			</div>

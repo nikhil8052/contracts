@@ -13,10 +13,10 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Models\PasswordResetToken;
 class AuthController extends Controller
 {
-  
 
     public function login(){
-        return view('auth.adminLogin');
+        $login = LoginRegister::where('key','login')->first();
+        return view('auth.adminLogin',compact('login'));
     }
 
     public function loginProcc(Request $request){
@@ -26,7 +26,7 @@ class AuthController extends Controller
         ]);
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            return redirect('/admin-dashboard')->with('sucess','Welcome to Admin Dashbaord');
+            return redirect('/')->with('sucess','Login Successfully');
         }else{
             return redirect()->back()->with('error','Login failed !!');
         }

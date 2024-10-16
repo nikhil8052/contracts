@@ -1,48 +1,107 @@
-@extends('users_layout.master')
+@extends('users_layout.other_master')
 @section('content')
-<section class="login-sec p-100">
+
+@if($login->background_image != null)
+    <?php $path = str_replace('public/', '', $login->file_path ?? null); ?>
+    <section class="banner_sec dark inner-banner acerca model_banner" style="background-image: url({{ asset('storage/'.$path) }});">
+@else
+    <section class="banner_sec dark inner-banner acerca model_banner" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
+@endif
     <div class="container">
-        <div class="login-contant fa-text">
-            <h1>{{ $login->title ?? '' }}</h1>
-            <form class="login-form" id="loginForm" action="{{url('login-process')}}" method="post">
-                @csrf
-                <div class="form-group">
-                    <label> Correo electrónico </label>
-                    <input type="email" class="form-control" name="email" id="email" />
-                    <small class="text-danger" id="email-wrong"></small>
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <div class="banner_content">
                 </div>
-                <div class="form-group">
-                    <label for=""> Contraseña</label>
-                    <input type="password" class="form-control" id="password" name="password" />
-                    <small class="text-danger" id="pass-wrong"  style="display: none;"></small>
+            </div>
+            <div class="col-md-5">
+                <div class="banner_img">
                 </div>
-                <div class="login-checkbox">
-                    <div class="jag-checkbox">
-                        <input id="wp-comment-cookies-consent" name="remember" value="true" type="checkbox"/>
-                        <p for="wp-comment-cookies-consent">Mantener sesión activa</p>
-                    </div>
-                    <div class="forgot-pass">
-                        <p>
-                            <span><a href="{{url('forget-password')}}">Recuperar contraseña</a></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="login-btn" id="login_submit">
-                    <button class="login-button">Ingresar</button>
-                    <!-- <input type="hidden" name="action" value="user_login_custom" /> -->
-                </div>
-                <div class="or-text">
-                    <span>O</span>
-                </div>
-                <div class="account-text">
-                    <p>
-                        ¿No estas registrado? <span><a href="{{url('/register')}}">Crear cuenta</a></span>
-                    </p>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </section>
+
+
+    <!---------------------------------------------- section social ------------------------------------- -->
+
+    <section class="social_login light p_120">
+
+        <div class="inner_social_log">
+            <div class="container">
+                <div class="social_sec_wt">
+                    <div class="social_contct">
+                        <div class="social_hd">
+                            <h2>
+                                {{ $login->main_heading ?? 'Iniciar sesión' }}
+                            </h2>
+                            <p class="hd_para_consta">
+                                {{ $login->main_sub_heading ?? 'Bienvenido! Por favor seleccione un método de inicio de sesión' }}
+                            </p>
+                        </div>
+                        <div class="goog_fb_box">
+                            <div class="in_gfb_box">
+                                <a class="social_btn" href=""><i class="fa-brands fa-google"></i> Regístrese con <span
+                                        class="span1">Google</span> </a>
+                            </div>
+                            <div class="in_gfb_box">
+                                <a class="social_btn2" href=""><i class="fa-brands fa-facebook"></i> Regístrese con
+                                    <span class="span1">Facebook</span> </a>
+                            </div>
+                        </div>
+
+                        <div class="af_bfore_line">
+                            <div class="right-line left-line center-text">or</div>
+                        </div>
+                        <div class="contac_ot_box">
+                            <input class="inside_contac" type="text" placeholder="Correo electrónico" name="email">
+                        </div>
+                        <div class="contac_ot_box">
+                            <div class="form-group">
+                                <input id="password-field" type="password" class="form-control inside_contac"
+                                    name="password" placeholder="Contraseña">
+                                <span toggle="#password-field"
+                                    class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="selct_div">
+                            <div class="mainte_box">
+                                <div class="ot_check_mainte">
+                                    <div class="form-group">
+                                        <input type="checkbox" id="html">
+                                        <label for="html">Mantener sesión activa </label>
+                                    </div>
+                                </div>
+                                <div class="ot_check_mainte">
+                                    <p class=" ot_check_mainte_pra">
+                                        Recuperar contraseña
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="contac_ot_box">
+                            <button id="login_submit" class="cta_org" tabindex="0">Ingresar</a>
+                        </div>
+                        <div class="contac_ot_box">
+                            <p class="contaco_para_in">
+                                ¿No estas registrado? <span class="span1"><a href="">Crear cuenta</a></span>
+                            </p>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
 <script>
   $(document).ready(function() {
     $('#login_submit').click(function(e) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\DocumentFormRequest;
 use App\Models\DocumentCategory;
 use App\Models\Document;
 use App\Models\DocumentFaq;
@@ -32,7 +33,6 @@ class DocumentController extends Controller
         return view('admin.documents.document',compact('categories','related_documents','reviews'));
     }
 
-    
     public function addDocuments(Request $request){
         DB::beginTransaction(); 
         try{
@@ -216,12 +216,7 @@ class DocumentController extends Controller
                 $document->file_path = $path;
             }
             
-            // $document->additional_info = $request->additional_info;
             $document->doc_price = $request->doc_price;
-            // $document->no_of_downloads = $request->no_of_downloads;
-            // $document->total_likes = $request->total_likes;
-            // $document->discount_price = $request->discount_price;
-            // $document->format = json_encode($request->format);
             $document->reviews = 1;
 
             if($request->img_sec_ids != null){
@@ -250,7 +245,6 @@ class DocumentController extends Controller
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
     }
-  
 
     public function allDocuments(){
         $documents = Document::where('published',1)->get();
@@ -264,6 +258,10 @@ class DocumentController extends Controller
         $reviews = Document::where('reviews',1)->with('reviews')->get();
         return view('admin.documents.document',compact('categories','document','related_documents','reviews'));
     }
+
+    // public function updateDocument(Request $request){
+
+    // }
 
     public function addDocumentCategory(){
         $parent_category = DocumentCategory::all();

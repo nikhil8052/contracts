@@ -13,7 +13,8 @@ use App\Models\PricesContent;
 use App\Models\FaqCategory;
 use App\Models\HomeContent;
 use App\Models\Review;
-
+use App\Models\HelpCenter;
+use App\Models\HelpYou;
 
 class SitePagesController extends Controller
 {
@@ -175,7 +176,45 @@ class SitePagesController extends Controller
     }
 
     public function HelpCenter(Request $request){
-        return view('users.site_meta.support.support');
+        $keys = [
+            'title',
+            'background_image',
+            'banner_title',
+            'banner_placeholder',
+            'banner_image',
+            'main_title',
+            'faq_heading',
+            'faq_description',
+            'bottom_banner_image',
+            'banner_heading',
+            'banner_description',
+            'button_text',
+        ];
+
+        $results = HelpCenter::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
+            'banner_title' => $results['banner_title']->value ?? null,
+            'banner_placeholder' => $results['banner_placeholder']->value ?? null,
+            'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
+            'main_title' => $results['main_title']->value ?? null,
+            'faq_heading' => $results['faq_heading']->value ?? null,
+            'faq_description' => $results['faq_description']->value ?? null,
+            'bottom_banner_image' =>  str_replace('public/', '', $results['bottom_banner_image']->file_path ?? null),
+            'banner_heading' => $results['banner_heading']->value ?? null,
+            'banner_description' => $results['banner_description']->value ?? null,
+            'button_text' => $results['button_text']->value ?? null,
+        ];
+
+        $faqs = HelpCenter::where('key','faq')->get();
+        $help_you = HelpYou::with('media')->get();
+
+        return view('users.site_meta.support.support',compact('data','faqs','help_you'));
+    }
+
+    public function whoWeAre(){
+        return view('users.site_meta.who_we_are');
     }
 
 }

@@ -4,7 +4,7 @@
 <div class="nk-content">
      <div class="container-fluid">
           @if(isset($document) && $document != null)
-          <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ url('/admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
           @else
           <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
           @endif
@@ -13,40 +13,23 @@
                     <div class="nk-block-head-content wrapper">
                          <div class="tab">
                               @if(isset($document) && $document != null)
-                              <a href="{{ url('document/'.$document->slug ?? '' ) }}" class="btn tab_btn active" target="_blank">Frontpage</a>
+                              <a href="{{ url('admin-dashboard/edit-document/'.$document->slug) }}" class="btn tab_btn active">Frontpage</a>
                               @endif
                               <button type="button" class="btn tab_btn">Document generator</button>
                               <button type="button" class="btn tab_btn">Document questions</button>
                               <button type="button" class="btn tab_btn">Document Text</button>
                          </div>
-                         <!-- <div class="doc-top-butns">
+                         <div class="doc_view_btn">
                               @if(isset($document) && $document != null)
-                              <div class="doc-view-btn">
-                                   <div class="form-group">
-                                        <a href="{{ url('document/'.$document->slug ?? '' ) }}" class="btn" target="_blank">Frontpage</a>
-                                   </div>
-                              </div>
+                              <a href="{{ url('document/'.$document->slug ?? '') }}" target="_blank" class="btn btn-default">View Page</a>
+                              @else
+                              <a class="btn btn-default" disabled>View Page</a>
                               @endif
-                              <div class="doc-genr">
-                                   <div class="form-group">
-                                        <button type="button" class="btn">Document generator</button>
-                                   </div>
-                              </div>
-                              <div class="doc-qu">
-                                   <div class="form-group">
-                                        <button type="button" class="btn">Document questions</button>
-                                   </div>
-                              </div>
-                              <div class="doc-txt">
-                                   <div class="form-group">
-                                        <button type="button" class="btn">Document Text</button>
-                                   </div>
-                              </div>   
-                         </div> -->
-                         <div class="doc-top-butns2 mt-4">
-                              <div class="form-group">
-                                   <button type="button" class="btn btn-light">AI Autofill</button>
-                              </div>
+                         </div>
+                    </div>
+                    <div class="doc-top-butns2 mt-4">
+                         <div class="form-group">
+                              <button type="button" class="btn btn-light">AI Autofill</button>
                          </div>
                     </div>
                     <div class="row gy-12 mt-4">
@@ -62,6 +45,9 @@
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
+                                   @error('title')
+                                        <span class="text-danger">{{ $message }}</span>
+                                   @enderror
                               </div>
                          </div>
                          @endif 
@@ -82,6 +68,9 @@
                               <div class="form-group">
                                    <label class="form-label" for="document_image">Image</label>
                                    <input type="file" class="form-control" id="document_image" name="document_image" value="">
+                                   @error('document_image')
+                                        <span class="text-danger">{{ $message }}</span>
+                                   @enderror
                               </div>
                          </div>
                          @endif
@@ -93,6 +82,9 @@
                                    <div class="form-group">
                                         <label class="form-label" for="short_description">Short Description</label>
                                         <textarea class="form-control" id="short_description" name="short_description">{{ $document->short_description ?? '' }}</textarea>
+                                        @error('short_description')
+                                             <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                    </div>
                               </div>
                               <div class="col-md-4">
@@ -133,10 +125,16 @@
                                                   @endif
                                              </select>
                                         </div>
+                                        @error('category_id')
+                                             <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                    </div>
                                    <div class="form-group">
                                         <label class="form-label" for="doc_price">Price *</label>
                                         <input type="text" class="form-control" id="doc_price" name="doc_price" value="{{ $document->doc_price ?? '' }}">
+                                        @error('doc_price')
+                                             <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                    </div>
                               </div>
                          </div>
@@ -144,6 +142,9 @@
                               <div class="form-group">
                                    <label class="form-label" for="document_button_text">Create Document Button Text</label>
                                    <input type="text" class="form-control" id="document_button_text" name="document_button_text" value="{{ $document->btn_text ?? '' }}">
+                                   @error('document_button_text')
+                                        <span class="text-danger">{{ $message }}</span>
+                                   @enderror
                               </div>
                          </div>
                     </div>
@@ -156,6 +157,9 @@
                               <div class="form-group">
                                    <label class="form-label" for="long_description">Long Description</label>
                                    <textarea id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
+                                   @error('long_description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                   @enderror
                               </div>
                          </div>
                          <div class="col-md-12">
@@ -263,17 +267,23 @@
                                              <div class="form-group">
                                                   <label class="form-label" for="img_heading">Heading</label>
                                                   <input type="text" class="form-control" id="img_heading" name="img_heading[]" value="">
+                                                  @error('img_heading.*')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
                                              </div>
                                         </div>
                                         <div class="col-md-12">
                                              <div class="form-group">
                                                   <label class="form-label" for="img_description">Description Here</label>
                                                   <textarea class="form-control" id="img_description" name="img_description[]"></textarea>
+                                                  @error('img_description.*')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
                                              </div>
                                         </div>
                                    </div>
                               @endif
-                                   <div id="img-txt-section"></div>
+                                   <div id="document_field_container"></div>
                                    <br>
                                    <div class="text-end">
                                         <div class="form-group">
@@ -290,6 +300,9 @@
                                         <div class="form-group">
                                              <label class="form-label" for="guide_heading">Guide Section Main Heading</label>
                                              <input type="text" class="form-control form-control" id="guide_heading" name="guide_heading" value="{{ $document->guide_main_heading ?? '' }}">
+                                             @error('guide_heading')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
                                    <div class="col-md-12">
@@ -340,26 +353,29 @@
                                         <div class="form-group">
                                              <label class="form-label" for="legal_heading">Heading</label>
                                              <input type="text" class="form-control form-control" id="legal_heading" name="legal_heading" value="{{ $document->legal_heading ?? '' }}">
+                                             @error('legal_heading')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="legal_description">Description</label>
                                              <textarea class="form-control" id="legal_description" name="legal_description">{{ $document->legal_description ?? '' }}</textarea>
+                                             @error('legal_description')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="legal_btn_text">Button Label</label>
                                              <input type="text" class="form-control" id="legal_btn_text" name="legal_btn_text" value="{{ $document->legal_btn_text ?? '' }}">
+                                             @error('legal_btn_text')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
-                                   <!-- <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="legal_btn_link">Button Link</label>
-                                             <input type="text" class="form-control" id="legal_btn_link" name="legal_btn_link" value="{{ $document->legal_btn_link ?? '' }}">
-                                        </div>
-                                   </div> -->
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="legal_doc_image">Document Image</label>
@@ -392,12 +408,18 @@
                                         <div class="form-group">
                                              <label class="form-label" for="related_heading">Related Document Heading</label>
                                              <input type="text" class="form-control" id="related_heading" name="related_heading" value="{{ $document->related_heading ?? '' }}">
+                                             @error('related_heading')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="related_description">Related Document Short Description</label>
                                              <textarea class="form-control" id="related_description" name="related_description">{{ $document->related_description ?? '' }}</textarea>
+                                             @error('related_description')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
                                    <div class="col-md-12">
@@ -549,7 +571,7 @@
                @if(isset($document) && $document != null)
                     <button class="btn btn-primary" type="submit">Update</button>
                @else
-                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-primary" type="submit" id="saveform">Save</button>
                @endif
                </div>
           </form>
@@ -663,7 +685,7 @@ $('#second-section-add').on('click',function(){
                          </div>
                     </div>
                </div>`
-     $('#img-txt-section').append(html);
+     $('#document_field_container').append(html);
 
      // Initialize CKEditor with appended row //
      $('.description-editor').each(function() {
@@ -803,6 +825,14 @@ $('body').delegate('.remove-faq', 'click', function () {
 
 });
 
+</script>
+
+<script>
+     // $(document).raedy(function(){
+     //      $('#saveform').on('click',function(e){
+     //           e.preventDefault();
+     //      })
+     // })
 </script>
 
 @endsection

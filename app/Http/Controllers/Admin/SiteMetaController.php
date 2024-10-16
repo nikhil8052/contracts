@@ -73,7 +73,6 @@ class SiteMetaController extends Controller
     }
 
     public function addHowItWorks(Request $request){
-        // return $request->all();
         try{
             if($request->hasFile('background_image')){
                 $file = $request->file('background_image');
@@ -375,6 +374,18 @@ class SiteMetaController extends Controller
             $login->key = 'login';
             $login->title = $request->title;
             $login->main_heading = $request->main_heading;
+            $login->main_sub_heading = $request->main_sub_heading;
+
+            if($request->hasFile('background_image')){
+                $file = $request->file('background_image');
+                $directory = "public/site_images";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
+
+                $login->background_image = $filename;
+                $login->file_path = $filepath;
+            }
+
             $login->save();
         
             if($status == 'updated'){
@@ -991,9 +1002,10 @@ class SiteMetaController extends Controller
                                 rmdir($directory_path);
                             }
                         }
+                        Media::where('id',$home_category->media_id)->delete();
                         $home_category->delete();
                     }
-                    Media::where('id',$home_category->media_id)->delete();
+                    
                 }
             }
 
@@ -1034,8 +1046,7 @@ class SiteMetaController extends Controller
     
                 return response()->json($response);
     
-            } else {
-                // File not provided in the request
+            }else{
                 return response()->json([
                     'code' => '400',
                     'status' => 'fail',
@@ -1045,35 +1056,6 @@ class SiteMetaController extends Controller
         }
     }
     
-    // public function updateCategoryImage(Request $request){
-    //     if($request->category_id != null){
-    //         $id = $request->category_id;
-    //         $home_category = HomeCategories::find($id);
-    //         $timestamp = now()->timestamp;
-    //         $directory = "public/home_categories/{$id}_{$timestamp}";
-    //         $fileupload = $this->fileUploadService->upload($file, $directory);
-    //         $fileuploadData = $fileupload->getData();
-    
-    //         if(isset($fileuploadData) && $fileuploadData->status == '200') {
-    //             $home_category->media_id = $fileuploadData->id;
-    //             $home_category->update();
-
-    //             $response = ([
-    //                 'code' => $fileuploadData->status,
-    //                 'status' => 'success',
-    //             ]);
-
-    //         }elseif($fileuploadData->status == '400') {
-    //             $response = ([
-    //                 'code' => $fileuploadData->status,
-    //                 'status' => 'fail',
-    //             ]);
-    //         }
-
-    //         return response()->json($response);
-    //     }
-    // }
-
     public function webSetting(){
         $keys = [
             'header_logo',
@@ -1304,8 +1286,8 @@ class SiteMetaController extends Controller
         ];
 
         $faqs = HelpCenter::where('key','faq')->get();
-
-        return view('admin.site_meta.support.support',compact('data','faqs'));
+        $help_you = HelpYou::with('media')->get();
+        return view('admin.site_meta.support.support',compact('data','faqs','help_you'));
     }
 
     public function helpProcc(Request $request){
@@ -1381,17 +1363,31 @@ class SiteMetaController extends Controller
                 }
             }
 
-            if($request->hasFile('icon')){
-                $icon = $request->file('icon');
+            if($request->has('heading')){
+                foreach($request->heading as $key=>$val){
+                    $help_you = HelpYou::find($key);
+                    $help_you->heading = $val;
+                    $help_you->update();
+                }
+
+                foreach($request->description as $index=>$value){
+                    $help_you = HelpYou::find($index);
+                    $help_you->description = $value;
+                    $help_you->update();
+                }
+            }
+
+            if($request->hasFile('new_icon')){
+                $icon = $request->file('new_icon');
                 for($i=0; $i<count($icon); $i++){
                     $file = $icon[$i];
 
-                    if($request->has('heading')){
-                        $heading = $request->heading[$i];
+                    if($request->has('new_heading')){
+                        $heading = $request->new_heading[$i];
                     }
 
-                    if($request->has('description')){
-                        $description = $request->description[$i];
+                    if($request->has('new_description')){
+                        $description = $request->new_description[$i];
                     }
 
                     $directory = "public/help_center";
@@ -1433,10 +1429,145 @@ class SiteMetaController extends Controller
                     }
                 }
             }
+
+            if($request->bg_image_id != null){
+                $help_center = HelpCenter::where('id',$request->bg_image_id)->first();
+                $file_path = getFilePath($help_center->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $help_center->value = null;
+                $help_center->file_path = null;
+                $help_center->save();
+            }
+
+            if($request->baner_image_id != null){
+                $help_center = HelpCenter::where('id',$request->baner_image_id)->first();
+                $file_path = getFilePath($help_center->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $help_center->value = null;
+                $help_center->file_path = null;
+                $help_center->save();
+            }
+
+            if($request->btom_banner_id != null){
+                $help_center = HelpCenter::where('id',$request->btom_banner_id)->first();
+                $file_path = getFilePath($help_center->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $help_center->value = null;
+                $help_center->file_path = null;
+                $help_center->save();
+            }
+
+            if($request->helpimageId != null){
+                $deleteIds = explode(',', $request->helpimageId);
+                foreach($deleteIds as $id){
+                    $help_you = HelpYou::where('id',$id)->with('media')->first();
+                    if($help_you->media){
+                        $image_path = getFilePath($help_you->media->file_path);
+                        if (File::exists($image_path)) {
+                            $directory_path = dirname($image_path);
+                            unlink($image_path);
+                            if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                                rmdir($directory_path);
+                            }
+                        }
+                        Media::where('id',$help_you->media_id)->delete();
+
+                        $help_you->media_id = null;
+                        $help_you->update();
+                    }
+                }
+            }
+
+            if($request->removefaq != null){
+                $deleteIds = explode(',', $request->removefaq);
+                foreach($deleteIds as $id){
+                    $help_center = HelpCenter::find($id);
+                    if($help_center){
+                        $help_center->delete();
+                    }
+                }
+            }
+
+            if($request->removehelp != null){
+                $deleteIds = explode(',', $request->removehelp);
+                foreach($deleteIds as $id){
+                    $help_you = HelpYou::where('id',$id)->with('media')->first();
+                    if($help_you->media){
+                        $image_path = getFilePath($help_you->media->file_path);
+                        if (File::exists($image_path)) {
+                            $directory_path = dirname($image_path);
+                            unlink($image_path);
+                            if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                                rmdir($directory_path);
+                            }
+                        }
+                        Media::where('id',$help_you->media_id)->delete();
+                        $help_you->delete();
+                    }
+                    
+                }
+            }
+
             return redirect()->back()->with('success', 'Data successfully updated.');
         }catch(Exception $e){
             saveLog("Error:", "SiteMetaController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    public function updateHelpImage(Request $request){
+        if($request->image_id != null){
+            $id = $request->image_id;
+            if($request->hasFile('help_image')) {
+                $file = $request->file('help_image');
+                $directory = "public/help_center";
+                $fileupload = $this->fileUploadService->upload($file, $directory);
+                $fileuploadData = $fileupload->getData();
+
+                $help_you = HelpYou::find($id);
+                if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                    $help_you->media_id = $fileuploadData->id;
+                    $help_you->update();
+    
+                    $response = [
+                        'code' => $fileuploadData->status,
+                        'status' => 'success',
+                    ];
+    
+                }elseif($fileuploadData->status == '400') {
+                    $response = [
+                        'code' => $fileuploadData->status,
+                        'status' => 'fail',
+                    ];
+                }
+    
+                return response()->json($response);
+    
+            }else{
+                return response()->json([
+                    'code' => '400',
+                    'status' => 'fail',
+                    'message' => 'No file uploaded',
+                ], 400);
+            }
         }
     }
 }
