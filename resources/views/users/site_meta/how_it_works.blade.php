@@ -6,9 +6,9 @@
 @else
     <section class="banner_sec dark inner-banner" style="background-image: url({{ asset('assets/img/inner-banner.png') }});">  
 @endif
-    <div class="container">
+    <div class="container banner-col-width">
         <div class="row align-items-center">
-            <div class="col-md-7">
+            <div class="col-md-6 banner-col">
                 <div class="banner_content">
                     <h1>{{ $data['banner_title'] ?? '' }}</h1>
                     <p>
@@ -16,7 +16,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6 banner-col">
             @if(isset($data['banner_image']) && $data['banner_image'] != null)
                 <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" alt="Así funciona">
             @else

@@ -9,6 +9,13 @@
           <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
           @endif
                @csrf
+               <input type="hidden" name="id" value="{{ $document->id ?? '' }}">
+               <input type="hidden" name="img_sec_ids" id="img_sec_ids" value="">
+               <input type="hidden" name="guide_sec_ids" id="guide_sec_ids" value="">
+               <input type="hidden" name="agg_sec_ids" id="agg_sec_ids" value="">
+               <input type="hidden" name="slug" id="slug" value="{{ $document->slug ?? '' }}">
+               <input type="hidden" name="published" id="published" value="">
+
                <div class="nk-block-head doc-outer-div">
                     <div class="nk-block-head-content wrapper">
                          <div class="tab">
@@ -53,12 +60,6 @@
                          @endif 
                     </div>
                </div>
-               <input type="hidden" name="id" value="{{ $document->id ?? '' }}">
-               <input type="hidden" name="img_sec_ids" id="img_sec_ids" value="">
-               <input type="hidden" name="guide_sec_ids" id="guide_sec_ids" value="">
-               <input type="hidden" name="agg_sec_ids" id="agg_sec_ids" value="">
-               <input type="hidden" name="slug" id="slug" value="{{ $document->slug ?? '' }}">
-               <input type="hidden" name="published" id="published" value="">
                <div class="card card-bordered card-preview mt-2">
                     <div class="card-inner">
                          @if(isset($document) && $document != null)
@@ -74,7 +75,7 @@
                               </div>
                          </div>
                          @endif
-                         <hr>
+
                          <h5>Document Short Description</h5>  
                          <hr>
                          <div class="row gy-12">
@@ -123,6 +124,7 @@
                                                        @endif
                                                   @endforeach
                                                   @endif
+                                                  
                                              </select>
                                         </div>
                                         @error('category_id')
@@ -169,6 +171,7 @@
                          </div>  
                          @if(isset($document->documentAgreement) && $document->documentAgreement != null)
                          @foreach($document->documentAgreement as $agrmnt)
+                         <?php $path = str_replace('public/', '', $agrmnt->media->file_path ?? null); ?>
                          <div class="faq-append-sec{{ $agrmnt->id ?? '' }}">
                               <div class="text-end">
                                    <div class="form-group">
@@ -178,7 +181,7 @@
                               <div class="row gy-12">
                                    <div class="col-md-4">
                                         <div class="form-group">
-                                             <img src="{{ asset('storage/'.$agrmnt->media->file_name ?? '' ) }}" alt="">
+                                             <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="">
                                         </div>
                                    </div>
                                    <div class="col-md-4">
@@ -383,9 +386,12 @@
                                         </div>
                                    </div>
                                    @if(isset($document->legal_doc_image) && $document->legal_doc_image != null)
+                                   <?php 
+                                        $image = str_replace('public/', '', $document->file_path ?? null)
+                                   ?>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <img src="{{ asset('storage/'.$document->legal_doc_image ) }}" width="200px" height="200px">
+                                             <img src="{{ asset('storage/'.$image ) }}" width="200px" height="200px">
                                         </div>
                                    </div>
                                    @endif
@@ -827,12 +833,5 @@ $('body').delegate('.remove-faq', 'click', function () {
 
 </script>
 
-<script>
-     // $(document).raedy(function(){
-     //      $('#saveform').on('click',function(e){
-     //           e.preventDefault();
-     //      })
-     // })
-</script>
 
 @endsection

@@ -14737,7 +14737,7 @@ a:hover .btn-trigger:before {
   }
 }
 .dropdown-menu-s1 {
-  border-top: 3px solid #6576ff;
+  border-top: 3px solid #fff;
 }
 
 .dropdown-toggle-split > .icon {
@@ -29143,7 +29143,7 @@ body.nav-shown {
   border-color: #203247;
 }
 .nk-header.is-light:not([class*=bg-]) {
-  background: #fff;
+  background: #012555;
 }
 .nk-header.is-theme:not([class*=bg-]) {
   background: #29347a;
@@ -29393,8 +29393,8 @@ body.nav-shown {
   border-right-color: #ebeef2;
 }
 .nk-sidebar.is-dark {
-  background: #ffff;
-  border-right-color: #ffff;
+  background: #012555;
+  border-right-color: #012555;
 }
 .nk-sidebar-element.nk-sidebar-body {
   background: #012555;
@@ -32104,6 +32104,7 @@ h6 .badge, .h6 .badge {
   line-height: 1;
   padding-top: 0.125rem;
   /* padding-bottom: 0.375rem; */
+  color: #fff;
 }
 .user-status-unverified {
   color: #e85347;

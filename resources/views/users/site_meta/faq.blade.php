@@ -3,9 +3,9 @@
 
  <!-- ********(banner-sec)*********** -->
  <section class="banner_sec dark inner-banner fun-banner" style="background-image: url({{ asset('storage/'.$data['background_image'] )}});">
-    <div class="container">
+    <div class="container banner-col-width">
         <div class="row align-items-center">
-            <div class="col-md-7">
+            <div class="col-md-6 banner-col">
                 <div class="banner_content pre-heading">
                     <h1>{{ $data['banner_title'] ?? 'Preguntas Frecuentes' }}</h1>
                     <p>{{ $data['banner_description'] ?? 'Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
@@ -14,7 +14,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6 banner-col">
                 <div class="banner_img">
                     <img src="{{ asset('storage/'.$data['banner_image'] ) }}" alt="Preguntas Frecuentes">
                 </div>
@@ -283,74 +283,6 @@
 					<button class="next-btn"><img src="{{ asset('storage/'.$data2['review_right_arrow'] ?? '' ) }}" alt=""></button>
                 </div>
             </div>
-            <!-- <div class="col-md-8">
-                <div class="client-slider">
-                    <div class="control_box">
-                        <div class="d-flex">
-                            <div class="slider-img">
-                                <img src="img/slider-icon.png" alt="">
-                            </div>
-                            <div class="txt_slider">
-                                <h6>Jesús Castellanos</h6>
-                                <span>México </span>
-                            </div>
-                        </div>
-                        <div class="star_img">
-                            <img src="img/star.png" alt="">
-                        </div>
-                        <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-                        <span>Hace 7 meses</span>
-                    </div>
-                    <div class="control_box">
-                        <div class="d-flex">
-                            <div class="slider-img">
-                                <img src="img/slider-icon1.png" alt="">
-                            </div>
-                            <div class="txt_slider">
-                                <h6>Jesús Castellanos</h6>
-                                <span>México </span>
-                            </div>
-                        </div>
-                        <div class="star_img">
-                            <img src="img/star.png" alt="">
-                        </div>
-                        <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-                        <span>Hace 7 meses</span>
-                    </div>
-                    <div class="control_box">
-                        <div class="d-flex">
-                            <div class="slider-img">
-                                <img src="img/slider-icon2.png" alt="">
-                            </div>
-                            <div class="txt_slider">
-                                <h6>Sara Cabeza</h6>
-                                <span>Ciudad de México </span>
-                            </div>
-                        </div>
-                        <div class="star_img">
-                            <img src="img/star.png" alt="">
-                        </div>
-                        <p>“Rápido fácil y completo” </p>
-                        <span>Hace 7 meses</span>
-                    </div>
-                    <div class="control_box">
-                        <div class="d-flex">
-                            <div class="slider-img">
-                                <img src="img/slider-icon1.png" alt="">
-                            </div>
-                            <div class="txt_slider">
-                                <h6>Jesús Castellanos</h6>
-                                <span>México </span>
-                            </div>
-                        </div>
-                        <div class="star_img">
-                            <img src="img/star.png" alt="">
-                        </div>
-                        <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-                        <span>Hace 7 meses</span>
-                    </div>
-                </div>
-            </div> -->
             <div class="col-md-8">
 				<div class="client-slider">
 				@if(isset($reviews) && $reviews != null)

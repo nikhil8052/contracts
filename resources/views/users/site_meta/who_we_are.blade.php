@@ -1,21 +1,27 @@
 @extends('users_layout.other_master')
 @section('content')
 
-<section class="banner_sec dark inner-banner acerca" style="background-image: url(img/banner-img.png);">
-     <div class="container">
+@if(isset($data['background_image']) && $data['background_image'] != null)
+     <section class="banner_sec dark inner-banner acerca" style="background-image: url({{ asset('storage/'.$data['background_image']) }});">
+@else
+     <section class="banner_sec dark inner-banner acerca" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
+@endif
+     <div class="container banner-col-width">
           <div class="row align-items-center">
-               <div class="col-md-7">
-               <div class="banner_content">
-                    <h1>Quiénes Somos</h1>
-                    <p>Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
-                         tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde el siglo
-                         XVI.</p>
+               <div class="col-md-6 banner-col">
+                    <div class="banner_content">
+                         <h1>{{ $data['banner_title'] ?? 'Quiénes Somos' }}</h1>
+                         <p>{{ $data['banner_description'] ?? 'Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde el siglo XVI.' }}</p>
+                    </div>
                </div>
-               </div>
-               <div class="col-md-5">
-               <div class="banner_img">
-                    <img src="img/somo.png" alt="">
-               </div>
+               <div class="col-md-6 banner-col">
+                    <div class="banner_img">
+                    @if(isset($data['banner_image']) && $data['banner_image'] != null)
+                         <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="">
+                    @else
+                         <img src="{{ asset('assets/img/somo.png') }}" alt="">
+                    @endif
+                    </div>
                </div>
           </div>
      </div>
@@ -26,38 +32,21 @@
      <div class="container">
           <div class="row">
                <div class="col-lg-6">
-               <div class="acerca-img">
-                    <img src="img/abt1.png" alt="about-legal-document">
-
-               </div>
+                    <div class="acerca-img">
+                    @if(isset($data['image']) && $data['image'] != null)
+                         <img src="{{ asset('storage/'.$data['image']) }}" alt="about-legal-document">
+                    @else
+                         <img src="{{ asset('assets/img/abt1.png') }}" alt="about-legal-document">
+                    @endif
+                    </div>
                </div>
                <div class="col-lg-6">
-               <div class="acerca-txt">
-                    <h2 class="b-dark">
-                         Acerca de los Documentos Legales
-                    </h2>
-                    <p class="size18">En documentos legales creemos en simplificar las complejidades del trabajo
-                         legal
-                         para todos. Fundada con la misión de hacer accesibles soluciones legales profesionales, nos
-                         especializamos en crear contratos y documentos legales personalizados en solo minutos.
-                    </p>
-                    <p class="size18">Entendemos que cumplir con los requisitos legales a menudo puede llevar mucho
-                         tiempo, ser estresante y costoso. Es por eso que hemos desarrollado una plataforma sencilla
-                         y
-                         fácil de usar donde las empresas, los empresarios y los individuos pueden generar documentos
-                         legales de alta calidad adaptados a sus necesidades, todo en una fracción del tiempo que
-                         normalmente lleva.
-
-                    </p>
-                    <p class="size18">Nuestro equipo de profesionales legales y expertos en tecnología trabaja
-                         incansablemente para garantizar que nuestras plantillas estén actualizadas, sean confiables
-                         y
-                         cumplan con las últimas leyes y regulaciones. Ya sea que esté iniciando un negocio,
-                         protegiendo
-                         su propiedad intelectual o administrando transacciones inmobiliarias, lo tenemos cubierto.
-
-                    </p>
-               </div>
+                    <div class="acerca-txt">
+                         <h2 class="b-dark">
+                              {{ $data['heading'] ?? 'Acerca de los Documentos Legales' }}
+                         </h2>
+                         <?php print_r($data['description']); ?>
+                    </div>
                </div>
           </div>
      </div>
@@ -66,36 +55,24 @@
 <section class="vision_sec">
      <div class="container">
           <div class="row sec-row p_120" style="background-color: #012555;">
-               <div class="col-lg-6 hv-brdr">
+          @if(isset($visions) && $visions != null)
+          @foreach($visions as $vision)
+          <?php 
+               $path = str_replace('public/', '', $vision->media->file_path ?? null);
+          ?>
+          <div class="{{ $loop->first ? 'col-lg-6 hv-brdr':'col-lg-6' }}">
                <div class="vision">
                     <div class="vision-img">
-                         <img src="img/vision1.png" alt="our_vision">
+                         <img src="{{ asset('storage/'.$path) }}" alt="our_vision">
                     </div>
                     <div class="vision-txt" style="color: white;">
-                         <h3>Nuestra Visión</h3>
-                         <p class="size18">Nuestra visión es empoderar a individuos y empresas ofreciendo soluciones
-                              legales rápidas, eficientes y asequibles que sean fáciles de usar. Nos esforzamos por
-                              crear un mundo donde los servicios legales ya no se consideren complejos, costosos o
-                              fuera de alcance, sino que sean accesibles y manejables para todos.</p>
+                         <h3>{{ $vision->heading ?? '' }}</h3>
+                         <p class="size18">{{ $vision->description ?? '' }}</p>
                     </div>
                </div>
-               </div>
-               <div class="col-lg-6">
-               <div class="vision">
-                    <div class="vision-img">
-                         <img src="img/vision2.png" alt="our_vision">
-                    </div>
-                    <div class="vision-txt" style="color: white;">
-                         <h3>Nuestras Valores</h3>
-                         <p class="size18">Creemos que los procesos legales deben ser sencillos y accesibles.
-                              la confianza es el núcleo de todo lo que hacemos. Nuestras plantillas legales están
-                              cuidadosamente diseñadas para satisfacer sus necesidades.
-                              Tu tiempo es valioso. Nos enfocamos en entregar documentos precisos en minutos, para que
-                              usted pueda concentrarse en lo más importante.
-                              nuestra plataforma está diseñada pensando en usted.</p>
-                    </div>
-               </div>
-               </div>
+          </div>
+          @endforeach
+          @endif
           </div>
      </div>
 </section>
@@ -104,45 +81,33 @@
      <div class="container">
           <div class="row">
                <div class="col-lg-6">
-               <div class="acerca-txt">
-                    <h2 class="b-dark">
-                         Lo que ofrecemos
-                    </h2>
-                    <p class="size18 mb-0">En documentos legales simplificamos el mundo legal para que usted pueda
-                         concentrarse en el éxito. Únase a nosotros hoy y experimente una nueva era de creación de
-                         documentos legales.
-                    </p>
-                    <ul class="ofrs">
-                         <li class="size18"><span>Plataforma de creación de documentos rápida y fácil de usar:</span>
-                              nuestra plataforma
-                              intuitiva está diseñada para ser simple y le permite generar documentos legales con solo
-                              unos pocos clics.</li>
-                         <li class="size18"><span>Plantillas diseñadas profesionalmente por expertos
-                                   legales:</span>todas
-                              nuestras plantillas son creadas y examinadas por profesionales legales con experiencia.
-                              Esto garantiza que los documentos cumplan con los estándares de la industria y estén
-                              alineados con las regulaciones legales más recientes, lo que le brinda tranquilidad.
-                         </li>
-                         <li class="size18">
-                              <span> Almacenamiento seguro de documentos:</span>ofrecemos almacenamiento seguro basado
-                              en la nube
-                              para que pueda acceder a sus documentos en cualquier momento y desde cualquier lugar. Su
-                              privacidad y seguridad de sus datos son nuestras principales prioridades.
-                         </li>
-                         <li class="size18"><span>
-                                   Planes de precios asequibles:</span> ofrecemos opciones de precios flexibles
-                              diseñadas para
-                              adaptarse tanto a individuos como a empresas, ofreciendo un valor excelente por
-                              servicios legales de alta calidad a una fracción del costo de los honorarios legales
-                              tradicionales.</li>
-                    </ul>
-
-               </div>
+                    <div class="acerca-txt">
+                         <h2 class="b-dark">
+                              {{ $data['offer_heading'] ?? 'Lo que ofrecemos' }}
+                         </h2>
+                         <p class="size18 mb-0">{{ $data['offer_description'] ?? 'En documentos legales simplificamos el mundo legal para que usted pueda
+                              concentrarse en el éxito. Únase a nosotros hoy y experimente una nueva era de creación de
+                              documentos legales.' }}
+                         </p>
+                         <ul class="ofrs">
+                         @if(isset($offers) && $offers != null)
+                         @foreach($offers as $offer)
+                              <li class="size18"><span>{{ $offer->offer_section_heading ?? '' }}</span>
+                              {{ $offer->offer_section_description ?? '' }}
+                              </li>
+                         @endforeach
+                         @endif
+                         </ul>
+                    </div>
                </div>
                <div class="col-lg-6">
-               <div class="acerca-img">
-                    <img src="img/abt2.png" alt="about-legal-document">
-               </div>
+                    <div class="acerca-img">
+                    @if(isset($data['offer_image']) && $data['offer_image'] != null)
+                         <img src="{{ asset('storage/'.$data['offer_image']) }}" alt="about-legal-document">
+                    @else
+                         <img src="{{ asset('assets/img/abt2.png') }}" alt="about-legal-document">
+                    @endif
+                    </div>
                </div>
           </div>
      </div>
@@ -153,85 +118,166 @@
      <div class="container">
           <div class="row">
                <div class="col-md-4">
-               <div class="clientes_data size20 ">
-                    <h2>Lo que dicen nuestros clientes</h2>
-                    <p>Valoramos tu opinión - Así nos califican nuestros clientes.</p>
-               </div>
-               <div class="btn-wrap">
-                    <button class="prev-btn"><img src="img/left-arrow.png" alt=""></button>
-                    <button class="next-btn"><img src="img/right-arrow.png" alt=""></button>
-               </div>
+                    <div class="clientes_data size20 ">
+                         <h2>{{ $data2['reviews_heading'] ?? '' }}</h2>
+                         <p>{{ $data2['reviews_sub_heading'] ?? '' }}</p>
+                    </div>
+                    <div class="btn-wrap">
+                         <button class="prev-btn"><img src="{{ asset('storage/'.$data2['review_left_arrow'] ?? '' ) }}" alt=""></button>
+                         <button class="next-btn"><img src="{{ asset('storage/'.$data2['review_right_arrow'] ?? '' ) }}" alt=""></button>
+                    </div>
                </div>
                <div class="col-md-8">
-               <div class="client-slider">
-                    <div class="control_box">
-                         <div class="d-flex">
-                              <div class="slider-img">
-                                   <img src="img/slider-icon.png" alt="">
+                    <div class="client-slider">
+                    @if(isset($reviews) && $reviews != null)
+                    @foreach($reviews as $review)
+                         <div class="control_box">
+                              <div class="d-flex">
+                                   <div class="slider-img">
+                                        @if(isset($review->media->file_name) && $review->media->file_name != null)
+                                             <img src="{{ asset('storage/'.$review->media->file_name) }}" alt="">
+                                        @else
+                                        <?php $initials = strtoupper(substr($review->first_name, 0, 1)) . strtoupper(substr($review->last_name, 0, 1)); ?>
+                                        <span>{{ $initials ?? '' }}</span>
+                                        @endif
+                                   </div>
+                                   @if($review->type == 'custom')
+                                   <div class="txt_slider">
+                                        <h6>{{ $review->first_name ?? '' }} {{ $review->last_name ?? '' }}</h6>
+                                        <span>{{ $review->city ?? '' }}</span>
+                                   </div>
+                                   @endif
                               </div>
-                              <div class="txt_slider">
-                                   <h6>Jesús Castellanos</h6>
-                                   <span>México </span>
+                              @if(isset($review->rating) && $review->rating != null)
+                              <div id="full-stars-example-two">
+                                   <div class="ratings">
+                                   @if($review->rating == 1)
+                                        <label for="rating1">
+                                             <i rate="1" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+                                   @elseif($review->rating == 2)
+                                        <label for="rating1">
+                                             <i rate="1" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+                                        <label for="rating2">
+                                             <i rate="2" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
+                                   @elseif($review->rating == 3)
+                                        <label for="rating1">
+                                             <i rate="1" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+                                        <label for="rating2">
+                                             <i rate="2" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
+                                        <label for="rating3">
+                                             <i rate="3" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
+                                   @elseif($review->rating == 4)
+                                        <label for="rating1">
+                                             <i rate="1" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+                                        <label for="rating2">
+                                             <i rate="2" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
+                                        <label for="rating3">
+                                             <i rate="3" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
+                                        <label for="rating4">
+                                             <i rate="4" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                   @elseif($review->rating == 5)
+                                        <label for="rating1">
+                                             <i rate="1" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
+                                        <label for="rating2">
+                                             <i rate="2" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
+                                        <label for="rating3">
+                                             <i rate="3" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
+                                        <label for="rating4">
+                                             <i rate="4" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating4" class="chkbox" style="display:none;" value="4">
+                                        <label for="rating5">
+                                             <i rate="5" class="star fa fa-star rating-color"></i>
+                                        </label>
+                                        <input name="rating" id="rating5" class="chkbox" style="display:none;" value="5" checked>
+                                   @endif
+                                   </div>
                               </div>
+                              @endif
+                              <p>“{{ $review->description ?? '' }}”</p>
+                              <span>{{ $review->date ? \Carbon\Carbon::parse($review->date)->diffForHumans() : '' }}</span>
                          </div>
-                         <div class="star_img">
-                              <img src="img/star.png" alt="">
-                         </div>
-                         <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-                         <span>Hace 7 meses</span>
+                    @endforeach
+                    @endif
                     </div>
-                    <div class="control_box">
-                         <div class="d-flex">
-                              <div class="slider-img">
-                                   <img src="img/slider-icon1.png" alt="">
-                              </div>
-                              <div class="txt_slider">
-                                   <h6>Jesús Castellanos</h6>
-                                   <span>México </span>
-                              </div>
-                         </div>
-                         <div class="star_img">
-                              <img src="img/star.png" alt="">
-                         </div>
-                         <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-                         <span>Hace 7 meses</span>
-                    </div>
-                    <div class="control_box">
-                         <div class="d-flex">
-                              <div class="slider-img">
-                                   <img src="img/slider-icon2.png" alt="">
-                              </div>
-                              <div class="txt_slider">
-                                   <h6>Sara Cabeza</h6>
-                                   <span>Ciudad de México </span>
-                              </div>
-                         </div>
-                         <div class="star_img">
-                              <img src="img/star.png" alt="">
-                         </div>
-                         <p>“Rápido fácil y completo” </p>
-                         <span>Hace 7 meses</span>
-                    </div>
-                    <div class="control_box">
-                         <div class="d-flex">
-                              <div class="slider-img">
-                                   <img src="img/slider-icon1.png" alt="">
-                              </div>
-                              <div class="txt_slider">
-                                   <h6>Jesús Castellanos</h6>
-                                   <span>México </span>
-                              </div>
-                         </div>
-                         <div class="star_img">
-                              <img src="img/star.png" alt="">
-                         </div>
-                         <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
-                         <span>Hace 7 meses</span>
-                    </div>
-               </div>
                </div>
           </div>
-     </div>
+    </div>
 </section>
+
+<script>
+$(document).ready(function(){
+	$(".client-slider").slick({
+		slidesToShow: 2,
+		slidesToScroll: 1,
+		arrows: true,
+		infinite: true,
+		autoplay: false,
+		responsive: [
+			{
+				breakpoint: 991,
+				settings: {
+				slidesToShow: 3,
+				},
+			},
+			{
+				breakpoint: 767,
+				settings: {
+				slidesToShow: 1,
+				},
+			},
+		],
+	});
+
+	$(".prev-btn").click(function () {
+		$(".client-slider").slick("slickPrev");
+	});
+
+	$('.next-btn').on('click', function() {
+        $('.client-slider').slick('slickNext'); 
+    });
+
+	$(".prev-btn").addClass("slick-disabled");
+	$(".slick-list").on("afterChange", function () {
+		if ($(".slick-prev").hasClass("slick-disabled")) {
+			$(".prev-btn").addClass("slick-disabled");
+		} else {
+			$(".prev-btn").removeClass("slick-disabled");
+		}
+		if ($(".slick-next").hasClass("slick-disabled")) {
+			$(".next-btn").addClass("slick-disabled");
+		} else {
+			$(".next-btn").removeClass("slick-disabled");
+		}
+	});
+})
+
+</script>
+
 
 @endsection

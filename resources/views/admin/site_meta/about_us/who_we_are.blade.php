@@ -2,24 +2,29 @@
 @section('content')
 <div class="nk-content">
      <div class="container-fluid">
-          <form action="" method="POST" enctype="multipart/form-data">
+          <form action="{{ url('/admin-dashboard/add/who-we-are') }}" method="POST" enctype="multipart/form-data">
                @csrf
                <input type="hidden" name="removeVision" id="removeVision" value="">
                <input type="hidden" id="removeOffer" name="removeOffer" value="">
+               <input type="hidden" id="bg_image_id" name="bg_image_id" value="">
                <input type="hidden" id="baner_image_id" name="baner_image_id" value="">
+               <input type="hidden" id="legal_image_id" name="legal_image_id" value="">
+               <input type="hidden" id="vision_image_id" name="vision_image_id" value="">
+               <input type="hidden" id="offer_id" name="offer_id" value="">
+
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="d-flex justify-content-end p-2">
-                              <!-- <div class="nk-block-head-content">
+                              <div class="nk-block-head-content">
                                    <div class="mbsc-form-group">
-                                        <a href="{{ url('/') }}" target="_blank" class="btn btn-default">View Page</a>
+                                        <a href="{{ url('/who-we-are') }}" target="_blank" class="btn btn-default">View Page</a>
                                    </div>
-                              </div> -->
+                              </div>
                          </div>
                          <div class="col-md-12 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h5>Title</b></h5></label>
-                                   <input class="form-control form-control-lg" type="text" id="title"  name="title" value="">
+                                   <input class="form-control form-control-lg" type="text" id="title"  name="title" value="{{ $data['title'] ?? '' }}">
                               </div>
                          </div>        
                          <hr>
@@ -30,18 +35,29 @@
                                    <label class="form-label" for="background_image">Background Image</label>
                                    <input type="file" class="form-control" id="background_image" name="background_image">
                               </div>
-                         
+                              @if(isset($data['background_image']) && $data['background_image'] != null)
+                              <div class="bg_image_div" id="bg_image{{ $data['background_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-10 offset-md-2 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="160px" width="160px">
+                                   </div>
+                              </div>
+                              @endif
                          </div>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="banner_title">Banner Title</label>
-                                   <input type="text" class="form-control" id="banner_title" name="banner_title" value="">
+                                   <input type="text" class="form-control" id="banner_title" name="banner_title" value="{{ $data['banner_title'] ?? '' }}">
                               </div>
                          </div>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="banner_description">Banner Description</label>
-                                   <textarea class="form-control" id="banner_description" name="banner_description"></textarea>
+                                   <textarea class="form-control" id="banner_description" name="banner_description">{{ $data['banner_description'] ?? '' }}</textarea>
                               </div>
                          </div>
                          <div class="col-md-12">
@@ -49,6 +65,18 @@
                                    <label class="form-label" for="banner_image">Banner Image</label>
                                    <input type="file" class="form-control" id="banner_image" name="banner_image">
                               </div>
+                              @if(isset($data['banner_image']) && $data['banner_image'] != null)
+                              <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-10 offset-md-2 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="140px" width="160px">
+                                   </div>
+                              </div>
+                              @endif
                          </div>
                          <hr>
                          <h6>About Legal Documents Section</h6>
@@ -56,24 +84,76 @@
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="image">Image</label>
-                                   <input type="file" class="form-control" name="image[]" id="image" value="">
+                                   <input type="file" class="form-control" name="image" id="image">
                               </div>
+                              @if(isset($data['image']) && $data['image'] != null)
+                              <div class="legal_image_div" id="legal_image_div{{ $data['image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-10 offset-md-2 remove_image" data-id="{{ $data['image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['image']) }}" alt="img" height="140px" width="160px">
+                                   </div>
+                              </div>
+                              @endif
                          </div>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="heading">Heading</label>
-                                   <input type="text" class="form-control" name="heading[]" id="heading" value="">
+                                   <input type="text" class="form-control" name="heading" id="heading" value="{{ $data['heading'] ?? '' }}">
                               </div>
                          </div>
                          <div class="col-md-12 mt-2">
                               <div class="form-group">
                                    <label class="form-label" for="description">Description</label>
-                                   <textarea class="form-control answer_editor" name="description[]" id="description"></textarea>
+                                   <textarea class="form-control answer_editor" name="description" id="description">{{ $data['description'] ?? '' }}</textarea>
                               </div>
                          </div>
                          <hr>
                          <h6>Vision Section</h6>
-                         <hr>
+                         @if(isset($visions) && $visions != null)
+                         @foreach($visions as $vision)
+                         <?php $path = str_replace('public/', '', $vision->media->file_path ?? null); ?>
+                         <div class="vision_append{{ $vision->id ?? '' }}">
+                              <hr>
+                              <div class="row gy-12">
+                                   <div class="text-end">
+                                        <div class="form-group">
+                                             <div><span class="remove_vision" data-id="{{ $vision->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-2 vision_img_div" id="vision_img_div{{ $vision->id ?? '' }}">
+                                        <div class="form-group">
+                                             <input type="file" name="vision_up_img" class="up_img" data-id="{{ $vision->id ?? '' }}" id="vision_up_img{{ $vision->id ?? '' }}" style="display:none;">
+                                             <span class="update_vision_img" data-id="{{ $vision->id ?? '' }}">
+                                                  <i class="fa fa-pen"></i>
+                                             </span>
+                                             <span class="col-md-7 offset-md-5 remove_vision_img" data-id="{{ $vision->id ?? '' }}">
+                                                  <i class="fa fa-times"></i>
+                                             </span>
+                                        </div>
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Vision image">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-5">
+                                        <div class="form-group">
+                                             <label class="form-label" for="old_vision_heading">Heading</label>
+                                             <input class="form-control" name="old_vision_heading[{{ $vision->id ?? '' }}]" id="old_vision_heading" value="{{ $vision->heading ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-5">
+                                        <div class="form-group">
+                                             <label class="form-label" for="old_vision_description">Description</label>
+                                             <textarea class="form-control" name="old_vision_description[{{ $vision->id ?? '' }}]" id="old_vision_description">{{ $vision->description ?? '' }}</textarea>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         @endforeach
+                         @endif
                          <div id="vision_container"></div>
                          <br>
                          <div class="text-end">
@@ -87,19 +167,31 @@
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="offer_image">Image</label>
-                                   <input type="file" class="form-control" name="offer_image[]" id="offer_image" value="">
+                                   <input type="file" class="form-control" name="offer_image" id="offer_image">
                               </div>
+                              @if(isset($data['offer_image']) && $data['offer_image'] != null)
+                              <div class="offer_image_div" id="offer_image_div{{ $data['offer_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-10 offset-md-2 remove_offer_image" data-id="{{ $data['offer_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['offer_image']) }}" alt="img" height="140px" width="160px">
+                                   </div>
+                              </div>
+                              @endif
                          </div>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="offer_heading">Heading</label>
-                                   <input type="text" class="form-control" name="offer_heading[]" id="offer_heading" value="">
+                                   <input type="text" class="form-control" name="offer_heading" id="offer_heading" value="{{ $data['offer_heading'] ?? '' }}">
                               </div>
                          </div>
                          <div class="col-md-12 mt-2">
                               <div class="form-group">
                                    <label class="form-label" for="offer_description">Description</label>
-                                   <textarea class="form-control" name="offer_description[]" id="offer_description"></textarea>
+                                   <textarea class="form-control" name="offer_description" id="offer_description">{{ $data['offer_description'] ?? '' }}</textarea>
                               </div>
                          </div>
                          <hr>
@@ -108,6 +200,32 @@
                                    <label class="form-label" for="">Offers</label>
                               </div>
                          </div>
+                         @if(isset($offers) && $offers != null)
+                         @foreach($offers as $offer)
+                         <div class="offer_append{{ $offer->id ?? '' }}">
+                              <hr>
+                              <div class="row gy-12">
+                                   <div class="text-end">
+                                        <div class="form-group">
+                                             <div><span class="remove_offer" data-id="{{ $offer->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-6">
+                                        <div class="form-group">
+                                             <label class="form-label" for="of_heading">Offer Heading</label>
+                                             <input class="form-control" name="of_heading[{{ $offer->id ?? '' }}]" id="of_heading" value="{{ $offer->offer_section_heading ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-6">
+                                        <div class="form-group">
+                                             <label class="form-label" for="of_description">Offer Description</label>
+                                             <textarea class="form-control" name="of_description[{{ $offer->id ?? '' }}]" id="of_description">{{ $offer->offer_section_description ?? '' }}</textarea>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         @endforeach
+                         @endif
                          <div id="offer_container"></div>
                          <br>
                          <div class="text-end">
@@ -125,20 +243,77 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('.remove_background_image').click(function(){
-            id = $(this).data('id');
-            $('#bg_image_id').val(id);
-            $('#bg_image'+id).hide();
-        });
+$(document).ready(function(){
 
-        $('.remove_banner_image').click(function(){
-            id = $(this).data('id');
-            $('#baner_image_id').val(id);
-            $('#banner_div'+id).hide();
-        });
-    })
-   
+     $('.update_vision_img').click(function(){
+          var id = $(this).data('id');
+          $('#vision_up_img' + id).trigger('click');
+     });
+
+     $('.up_img').change(function() {
+          var id = $(this).data('id');
+          var file = this.files[0]; 
+          var formData = new FormData(); 
+          formData.append('image', file);
+          formData.append('_token', "{{ csrf_token() }}");
+          formData.append('image_id', id);
+
+          $.ajax({
+               url: "{{ url('/update/vision/image') }}", 
+               type: 'POST',
+               data: formData,
+               processData: false,  
+               contentType: false, 
+               dataType: "json",
+               success: function(response){
+                    console.log(response);
+               },
+               error: function(response) {
+                    console.log(response.responseText); 
+                    alert('Error uploading image');
+               }
+          });
+     });
+
+     $('.remove_vision_img').click(function(){
+          id = $(this).data('id');
+          let removeIds = $('#vision_image_id').val();
+          
+          if(removeIds) {
+               removeIds += ',' + id;
+          }else{
+               removeIds = id;
+          }
+          $('#vision_image_id').val(removeIds);
+
+          $('#vision_img_div'+id).hide();
+     })
+
+
+     $('.remove_background_image').click(function(){
+          id = $(this).data('id');
+          $('#bg_image_id').val(id);
+          $('#bg_image'+id).hide();
+     });
+
+     $('.remove_banner_image').click(function(){
+          id = $(this).data('id');
+          $('#baner_image_id').val(id);
+          $('#banner_div'+id).hide();
+     });
+
+     $('.remove_image').click(function(){
+          id = $(this).data('id');
+          $('#legal_image_id').val(id);
+          $('#legal_image_div'+id).hide();
+     });
+
+     $('.remove_offer_image').click(function(){
+          id = $(this).data('id');
+          $('#offer_id').val(id);
+          $('#offer_image_div'+id).hide();
+     });
+})
 </script>
 
 
@@ -219,14 +394,14 @@ $(document).ready(function() {
                </div>
                <div class="col-md-6">
                     <div class="form-group">
-                         <label class="form-label" for="of_heading">Offer Heading</label>
-                         <input class="form-control" name="of_heading[]" id="of_heading" value="">
+                         <label class="form-label" for="of_new_heading">Offer Heading</label>
+                         <input class="form-control" name="of_new_heading[]" id="of_new_heading" value="">
                     </div>
                </div>
                <div class="col-md-6">
                     <div class="form-group">
-                         <label class="form-label" for="of_description">Offer Description</label>
-                         <textarea class="form-control" name="of_description[]" id="of_description"></textarea>
+                         <label class="form-label" for="of_new_description">Offer Description</label>
+                         <textarea class="form-control" name="of_new_description[]" id="of_new_description"></textarea>
                     </div>
                </div>
           </div>

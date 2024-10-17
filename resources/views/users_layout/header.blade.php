@@ -5,7 +5,7 @@
 
 <header>
 	<div class="main_header mobile-hide">
-		<div class="container-fluid">
+		<div class="container">
 			<div class="row">
 			<div class="col-md-6">
 				<div class="hedaer_logo">
@@ -23,7 +23,7 @@
 		</div>
 	</div>
 	<div class="top_header dark">
-		<div class="container-fluid">
+		<div class="container">
 			<nav class="navbar navbar-expand-lg">
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<div class="bar bar1"></div>

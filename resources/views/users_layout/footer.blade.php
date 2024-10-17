@@ -38,7 +38,7 @@
 							</h5>
 						</div>
 						<ul class="foot_ul">
-							<li class="foot_li"> <a href="">Quiénes Somos</a></li>
+							<li class="foot_li"> <a href="{{ url('/who-we-are') }}">Quiénes Somos</a></li>
 							<li class="foot_li"><a href="{{ url('/prices') }}">Precios </a></li>
 							<li class="foot_li"><a href="{{ url('/contact-us') }}">Contacto </a></li>
 						</ul>

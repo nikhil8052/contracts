@@ -2,9 +2,9 @@
 @section('content')
 
 <section class="banner_sec dark inner-banner acerca" style="background-image: url({{ asset('storage/'.$contact->background_image ?? '' ) }});">
-     <div class="container">
-          <div class="row align-items-center">
-               <div class="col-md-7">
+     <div class="container banner-col-width">
+          <div class="row align-items-center contact-us-banner-row">
+               <div class="col-md-6 banner-col">
                <div class="banner_content">
                     <h1>{{ $contact->banner_title ?? '' }}</h1>
                     <p>
@@ -12,7 +12,7 @@
                     </p>
                </div>
                </div>
-               <div class="col-md-5">
+               <div class="col-md-6 banner-col">
                <div class="banner_img">
                     <img src="{{ asset('storage/'.$contact->banner_image ?? '' ) }}" alt="">
                </div>

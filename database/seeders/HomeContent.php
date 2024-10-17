@@ -19,10 +19,6 @@ class HomeContent extends Seeder
                 'value' => 'Home',
             ],
             [
-                'key' => 'favicon',
-                'value' => null ,
-            ],
-            [
                 'key' => 'background_image',
                 'value' => null,
             ], 

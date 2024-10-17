@@ -733,21 +733,6 @@ class SiteMetaController extends Controller
                 $home_content->update();
             }
 
-            if($request->hasFile('favicon')){
-                $home_content = HomeContent::where('key','favicon')->first();
-
-                $file = $request->file('favicon');
-                $image_id = $home_content->id;
-                $timestamp = now()->timestamp;
-                $directory = "public/home_images/{$image_id}_{$timestamp}";
-                $filename = generateFileName($file);
-                $filepath = $file->storeAs($directory, $filename);
-
-                $home_content->value = $filename;
-                $home_content->file_path = $filepath;
-                $home_content->update();
-            }
-
             if($request->has('review_left_arrow')){
                 $home_content = HomeContent::where('key','review_left_arrow')->first();
 
@@ -877,21 +862,6 @@ class SiteMetaController extends Controller
                         $home_content->update();
                     }
                 }
-            }
-
-            if($request->favicon_image_id != null){
-                $home_content = HomeContent::where('id',$request->favicon_image_id)->first();
-                $file_path = getFilePath($home_content->file_path);
-                if(File::exists($file_path)) {
-                    $directory_path = dirname($file_path);
-                    unlink($file_path);              
-                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
-                        rmdir($directory_path);
-                    }
-                }
-                $home_content->value = null;
-                $home_content->file_path = null;
-                $home_content->save();
             }
 
             if($request->bg_image_id != null){
@@ -1059,13 +1029,15 @@ class SiteMetaController extends Controller
     public function webSetting(){
         $keys = [
             'header_logo',
-            'footer_logo'
+            'footer_logo',
+            'favicon'
         ];
 
         $results = Setting::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
             'header_logo' => str_replace('public/', '', $results['header_logo']->file_path ?? null),
             'footer_logo' => str_replace('public/', '', $results['footer_logo']->file_path ?? null),
+            'favicon' => str_replace('public/', '', $results['favicon']->file_path ?? null),
         ];
         return view('admin.site_meta.web_setting.web_setting',compact('data'));
     }
@@ -1096,6 +1068,18 @@ class SiteMetaController extends Controller
                 $web_setting->file_path = $filepath;
                 $web_setting->update();
                
+            }
+
+            if($request->hasFile('favicon')){
+                $file = $request->file('favicon');
+                $directory = "public/logos";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
+
+                $web_setting = Setting::where('key','favicon')->first();
+                $web_setting->value = $filename;
+                $web_setting->file_path = $filepath;
+                $web_setting->update();
             }
 
             return redirect()->back()->with('success', 'Data successfully saved.');
@@ -1569,5 +1553,9 @@ class SiteMetaController extends Controller
                 ], 400);
             }
         }
+    }
+
+    public function getfavicon(){
+        return view('admin.site_meta.web_setting.add_favicon');
     }
 }

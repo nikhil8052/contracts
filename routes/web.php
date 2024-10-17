@@ -57,7 +57,7 @@ Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
 Route::get('/prices',[SitePagesController::class,'prices']);
 Route::post('/ckeditor/upload',[SitePagesController::class,'upload'])->name('ckeditor.upload');
 Route::get('/help-center',[SitePagesController::class,'HelpCenter'])->name('help.center');
-Route::get('/info',[SitePagesController::class,'whoWeAre']);
+Route::get('/who-we-are',[SitePagesController::class,'whoWeAre']);
 // ****************** SitePagesController End **********************//
 
 
@@ -104,7 +104,8 @@ Route::group(['middleware' =>['auth']],function(){
      Route::post('/update/help/image',[SiteMetaController::class,'updateHelpImage']);
 
      Route::get('/admin-dashboard/who-we-are',[AllPagesController::class,'aboutUs']);
-
+     Route::post('/admin-dashboard/add/who-we-are',[AllPagesController::class,'whoWeAre']);
+     Route::post('/update/vision/image',[AllPagesController::class,'updateVisionImage']);
 
      Route::get('/admin-dashboard/login',[SiteMetaController::class,'login']);
      Route::post('/admin-dashboard/add-login',[SiteMetaController::class,'addLogin']);
@@ -137,6 +138,8 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/web-setting',[SiteMetaController::class,'webSetting']);
      Route::post('/admin-dashboard/add/web-setting',[SiteMetaController::class,'addWebsetting']);
+
+     Route::get('/admin-dashboard/add/favIcon',[SiteMetaController::class.'getfavicon']);
 
      //*********************Product Sections***************//
      Route::get('/admin-dashboard/product',[ProductController::class,'product']);

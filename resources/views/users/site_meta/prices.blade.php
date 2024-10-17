@@ -4,9 +4,9 @@
  <!-- ********(banner-sec)*********** -->
 
 <section class="banner_sec dark inner-banner" style="background-image: url('{{ asset('storage/'.$data['background_image'] ?? '' ) }}');">
-     <div class="container">
+     <div class="container banner-col-width">
           <div class="row align-items-center">
-               <div class="col-md-7">
+               <div class="col-md-6 banner-col">
                <div class="banner_content">
                     <h1>{{ $data['banner_title'] ?? 'Precios' }}</h1>
                     <p>
@@ -16,7 +16,7 @@
                     </p>
                </div>
                </div>
-               <div class="col-md-5">
+               <div class="col-md-6 banner-col">
                <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="Así funciona">
                </div>
           </div>

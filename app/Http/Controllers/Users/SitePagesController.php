@@ -15,6 +15,8 @@ use App\Models\HomeContent;
 use App\Models\Review;
 use App\Models\HelpCenter;
 use App\Models\HelpYou;
+use App\Models\WhoWeAre;
+use App\Models\OurVision;
 
 class SitePagesController extends Controller
 {
@@ -36,7 +38,7 @@ class SitePagesController extends Controller
 
         $results = HowItWork::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
-            'title_name' => $results['title']->value ?? null,
+            'title' => $results['title']->value ?? null,
             'background_image' => $results['background_image']->value ?? null,
             'banner_title' => $results['banner_title']->value ?? null,
             'banner_description' => $results['banner_description']->value ?? null,
@@ -214,7 +216,54 @@ class SitePagesController extends Controller
     }
 
     public function whoWeAre(){
-        return view('users.site_meta.who_we_are');
-    }
+        $keys = [
+            'title',
+            'background_image',
+            'banner_title',
+            'banner_description',
+            'banner_image',
+            'image',
+            'heading',
+            'description',
+            'offer_image',
+            'offer_heading',
+            'offer_description',
+        ];
 
+        $results = WhoWeAre::whereIn('key', $keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
+            'banner_title' => $results['banner_title']->value ?? null,
+            'banner_description' => $results['banner_description']->value ?? null,
+            'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
+            'image' => str_replace('public/', '', $results['image']->file_path ?? null),
+            'heading' => $results['heading']->value ?? null,
+            'description' => $results['description']->value ?? null,
+            'offer_image' => str_replace('public/', '', $results['offer_image']->file_path ?? null),
+            'offer_heading' =>  $results['offer_heading']->value ?? null,
+            'offer_description' =>  $results['offer_description']->value ?? null,
+        ];
+
+        $keys2 = [
+            'reviews_heading',
+            'reviews_sub_heading',
+            'review_left_arrow',
+            'review_right_arrow',
+        ];
+
+        $results2 = HomeContent::whereIn('key', $keys2)->get()->keyBy('key');
+        $data2 = [
+            'reviews_heading' => $results2['reviews_heading']->value ?? null, 
+            'reviews_sub_heading' => $results2['reviews_sub_heading']->value ?? null, 
+            'review_left_arrow' => str_replace('public/', '', $results2['review_left_arrow']->file_path ?? null),
+            'review_right_arrow' => str_replace('public/', '', $results2['review_right_arrow']->file_path ?? null),
+        ];
+
+        $visions = OurVision::with('media')->get();
+        $offers = WhoWeAre::where('key','offer')->get();
+        $reviews = Review::where('status',1)->with('media')->get();
+
+        return view('users.site_meta.who_we_are',compact('data','visions','offers','reviews','data2'));
+    }
 }

@@ -27,4 +27,9 @@ class Document extends Model
     public function reviews(){
         return $this->hasMany(Review::class,'document_id','id');
     }
+
+    public function categories(){
+        // Categories 
+        return $this->belongsToMany(DocumentCategory::class,'document_with_categories', 'document_id', 'category_id');
+    }
 }

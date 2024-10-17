@@ -29,7 +29,7 @@ body {
 .light h4,
 .light h5,
 .light h6 {
-    color: #000000;
+    /* color: #000000; */
 
 }
 
@@ -47,6 +47,7 @@ h1 {
     font-size: 89px;
     font-weight: 700;
     line-height: 1.1;
+    font-size: 28px !important;
 }
 
 h2 {
@@ -72,7 +73,9 @@ h6 {
 
 p {
     line-height: 1.5;
+    font-size: 18px;
 }
+
 
 .span1 {
     font-weight: 600;
@@ -333,10 +336,6 @@ div#navbarSupportedContent {
 }
 
 
-.banner_img img {
-    width: 100%;
-}
-
 .banner_img {
     max-width: 583px;
     margin-left: auto;
@@ -349,7 +348,7 @@ div#navbarSupportedContent {
     display: flex;
     border: 1px solid #E3E9ED;
     background-color: #fff;
-    padding: 8px;
+    padding: 6px 10px;
     border-radius: 160px;
 }
 
@@ -359,6 +358,7 @@ div#navbarSupportedContent {
     background-color: transparent;
     border: 0;
     outline: none;
+    font-size: 14px;
 }
 
 .banner_sec .searchTerm:focus {
@@ -373,7 +373,7 @@ div#navbarSupportedContent {
     font-size: 18px;
     background: #FD5602;
     outline: none;
-    padding: 17px 33px;
+    padding: 13px 33px !important;
     font-weight: bold;
     border-color: #FD5602;
 }
@@ -1518,7 +1518,7 @@ footer .foot_li a:hover {
     border: none;
     background: transparent;
     width: 100%;
-    font-size: 12px;
+    font-size: 14px;
     padding: 12px 14px;
 }
 
@@ -1619,9 +1619,6 @@ footer .foot_li a:hover {
     border: 1px solid #012555;
 }
 
-.text-center h2 {
-    color: #000;
-}
 
 /* ************Así funciona PAGE******************** */
 /* ********(fun-header)*********** */
@@ -1842,10 +1839,9 @@ header.fun-header {
 
 .faq_sec h2.b-dark {
     text-align: center;
-    font-size: 50px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 600;
     line-height: 64.55px;
-
 }
 
 .faq_sec p {
@@ -1885,16 +1881,16 @@ header.fun-header {
     border-radius: 15px;
     background: none;
     font-size: 22px;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 26.82px;
     text-align: left;
-
+    color: #002655;
 }
 
 .faq_sec .accordion .accordion-item .accordion-header .accordion-button:not(.collapsed) {
-    color: black;
     box-shadow: none;
     padding-bottom: 10px;
+    font-weight: 600;
 }
 
 .faq_sec .accordion .accordion-item .accordion-header .accordion-button::after {
@@ -1970,8 +1966,8 @@ header.fun-header {
 }
 
 .tab-faq_sec .tab-pane .faq_sec .faq-heading h3.b-dark {
-    font-size: 36px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 600;
     line-height: 43.88px;
     text-align: left;
     margin-top: 43px;
@@ -2015,6 +2011,7 @@ header.fun-header {
 
 .banner_sec.dark.inner-banner.acerca .banner_content h1 {
     max-width: 537px;
+    font-size: 28px !important;
 }
 
 /* ********(Acerca_sec)*********** */
@@ -2055,7 +2052,7 @@ header.fun-header {
 
 .contac_login_card .wt_ot .ponte_h {
     color: #002347;
-    font-size: 42px;
+    font-size: 28px;
     text-align: center;
 }
 
@@ -2733,4 +2730,8 @@ footer .foot_li a:hover {
 
 .rating-color{
   color:#fbc634 !important;
+}
+
+.container.banner-col-width .col-md-6.banner-col {
+    padding: 0px 40px;
 }

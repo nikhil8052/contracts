@@ -10,9 +10,9 @@
 }
 
 @media only screen and (min-width: 1700px) {
-  .banner_sec .container {
+  /* .banner_sec .container {
     max-width: 1666px;
-  }
+  } */
 
 }
 
@@ -103,9 +103,10 @@
   }
 
   h3 {
-    font-size: 36px;
+    font-size: 24px;
     line-height: 1.1;
-  }
+    color: #002655;
+}
 
   .card_sec_out .othr_platform a {
     padding: 16px 20px;
@@ -158,7 +159,9 @@
   }
 
   h2 {
-    font-size: 42px;
+    font-size: 28px;
+    color: #002655;
+    font-weight: 600;
   }
 
   .tab_sec_ot .btn {
@@ -180,7 +183,7 @@
   }
 
   .Comienza-content h2 {
-    font-size: 38px;
+    font-size: 28px;
   }
 
   .Comienza-img {
@@ -204,7 +207,7 @@
   }
 
   .clientes_data h2 {
-    font-size: 36px;
+    font-size: 28px;
   }
 
   footer .in1_foot {
@@ -232,13 +235,16 @@
   }
 
   .control_box p {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.4;
-  }
+    color: #002655;
+}
 
   .control_box .d-flex h6 {
-    font-size: 17px;
-  }
+    font-size: 22px;
+    font-weight: 600;
+    color: #002655;
+}
 
   .control_box .d-flex span {
     font-size: 17px;
@@ -1907,5 +1913,52 @@
 
   .contac_login_card .h_contac_box {
     margin-bottom: 15px !important;
+  }
+}
+
+/* Container css */
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto
+}
+
+@media (min-width: 576px) {
+  .container {
+      max-width:540px
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+      max-width:720px
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+      max-width:960px
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+      max-width:1140px
+  }
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto
+}
+@media only screen and (min-width: 1399px) {
+  .container {
+      max-width:1310px
   }
 }
