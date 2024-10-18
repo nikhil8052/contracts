@@ -44,36 +44,35 @@ body {
 }
 
 h1 {
-    font-size: 89px;
+    font-size: 34px;
     font-weight: 700;
     line-height: 1.1;
-    font-size: 28px !important;
 }
 
 h2 {
-    font-size: 48px;
+    font-size: 28px;
     font-weight: 700;
     line-height: 58.51px;
 }
 
 h3 {
-    font-size: 40px;
+    font-size: 22px;
     font-weight: 600;
     line-height: 50px;
 
 }
 
 h5 {
-    font-size: 30px;
+    font-size: 18px;
 }
 
 h6 {
-    font-size: 22px;
+    font-size: 14px;
 }
 
 p {
     line-height: 1.5;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 
@@ -824,7 +823,7 @@ footer .select-menu {
 
 footer .foot_li a:hover {
     color: #fd5602;
-    font-weight: bold;
+    -webkit-text-stroke: 1px;
 }
 
 
@@ -898,7 +897,7 @@ footer .foot_li a:hover {
 }
 
 .outer_cate .in_box_cate:hover{
-    background-color: #002347;
+    background-color: #002655;
     color: #fff;
     transition: 0.3s ease;
 }
@@ -1634,7 +1633,7 @@ header.fun-header {
 }
 
 .inner-banner h1 {
-    font-size: 66px;
+    font-size: 34px;
     font-weight: 700;
     line-height: 80.45px;
     text-align: left;
@@ -2011,7 +2010,7 @@ header.fun-header {
 
 .banner_sec.dark.inner-banner.acerca .banner_content h1 {
     max-width: 537px;
-    font-size: 28px !important;
+    font-size: 34px;
 }
 
 /* ********(Acerca_sec)*********** */
@@ -2036,7 +2035,7 @@ header.fun-header {
     }
 
     .banner_sec.dark.fun-banner h1 {
-        font-size: 60px;
+        font-size: 34px;
     }
 }
 
@@ -2051,7 +2050,7 @@ header.fun-header {
 }
 
 .contac_login_card .wt_ot .ponte_h {
-    color: #002347;
+    color: #002655;
     font-size: 28px;
     text-align: center;
 }
@@ -2614,13 +2613,13 @@ header.fun-header {
 
 .table_ot_precio td {
     border: 1px solid rgba(1, 37, 85, 0.1);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     vertical-align: top;
 }
 
 .table_ot_precio .table_in_h{
-    font-size: 18px ;
+    font-size: 16px ;
     font-weight: 500;
 }
 .tb_dt1{
@@ -2734,4 +2733,8 @@ footer .foot_li a:hover {
 
 .container.banner-col-width .col-md-6.banner-col {
     padding: 0px 40px;
+}
+section.banner_sec.dark {
+    background-size: cover;
+    background-repeat: no-repeat;
 }

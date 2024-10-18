@@ -12,15 +12,8 @@
                <input type="hidden" id="vision_image_id" name="vision_image_id" value="">
                <input type="hidden" id="offer_id" name="offer_id" value="">
 
-               <div class="card card-bordered card-preview">
-                    <div class="card-inner">
-                         <div class="d-flex justify-content-end p-2">
-                              <div class="nk-block-head-content">
-                                   <div class="mbsc-form-group">
-                                        <a href="{{ url('/who-we-are') }}" target="_blank" class="btn btn-default">View Page</a>
-                                   </div>
-                              </div>
-                         </div>
+               <div class="row main_section">
+                    <div class="col-md-8 left-content">
                          <div class="col-md-12 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h5>Title</b></h5></label>
@@ -38,7 +31,7 @@
                               @if(isset($data['background_image']) && $data['background_image'] != null)
                               <div class="bg_image_div" id="bg_image{{ $data['background_image_id'] ?? '' }}">
                                    <div class="form-group">
-                                        <span class="col-md-10 offset-md-2 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
+                                        <span class="col-md-9 offset-md-3 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
                                    </div>
@@ -68,7 +61,7 @@
                               @if(isset($data['banner_image']) && $data['banner_image'] != null)
                               <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
                                    <div class="form-group">
-                                        <span class="col-md-10 offset-md-2 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                        <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
                                    </div>
@@ -89,7 +82,7 @@
                               @if(isset($data['image']) && $data['image'] != null)
                               <div class="legal_image_div" id="legal_image_div{{ $data['image_id'] ?? '' }}">
                                    <div class="form-group">
-                                        <span class="col-md-10 offset-md-2 remove_image" data-id="{{ $data['image_id'] ?? '' }}">
+                                        <span class="col-md-9 offset-md-3 remove_image" data-id="{{ $data['image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
                                    </div>
@@ -124,18 +117,20 @@
                                              <div><span class="remove_vision" data-id="{{ $vision->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                         </div>
                                    </div>
-                                   <div class="col-md-2 vision_img_div" id="vision_img_div{{ $vision->id ?? '' }}">
+                                   <div class="col-md-2">
                                         <div class="form-group">
                                              <input type="file" name="vision_up_img" class="up_img" data-id="{{ $vision->id ?? '' }}" id="vision_up_img{{ $vision->id ?? '' }}" style="display:none;">
-                                             <span class="update_vision_img" data-id="{{ $vision->id ?? '' }}">
-                                                  <i class="fa fa-pen"></i>
-                                             </span>
-                                             <span class="col-md-7 offset-md-5 remove_vision_img" data-id="{{ $vision->id ?? '' }}">
-                                                  <i class="fa fa-times"></i>
-                                             </span>
+                                             <button class="update_vision_img" data-id="{{ $vision->id ?? '' }}">Add New</button>
                                         </div>
-                                        <div class="form-group">
-                                             <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Vision image">
+                                        <div class="vision_img_div" id="vision_img_div{{ $vision->id ?? '' }}">
+                                             <div class="form-group">
+                                                  <span class="col-md-7 offset-md-5 remove_vision_img" data-id="{{ $vision->id ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Vision image">
+                                             </div>
                                         </div>
                                    </div>
                                    <div class="col-md-5">
@@ -172,7 +167,7 @@
                               @if(isset($data['offer_image']) && $data['offer_image'] != null)
                               <div class="offer_image_div" id="offer_image_div{{ $data['offer_image_id'] ?? '' }}">
                                    <div class="form-group">
-                                        <span class="col-md-10 offset-md-2 remove_offer_image" data-id="{{ $data['offer_image_id'] ?? '' }}">
+                                        <span class="col-md-9 offset-md-3 remove_offer_image" data-id="{{ $data['offer_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
                                    </div>
@@ -233,8 +228,31 @@
                                    <button type="button" class="btn btn-sm btn-primary" id="add-offer-sec">Add</button>
                               </div>
                          </div>
-                         <div class="mt-3">
-                              <button class="btn btn-primary save_and_remove_btn" type="submit">Save</button>
+                    </div>
+                    <div class="col-md-4 right-content">
+                         <div class="card card-bordered card-preview">
+                              <div class="card-inner">
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title_tag">Title Tag</label>
+                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title_description">Title Description</label>
+                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                        </div>
+                                   </div>
+                                   <div class="row">
+                                        <div class="view_btn col-md-6 mt-3">
+                                             <a href="{{ url('/who-we-are') }}" class="btn btn-primary" target="_blank">View Page</a>
+                                        </div>
+                                        <div class="up-btn col-md-6 mt-3">
+                                             <button class="btn btn-primary" type="submit">Save</button>
+                                        </div>
+                                   </div>
+                              </div> 
                          </div>
                     </div>
                </div>       

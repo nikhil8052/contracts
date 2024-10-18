@@ -5,16 +5,10 @@
           <form action="{{ url('admin-dashboard/add-how-it-works') }}" method="post" enctype="multipart/form-data">
                @csrf
                <input type="hidden" name="delete_work_ids" id="delete_work_ids" value="">
-               <div class="card card-bordered card-preview">
-                    <div class="card-inner">
-                         <div class="d-flex justify-content-end p-2">
-                              <div class="nk-block-head-content">
-                                   <div class="mbsc-form-group">
-                                        <a href="{{ url('/how-it-works') }}" target="_blank" class="btn btn-default">View Page</a>
-                                   </div>
-                              </div>
-                         </div>
-                         <div class="col-md-8 pb-2">
+               <input type="hidden" name="work_img_id" id="work_img_id" value="">
+               <div class="row main_section">
+                    <div class="col-md-8 left-content">
+                         <div class="col-md-12 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ $data['title_name'] ?? '' }}">
@@ -23,7 +17,7 @@
                          <hr>
                          <h5>Banner Section</h5>
                          <hr>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="background_image">Background Image</label>
                                    <input type="file" class="form-control" id="background_image" name="background_image" value="">
@@ -32,19 +26,19 @@
                                    <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="160px">
                               </div>
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="banner_title">Banner Title</label>
                                    <input type="text" class="form-control" id="banner_title" name="banner_title" value="{{ $data['banner_title'] ?? '' }}">
                               </div>
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="banner_description">Banner Description</label>
                                    <textarea class="form-control" id="banner_description" name="banner_description">{{ $data['banner_description'] ?? '' }}</textarea>
                               </div>
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="banner_image">Banner Image</label>
                                    <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
@@ -54,48 +48,61 @@
                               </div>
                          </div>
                          <hr>
-                         <h5>How it Works</h5>  
+                         <h4>How it Works</h4>  
                          <hr>
                          <h6>Work Section</h6>
                          <hr>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="main_heading">Main Heading</label>
                                    <input type="text" class="form-control form-control" id="main_heading" name="main_heading" value="{{ $data['main_heading'] ?? '' }}">
                               </div>
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="short_description">Short Description</label>
                                    <textarea class="form-control" id="short_description" name="short_description">{{ $data['short_description'] ?? '' }}</textarea>
                               </div>
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="">Works</label>
                               </div>
                          </div>
                          @if(isset($works) && $works->isNotEmpty())
                          @foreach($works as $work)
-                         <div class="work-append-sec{{ $work->works->id ?? '' }}">
+                         <div class="work-append-sec{{ $work->id ?? '' }}">
                               <hr>
                               <div class="row gy-12">
-                                   <div class="text-end"><span class="remove-work-sec" data-id="{{ $work->works->id ?? '' }}"><i class="fa fa-times"></i></span></div>
-                                   <div class="col-md-2">
+                                   <div class="text-end"><span class="remove-work-sec" data-id="{{ $work->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                   <div class="col-md-4">
                                         <div class="form-group">
-                                             <img src="{{ asset('storage/'.$work->works->media->file_name ?? '' ) }}" alt="">
+                                             <button class="btn-sm update_work_img" type="button" data-id="{{ $work->id ?? '' }}">Add New</button>
+                                             <input type="file" name="work_up_img" class="up_img" data-id="{{ $work->id ?? '' }}" id="work_up_img{{ $work->id ?? '' }}" style="display:none;">
                                         </div>
+                                        @if(isset($work->media) && $work->media != null)
+                                        <div class="work_img_div" id="work_img_div{{ $work->id ?? '' }}">
+                                             <div class="form-group">
+                                                  <span class="col-md-7 offset-md-5 remove_work_img" data-id="{{ $work->id ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$work->media->file_name) }}" alt="">
+                                             </div>
+                                        </div>
+                                        @endif
                                    </div>
                                    <div class="col-md-4">
                                         <div class="form-group">
                                              <label class="form-label" for="work_heading">Heading</label>
-                                             <input type="text" class="form-control" id="work_heading" name="work_heading[{{$work->works->id}}]" value="{{ $work->works->heading ?? '' }}">
+                                             <input type="text" class="form-control" id="work_heading" name="work_heading[{{$work->id}}]" value="{{ $work->heading ?? '' }}">
                                         </div>
                                    </div>
                                    <div class="col-md-4">
                                         <div class="form-group">
                                              <label class="form-label" for="work_description">Description</label>
-                                             <textarea class="form-control" id="work_description" name="work_description[{{$work->works->id}}]">{{ $work->works->description ?? '' }}</textarea>
+                                             <textarea class="form-control" id="work_description" name="work_description[{{$work->id}}]">{{ $work->description ?? '' }}</textarea>
                                         </div>
                                    </div>
                               </div>
@@ -103,58 +110,91 @@
                          @endforeach
                          @endif
                          <br>
-                         <div class="col-md-3 offset-md-9">
+                         <div class="text-end">
                               <div class="form-group">
                                    <button type="button" class="btn btn-sm btn-primary" id="add-works-sec">Add Row</button>
                               </div>
                          </div>
                          <div id="work-section">
                          </div>
-                    </div>
-               </div>
-               <div class="card card-bordered card-preview">
-                    <div class="card-inner">
+                         <hr>
                          <h6>Second Banner</h6>
                          <hr>
-                         <div class="legal-section m-4">
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="second_banner_img">Banner Image</label>
-                                        <input type="file" class="form-control" id="second_banner_img" name="second_banner_img">
-                                   </div>
-                                   <div class="form-group">
-                                        <img src="{{ asset('storage/'.$data['second_banner_img'] ?? '' ) }}" height="140px" width="160px">
-                                   </div>
+                         <div class="col-md-12">
+                              <div class="form-group">
+                                   <label class="form-label" for="second_banner_img">Banner Image</label>
+                                   <input type="file" class="form-control" id="second_banner_img" name="second_banner_img">
                               </div>
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="banner_heading">Heading</label>
-                                        <input type="text" class="form-control" id="banner_heading" name="banner_heading" value="{{ $data['second_banner_heading'] ?? '' }}">
-                                   </div>
+                              <div class="form-group">
+                                   <img src="{{ asset('storage/'.$data['second_banner_img'] ?? '' ) }}" height="140px" width="160px">
                               </div>
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="sub_heading">Sub Heading</label>
-                                        <textarea class="form-control" id="sub_heading" name="sub_heading">{{ $data['second_banner_sub_heading'] ?? '' }}</textarea>
-                                   </div>
+                         </div>
+                         <div class="col-md-12">
+                              <div class="form-group">
+                                   <label class="form-label" for="banner_heading">Heading</label>
+                                   <input type="text" class="form-control" id="banner_heading" name="banner_heading" value="{{ $data['second_banner_heading'] ?? '' }}">
                               </div>
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="button_label">Button Label</label>
-                                        <input type="text" class="form-control" id="button_label" name="button_label" value="{{ $data['button_label'] ?? '' }}">
-                                   </div>
+                         </div>
+                         <div class="col-md-12">
+                              <div class="form-group">
+                                   <label class="form-label" for="sub_heading">Sub Heading</label>
+                                   <textarea class="form-control" id="sub_heading" name="sub_heading">{{ $data['second_banner_sub_heading'] ?? '' }}</textarea>
                               </div>
-                              <div class="col-md-8">
-                                   <div class="form-group">
-                                        <label class="form-label" for="button_link">Button Link</label>
-                                        <input type="text" class="form-control form-control" id="button_link" name="button_link" value="{{ $data['button_link'] ?? '' }}">
-                                   </div>
+                         </div>
+                         <div class="col-md-12">
+                              <div class="form-group">
+                                   <label class="form-label" for="button_label">Button Label</label>
+                                   <input type="text" class="form-control" id="button_label" name="button_label" value="{{ $data['button_label'] ?? '' }}">
+                              </div>
+                         </div>
+                         <div class="col-md-12">
+                              <div class="form-group">
+                                   <label class="form-label" for="button_link">Button Link</label>
+                                   <input type="text" class="form-control form-control" id="button_link" name="button_link" value="{{ $data['button_link'] ?? '' }}">
                               </div>
                          </div>
                     </div>
-               </div>
-               <div class="mt-3">
-                    <button class="btn btn-primary" type="submit">Save</button>
+                    <div class="col-md-4 right-content">
+                         <div class="card card-bordered card-preview">
+                              <div class="card-inner">
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title_tag">Title Tag</label>
+                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                             @error('title_tag')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title_description">Title Description</label>
+                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                             @error('title_description')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="url">URL</label>
+                                             <input type="text" class="form-control" id="url" name="url" value="">
+                                             @error('title_description')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="row">
+                                        <div class="view_btn col-md-6 mt-3">
+                                             <a href="{{ url('/how-it-works') }}" target="_blank" class="btn btn-primary">View Page</a>
+                                        </div>
+                                        <div class="up-btn col-md-6 mt-3">
+                                             <button class="btn btn-primary" type="submit">Save</button>
+                                        </div>
+                                   </div>
+                              </div> 
+                         </div>
+                    </div>
                </div>
           </form>
      </div>
@@ -162,45 +202,55 @@
 
 <script>
      $(document).ready(function(){
-          // Append Template // 
-          $('#add-template-sec').click(function(){
-               var html = `<div class="template-append-sec">
-                              <hr>
-                              <div class="col-md-1 offset-md-11">
-                                   <div class="form-group">
-                                        <div class="remove-template-sec"><span><i class="fa fa-times"></i></span></div>
-                                   </div>
-                              </div>
-                              <div class="row gy-12">
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="append_template_image">Image</label>
-                                             <input type="file" class="form-control" id="append_template_image" name="append_template_image[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="template-heading">Heading</label>
-                                             <input type="text" class="form-control" id="template_heading" name="template_heading[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="templatesubheading">Sub heading</label>
-                                             <input type="text" class="form-control" id="templatesubheading" name="templatesubheading[]" value="">
-                                        </div>
-                                   </div>
-                              </div>
-                         </div><br>`;
-
-               $('#template-section').append(html);
+          $('.update_work_img').click(function(){
+               var id = $(this).data('id');
+               $('#work_up_img' + id).trigger('click');
           });
 
-          // Remove template section //
-          $('body').delegate('.remove-template-sec','click',function(){
-              $(this).closest('.template-append-sec').hide();
+          $('.up_img').change(function() {
+               var id = $(this).data('id');
+               var file = this.files[0]; 
+               var formData = new FormData(); 
+               formData.append('image', file);
+               formData.append('_token', "{{ csrf_token() }}");
+               formData.append('work_id', id);
+
+               $.ajax({
+                    url: "{{ url('/update/work/image') }}", 
+                    type: 'POST',
+                    data: formData,
+                    processData: false,  
+                    contentType: false, 
+                    dataType: "json",
+                    success: function(response){
+                         console.log(response);
+                    },
+                    error: function(response) {
+                         console.log(response.responseText); 
+                         alert('Error uploading image');
+                    }
+               });
           });
 
+          $('.remove_work_img').click(function(){
+               id = $(this).data('id');
+               let removeIds = $('#work_img_id').val();
+               
+               if(removeIds) {
+                    removeIds += ',' + id;
+               }else{
+                    removeIds = id;
+               }
+               $('#work_img_id').val(removeIds);
+
+               $('#work_img_div'+id).hide();
+          })
+     })
+
+</script>
+
+<script>
+     $(document).ready(function(){
           // Append Work Section // 
           $('#add-works-sec').click(function(){
                var html = `<div class="work-append-sec">

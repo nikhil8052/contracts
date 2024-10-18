@@ -13992,11 +13992,10 @@ a.alert:hover {
   display: inline-flex;
   align-items: center;
   background: #FD5602;
-  border-radius: 130px; 
-  font-size: 16px;
-  padding: 10px 30px;
+  border-radius: 130px;
+  font-size: 14px;
+  padding: 10px 19px;
   border: 1px solid #FD5602;
- 
 }
 .nk-header.nk-header-fixed.is-light {
   padding: 2px;
@@ -41608,20 +41607,6 @@ li.nk-menu-item.has-sub:hover .nk-menu-toggle:after {
   border-radius: 100px;
 }
 
-.doc_view_btn:hover {
-  background: unset;
-  align-items: center;
-  background: #FD5602;
-  border-radius: 130px;
-  font-size: 16px;
-  /* / padding: 10px 30px; / */
-  border: 1px solid #FD5602;
-}
-
-.doc_view_btn a {
-  color: #fff;
-}
-
 .tab_btn {
   position: relative;
   padding: 18px 30px;
@@ -41641,5 +41626,11 @@ li.nk-menu-item.has-sub:hover .nk-menu-toggle:after {
 }
 .tab_btn.active {
   background-color: #FD5602;
+  color: #fff;
+}
+
+.row .view_btn a:hover{
+  background-color: #FD5602;
+  border-color: #FD5602;
   color: #fff;
 }

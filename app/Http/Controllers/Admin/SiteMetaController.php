@@ -66,7 +66,7 @@ class SiteMetaController extends Controller
             'button_link' => $results['button_link']->value ?? null,
         ];
 
-        $works = HowItWork::where('key','work')->with('works.media')->get();
+        $works = Work::with('media')->get();
 
         return view('admin.site_meta.howItWorks.add_how_it_work', compact('works', 'data'));
 
@@ -176,27 +176,91 @@ class SiteMetaController extends Controller
                     }
                 }
             }
-            
-            // if($request->has('delete_work_ids')){
-            //     $deleteIds = explode(',', $request->delete_work_ids);
-            //     foreach($deleteIds as $id){
-            //         $work = Work::find($id);
-            //         if($work){
-            //             $image_path = storage_path('app/' . $work->image);
-            //             if (File::exists($image_path)) {
-            //                 unlink($image_path);
-            //             }
-            //             $work->delete();
-            //         }
-            //         HowItWork::where('work_id', $id)->delete();
-            //     }
-            // }
+
+             if($request->work_img_id != null){
+                $deleteIds = explode(',', $request->work_img_id);
+                foreach($deleteIds as $id){
+                    $work = Work::where('id',$id)->with('media')->first();
+                    if($work->media){
+                        $image_path = getFilePath($work->media->file_path);
+                        if(File::exists($image_path)) {
+                            $directory_path = dirname($image_path);
+                            unlink($image_path);
+                            if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                                rmdir($directory_path);
+                            }
+                        }
+                        Media::where('id',$work->media_id)->delete();
+
+                        $work->media_id = null;
+                        $work->update();
+                    }
+                }
+            }
+        
+            if($request->delete_work_ids != null){
+                $deleteIds = explode(',', $request->delete_work_ids);
+                foreach($deleteIds as $id){
+                    $work = Work::where('id',$id)->with('media')->first();
+                    if($work->media){
+                        $image_path = getFilePath($work->media->file_path);
+                        if(File::exists($image_path)) {
+                            $directory_path = dirname($image_path);
+                            unlink($image_path);
+                            if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                                rmdir($directory_path);
+                            }
+                        }
+                        Media::where('id',$work->media_id)->delete();
+
+                        $work->delete();
+                    }
+                }
+            }
 
             return redirect()->back()->with('success', 'Data successfully updated');
 
         }catch(Exception $e){
             saveLog("Error:", "SiteMetaController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    public function updateWorkImage(Request $request){
+        if($request->work_id != null){
+            $id = $request->work_id;
+            if($request->hasFile('image')) {
+                $file = $request->file('image');
+                $directory = "public";
+                $fileupload = $this->fileUploadService->upload($file, $directory);
+                $fileuploadData = $fileupload->getData();
+                $works = Work::find($id);
+                
+                if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                    $works->media_id = $fileuploadData->id;
+                    $works->update();
+    
+                    $response = [
+                        'code' => $fileuploadData->status,
+                        'status' => 'success',
+                    ];
+    
+                }elseif($fileuploadData->status == '400'){
+                    $response = [
+                        'code' => $fileuploadData->status,
+                        'status' => 'fail',
+                    ];
+                }
+    
+                return response()->json($response);
+    
+            }else{
+                return response()->json([
+                    'code' => '400',
+                    'status' => 'fail',
+                    'message' => 'No file uploaded',
+                ], 400);
+            }
         }
     }
     
@@ -666,7 +730,7 @@ class SiteMetaController extends Controller
             'review_right_arrow' => str_replace('public/', '', $results['review_right_arrow']->file_path ?? null),
         ];
 
-        $home = HomeCategories::with('media')->get();;
+        $home = HomeCategories::with('media')->get();
 
         return view('admin.site_meta.home.home_content',compact('document_category','data','home'));
     }
@@ -675,11 +739,8 @@ class SiteMetaController extends Controller
         try{
             if($request->hasFile('background_image')){
                 $home_content = HomeContent::where('key','background_image')->first();
-
                 $background_image = $request->file('background_image');
-                $image_id = $home_content->id;
-                $timestamp = now()->timestamp;
-                $directory = "public/home_images/{$image_id}_{$timestamp}";
+                $directory = "public/home_images";
                 $filename = generateFileName($background_image);
                 $filepath = $background_image->storeAs($directory, $filename);
 
@@ -692,9 +753,7 @@ class SiteMetaController extends Controller
                 $home_content = HomeContent::where('key','banner_image')->first();
 
                 $banner_image = $request->file('banner_image');
-                $image_id = $home_content->id;
-                $timestamp = now()->timestamp;
-                $directory = "public/home_images/{$image_id}_{$timestamp}";
+                $directory = "public/home_images";
                 $filename = generateFileName($banner_image);
                 $filepath = $banner_image->storeAs($directory, $filename);
 
@@ -722,9 +781,7 @@ class SiteMetaController extends Controller
                 $home_content = HomeContent::where('key','bottom_banner_image')->first();
                 
                 $file = $request->file('bottom_banner_img');
-                $image_id = $home_content->id;
-                $timestamp = now()->timestamp;
-                $directory = "public/home_images/{$image_id}_{$timestamp}";
+                $directory = "public/home_images";
                 $filename = generateFileName($file);
                 $filepath = $file->storeAs($directory, $filename);
 
@@ -737,9 +794,7 @@ class SiteMetaController extends Controller
                 $home_content = HomeContent::where('key','review_left_arrow')->first();
 
                 $file = $request->file('review_left_arrow');
-                $image_id = $home_content->id;
-                $timestamp = now()->timestamp;
-                $directory = "public/home_images/{$image_id}_{$timestamp}";
+                $directory = "public/home_images";
                 $filename = generateFileName($file);
                 $filepath = $file->storeAs($directory, $filename);
 
@@ -752,9 +807,7 @@ class SiteMetaController extends Controller
                 $home_content = HomeContent::where('key','review_right_arrow')->first();
                 
                 $file = $request->file('review_right_arrow');
-                $image_id = $home_content->id;
-                $timestamp = now()->timestamp;
-                $directory = "public/home_images/{$image_id}_{$timestamp}";
+                $directory = "public/home_images";
                 $filename = generateFileName($file);
                 $filepath = $file->storeAs($directory, $filename);
 
@@ -763,7 +816,7 @@ class SiteMetaController extends Controller
                 $home_content->update();
             }
 
-            if ($request->hasFile('new_cat_img')) {
+            if($request->hasFile('new_cat_img')){
                 $image = $request->file('new_cat_img');
             
                 for ($i = 0; $i < count($image); $i++) {
@@ -784,9 +837,7 @@ class SiteMetaController extends Controller
                         'media_id' => null
                     ]);
             
-                    $image_id = $home_category->id;
-                    $timestamp = now()->timestamp;
-                    $directory = "public/home_categories/{$image_id}_{$timestamp}";
+                    $directory = "public/home_categories";
                     $fileupload = $this->fileUploadService->upload($file, $directory);
                     $fileuploadData = $fileupload->getData();
             
@@ -992,12 +1043,11 @@ class SiteMetaController extends Controller
             $id = $request->category_id;
             if($request->hasFile('cat_image')) {
                 $file = $request->file('cat_image');
-                $home_category = HomeCategories::find($id);
-                $timestamp = now()->timestamp;
-                $directory = "public/home_categories/{$id}_{$timestamp}";
+                $directory = "public/home_categories";
                 $fileupload = $this->fileUploadService->upload($file, $directory);
                 $fileuploadData = $fileupload->getData();
-    
+                $home_category = HomeCategories::find($id);
+
                 if(isset($fileuploadData) && $fileuploadData->status == '200'){
                     $home_category->media_id = $fileuploadData->id;
                     $home_category->update();

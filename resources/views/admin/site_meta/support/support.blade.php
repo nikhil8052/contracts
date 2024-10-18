@@ -11,15 +11,8 @@
                <input type="hidden" id="bg_image_id" name="bg_image_id" value="">
                <input type="hidden" id="baner_image_id" name="baner_image_id" value="">
                <input type="hidden" id="btom_banner_id" name="btom_banner_id" value="">
-               <div class="card card-bordered card-preview">
-                    <div class="card-inner">
-                         <div class="d-flex justify-content-end p-2">
-                              <div class="nk-block-head-content">
-                                   <div class="mbsc-form-group">
-                                        <a href="{{ url('/help-center') }}" target="_blank" class="btn btn-default">View Page</a>
-                                   </div>
-                              </div>
-                         </div>
+               <div class="row main_section">
+                    <div class="col-md-8 left-content">
                          <div class="col-md-12 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h5>Title</b></h5></label>
@@ -37,7 +30,7 @@
                               @if(isset($data['background_image']) && $data['background_image'] != null)
                               <div class="bg_image_div" id="bg_image{{ $data['background_image_id'] ?? '' }}">
                                    <div class="form-group">
-                                        <span class="col-md-10 offset-md-2 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
+                                        <span class="col-md-9 offset-md-3 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
                                    </div>
@@ -67,7 +60,7 @@
                               @if(isset($data['banner_image']) && $data['banner_image'] != null)
                               <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
                                    <div class="form-group">
-                                        <span class="col-md-10 offset-md-2 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                        <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
                                    </div>
@@ -99,18 +92,20 @@
                                              <div><span class="remove-help-sec" data-id="{{ $help->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                         </div>
                                    </div>
-                                   <div class="col-md-2 help_img_div" id="help_img_div{{ $help->id ?? '' }}">
+                                   <div class="col-md-2">
                                         <div class="form-group">
+                                             <button class="btn-sm update_help_img" data-id="{{ $help->id ?? '' }}">Add New</button>
                                              <input type="file" name="help_up_img" class="help_img" data-id="{{ $help->id ?? '' }}" id="help_up_img{{ $help->id ?? '' }}" style="display:none;">
-                                             <span class="update_help_img" data-id="{{ $help->id ?? '' }}">
-                                                  <i class="fa fa-pen"></i>
-                                             </span>
-                                             <span class="col-md-7 offset-md-5 remove_help_img" data-id="{{ $help->id ?? '' }}">
-                                                  <i class="fa fa-times"></i>
-                                             </span>
                                         </div>
-                                        <div class="form-group">
-                                             <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Category image">
+                                        <div class="help_img_div" id="help_img_div{{ $help->id ?? '' }}">
+                                             <div class="form-group">
+                                                  <span class="col-md-7 offset-md-5 remove_help_img" data-id="{{ $help->id ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="Category image">
+                                             </div>
                                         </div>
                                    </div>
                                    <div class="col-md-5">
@@ -228,8 +223,31 @@
                                    <input type="text" class="form-control" id="button_text" name="button_text" value="{{ $data['button_text'] ?? '' }}">
                               </div>
                          </div>
-                         <div class="mt-3">
-                              <button class="btn btn-primary save_and_remove_btn" type="submit">Save</button>
+                    </div>
+                    <div class="col-md-4 right-content">
+                         <div class="card card-bordered card-preview">
+                              <div class="card-inner">
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title_tag">Title Tag</label>
+                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title_description">Title Description</label>
+                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                        </div>
+                                   </div>
+                                   <div class="row">
+                                        <div class="view_btn col-md-6 mt-3">
+                                             <a href="{{ url('/help-center') }}" class="btn btn-primary" target="_blank">View Page</a>
+                                        </div>
+                                        <div class="up-btn col-md-6 mt-3">
+                                             <button class="btn btn-primary" type="submit">Save</button>
+                                        </div>
+                                   </div>
+                              </div> 
                          </div>
                     </div>
                </div>       

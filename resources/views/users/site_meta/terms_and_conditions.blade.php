@@ -38,7 +38,7 @@
                     @if(!empty($termsAndCondition))
                         @foreach($termsAndCondition as $term)
                             <li class="tc-item {{ $loop->first ? 'active' : '' }}">
-                                <a href="#c{{ $loop->iteration }}">{{ $term->terms ?? '' }}</a>
+                                <a href="#c{{ $loop->iteration ?? '' }}">{{ $term->terms ?? '' }}</a>
                             </li>
                         @endforeach
                     @endif

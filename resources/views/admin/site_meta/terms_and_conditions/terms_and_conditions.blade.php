@@ -5,15 +5,8 @@
           <form action="{{ url('/admin-dashboard/add-terms-process') }}" method="post" enctype="multipart/form-data">
                @csrf
                <input type="hidden" name="remove_ids" id="remove_ids" value="">
-               <div class="card card-bordered card-preview">
-                    <div class="card-inner">
-                         <div class="d-flex justify-content-end p-2">
-                              <div class="nk-block-head-content">
-                                   <div class="mbsc-form-group">
-                                        <a href="{{ url('/terms-and-conditions') }}" class="btn btn-default" target="_blank">View Page</a>
-                                   </div>
-                              </div>
-                         </div>
+               <div class="row main_section">
+                    <div class="col-md-8 left-content">
                          <div class="col-md-8 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
@@ -57,59 +50,77 @@
                          <h5>term & Condition</h5>  
                          <hr>
                          <h6>Terms & Condition Section</h6>
-                         <div class="card card-bordered card-preview">
-                              <div class="card-inner">
-                                   <div class="col-md-8">
-                                        <div class="form-group">
-                                             <label class="form-label" for="main_heading">Main Heading</label>
-                                             <input type="text" class="form-control" id="main_heading" name="main_heading" value="{{ $data['main_heading'] ?? '' }}">
-                                        </div>
+                         <div class="col-md-8">
+                              <div class="form-group">
+                                   <label class="form-label" for="main_heading">Main Heading</label>
+                                   <input type="text" class="form-control" id="main_heading" name="main_heading" value="{{ $data['main_heading'] ?? '' }}">
+                              </div>
+                         </div>
+                         <div class="col-md-8">
+                              <div class="form-group" id="terms_section">
+                                   <label class="form-label" for="main_heading">Terms & condition</label>
+                              </div>
+                         </div>
+                         @if(isset($termsAndCondition) && $termsAndCondition->isNotEmpty())
+                         @foreach($termsAndCondition as $index=>$value)
+                         <div class="append-sec{{ $value->id ?? '' }}">
+                              <div class="col-md-2 offset-md-10">
+                                   <div class="form-group">
+                                        <div><span class="removeTerms" data-id="{{ $value->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                    </div>
-                                   <div class="col-md-8">
-                                        <div class="form-group" id="terms_section">
-                                             <label class="form-label" for="main_heading">Terms & condition</label>
-                                        </div>
-                                   </div>
-                                   @if(isset($termsAndCondition) && $termsAndCondition->isNotEmpty())
-                                   @foreach($termsAndCondition as $index=>$value)
-                                   <div class="append-sec{{ $value->id ?? '' }}">
-                                        <div class="col-md-2 offset-md-10">
+                              </div>
+                              <div class="row gy-4">
+                                   <div class="col-md-5">
                                              <div class="form-group">
-                                                  <div><span class="removeTerms" data-id="{{ $value->id ?? '' }}"><i class="fa fa-times"></i></span></div>
-                                             </div>
-                                        </div>
-                                        <div class="row gy-4">
-                                             <div class="col-md-5">
-                                                       <div class="form-group">
-                                                       <label class="form-label" for="terms">Terms</label>
-                                                       <input type="text" class="form-control form-control" id="terms" name="terms[{{ $value->id ?? '' }}]" value="{{ $value->terms ?? '' }}">
-                                                  </div>
-                                             </div>
-                                             <div class="col-md-5">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="condition">Condition</label>
-                                                       <textarea class="form-control" id="condition{{ $index ?? '' }}" name="condition[{{ $value->id ?? '' }}]">{{ $value->condition ?? '' }}</textarea>
-                                                  </div>
-                                             </div>
+                                             <label class="form-label" for="terms">Terms</label>
+                                             <input type="text" class="form-control form-control" id="terms" name="terms[{{ $value->id ?? '' }}]" value="{{ $value->terms ?? '' }}">
                                         </div>
                                    </div>
-                                   <script>  ClassicEditor.create( document.querySelector('#condition{{ $index }}')); </script>
-                                   @endforeach
-                                   @endif
-                                   <br>
-                                   <div class="col-md-3 offset-md-9">
+                                   <div class="col-md-5">
                                         <div class="form-group">
-                                             <button type="button" class="btn btn-sm btn-primary" id="addnewrow">Add Row</button>
+                                             <label class="form-label" for="condition">Condition</label>
+                                             <textarea class="form-control" id="condition{{ $index ?? '' }}" name="condition[{{ $value->id ?? '' }}]">{{ $value->condition ?? '' }}</textarea>
                                         </div>
-                                   </div>
-                                   <div id="termCondition-section">
                                    </div>
                               </div>
                          </div>
+                         <script>  ClassicEditor.create( document.querySelector('#condition{{ $index }}')); </script>
+                         @endforeach
+                         @endif
+                         <br>
+                         <div id="termCondition-section"></div>
+                         <div class="col-md-3 offset-md-9">
+                              <div class="form-group">
+                                   <button type="button" class="btn btn-sm btn-primary" id="addnewrow">Add Row</button>
+                              </div>
+                         </div>
                     </div>
-               </div>
-               <div class="mt-3">
-                    <button class="btn btn-primary" type="submit">Save</button>
+                    <div class="col-md-4 right-content">
+                         <div class="card card-bordered card-preview">
+                              <div class="card-inner">
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title_tag">Title Tag</label>
+                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title_description">Title Description</label>
+                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                        </div>
+                                   </div>
+                                   <div class="row">
+                                        <div class="view_btn col-md-6 mt-3">
+                                             <a href="{{ url('/terms-and-conditions') }}" class="btn btn-primary" target="_blank">View Page</a>
+                                        </div>
+                                        <div class="up-btn col-md-6 mt-3">
+                                             <button class="btn btn-primary" type="submit">Save</button>
+                                        </div>
+                                   </div>
+                              </div> 
+                         </div>
+                    </div>
                </div>
           </form>
      </div>

@@ -3,11 +3,7 @@
 
 <?php use Illuminate\Support\Str; ?>
 
-@if(isset($data['background_image']) && $data['background_image'] != null)
 <section class="banner_sec dark" style="background-image: url({{ asset('storage/'.$data['background_image'] ?? '' ) }});">
-@else
-<section class="banner_sec dark" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
-@endif
 	<div class="container banner-col-width">
 		<div class="row align-items-center home-banner-row">
 			<div class="col-md-6 banner-col">
@@ -28,11 +24,7 @@
 			</div>
 			<div class="col-md-6 banner-col">
 				<div class="banner_img">
-				@if(isset($data['banner_image']) && $data['banner_image'] != null)
 					<img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" alt="">
-				@else
-					<img src="{{ asset('assets/img/col_banner.png') }}" alt="">
-				@endif
 				</div>
 			</div>
 		</div>
@@ -120,15 +112,11 @@
 
 <section class="Comienza_sec dark">
 	<div class="container">
-		<div class="Comienza_bg" style="background-color: #012555;">
+		<div class="Comienza_bg" style="background-color: #002655;">
 			<div class="row align-items-center">
 				<div class="col-md-6">
 					<div class="Comienza-img">
-					@if(isset($data['bottom_banner_image']) && $data['bottom_banner_image'] != null)
 						<img src="{{ asset('storage/'.$data['bottom_banner_image'] ?? '' ) }}" alt="">
-					@else
-						<img src="{{ asset('assets/img/Comienza-img.png') }}" alt="">
-					@endif
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -234,18 +222,10 @@
 				</div>
 				<div class="btn-wrap">
 					<button class="prev-btn">
-					@if(isset($data['review_left_arrow']) && $data['review_left_arrow'] != null)
-						<img src="{{ asset('storage/'.$data['review_left_arrow'] ?? '' ) }}" alt="">
-					@else
 						<img src="{{ asset('assets/img/left-arrow.png') }}" alt="">
-					@endif
 					</button>
 					<button class="next-btn">
-					@if(isset($data['review_right_arrow']) && $data['review_right_arrow'] != null)
-						<img src="{{ asset('storage/'.$data['review_right_arrow'] ?? '' ) }}" alt="">
-					@else
 						<img src="{{ asset('assets/img/right-arrow.png') }}" alt="">
-					@endif
 					</button>
 				</div>
 			</div>

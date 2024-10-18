@@ -34,7 +34,7 @@ class AllPagesController extends Controller
             if(isset($request->id) && $request->id != null){
                 $request->validate([
                     'name' => 'required',
-                    'slug' => 'required|unique:faq_categories,slug'. $request->id,
+                    'slug' => 'required',
                 ]);
     
                 $faqCategory = FaqCategory::find($request->id);
@@ -44,7 +44,7 @@ class AllPagesController extends Controller
                 $request->validate([
                     'name' => 'required',
                     'slug' => 'required|unique:faq_categories,slug',
-                ],$messages);
+                ]);
     
                 $faqCategory = new FaqCategory;
                 $status = 'add';

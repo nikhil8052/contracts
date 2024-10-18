@@ -67,10 +67,10 @@ class HomeController extends Controller
 
         $home_category = HomeCategories::with('media')->get();
         $document_category = DocumentCategory::limit(4)->get();
-        $documents = Document::all();
+        $alldocuments = Document::where('published',1)->get();
         $reviews = Review::where('status',1)->with('media')->get();
 
-        return view('users.home.home',compact('data','home_category','document_category','documents','reviews'));
+        return view('users.home.home',compact('data','home_category','document_category','alldocuments','reviews'));
     }
 
     public function getDocument($slug){

@@ -49,9 +49,9 @@
                     @foreach($faqCategory as $catg)
                     @if($catg->id == '1')
                         <div class="faq-heading">
-                            <h3 class="b-dark">
+                            <h2 class="b-dark">
                                 {{ $catg->category_name ?? '' }}
-                            </h3>
+                            </h2>
                             <div class="accordion  accordion-flush" id="accordionExample">
                             @if(isset($faqs1) && $faqs1 != null) 
                                 @foreach($faqs1 as $faq1)
@@ -79,9 +79,9 @@
                         </div>
                     @elseif($catg->id == '2')
                         <div class="faq-heading">
-                            <h3 class="b-dark">
+                            <h2 class="b-dark">
                                 {{ $catg->category_name ?? '' }}
-                            </h3>
+                            </h2>
                             <div class="accordion  accordion-flush" id="accordionExample">
                             @if(isset($faqs2) && $faqs2 != null) 
                                 @foreach($faqs2 as $faq2)
@@ -109,9 +109,9 @@
                         </div>
                     @elseif($catg->id == '3')
                         <div class="faq-heading">
-                            <h3 class="b-dark">
+                            <h2 class="b-dark">
                                 {{ $catg->category_name ?? '' }}
-                            </h3>
+                            </h2>
                             <div class="accordion  accordion-flush" id="accordionExample">
                             @if(isset($faqs3) && $faqs3 != null) 
                                 @foreach($faqs3 as $faq3)
@@ -150,9 +150,9 @@
                     @foreach($faqCategory as $catg)
                         @if($catg->id == '1')
                         <div class="faq-heading">
-                            <h3 class="b-dark">
+                            <h2 class="b-dark">
                             {{ $catg->category_name ?? '' }}
-                            </h3>
+                            </h2>
                             <div class="accordion  accordion-flush" id="accordionExample">
                             @if(isset($faqs1) && $faqs1 != null) 
                                 @foreach($faqs1 as $faq1)
@@ -191,9 +191,9 @@
                     @foreach($faqCategory as $catg)
                         @if($catg->id == '2')
                         <div class="faq-heading">
-                            <h3 class="b-dark">
+                            <h2 class="b-dark">
                                 {{ $catg->category_name ?? '' }}
-                            </h3>
+                            </h2>
                             <div class="accordion  accordion-flush" id="accordionExample">
                             @if(isset($faqs2) && $faqs2 != null) 
                                 @foreach($faqs2 as $faq2)
@@ -232,9 +232,9 @@
                     @foreach($faqCategory as $catg)
                     @if($catg->id == '3')
                         <div class="faq-heading">
-                            <h3 class="b-dark">
+                            <h2 class="b-dark">
                                 {{ $catg->category_name ?? '' }}
-                            </h3>
+                            </h2>
                             <div class="accordion  accordion-flush" id="accordionExample">
                             @if(isset($faqs3) && $faqs3 != null) 
                                 @foreach($faqs3 as $faq3)

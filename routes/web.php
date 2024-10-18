@@ -94,6 +94,7 @@ Route::group(['middleware' =>['auth']],function(){
 
      Route::get('/admin-dashboard/how-it-works',[SiteMetaController::class,'howItWorks']);
      Route::post('/admin-dashboard/add-how-it-works',[SiteMetaController::class,'addHowItWorks']);
+     Route::post('/update/work/image',[SiteMetaController::class,'updateWorkImage']);
      Route::post('/admin-dashboard/deleteworkSec',[SiteMetaController::class,'deleteWorks']);
      
      Route::get('/admin-dashboard/terms-and-conditions',[SiteMetaController::class,'termsConditions']);

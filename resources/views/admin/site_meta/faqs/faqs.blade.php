@@ -7,24 +7,26 @@
             <input type="hidden" name="removefaq" id="removefaq" value="">
             <input type="hidden" id="bg_image_id" name="bg_image_id" value="">
             <input type="hidden" id="baner_image_id" name="baner_image_id" value="">
-            <div class="card card-bordered card-preview">
-                <div class="card-inner">
-                    <div class="d-flex justify-content-end p-2">
+            <!-- <div class="card card-bordered card-preview">
+                <div class="card-inner"> -->
+                    <!-- <div class="d-flex justify-content-end p-2">
                         <div class="nk-block-head-content">
                             <div class="mbsc-form-group">
                                 <a href="{{ url('/faq') }}" target="_blank" class="btn btn-default">View Page</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+            <div class="row main_section">
+                <div class="col-md-8 left-content">
                     <div class="col-md-12 pb-2">
                         <div class="form-group">
                             <label class="form-label" for="title"><b><h5>Title</b></h5></label>
                             <input class="form-control form-control-lg" type="text" id="title"  name="title" value="{{ $data['title'] ?? '' }}">
                         </div>
                     </div>        
-                    <hr>
+                    <!-- <hr> -->
                     <h5>Banner Section</h5>
-                    <hr>
+                    <!-- <hr> -->
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label" for="background_image">Background Image</label>
@@ -91,7 +93,7 @@
                             </div>
                         </div>
                         <div class="row gy-12">
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label" for="category">Category</label>
                                     <div class="form-control-wrap"> 
@@ -111,13 +113,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label" for="question">Question</label>
                                     <input class="form-control" name="question[{{ $value->id ?? '' }}]" id="question" value="{{ $value->question ?? '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label" for="answer">Answer</label>
                                     <textarea class="form-control answer_editor" name="answer[{{ $value->id ?? '' }}]" id="answer">{{ $value->answer ?? '' }}</textarea>
@@ -134,8 +136,46 @@
                             <button type="button" class="btn btn-sm btn-primary" id="add-faq-sec">Add</button>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <button class="btn btn-primary save_and_remove_btn" type="submit">Save</button>
+                </div>
+                <div class="col-md-4 right-content">
+                    <div class="card card-bordered card-preview">
+                        <div class="card-inner">
+                            <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="title_tag">Title Tag</label>
+                                        <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                        @error('title_tag')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="title_description">Title Description</label>
+                                    <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                    @error('title_description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="url">URL</label>
+                                    <input type="text" class="form-control" id="url" name="url" value="">
+                                    @error('title_description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="view_btn col-md-6 mt-3">
+                                    <a href="{{ url('/faq') }}" target="_blank" class="btn btn-primary">View Page</a>
+                                </div>
+                                <div class="up-btn col-md-6 mt-3">
+                                    <button class="btn btn-primary" type="submit">Save</button>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                 </div>
             </div>       
@@ -191,7 +231,7 @@ $(document).ready(function() {
                     <div><span class="remove-faq-sec" value="appended"><i class="fa fa-times"></i></span></div>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label" for="new_category">Category</label>
                     <div class="form-control-wrap"> 
@@ -202,13 +242,13 @@ $(document).ready(function() {
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label" for="new_question">Question</label>
                     <input class="form-control" name="new_question[]" id="new_question" value="">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label" for="new_answer">Answer</label>
                     <textarea class="form-control answer_editor" name="new_answer[]" id="new_answer"></textarea>
