@@ -46,6 +46,14 @@ class SettingSeeder extends Seeder
                 'key' => 'footer_logo',
                 'value' => null,
             ],
+            [
+                'key' => 'header_btn_1',
+                'value' => null,
+            ],
+            [
+                'key' => 'header_btn_2',
+                'value' => null,
+            ]
         ]);
     }
 }

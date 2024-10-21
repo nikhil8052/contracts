@@ -53,13 +53,16 @@ class SiteMetaController extends Controller
         $results = HowItWork::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
             'title_name' => $results['title']->value ?? null,
-            'background_image' => $results['background_image']->value ?? null,
+            'bg_image_id' => $results['background_image']->id ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
             'banner_title' => $results['banner_title']->value ?? null,
             'banner_description' => $results['banner_description']->value ?? null,
-            'banner_image' => $results['banner_image']->value ?? null,
+            'banner_image_id' => $results['banner_image']->id ?? null,
+            'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
             'main_heading' => $results['main_heading']->value ?? null,
             'short_description' => $results['short_description']->value ?? null,
-            'second_banner_img' => $results['second_banner_img']->value ?? null,
+            'second_banner_id' => $results['second_banner_img']->id ?? null,
+            'second_banner_img' => str_replace('public/', '', $results['second_banner_img']->file_path ?? null),
             'second_banner_heading' => $results['second_banner_heading']->value ?? null,
             'second_banner_sub_heading' => $results['second_banner_sub_heading']->value ?? null,
             'button_label' => $results['button_label']->value ?? null,
@@ -76,38 +79,41 @@ class SiteMetaController extends Controller
         try{
             if($request->hasFile('background_image')){
                 $file = $request->file('background_image');
-                $filename = 'SiteImages' . time() . rand(1, 100) . '.' . $file->extension();
-                $directory = 'public';
-                $path = $file->storeAs($directory, $filename);
+                $directory = "public/how_it_work";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
 
                 $how_it_works = HowItWork::where('key','background_image')->first();
                 $how_it_works->value = $filename;
+                $how_it_works->file_path = $filepath;
                 $how_it_works->update();
             }
 
             if($request->hasFile('banner_image')){
                 $file = $request->file('banner_image');
-                $filename = 'SiteImages' . time() . rand(1, 100) . '.' . $file->extension();
-                $directory = 'public';
-                $path = $file->storeAs($directory, $filename);
+                $directory = "public/how_it_work";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
 
                 $how_it_works = HowItWork::where('key','banner_image')->first();
                 $how_it_works->value = $filename;
+                $how_it_works->file_path = $filepath;
                 $how_it_works->update();
             }
 
             if($request->hasFile('second_banner_img')){
                 $file = $request->file('second_banner_img');
-                $filename = 'SiteImages' . time() . rand(1, 100) . '.' . $file->extension();
-                $directory = 'public';
-                $path = $file->storeAs($directory, $filename);
+                $directory = "public/how_it_work";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
 
                 $how_it_works = HowItWork::where('key','second_banner_img')->first();
                 $how_it_works->value = $filename;
+                $how_it_works->file_path = $filepath;
                 $how_it_works->update();
             }
 
-            if($request->has('work_heading')){
+            if($request->has('work_heading') || $request->has('work_description')){
                 foreach($request->work_heading as $key=>$value){
                     $works = Work::find($key);
                     $works->heading = $value;
@@ -121,34 +127,23 @@ class SiteMetaController extends Controller
                 }
             }
 
-            if($request->hasFile('new_work_image')){
+            if($request->hasFile('new_work_image')  && $request->has('new_work_heading') && $request->has('new_work_description')){
                 for($i=0; $i<count($request->file('new_work_image')); $i++){
                     $file = $request->file('new_work_image')[$i];
-    
-                    if($request->new_work_heading != null){
-                        $new_work_heading = $request->new_work_heading[$i];
-                    }
-                    
-                    if($request->new_work_description != null){
-                        $new_work_description = $request->new_work_description[$i];
-                    }
-                    $fileupload = $this->fileUploadService->upload($file, 'public');
-            
+                    $new_work_heading = $request->new_work_heading[$i];
+                    $new_work_description = $request->new_work_description[$i];
+
+                    $directory = "public/how_it_work";
+                    $fileupload = $this->fileUploadService->upload($file, $directory);
                     $fileuploadData = $fileupload->getData();
         
                     if(isset($fileuploadData) && $fileuploadData->status == '200'){
-                        $howitwork = new HowItWork;
-                        $howitwork->key = 'work';
-                        $howitwork->type = 'work_type';
-    
                         $works = new Work;
                         $works->media_id = $fileuploadData->id;
                         $works->heading = $new_work_heading;
                         $works->description = $new_work_description;
                         $works->save();
-    
-                        $howitwork->work_id = $works->id;
-                        $howitwork->save();
+
                     }elseif($fileuploadData->status == '400') {
                         return redirect()->back()->with('error', $fileuploadData->error);
                     }
@@ -177,7 +172,52 @@ class SiteMetaController extends Controller
                 }
             }
 
-             if($request->work_img_id != null){
+            if($request->bg_img_id != null){
+                $how_it_work = HowItWork::where('id',$request->bg_img_id)->first();
+                $file_path = getFilePath($how_it_work->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $how_it_work->value = null;
+                $how_it_work->file_path = null;
+                $how_it_work->update();
+            }
+
+            if($request->baner_image_id != null){
+                $how_it_work = HowItWork::where('id',$request->baner_image_id)->first();
+                $file_path = getFilePath($how_it_work->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $how_it_work->value = null;
+                $how_it_work->file_path = null;
+                $how_it_work->update();
+            }
+
+            if($request->second_id != null){
+                $how_it_work = HowItWork::where('id',$request->second_id)->first();
+                $file_path = getFilePath($how_it_work->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $how_it_work->value = null;
+                $how_it_work->file_path = null;
+                $how_it_work->update();
+            }
+
+            if($request->work_img_id != null){
                 $deleteIds = explode(',', $request->work_img_id);
                 foreach($deleteIds as $id){
                     $work = Work::where('id',$id)->with('media')->first();
@@ -231,7 +271,7 @@ class SiteMetaController extends Controller
             $id = $request->work_id;
             if($request->hasFile('image')) {
                 $file = $request->file('image');
-                $directory = "public";
+                $directory = "public/how_it_work";
                 $fileupload = $this->fileUploadService->upload($file, $directory);
                 $fileuploadData = $fileupload->getData();
                 $works = Work::find($id);
@@ -277,10 +317,12 @@ class SiteMetaController extends Controller
         $results = TermsAndCondition::whereIn('key',$keys)->get()->keyBy('key');
         $data = [
             'title_name' => $results['title']->value ?? null,
-            'background_image' => $results['background_image']->value ?? null,
+            'bg_image_id' => $results['background_image']->id ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
             'banner_title' => $results['banner_title']->value ?? null,
             'banner_description' => $results['banner_description']->value ?? null,
-            'banner_image' => $results['banner_image']->value ?? null,
+            'banner_image_id' => $results['banner_image']->id ?? null,
+            'banner_image' => str_replace('public/', '', $results['banner_image']->file_path ?? null),
             'main_heading' => $results['main_heading']->value ?? null,
         ];
         $termsAndCondition = TermsAndCondition::where('key','terms_and_condition')->get();
@@ -293,22 +335,24 @@ class SiteMetaController extends Controller
             if($request->hasFile('background_image')){
                 $file = $request->file('background_image');
                 $filename = generateFileName($file);
-                $directory = 'public';
+                $directory = 'public/terms_and_conditions';
                 $path = $file->storeAs($directory, $filename);
 
                 $termsCondition = TermsAndCondition::where('key','background_image')->first();
                 $termsCondition->value = $filename;
+                $termsCondition->file_path = $path;
                 $termsCondition->update();
             }
 
             if($request->hasFile('banner_image')){
                 $file = $request->file('banner_image');
                 $filename = generateFileName($file);
-                $directory = 'public';
+                $directory = 'public/terms_and_conditions';
                 $path = $file->storeAs($directory, $filename);
 
                 $termsCondition = TermsAndCondition::where('key','banner_image')->first();
                 $termsCondition->value = $filename;
+                $termsCondition->file_path = $path;
                 $termsCondition->update();
             }
 
@@ -360,6 +404,36 @@ class SiteMetaController extends Controller
                 }
             }
 
+            if($request->bg_img_id != null){
+                $terms_and_condition = TermsAndCondition::where('id',$request->bg_img_id)->first();
+                $file_path = getFilePath($terms_and_condition->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $terms_and_condition->value = null;
+                $terms_and_condition->file_path = null;
+                $terms_and_condition->update();
+            }
+
+            if($request->baner_image_id != null){
+                $terms_and_condition = TermsAndCondition::where('id',$request->baner_image_id)->first();
+                $file_path = getFilePath($terms_and_condition->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $terms_and_condition->value = null;
+                $terms_and_condition->file_path = null;
+                $terms_and_condition->update();
+            }
+
             if($request->remove_ids != null){
                 $removeIds = explode(',', $request->remove_ids);
                 $termsCondition = TermsAndCondition::whereIn('id',$removeIds)->delete();
@@ -391,17 +465,19 @@ class SiteMetaController extends Controller
             if($request->hasFile('background_image')){
                 $file = $request->file('background_image');
                 $filename = generateFileName($file);
-                $directory = 'public';
+                $directory = 'public/contact';
                 $path = $file->storeAs($directory, $filename);
                 $contact->background_image = $filename;
+                $contact->background_image_path = $path;
             }
 
             if($request->hasFile('banner_image')){
                 $file = $request->file('banner_image');
                 $filename = generateFileName($file);
-                $directory = 'public';
+                $directory = 'public/contact';
                 $path = $file->storeAs($directory, $filename);
                 $contact->banner_image = $filename;
+                $contact->banner_image_path = $path;
             }
 
             $contact->title = $request->title;
@@ -409,6 +485,36 @@ class SiteMetaController extends Controller
             $contact->banner_description = $request->banner_description;
             $contact->main_title = $request->main_title;
             $contact->save();
+
+            if($request->bg_img_id != null){
+                $contact = AdminContactUs::where('id',$request->bg_img_id)->first();
+                $file_path = getFilePath($contact->background_image_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $contact->background_image = null;
+                $contact->background_image_path = null;
+                $contact->update();
+            }
+
+            if($request->baner_image_id != null){
+                $contact = AdminContactUs::where('id',$request->baner_image_id)->first();
+                $file_path = getFilePath($contact->banner_image_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $contact->banner_image = null;
+                $contact->banner_image_path = null;
+                $contact->update();
+            }
 
             if($status == 'updated'){
                 return redirect()->back()->with('success','Data Successfully updated');
@@ -451,6 +557,21 @@ class SiteMetaController extends Controller
             }
 
             $login->save();
+
+            if($request->bg_img_id != null){
+                $login = LoginRegister::where('id',$request->bg_img_id)->first();
+                $file_path = getFilePath($login->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $login->background_image = null;
+                $login->file_path = null;
+                $login->update();
+            }
         
             if($status == 'updated'){
                 return redirect()->back()->with('success','Data Successfully updated');
@@ -674,7 +795,6 @@ class SiteMetaController extends Controller
 
         $keys = [
             'title',
-            'favicon',
             'background_image',
             'banner_image',         
             'banner_title',
@@ -701,8 +821,6 @@ class SiteMetaController extends Controller
         $results = HomeContent::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
             'title' => $results['title']->value ?? null,
-            'favicon_id' => $results['favicon']->id ?? null,
-            'favicon' => str_replace('public/', '', $results['favicon']->file_path ?? null),
             'background_image_id' => $results['background_image']->id ?? null,
             'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
             'banner_image_id' =>  $results['banner_image']->id ?? null,
@@ -1080,14 +1198,21 @@ class SiteMetaController extends Controller
         $keys = [
             'header_logo',
             'footer_logo',
-            'favicon'
+            'favicon',
+            'header_btn_1',
+            'header_btn_2'
         ];
 
         $results = Setting::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
+            'header_logo_id' => $results['header_logo']->id ?? null,
             'header_logo' => str_replace('public/', '', $results['header_logo']->file_path ?? null),
+            'footer_logo_id' => $results['footer_logo']->id ?? null,
             'footer_logo' => str_replace('public/', '', $results['footer_logo']->file_path ?? null),
+            'favicon_id' => $results['favicon']->id ?? null,
             'favicon' => str_replace('public/', '', $results['favicon']->file_path ?? null),
+            'button1' => $results['header_btn_1']->value ?? null,
+            'button2' => $results['header_btn_2']->value ?? null,
         ];
         return view('admin.site_meta.web_setting.web_setting',compact('data'));
     }
@@ -1132,6 +1257,63 @@ class SiteMetaController extends Controller
                 $web_setting->update();
             }
 
+            if($request->has('header_btn_1')){
+                $web_setting = Setting::where('key','header_btn_1')->first();
+                $web_setting->value = $request->header_btn_1;
+                $web_setting->update();
+            }
+
+            if($request->has('header_btn_2')){
+                $web_setting = Setting::where('key','header_btn_2')->first();
+                $web_setting->value = $request->header_btn_2;
+                $web_setting->update();
+            }
+
+            if($request->remove_logo1 != null){
+                $web_setting = Setting::where('id',$request->remove_logo1)->first();
+                $file_path = getFilePath($web_setting->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $web_setting->value = null;
+                $web_setting->file_path = null;
+                $web_setting->save();
+            }
+
+            if($request->remove_logo2 != null){
+                $web_setting = Setting::where('id',$request->remove_logo2)->first();
+                $file_path = getFilePath($web_setting->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $web_setting->value = null;
+                $web_setting->file_path = null;
+                $web_setting->save();
+            }
+
+            if($request->favicon_img_id != null){
+                $web_setting = Setting::where('id',$request->favicon_img_id)->first();
+                $file_path = getFilePath($web_setting->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $web_setting->value = null;
+                $web_setting->file_path = null;
+                $web_setting->save();
+            }
+
             return redirect()->back()->with('success', 'Data successfully saved.');
         }catch(Exception $e){
             saveLog("Error:", "SiteMetaController", $e->getMessage());
@@ -1154,42 +1336,45 @@ class SiteMetaController extends Controller
         $results = PricesContent::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
             'title' => $results['title']->value ?? null,
-            'background_image' => $results['background_image']->value ?? null,
+            'bg_image_id' => $results['background_image']->id ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
             'banner_title' => $results['banner_title']->value ?? null,
             'banner_description' => $results['banner_description']->value ?? null,
-            'banner_image' => $results['banner_image']->value ?? null,
+            'banner_image_id' => $results['banner_image']->id ?? null,
+            'banner_image' => str_replace('public/', '', $results['banner_image']->file_path ?? null),
             'document_heading' => $results['document_heading']->value ?? null,
             'description_heading' => $results['description_heading']->value ?? null,
             'price_heading' => $results['price_heading']->value ?? null,
         ];
 
-        $document = Document::all();
+        $document = Document::where('published',1)->get();
         $document_price_description = PricesContent::where('key', 'price_content')->get();
         return view('admin.site_meta.prices.price',compact('data','document','document_price_description'));
     }
 
     public function addPriceContent(Request $request){
-        // return $request->all();
         try{
             if($request->hasFile('background_image')){
                 $background_image = $request->file('background_image');
-                $directory = 'public';
+                $directory = 'public/prices';
                 $filename = generateFileName($background_image);
-                $background_image->storeAs($directory, $filename);
+                $path = $background_image->storeAs($directory, $filename);
 
                 $price_content = PricesContent::where('key','background_image')->first();
                 $price_content->value = $filename;
+                $price_content->file_path = $path;
                 $price_content->update();
             }
 
             if($request->hasFile('banner_image')){
                 $banner_image = $request->file('banner_image');
-                $directory = 'public';
+                $directory = 'public/prices';
                 $filename = generateFileName($banner_image);
-                $banner_image->storeAs($directory, $filename);
+                $path = $banner_image->storeAs($directory, $filename);
 
                 $price_content = PricesContent::where('key','banner_image')->first();
                 $price_content->value = $filename;
+                $price_content->file_path = $path;
                 $price_content->update();
             }
 
@@ -1269,6 +1454,36 @@ class SiteMetaController extends Controller
                 }
             }
 
+            if($request->bg_img_id != null){
+                $price_content = PricesContent::where('id',$request->bg_img_id)->first();
+                $file_path = getFilePath($price_content->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $price_content->value = null;
+                $price_content->file_path = null;
+                $price_content->update();
+            }
+
+            if($request->baner_image_id != null){
+                $price_content = PricesContent::where('id',$request->baner_image_id)->first();
+                $file_path = getFilePath($price_content->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $price_content->value = null;
+                $price_content->file_path = null;
+                $price_content->save();
+            }
+
             if($request->delete_content_ids != null){
                 $deleteIds = explode(',', $request->delete_content_ids);
                 foreach($deleteIds as $id){
@@ -1325,7 +1540,6 @@ class SiteMetaController extends Controller
     }
 
     public function helpProcc(Request $request){
-        // return $request->all();
         try{
             if($request->hasFile('background_image')){
                 $help_center = HelpCenter::where('key','background_image')->first();
@@ -1605,7 +1819,4 @@ class SiteMetaController extends Controller
         }
     }
 
-    public function getfavicon(){
-        return view('admin.site_meta.web_setting.add_favicon');
-    }
 }

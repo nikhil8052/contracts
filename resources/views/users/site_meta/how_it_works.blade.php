@@ -3,8 +3,6 @@
 
 @if(isset($data['background_image']) && $data['background_image'] != null)
     <section class="banner_sec dark inner-banner" style="background-image: url('{{ asset('storage/'.$data['background_image'] ?? '' ) }}');">
-@else
-    <section class="banner_sec dark inner-banner" style="background-image: url({{ asset('assets/img/inner-banner.png') }});">  
 @endif
     <div class="container banner-col-width">
         <div class="row align-items-center">
@@ -17,11 +15,7 @@
                 </div>
             </div>
             <div class="col-md-6 banner-col">
-            @if(isset($data['banner_image']) && $data['banner_image'] != null)
                 <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" alt="Así funciona">
-            @else
-                <img src="{{ asset('assets/img/asi.png') }}" alt="Así funciona">
-            @endif
             </div>
         </div>
     </div>
@@ -35,15 +29,18 @@
         <div class="row">
         @if(isset($works) && $works->isNotEmpty())
             @foreach($works as $work)    
+            <?php 
+                $path = str_replace('public/', '', $work->media->file_path ?? null);
+            ?>
             <div class="col-md-4">
                 <div class="explore-cntnt">
                     <div class="explore-img">
-                        <img src="{{ asset('storage/'.$work->works->media->file_name ?? '' ) }}" alt="explore">
+                        <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="explore">
                     </div>
                     <div class="explore-txt">
-                        <h5 class="b-dark">{{ $work->works->heading ?? '' }}</h5>
+                        <h5 class="b-dark">{{ $work->heading ?? '' }}</h5>
                         <p class="light">
-                            {{ $work->works->description ?? '' }}
+                            {{ $work->description ?? '' }}
                         </p>
                     </div>
                 </div>
@@ -57,15 +54,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-            @if(isset($data['second_banner_img']) && $data['second_banner_img'] != null)
                 <img src="{{ asset('storage/'.$data['second_banner_img'] ?? '' ) }}" alt="image here">
-            @else
-                <img src="{{ asset('assets/img/Comienza-img.png') }}" alt="image here">
-            @endif
             </div>
             <div class="col-md-6">
                 <h2 class="b-dark">{{ $data['second_banner_heading'] ?? '' }}</h2>
-                <p class="size18">
+                <p class="">
                     {{ $data['second_banner_sub_heading'] ?? '' }}
                 </p>
                 <a href="#" class="cta_org">{{ $data['button_label'] ?? '' }}<i class="fa-solid fa-arrow-right"></i></a>

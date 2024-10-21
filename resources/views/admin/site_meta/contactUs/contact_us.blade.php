@@ -6,6 +6,9 @@
           <form action="{{ url('/admin-dashboard/contact-us-procc') }}" method="post" enctype="multipart/form-data">
                @csrf
                <input type="hidden" name="id" value="{{ $contact->id ?? '' }}">
+               <input type="hidden" name="bg_img_id" id="bg_img_id" value="">
+               <input type="hidden" name="baner_image_id" id="baner_image_id" value="">
+
                <div class="row main_section">
                     <div class="col-md-8 left-content">
                          <div class="col-md-12 pb-2">
@@ -22,9 +25,21 @@
                                    <label class="form-label" for="background_image">Background Image</label>
                                    <input type="file" class="form-control" id="background_image" name="background_image" value="">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$contact->background_image ?? '' ) }}" height="140px" width="160px">
+                              @if(isset($contact->background_image) && $contact->background_image != null)
+                              <?php 
+                                   $path = str_replace('public/', '', $contact->background_image_path ?? null);
+                              ?>
+                              <div class="bg_image_div" id="bg_image{{ $contact->id ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_background_image" data-id="{{ $contact->id ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$path) }}" alt="background_img" height="140px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <div class="col-md-12">
                               <div class="form-group">
@@ -43,9 +58,21 @@
                                    <label class="form-label" for="banner_image">Banner Image</label>
                                    <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$contact->banner_image ?? '' ) }}" height="200px" width="280px">
+                              @if(isset($contact->banner_image) && $contact->banner_image != null)
+                              <?php 
+                                   $path = str_replace('public/', '', $contact->banner_image_path ?? null);
+                              ?>
+                              <div class="banner_div" id="banner_div{{ $contact->id ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $contact->id ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$path) }}" alt="banner_img" height="140px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <hr>
                          <h5>Contact Page</h5>  
@@ -99,6 +126,20 @@
           console.error( error );
      });
 
+
+$(document).ready(function(){
+     $('.remove_background_image').click(function(){
+          id = $(this).data('id');
+          $('#bg_img_id').val(id);
+          $('#bg_image'+id).hide();
+     });
+
+     $('.remove_banner_image').click(function(){
+          id = $(this).data('id');
+          $('#baner_image_id').val(id);
+          $('#banner_div'+id).hide();
+     });
+})
 </script>
 
 

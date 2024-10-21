@@ -178,11 +178,7 @@ footer .select-menu .options .option i {
     margin-right: 12px;
 }
 
-footer .select-menu .options .option .option-text {
-    font-size: 18px;
-    color: rgba(1, 37, 85, 1);
-    font-weight: 700;
-}
+
 
 footer .select-btn i {
     margin-left: 10px;
@@ -453,9 +449,7 @@ footer .select-menu {
     border-radius: 10px;
 }
 
-.vision_sec .row.sec-row .vision .vision-txt h3 {
-    padding-top: 14px;
-}
+
 
 
 /* ********( v-ofr_sec)*********** */

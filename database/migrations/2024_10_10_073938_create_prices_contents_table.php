@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('key')->nullable();
             $table->longText('value')->nullable();
+            $table->text('file_path')->nullable();
             $table->string('type')->nullable();
             $table->text('document')->nullable();
             $table->text('button_text')->nullable();

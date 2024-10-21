@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('background_image')->nullable();
+            $table->text('background_image_path')->nullable();
             $table->string('banner_title')->nullable();
             $table->longtext('banner_description')->nullable();
             $table->string('banner_image')->nullable();
+            $table->text('banner_image_path')->nullable();
             $table->text('main_title')->nullable();
             $table->timestamps();
         });

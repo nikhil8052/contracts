@@ -67,7 +67,7 @@
                     </div>
                     <div class="vision-txt" style="color: white;">
                          <h3>{{ $vision->heading ?? '' }}</h3>
-                         <p class="size18">{{ $vision->description ?? '' }}</p>
+                         <p class="">{{ $vision->description ?? '' }}</p>
                     </div>
                </div>
           </div>
@@ -85,14 +85,14 @@
                          <h2 class="b-dark">
                               {{ $data['offer_heading'] ?? 'Lo que ofrecemos' }}
                          </h2>
-                         <p class="size18 mb-0">{{ $data['offer_description'] ?? 'En documentos legales simplificamos el mundo legal para que usted pueda
+                         <p class=" mb-0">{{ $data['offer_description'] ?? 'En documentos legales simplificamos el mundo legal para que usted pueda
                               concentrarse en el éxito. Únase a nosotros hoy y experimente una nueva era de creación de
                               documentos legales.' }}
                          </p>
                          <ul class="ofrs">
                          @if(isset($offers) && $offers != null)
                          @foreach($offers as $offer)
-                              <li class="size18"><span>{{ $offer->offer_section_heading ?? '' }}</span>
+                              <li class=""><span>{{ $offer->offer_section_heading ?? '' }}</span>
                               {{ $offer->offer_section_description ?? '' }}
                               </li>
                          @endforeach

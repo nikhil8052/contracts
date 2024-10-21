@@ -38,22 +38,22 @@ class SitePagesController extends Controller
 
         $results = HowItWork::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
-            'title' => $results['title']->value ?? null,
-            'background_image' => $results['background_image']->value ?? null,
+            'title_name' => $results['title']->value ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
             'banner_title' => $results['banner_title']->value ?? null,
             'banner_description' => $results['banner_description']->value ?? null,
-            'banner_image' => $results['banner_image']->value ?? null,
+            'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
             'main_heading' => $results['main_heading']->value ?? null,
             'short_description' => $results['short_description']->value ?? null,
-            'second_banner_img' => $results['second_banner_img']->value ?? null,
+            'second_banner_img' => str_replace('public/', '', $results['second_banner_img']->file_path ?? null),
             'second_banner_heading' => $results['second_banner_heading']->value ?? null,
             'second_banner_sub_heading' => $results['second_banner_sub_heading']->value ?? null,
             'button_label' => $results['button_label']->value ?? null,
             'button_link' => $results['button_link']->value ?? null,
         ];
 
-        $works = HowItWork::where('key','work')->with('works.media')->get();
-
+        $works = Work::with('media')->get();
+        
         return view('users.site_meta.how_it_works',compact('data','works'));
     }
 
@@ -115,10 +115,10 @@ class SitePagesController extends Controller
         $results = TermsAndCondition::whereIn('key',$keys)->get()->keyBy('key');
         $data = [
             'title_name' => $results['title']->value ?? null,
-            'background_image' => $results['background_image']->value ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
             'banner_title' => $results['banner_title']->value ?? null,
             'banner_description' => $results['banner_description']->value ?? null,
-            'banner_image' => $results['banner_image']->value ?? null,
+            'banner_image' => str_replace('public/', '', $results['banner_image']->file_path ?? null),
             'main_heading' => $results['main_heading']->value ?? null,
         ];
         $termsAndCondition = TermsAndCondition::where('key','terms_and_condition')->get();
@@ -163,10 +163,10 @@ class SitePagesController extends Controller
         $results = PricesContent::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
             'title' => $results['title']->value ?? null,
-            'background_image' => $results['background_image']->value ?? null,
+            'background_image' => str_replace('public/', '', $results['background_image']->file_path ?? null),
             'banner_title' => $results['banner_title']->value ?? null,
             'banner_description' => $results['banner_description']->value ?? null,
-            'banner_image' => $results['banner_image']->value ?? null,
+            'banner_image' => str_replace('public/', '', $results['banner_image']->file_path ?? null),
             'document_heading' => $results['document_heading']->value ?? null,
             'description_heading' => $results['description_heading']->value ?? null,
             'price_heading' => $results['price_heading']->value ?? null,

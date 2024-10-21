@@ -44,13 +44,13 @@ body {
 }
 
 h1 {
-    font-size: 34px;
+    font-size: 34px ;
     font-weight: 700;
     line-height: 1.1;
 }
 
 h2 {
-    font-size: 28px;
+    font-size: 28px ;
     font-weight: 700;
     line-height: 58.51px;
 }
@@ -769,7 +769,7 @@ footer .select-menu .options .option i {
 footer .select-menu .options .option .option-text {
     font-size: 16px;
     color: rgba(1, 37, 85, 1);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 footer .select-btn i {
@@ -1269,6 +1269,9 @@ footer .foot_li a:hover {
     color: #6D6E70;
     margin-bottom: 10px;
 }
+.Comienza_sec h2 {
+    line-height: 40px;
+}
 
 .pdf_in2 .icon_soc {
     display: inline-block;
@@ -1633,7 +1636,6 @@ header.fun-header {
 }
 
 .inner-banner h1 {
-    font-size: 34px;
     font-weight: 700;
     line-height: 80.45px;
     text-align: left;
@@ -1771,13 +1773,13 @@ header.fun-header {
 
 }
 
-.como_sec .help:hover,
+/* .como_sec .help:hover,
 .como_sec .help.active:hover {
     cursor: pointer;
     border: none;
     box-shadow: -29px 32px 84px rgba(41, 56, 95, 0.15);
 
-}
+} */
 
 .como_sec .help.active:hover {
     background-color: white;
@@ -1838,7 +1840,6 @@ header.fun-header {
 
 .faq_sec h2.b-dark {
     text-align: center;
-    font-size: 28px;
     font-weight: 600;
     line-height: 64.55px;
 }
@@ -1920,7 +1921,7 @@ header.fun-header {
 
 .faq_sec .accordion .accordion-item .accordion-body {
     border-top: none;
-    font-size: 18px;
+    font-size: 16px;
     padding: 0;
     max-width: 980px;
 }
@@ -1945,6 +1946,7 @@ header.fun-header {
 
 .tab-faq_sec .nav-pills .nav-link {
     border-radius: 150px;
+    font-weight: 600;
     color: #393939;
     padding: 16px 46px;
 }
@@ -1965,7 +1967,7 @@ header.fun-header {
 }
 
 .tab-faq_sec .tab-pane .faq_sec .faq-heading h3.b-dark {
-    font-size: 28px;
+    
     font-weight: 600;
     line-height: 43.88px;
     text-align: left;
@@ -2010,7 +2012,6 @@ header.fun-header {
 
 .banner_sec.dark.inner-banner.acerca .banner_content h1 {
     max-width: 537px;
-    font-size: 34px;
 }
 
 /* ********(Acerca_sec)*********** */
@@ -2694,8 +2695,11 @@ header.fun-header {
     cursor: pointer;
     border: 1px solid transparent; /* ********in style.css line no:1766 with the following css********* */
     box-shadow: -29px 32px 84px rgba(41, 56, 95, 0.15);
+    transition: 0.3s ease-in-out;
 }
-
+.Comienza-content h2 {
+    line-height: 36px;
+}
 .banner_sec .searchButton {
     border: 1px solid #FD5602; /* ********in style.css line no:366 with the following css********* */
 }
@@ -2737,4 +2741,7 @@ footer .foot_li a:hover {
 section.banner_sec.dark {
     background-size: cover;
     background-repeat: no-repeat;
+}
+.vision-txt h3 {
+    color: #fff;
 }

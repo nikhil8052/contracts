@@ -29801,7 +29801,8 @@ body.nav-shown {
   display: block;
 }
 .nk-menu-sub .nk-menu-link:hover {
-  color: #6576ff;
+  color: #FD5602;
+  font-weight: bold;
 }
 .is-theme .nk-menu-sub .nk-menu-link:hover {
   color: #fff;
@@ -41557,18 +41558,6 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
   color: #fff;
 }
 
-li.nk-menu-item.has-sub:hover {
-  background: #ffff;
-}
-li.nk-menu-item.has-sub:hover a span {
-  color: #012555;
-}
-li.nk-menu-item.has-sub:hover a span em {
-  color: #012555;
-}
-li.nk-menu-item.has-sub:hover .nk-menu-toggle:after {
-  color: #012555;
-}
 
 /*! END @iO */
 .doc-short-des .ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {

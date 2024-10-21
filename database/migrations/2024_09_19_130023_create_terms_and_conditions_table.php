@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('key')->nullable();
             $table->longtext('value')->nullable();
+            $table->text('file_path')->nullable();
             $table->longtext('type')->nullable();
             $table->longtext('terms')->nullable();
             $table->longtext('condition')->nullable();

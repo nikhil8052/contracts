@@ -25,32 +25,49 @@ class ContactUsController extends Controller
     }
 
     public function contactUsProcc(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'phone_number' => 'required',
+            'email' => 'required|email',
+            'message' => 'required',
+            'file' => 'required',
+            'g-recaptcha-response' => 'required',
+        ]);
+
         try{
-            $file = $request->file('file');
-            $contactUs = new ContactUs;
-            $contactUs->name = $request->name;
-            $contactUs->phone_number = $request->phone_number;
-            $contactUs->email = $request->email;
-            $contactUs->message = $request->message;
+            $recaptcha = $request->input('g-recaptcha-response');
+            $secret_key = env('RECAPTCHA_SECRET_KEY');
+            $url = 'https://www.google.com/recaptcha/api/siteverify?secret='.$secret_key.'&response='.$recaptcha;
+            $response_json = file_get_contents($url);
+            $response = (array)json_decode($response_json);
     
-            $fileupload = $this->fileUploadService->upload($file, 'uploads/files');
-            
-            $fileuploadData = $fileupload->getData();
-    
-            if(isset($fileuploadData) && $fileuploadData->status == '200'){
-                $contactUs->media_id = $fileuploadData->id;
-                $contactUs->save();
-    
-                return redirect()->back()->with('success', 'Thanks for contacting us');
-    
-            } elseif($fileuploadData->status == '400') {
-                return redirect()->back()->with('error', $fileuploadData->error);
+            if($response['success'] == true){
+                $file = $request->file('file');
+                $contactUs = new ContactUs;
+                $contactUs->name = $request->name;
+                $contactUs->phone_number = $request->phone_number;
+                $contactUs->email = $request->email;
+                $contactUs->message = $request->message;
+        
+                $directory = "public/contact_form_images";
+                $fileupload = $this->fileUploadService->upload($file, $directory);
+                $fileuploadData = $fileupload->getData();
+        
+                if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                    $contactUs->media_id = $fileuploadData->id;
+                    $contactUs->save();
+        
+                    return redirect()->back()->with('success', 'Thanks for contacting us');
+        
+                } elseif($fileuploadData->status == '400') {
+                    return redirect()->back()->with('error', $fileuploadData->error);
+                }
+            }else{
+                return redirect()->back()->with('error','Google recaptcha is not valid!');
             }
-    
         }catch(Exception $e){
             saveLog("Error:","ContactUsController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
     }
-
 }

@@ -1,21 +1,31 @@
 @php 
-    	$setting = App\Models\Setting::where('key', 'header_logo')->first();
-	$path = str_replace('public/', '', $setting->file_path ?? null);
+	$keys = [
+		'header_logo',
+		'header_btn_1',
+		'header_btn_2'
+	];
+
+	$results = App\Models\Setting::whereIn('key', $keys)->get()->keyBy('key');
+	$data = [
+		'header_logo' => str_replace('public/', '', $results['header_logo']->file_path ?? null),
+		'button1' => $results['header_btn_1']->value ?? null,
+		'button2' => $results['header_btn_2']->value ?? null,
+	];
 @endphp
 
 <header>
 	<div class="main_header mobile-hide">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 			<div class="col-md-6">
 				<div class="hedaer_logo">
-					<a href="{{ url('/') }}"><img src="{{ asset('storage/'.$path) }}" alt=""></a>
+					<a href="{{ url('/') }}"><img src="{{ asset('storage/'.$data['header_logo']) }}" alt=""></a>
 				</div>
 			</div>
 			<div class="col-md-6 ">
 				<div class="hedaer_bnt">
-					<a href="" class="cta_dark"><i class="fa-solid fa-file-lines"></i>Crear documento</a>
-					<a href="{{ url('/login') }}" class="cta_light">Iniciar sesión</a>
+					<a href="" class="cta_dark"><i class="fa-solid fa-file-lines"></i>{{ $data['button1'] ?? 'Crear documento' }}</a>
+					<a href="{{ url('/login') }}" class="cta_light">{{ $data['button2'] ?? 'Iniciar sesión' }}</a>
 				</div>
 
 			</div>
@@ -23,7 +33,7 @@
 		</div>
 	</div>
 	<div class="top_header dark">
-		<div class="container">
+		<div class="container-fluid">
 			<nav class="navbar navbar-expand-lg">
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<div class="bar bar1"></div>

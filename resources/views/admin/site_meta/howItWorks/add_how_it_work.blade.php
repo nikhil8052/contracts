@@ -6,6 +6,10 @@
                @csrf
                <input type="hidden" name="delete_work_ids" id="delete_work_ids" value="">
                <input type="hidden" name="work_img_id" id="work_img_id" value="">
+               <input type="hidden" name="bg_img_id" id="bg_img_id" value="">
+               <input type="hidden" name="baner_image_id" id="baner_image_id" value="">
+               <input type="hidden" name="second_id" id="second_id" value="">
+
                <div class="row main_section">
                     <div class="col-md-8 left-content">
                          <div class="col-md-12 pb-2">
@@ -22,9 +26,18 @@
                                    <label class="form-label" for="background_image">Background Image</label>
                                    <input type="file" class="form-control" id="background_image" name="background_image" value="">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="160px">
+                              @if(isset($data['background_image']) && $data['background_image'] != null)
+                              <div class="bg_image_div" id="bg_image{{ $data['bg_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_background_image" data-id="{{ $data['bg_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="100px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <div class="col-md-12">
                               <div class="form-group">
@@ -43,9 +56,18 @@
                                    <label class="form-label" for="banner_image">Banner Image</label>
                                    <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" height="200px" width="280px">
+                              @if(isset($data['banner_image']) && $data['banner_image'] != null)
+                              <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="140px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <hr>
                          <h4>How it Works</h4>  
@@ -71,6 +93,9 @@
                          </div>
                          @if(isset($works) && $works->isNotEmpty())
                          @foreach($works as $work)
+                         <?php 
+                              $path = str_replace('public/', '', $work->media->file_path ?? null);
+                         ?>
                          <div class="work-append-sec{{ $work->id ?? '' }}">
                               <hr>
                               <div class="row gy-12">
@@ -88,7 +113,7 @@
                                                   </span>
                                              </div>
                                              <div class="form-group">
-                                                  <img src="{{ asset('storage/'.$work->media->file_name) }}" alt="">
+                                                  <img src="{{ asset('storage/'.$path) }}" alt="">
                                              </div>
                                         </div>
                                         @endif
@@ -109,13 +134,12 @@
                          </div>
                          @endforeach
                          @endif
+                         <div id="work-section"></div>
                          <br>
                          <div class="text-end">
                               <div class="form-group">
                                    <button type="button" class="btn btn-sm btn-primary" id="add-works-sec">Add Row</button>
                               </div>
-                         </div>
-                         <div id="work-section">
                          </div>
                          <hr>
                          <h6>Second Banner</h6>
@@ -125,9 +149,18 @@
                                    <label class="form-label" for="second_banner_img">Banner Image</label>
                                    <input type="file" class="form-control" id="second_banner_img" name="second_banner_img">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$data['second_banner_img'] ?? '' ) }}" height="140px" width="160px">
+                              @if(isset($data['second_banner_img']) && $data['second_banner_img'] != null)
+                              <div class="second_banner_div" id="second_banner_div{{ $data['second_banner_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_second_banner" data-id="{{ $data['second_banner_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['second_banner_img']) }}" alt="banner_img" height="140px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <div class="col-md-12">
                               <div class="form-group">
@@ -223,11 +256,11 @@
                     contentType: false, 
                     dataType: "json",
                     success: function(response){
-                         console.log(response);
+                         NioApp.Toast('New image is updated', 'info', {position: 'top-right'});
                     },
                     error: function(response) {
                          console.log(response.responseText); 
-                         alert('Error uploading image');
+                         NioApp.Toast('Error uploading image','error', {position: 'top-right'});
                     }
                });
           });
@@ -245,6 +278,24 @@
 
                $('#work_img_div'+id).hide();
           })
+
+          $('.remove_background_image').click(function(){
+               id = $(this).data('id');
+               $('#bg_img_id').val(id);
+               $('#bg_image'+id).hide();
+          });
+
+          $('.remove_banner_image').click(function(){
+               id = $(this).data('id');
+               $('#baner_image_id').val(id);
+               $('#banner_div'+id).hide();
+          });
+
+          $('.remove_second_banner').click(function(){
+               id = $(this).data('id');
+               $('#second_id').val(id);
+               $('#second_banner_div'+id).hide();
+          });
      })
 
 </script>

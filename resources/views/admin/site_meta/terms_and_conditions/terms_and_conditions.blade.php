@@ -5,9 +5,11 @@
           <form action="{{ url('/admin-dashboard/add-terms-process') }}" method="post" enctype="multipart/form-data">
                @csrf
                <input type="hidden" name="remove_ids" id="remove_ids" value="">
+               <input type="hidden" name="bg_img_id" id="bg_img_id" value="">
+               <input type="hidden" name="baner_image_id" id="baner_image_id" value="">
                <div class="row main_section">
                     <div class="col-md-8 left-content">
-                         <div class="col-md-8 pb-2">
+                         <div class="col-md-12 pb-2">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ $data['title_name'] ?? '' }}">
@@ -16,47 +18,65 @@
                          <hr>
                          <h5>Banner Section</h5>
                          <hr>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="background_image">Background Image</label>
                                    <input type="file" class="form-control" id="background_image" name="background_image" value="">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="160px">
+                              @if(isset($data['background_image']) && $data['background_image'] != null)
+                              <div class="bg_image_div" id="bg_image{{ $data['bg_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_background_image" data-id="{{ $data['bg_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="100px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="banner_title">Banner Title</label>
                                    <input type="text" class="form-control" id="banner_title" name="banner_title" value="{{ $data['banner_title'] ?? '' }}">
                               </div>
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="banner_description">Banner Description</label>
                                    <textarea class="form-control" id="banner_description" name="banner_description">{{ $data['banner_description'] ?? '' }}</textarea>
                               </div>
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="banner_image">Banner Image</label>
                                    <input type="file" class="form-control" id="banner_image" name="banner_image" value="">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}">
+                              @if(isset($data['banner_image']) && $data['banner_image'] != null)
+                              <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="140px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <hr>
                          <h5>term & Condition</h5>  
                          <hr>
                          <h6>Terms & Condition Section</h6>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="main_heading">Main Heading</label>
                                    <input type="text" class="form-control" id="main_heading" name="main_heading" value="{{ $data['main_heading'] ?? '' }}">
                               </div>
                          </div>
-                         <div class="col-md-8">
+                         <div class="col-md-12">
                               <div class="form-group" id="terms_section">
                                    <label class="form-label" for="main_heading">Terms & condition</label>
                               </div>
@@ -64,19 +84,20 @@
                          @if(isset($termsAndCondition) && $termsAndCondition->isNotEmpty())
                          @foreach($termsAndCondition as $index=>$value)
                          <div class="append-sec{{ $value->id ?? '' }}">
-                              <div class="col-md-2 offset-md-10">
+                              <hr>
+                              <div class="text-end">
                                    <div class="form-group">
                                         <div><span class="removeTerms" data-id="{{ $value->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="row gy-4">
-                                   <div class="col-md-5">
+                                   <div class="col-md-6">
                                              <div class="form-group">
                                              <label class="form-label" for="terms">Terms</label>
                                              <input type="text" class="form-control form-control" id="terms" name="terms[{{ $value->id ?? '' }}]" value="{{ $value->terms ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-5">
+                                   <div class="col-md-6">
                                         <div class="form-group">
                                              <label class="form-label" for="condition">Condition</label>
                                              <textarea class="form-control" id="condition{{ $index ?? '' }}" name="condition[{{ $value->id ?? '' }}]">{{ $value->condition ?? '' }}</textarea>
@@ -87,8 +108,8 @@
                          <script>  ClassicEditor.create( document.querySelector('#condition{{ $index }}')); </script>
                          @endforeach
                          @endif
-                         <br>
                          <div id="termCondition-section"></div>
+                         <br>
                          <div class="col-md-3 offset-md-9">
                               <div class="form-group">
                                    <button type="button" class="btn btn-sm btn-primary" id="addnewrow">Add Row</button>
@@ -137,22 +158,35 @@
 
 
      $(document).ready(function(){
+          $('.remove_background_image').click(function(){
+               id = $(this).data('id');
+               $('#bg_img_id').val(id);
+               $('#bg_image'+id).hide();
+          });
+
+          $('.remove_banner_image').click(function(){
+               id = $(this).data('id');
+               $('#baner_image_id').val(id);
+               $('#banner_div'+id).hide();
+          });
+
+
           $('#addnewrow').click(function(){
                var html = `<div class="append-sec">
                               <hr>
-                              <div class="col-md-2 offset-md-10">
+                              <div class="text-end">
                                    <div class="form-group">
                                         <div class=""><span class="removeTerms" value="appended"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
                               <div class="row gy-4">
-                                   <div class="col-md-5">
+                                   <div class="col-md-6">
                                              <div class="form-group">
                                              <label class="form-label" for="new_terms">Terms</label>
                                              <input type="text" class="form-control form-control" id="new_terms" name="new_terms[]" value="">
                                         </div>
                                    </div>
-                                   <div class="col-md-5">
+                                   <div class="col-md-6">
                                         <div class="form-group">
                                              <label class="form-label" for="new_condition">Condition</label>
                                              <textarea class="add-editor" id="new_condition" name="new_condition[]"></textarea>

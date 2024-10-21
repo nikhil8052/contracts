@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('key')->nullable();
             $table->longtext('value')->nullable();
+            $table->text('file_path')->nullable();
             $table->string('type')->nullable();
-            $table->string('work_id')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

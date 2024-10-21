@@ -1,11 +1,7 @@
 @extends('users_layout.other_master')
 @section('content')
 
-@if(isset($data['background_image']) && $data['background_image'] != null)
 <section class="banner_sec dark inner-banner tc" style="background-image: url({{ asset('storage/'.$data['background_image']) }});">
-@else
-<section class="banner_sec dark inner-banner tc" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
-@endif
     <div class="container banner-col-width">
         <div class="row align-items-center">
             <div class="col-md-6 banner-col">
@@ -16,11 +12,7 @@
             </div>
             <div class="col-md-6 banner-col">
                 <div class="banner_img">
-                @if(isset($data['banner_image']) && $data['banner_image'] != null)
                     <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" alt="">
-                @else
-                    <img src="{{ asset('assets/img/term-bg.png') }}" alt="">
-                @endif
                 </div>
             </div>
         </div>

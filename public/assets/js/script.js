@@ -111,14 +111,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // /////////////////////////30sep/////////////////////////////////
 
-$(document).ready(function () {
-  $(".tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item").click(function () {
-    $(this)
-      .closest(".tc-sec .col-lg-4 .tc-index ol.tc-links > li.tc-item")
-      .toggleClass("active")
-      .siblings()
-      .removeClass("active");
-  });
+// $(document).ready(function () {
+//   $(".tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item").click(function () {
+//     alert("Fdsfds");
+//     $(this)
+//       .closest(".tc-sec .col-lg-4 .tc-index ol.tc-links > li.tc-item")
+//       .toggleClass("active")
+//       .siblings()
+//       .removeClass("active");
+//   });
+// });
+$('.tc-item a').click(function(event){
+  event.preventDefault();
+  var target = $($(this).attr('href'));
+  var offset = 200; // Adjust this value based on your header's height
+  $('html, body').animate({
+      scrollTop: target.offset().top - offset
+  }, 500); // 500 ms for smooth scroll
 });
 
 

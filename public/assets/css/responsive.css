@@ -28,9 +28,9 @@
 }
 
 @media only screen and (max-width: 1600px) {
-  h1 {
+  /* h1 {
     font-size: 34px;
-  }
+  } */
 }
 
 @media only screen and (max-width: 1599px) {
@@ -43,9 +43,7 @@
     padding: 0px 20px;
   }
 
-  h1 {
-    font-size: 34px;
-  }
+ 
 
   .banner_sec .searchButton {
     padding: 10px 33px;
@@ -97,13 +95,9 @@
     border-radius: 25px;
   }
 
-  h2 {
-    font-size: 28px;
-    line-height: 1.1;
-  }
+
 
   h3 {
-    font-size: 22px;
     line-height: 1.1;
     color: #002655;
 }
@@ -120,9 +114,8 @@
     font-size: 16px;
   }
 
-  section.banner_sec.dark.inner-banner.fun-banner .banner_content.pre-heading h1 {
-    font-size: 34px;
-  }
+ 
+  
 
 }
 
@@ -140,9 +133,8 @@
     gap: 20px;
   }
 
-  h1 {
-    font-size: 34px;
-  }
+ 
+  
 
   .banner_sec .searchButton {
     padding: 10px 33px;
@@ -159,7 +151,6 @@
   }
 
   h2 {
-    font-size: 28px;
     color: #002655;
     font-weight: 600;
   }
@@ -182,9 +173,7 @@
     padding: 0;
   }
 
-  .Comienza-content h2 {
-    font-size: 28px;
-  }
+ 
 
   .Comienza-img {
     padding-right: 0;
@@ -206,9 +195,7 @@
     padding-right: 7%;
   }
 
-  .clientes_data h2 {
-    font-size: 28px;
-  }
+
 
   footer .in1_foot {
     margin-bottom: 30px;
@@ -286,8 +273,7 @@
 
 @media only screen and (max-width: 1440px) {
   .banner_sec.dark.inner-banner h1 {
-    font-size: 34px;
-    line-height: 1.2;
+    line-height: 60px;
     margin-bottom: 0;
   }
 
@@ -338,9 +324,9 @@
     font-size: 12px;
   }
 
-  h1 {
+  /* h1 {
     font-size: 34px;
-  }
+  } */
 
   .banner_sec .searchTerm {
     font-size: 12px;
@@ -367,7 +353,7 @@
   }
 
   .Comienza-content h2 {
-    font-size: 28px;
+    
     line-height: normal;
   }
 
@@ -401,7 +387,7 @@
   }
 
   .clientes_data h2 {
-    font-size: 28px;
+    
   }
 
   .clientes_slider .slick-list.draggable {
@@ -416,9 +402,7 @@
     font-size: 16px;
   }
 
-  h3 {
-    font-size: 22px;
-  }
+ 
 
   .social_login .right-line:after {
 
@@ -437,9 +421,7 @@
     padding: 16px 36px;
   }
 
-  .acerca_sec .row .acerca-txt h2.b-dark {
-    font-size: 28px;
-  }
+ 
 
   .Comienza-img {
     padding-right: 30px;
@@ -569,18 +551,16 @@
     color: #000;
   }
 
-  .faq_sec h2.b-dark {
-    font-size: 28px;
-  }
+ 
 
   .faq_sec .accordion .accordion-item {
     padding: 23px 30px;
   }
 
-  .banner_sec.dark.inner-banner h1 {
+  /* .banner_sec.dark.inner-banner h1 {
     font-size: 34px;
     line-height: 1.2;
-  }
+  } */
 
   section.banner_sec.dark.inner-banner.fun-banner .banner_content.pre-heading h1 {
     font-size:34px;
@@ -632,9 +612,9 @@
     row-gap: 20px;
   }
 
-  .banner_sec.dark.fun-banner h1 {
+  /* .banner_sec.dark.fun-banner h1 {
     font-size: 34px;
-  }
+  } */
 
   .dropdown_content h6 {
     margin: 0 !important;
@@ -657,9 +637,9 @@
     font-size: 15px;
   }
 
-  .banner_sec.dark.fun-banner h1 {
+  /* .banner_sec.dark.fun-banner h1 {
     font-size: 34px;
-  }
+  } */
 
   header .menu>li.menu-item>a {
     width: 100%;
@@ -679,9 +659,7 @@
     width: 100%;
   }
 
-  .clientes_data h2 {
-    font-size: 28px;
-  }
+  
 
   .mobile-hide {
     display: none;
@@ -708,10 +686,6 @@
     border-radius: 15px;
   }
 
-  .Comienza-content h2 {
-    font-size: 28px;
-    line-height: normal;
-  }
 
   .Comienza-content .padd-cta {
     margin-top: 0;
@@ -731,9 +705,9 @@
     font-size: 14px;
   }
 
-  h1 {
+  /* h1 {
     font-size: 34px;
-  }
+  } */
 
   .banner_img {
     max-width: 100%;
@@ -1006,10 +980,10 @@
     margin-top: 50px;
   }
 
-  .banner_sec.dark.inner-banner h1 {
+  /* .banner_sec.dark.inner-banner h1 {
     font-size: 34px;
     line-height: 1.2;
-  }
+  } */
 
   .como_sec .help {
     padding: 34px 23px;
@@ -1020,7 +994,6 @@
   }
 
   .faq_sec h2.b-dark {
-    font-size: 28px;
     line-height: 1.3;
   }
 
@@ -1123,10 +1096,10 @@
   .sec5_conrt_ot.dark.Comienza_sec .row .sec5_cont_btn a.cta_org.padd-cta {
     font-size: 15px;
   }
-
+/* 
   .banner_sec.dark.inner-banner.centro h1 {
     font-size: 34px;
-  }
+  } */
 
   section.banner_sec.dark.inner-banner.centro .search_bar {
     margin-top: 15px;
@@ -1185,13 +1158,9 @@
     margin: 20px 0;
   }
 
-  h2 {
-    font-size: 28px;
-  }
+  
 
-  h3 {
-    font-size: 22px;
-  }
+ 
 
   .Comienza-content {
     margin-top: 30px;
@@ -1202,9 +1171,7 @@
     font-size: 14px;
   }
 
-  h2 {
-    font-size: 28px;
-  }
+  
 
   .banner_sec {
     padding-top: 150px;
@@ -1310,10 +1277,10 @@
     height: 30px;
   }
 
-  .banner_sec.dark.inner-banner h1 {
+  /* .banner_sec.dark.inner-banner h1 {
     font-size: 34px;
     line-height: 1.2;
-  }
+  } */
 
   .banner_sec.dark.inner-banner .row {
     margin-top: 20px;
@@ -1324,7 +1291,6 @@
   }
 
   .tab-faq_sec .tab-pane .faq_sec .faq-heading h3.b-dark {
-    font-size: 22px;
     line-height: 1.2;
     margin-top: 25px;
     margin-bottom: 14px;
@@ -1348,9 +1314,7 @@
     margin-top: 12px;
   }
 
-  .acerca_sec .row .acerca-txt h2.b-dark {
-    font-size: 28px;
-  }
+  
 
   .sec5_conrt_ot.dark.Comienza_sec .row {
     flex-direction: column-reverse;
@@ -1372,25 +1336,25 @@
     gap: 20px !important;
   }
 
-  section.banner_sec.dark.inner-banner.fun-banner .banner_content.pre-heading h1 {
+  /* section.banner_sec.dark.inner-banner.fun-banner .banner_content.pre-heading h1 {
     font-size: 34px;
-  }
+  } */
 
   .banner_sec.dark.inner-banner.acerca .row .banner_content p>br {
     display: none;
   }
 
-  .banner_sec.dark.inner-banner.tc h1 {
+  /* .banner_sec.dark.inner-banner.tc h1 {
     font-size: 34px;
-  }
+  } */
 }
 
 
 @media only screen and (max-width: 575px) {
 
-  h1 {
+  /* h1 {
     font-size: 34px;
-  }
+  } */
 
   h5 {
     line-height: 28px !important;
@@ -1412,9 +1376,7 @@
     border-radius: 15px;
   }
 
-  h3 {
-    font-size: 22px;
-  }
+  
 
   .p_120 {
     padding: 40px 0px;
@@ -1452,9 +1414,7 @@
     padding-right: 5%;
   }
 
-  h2 {
-    font-size: 28px;
-  }
+  
 
   .banner_sec {
     padding-top: 140px;
@@ -1557,11 +1517,11 @@
     padding-block: 40px;
   }
 
-  .banner_sec.dark.inner-banner h1,
+  /* .banner_sec.dark.inner-banner h1,
   .banner_sec.dark.inner-banner.tc h1 {
     font-size: 34px;
     line-height: 1.2;
-  }
+  } */
 
   .como_sec .help h5 {
     font-size: 22px;
@@ -1634,7 +1594,6 @@
   }
 
   .faq_sec h2.b-dark {
-    font-size: 28px;
     line-height: 1.3;
   }
 
@@ -1803,15 +1762,12 @@
   }
 
   .tab-faq_sec .tab-pane .faq_sec .faq-heading h3.b-dark {
-    font-size: 22px;
     margin-top: 20px;
     margin-bottom: 8px;
     margin-left: 10px;
   }
 
-  .acerca_sec .row .acerca-txt h2.b-dark {
-    font-size: 28px;
-  }
+  
 
   .vision_sec {
     padding-inline: 12px;

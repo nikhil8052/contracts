@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(PrepareContract::class);
         // $this->call(HomeContent::class);
         // $this->call(PricesContent::class);
-        // $this->call(SettingSeeder::class);
+        $this->call(SettingSeeder::class);
         // $this->call(HelpCenter::class);
-        $this->call(WhoSeeder::class);
+        // $this->call(WhoSeeder::class);
     }
 }

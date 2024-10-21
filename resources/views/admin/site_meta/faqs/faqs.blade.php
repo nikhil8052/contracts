@@ -35,12 +35,12 @@
                         @if(isset($data['background_image']) && $data['background_image'] != null)
                         <div class="bg_image_div" id="bg_image{{ $data['background_image_id'] ?? '' }}">
                             <div class="form-group">
-                                <span class="col-md-10 offset-md-2 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
+                                <span class="col-md-9 offset-md-3 remove_background_image" data-id="{{ $data['background_image_id'] ?? '' }}">
                                     <i class="fa fa-times"></i>
                                 </span>
                             </div>
                             <div class="form-group">
-                               <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="160px" width="160px">
+                               <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="100px" width="160px">
                             </div>
                         </div>
                         @endif
@@ -65,12 +65,12 @@
                         @if(isset($data['banner_image']) && $data['banner_image'] != null)
                         <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
                             <div class="form-group">
-                                <span class="col-md-10 offset-md-2 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
                                     <i class="fa fa-times"></i>
                                 </span>
                             </div>
                             <div class="form-group">
-                                <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="140px" width="160px">
+                                <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="100px" width="160px">
                             </div>
                         </div>
                         @endif

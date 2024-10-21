@@ -29,7 +29,7 @@ class DocumentController extends Controller
 
     public function documents(){
         $categories  = DocumentCategory::all();
-        $related_documents = Document::all();
+        $related_documents = Document::where('published',1)->get();
         $reviews = Document::with('reviews')->get();
         return view('admin.documents.document',compact('categories','related_documents','reviews'));
     }
@@ -408,6 +408,7 @@ class DocumentController extends Controller
     //     }
     // }
 
+
     public function allDocuments(){
         $documents = Document::where('published',1)->get();
         return view('admin.documents.all_documents',compact('documents'));
@@ -416,7 +417,7 @@ class DocumentController extends Controller
     public function editDocument($slug){
         $document = Document::where('slug',$slug)->with('documentAgreement','documentGuide','documentField.media','relatedDocuments')->first();
         $categories  = DocumentCategory::all();
-        $related_documents = Document::all();
+        $related_documents = Document::where('published',1)->get();
         $reviews = Document::where('reviews',1)->with('reviews')->get();
 
         // $documentCategory = Document::with('categories')->get();
@@ -425,9 +426,218 @@ class DocumentController extends Controller
         return view('admin.documents.document',compact('categories','document','related_documents','reviews'));
     }
 
-    // public function updateDocument(Request $request){
+    public function updateDocument(Request $request){
+        DB::beginTransaction(); 
+        try{
+            if(isset($request->id) && $request->id != null){
+                $document = Document::find($request->id);
 
-    // }
+                if($request->has('new_img_heading')){
+                    for($i=0; $i<count($request->new_img_heading); $i++){
+                        $img_heading = $request->new_img_heading[$i];
+                        if($request->has('new_img_description')){
+                            $img_description = $request->new_img_description[$i];
+                        }
+    
+                        $document_field = new DocumentsField;
+                        $document_field->document_id = $document->id;
+                        $document_field->heading = $img_heading;
+                        $document_field->description = $img_description;
+                        $document_field->save();
+                    }
+                }
+
+                if($request->has('agreement_heading')){
+                    $agHeading = $request->agreement_heading;
+                    foreach($agHeading as $key=>$val){
+                        $document_agreement = DocumentAgreement::find($key);
+                        $document_agreement->heading = $val;
+                        $document_agreement->update();
+                    }
+    
+                    $agDescription = $request->agreement_description;
+                    foreach($agDescription as $index=>$value){
+                        $document_agreement = DocumentAgreement::find($index);
+                        $document_agreement->description = $value;
+                        $document_agreement->update();
+                    }
+                }
+            }else{
+                $document = new Document;
+            }
+            
+            $document->title = $request->title;
+            $document->slug = $request->slug;
+
+            if($request->hasFile('document_image')){
+                $document_image = $request->file('document_image');
+                $imagename = generateFileName($document_image);
+                $directory = 'public';
+                $path = $document_image->storeAs($directory, $imagename);
+
+                $document->document_image = $imagename;
+                $document->document_directory_name = $directory;
+                $document->document_file_path = $path;
+            }
+
+            $document->short_description = $request->short_description;
+            $document->btn_text = $request->document_button_text;
+            $document->long_description = $request->long_description;
+            $document->save();
+
+            if($request->hasFile('new_agreement_image')){
+                $agreement_image = $request->file('new_agreement_image');
+                for($i=0; $i<count($agreement_image); $i++){
+                    $file = $agreement_image[$i];
+
+                    if($request->has('new_agreement_heading')){
+                        $agreement_heading = $request->new_agreement_heading[$i];
+                    }
+
+                    if($request->has('new_agreement_description')){
+                        $agreement_description = $request->new_agreement_description[$i];
+                    }
+
+                    $fileupload = $this->fileUploadService->upload($file, 'public');
+                    $fileuploadData = $fileupload->getData();
+
+                    if(isset($fileuploadData) && $fileuploadData->status == '200'){
+                        $document_agreement = new DocumentAgreement;
+                        $document_agreement->document_id = $document->id;
+                        $document_agreement->media_id = $fileuploadData->id;
+                        $document_agreement->heading = $agreement_heading;
+                        $document_agreement->description = $agreement_description;
+                        $document_agreement->save();
+            
+                    }elseif($fileuploadData->status == '400') {
+                        DB::rollBack();
+                        return redirect()->back()->with('error', $fileuploadData->error);
+                    }
+
+                }
+            }
+
+            if($request->has('img_heading')){
+                $img_headings = $request->img_heading;
+                $img_descriptions = $request->img_description;
+            
+                foreach($img_headings as $key => $img_heading){
+                    $document_field = DocumentsField::find($key);
+            
+                    if(!$document_field){
+                        $document_field = new DocumentsField;
+                        $document_field->document_id = $document->id;
+                    }
+
+                    $document_field->heading = $img_heading;
+                    $document_field->description = $img_descriptions[$key] ?? ''; 
+                    $document_field->save(); 
+                }
+            }
+        
+            $document->guide_main_heading = $request->guide_heading;
+
+            if($request->has('new_step_title') && $request->has('new_step_description')){
+                $step_title = $request->new_step_title;
+                for($i=0; $i<count($step_title); $i++){
+                    $title_steps = $step_title[$i];
+                    $description = $request->new_step_description[$i];
+
+                    $document_guide = new DocumentGuide;
+                    $document_guide->document_id = $document->id;                   
+                    $document_guide->step_title = $title_steps; 
+                    $document_guide->step_description = $description; 
+                    $document_guide->save();
+                }
+            }
+
+            if($request->has('step_title')){
+                foreach($request->step_title as $key=>$val){
+                    $document_guide = DocumentGuide::find($key);
+                    $document_guide->step_title = $val; 
+                    $document_guide->update();
+                }
+
+                foreach($request->step_description as $index=>$value){
+                    $document_guide = DocumentGuide::find($key);
+                    $document_guide->step_description = $value; 
+                    $document_guide->update();
+                }
+            }
+            
+            $document->category_id = json_encode($request->category_id);
+            $document->legal_heading = $request->legal_heading;
+            $document->legal_description = $request->legal_description;
+            $document->legal_btn_text = $request->legal_btn_text;
+            $document->legal_btn_link = $request->legal_btn_link;
+            $document->valid_in = $request->valid_in;
+            $document->published = $request->published;
+
+            if($request->has('select_related_doc')){
+                $related_doc = $request->select_related_doc;
+                $current_related_docs = DocumentRelated::where('document_id', $document->id)->pluck('related_document_id')->toArray();
+                $docs_to_delete = array_diff($current_related_docs, $related_doc);
+
+                DocumentRelated::where('document_id', $document->id)
+                ->whereIn('related_document_id', $docs_to_delete)
+                ->delete();
+
+                for ($i = 0; $i < count($related_doc); $i++) {
+                    $related_document_id = $related_doc[$i];
+            
+                    if (!in_array($related_document_id, $current_related_docs)) {
+                        $related_document = new DocumentRelated;
+                        $related_document->document_id = $document->id;
+                        $related_document->related_document_id = $related_document_id;
+                        $related_document->save();
+                    }
+                }
+            }
+           
+
+            $document->related_heading = $request->related_heading;
+            $document->related_description = $request->related_description;
+
+            if($request->hasFile('legal_doc_image')){
+                $legal_image = $request->file('legal_doc_image');
+                $imagename = generateFileName($legal_image);
+                $directory = 'public';
+                $path = $legal_image->storeAs($directory, $imagename);
+
+                $document->legal_doc_image = $imagename;
+                $document->directory_name = $directory;
+                $document->file_path = $path;
+            }
+            
+            $document->doc_price = $request->doc_price;
+            $document->reviews = 1;
+
+            if($request->img_sec_ids != null){
+                $removeIds = explode(',', $request->img_sec_ids);
+                $removeDocumentFields = DocumentsField::whereIn('id',$removeIds)->delete();
+            }
+
+            if($request->guide_sec_ids != null){
+                $removeIds = explode(',', $request->guide_sec_ids);
+                $removeGuideSection = DocumentGuide::whereIn('id',$removeIds)->delete();
+            }
+
+            if($request->agg_sec_ids != null){
+                $removeIds = explode(',', $request->agg_sec_ids);
+                $removeAgreementSection = DocumentAgreement::whereIn('id',$removeIds)->delete();
+            }
+
+            $document->status = 0;
+            $document->save();
+            DB::commit(); 
+
+            return redirect()->back()->with('success','Data Successfully saved');
+        }catch(Exception $e){
+            DB::rollBack();
+            saveLog("Error:", "DocumentController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
 
     public function addDocumentCategory(){
         $parent_category = DocumentCategory::all();

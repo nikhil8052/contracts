@@ -26,7 +26,7 @@ class AuthController extends Controller
         ]);
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            return redirect('/')->with('sucess','Login Successfully');
+            return redirect('/admin-dashboard')->with('sucess','Login Successfully');
         }else{
             return redirect()->back()->with('error','Login failed !!');
         }

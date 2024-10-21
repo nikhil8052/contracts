@@ -110,7 +110,7 @@
                 <div class="col-md-6">
                     <div class="Comienza-content">
                         <h2 class="b-dark">{{ $data['banner_heading'] ?? 'Genera tus documentos legales de forma rápida y sencilla' }}</h2>
-                        <p class="size18">
+                        <p class="">
                             {{ $data['banner_description'] ?? ' Nuestro sistema intuitivo te guía paso a paso para crear documentos legales personalizados.
                             Descárgalos al instante en los formatos PDF y DOCX (Word) y tenlos listos en cuestión de
                             minutos.' }}

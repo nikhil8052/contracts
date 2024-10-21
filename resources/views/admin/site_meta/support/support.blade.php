@@ -57,15 +57,15 @@
                                    <label class="form-label" for="banner_image">Banner Image</label>
                                    <input type="file" class="form-control" id="banner_image" name="banner_image">
                               </div>
-                              @if(isset($data['banner_image']) && $data['banner_image'] != null)
-                              <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
+                              @if(isset($data['second_banner_img']) && $data['second_banner_img'] != null)
+                              <div class="second_banner_div" id="second_banner_div{{ $data['banner_image_id'] ?? '' }}">
                                    <div class="form-group">
-                                        <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                        <span class="col-md-9 offset-md-3 remove_second_banner" data-id="{{ $data['banner_image_id'] ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
                                    </div>
                                    <div class="form-group">
-                                        <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="140px" width="160px">
+                                        <img src="{{ asset('storage/'.$data['second_banner_img']) }}" alt="banner_img" height="140px" width="160px">
                                    </div>
                               </div>
                               @endif

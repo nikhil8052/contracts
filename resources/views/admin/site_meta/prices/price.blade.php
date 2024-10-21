@@ -6,6 +6,8 @@
           <form action="{{ url('/admin-dashboard/add-price') }}" method="post" enctype="multipart/form-data">
                @csrf
                <input type="hidden" name="delete_content_ids" id="delete_content_ids" value="">
+               <input type="hidden" name="bg_img_id" id="bg_img_id" value="">
+               <input type="hidden" name="baner_image_id" id="baner_image_id" value="">
 
                <div class="row main_section">
                     <div class="col-md-8 left-content">
@@ -23,9 +25,18 @@
                                    <label class="form-label" for="background_image">Background Image</label>
                                    <input type="file" class="form-control" id="background_image" name="background_image">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$data['background_image'] ?? '' ) }}" height="140px" width="160px">
+                              @if(isset($data['background_image']) && $data['background_image'] != null)
+                              <div class="bg_image_div" id="bg_image{{ $data['bg_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_background_image" data-id="{{ $data['bg_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['background_image']) }}" alt="background_img" height="100px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <div class="col-md-12">
                               <div class="form-group">
@@ -44,9 +55,18 @@
                                    <label class="form-label" for="banner_image">Banner Image</label>
                                    <input type="file" class="form-control" id="banner_image" name="banner_image">
                               </div>
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$data['banner_image'] ?? '' ) }}" height="200px" width="300px">
+                              @if(isset($data['banner_image']) && $data['banner_image'] != null)
+                              <div class="banner_div" id="banner_div{{ $data['banner_image_id'] ?? '' }}">
+                                   <div class="form-group">
+                                        <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $data['banner_image_id'] ?? '' }}">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                                   <div class="form-group">
+                                        <img src="{{ asset('storage/'.$data['banner_image']) }}" alt="banner_img" height="140px" width="160px">
+                                   </div>
                               </div>
+                              @endif
                          </div>
                          <hr>
                          <h5>Document Description Price</h5>  
@@ -225,6 +245,19 @@
                $('#delete_content_ids').val(deleteIds);
 
                $('.price-append-sec'+id).hide();
+          });
+
+
+          $('.remove_background_image').click(function(){
+               id = $(this).data('id');
+               $('#bg_img_id').val(id);
+               $('#bg_image'+id).hide();
+          });
+
+          $('.remove_banner_image').click(function(){
+               id = $(this).data('id');
+               $('#baner_image_id').val(id);
+               $('#banner_div'+id).hide();
           });
 
 

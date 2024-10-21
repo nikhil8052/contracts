@@ -6,15 +6,9 @@
         <form action="{{ url('/admin-dashboard/add-login') }}" method="post" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{ $login->id ?? '' }}">
+            <input type="hidden" name="bg_img_id" id="bg_img_id" value="">
             <div class="row main_section">
                 <div class="col-md-8 left-content">
-                    <!-- <div class="d-flex justify-content-end p-2">
-                        <div class="nk-block-head-content">
-                            <div class="mbsc-form-group">
-                                <a href="{{ url('/login') }}" target="_blank" class="btn btn-default">View Page</a>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="col-md-12 pb-2">
                         <div class="form-group">
                             <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
@@ -28,12 +22,12 @@
                         </div>
                         @if($login->background_image != null)
                         <?php $path = str_replace('public/', '', $login->file_path ?? null); ?>
-                        <div class="bg_image_div" id="bg_image">
-                            <!-- <div class="form-group">
-                                <span class="col-md-10 offset-md-2 remove_background_image" data-id="">
+                        <div class="bg_image_div" id="bg_image{{ $login->id ?? '' }}">
+                            <div class="form-group">
+                                <span class="col-md-9 offset-md-3 remove_background_image" data-id="{{ $login->id ?? '' }}">
                                     <i class="fa fa-times"></i>
                                 </span>
-                            </div> -->
+                            </div>
                             <div class="form-group">
                                 <img src="{{ asset('storage/'.$path) }}" height="140px" width="160px">
                             </div>
@@ -88,5 +82,15 @@
         </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('.remove_background_image').click(function(){
+               id = $(this).data('id');
+               $('#bg_img_id').val(id);
+               $('#bg_image'+id).hide();
+          });
+    })
+</script>
 
 @endsection
