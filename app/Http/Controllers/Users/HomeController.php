@@ -75,20 +75,16 @@ class HomeController extends Controller
 
     public function getDocument($slug){
         $document = Document::where('slug',$slug)->with(['documentAgreement.media','documentField.media','documentGuide','relatedDocuments'])->first();
-        $reviews = Document::where('reviews',1)->with('reviews')->get();
+        $reviews = Document::with('reviews')->get();
         $keys = [
             'reviews_heading',
             'reviews_sub_heading',
-            'review_left_arrow',
-            'review_right_arrow',
         ];
 
         $results = HomeContent::whereIn('key', $keys)->get()->keyBy('key');
         $data = [
             'reviews_heading' => $results['reviews_heading']->value ?? null, 
             'reviews_sub_heading' => $results['reviews_sub_heading']->value ?? null, 
-            'review_left_arrow' => $results['review_left_arrow']->value ?? null,
-            'review_right_arrow' => $results['review_right_arrow']->value ?? null,
         ];
         
         return view('users.contracts.contract_details',compact('document','reviews','data'));

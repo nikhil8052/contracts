@@ -190,36 +190,27 @@
                     <div class="col-md-4 right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_tag">Title Tag</label>
-                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
-                                             @error('title_tag')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
+                                             <label class="form-label" for="meta_title">Meta Title</label>
+                                             <input type="text" class="form-control" id="meta_title" name="meta_title" maxlength="50" value="">
                                         </div>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_description">Title Description</label>
-                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
-                                             @error('title_description')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
+                                             <label class="form-label" for="meta_description">Meta Description</label>
+                                             <textarea class="form-control" id="meta_description" name="meta_description" maxlength="155"></textarea>
                                         </div>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="url">URL</label>
                                              <input type="text" class="form-control" id="url" name="url" value="">
-                                             @error('title_description')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
                                         </div>
                                    </div>
                                    <div class="row">
                                         <div class="view_btn col-md-6 mt-3">
-                                             <a href="{{ url('/how-it-works') }}" target="_blank" class="btn btn-primary">View Page</a>
+                                             <a href="{{ url('/how-it-works') }}" target="_blank" class="btn view_page">View Page</a>
                                         </div>
                                         <div class="up-btn col-md-6 mt-3">
                                              <button class="btn btn-primary" type="submit">Save</button>
@@ -257,6 +248,9 @@
                     dataType: "json",
                     success: function(response){
                          NioApp.Toast('New image is updated', 'info', {position: 'top-right'});
+                         setTimeout(() => {
+                              location.reload();
+                         },1000);
                     },
                     error: function(response) {
                          console.log(response.responseText); 

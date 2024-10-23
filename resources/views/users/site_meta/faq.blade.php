@@ -43,7 +43,7 @@
         </ul>
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                <div class="faq_sec p-0">
+                <div class="faq_sec pt-5 pb-0">
                     <div class="container">
                     @if(isset($faqCategory) && $faqCategory != null)
                     @foreach($faqCategory as $catg)
@@ -279,8 +279,12 @@
 					<p>{{ $data2['reviews_sub_heading'] ?? '' }}</p>
                 </div>
                 <div class="btn-wrap">
-                    <button class="prev-btn"><img src="{{ asset('storage/'.$data2['review_left_arrow'] ?? '' ) }}" alt=""></button>
-					<button class="next-btn"><img src="{{ asset('storage/'.$data2['review_right_arrow'] ?? '' ) }}" alt=""></button>
+                    <button class="prev-btn">
+                        <img src="{{ asset('assets/img/Vector1.png') }}" alt="">
+                    </button>
+                    <button class="next-btn">
+                        <img src="{{ asset('assets/img/Vector2.png') }}" alt="">
+                    </button>
                 </div>
             </div>
             <div class="col-md-8">
@@ -398,7 +402,7 @@ $(document).ready(function(){
 			{
 				breakpoint: 991,
 				settings: {
-				slidesToShow: 3,
+				slidesToShow: 2,
 				},
 			},
 			{

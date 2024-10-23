@@ -77,6 +77,9 @@ Route::group(['middleware' =>['auth']],function(){
      Route::get('/admin-dashboard/all/documents',[DocumentController::class,'allDocuments']);
      Route::get('/admin-dashboard/edit-document/{slug}',[DocumentController::class,'editDocument']);
      Route::post('/admin-dashboard/update-document',[DocumentController::class,'updateDocument']);
+     Route::post('/update/documentField/image',[DocumentController::class,'updateFieldImage']);
+     Route::post('/update/agreement/image',[DocumentController::class,'updateAgreementImage']);
+
      Route::get('/admin-dashboard/reviews',[DocumentController::class,'reviews']);
      Route::post('/admin-dashboard/add-review',[DocumentController::class,'addReview']);
      Route::get('/admin-dashboard/published-reviews',[DocumentController::class,'publishedReview']);

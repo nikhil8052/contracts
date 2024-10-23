@@ -20,13 +20,13 @@
                 <div class="col-md-8 left-content">
                     <div class="col-md-12 pb-2">
                         <div class="form-group">
-                            <label class="form-label" for="title"><b><h5>Title</b></h5></label>
+                            <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
                             <input class="form-control form-control-lg" type="text" id="title"  name="title" value="{{ $data['title'] ?? '' }}">
                         </div>
                     </div>        
-                    <!-- <hr> -->
+                    <hr>
                     <h5>Banner Section</h5>
-                    <!-- <hr> -->
+                    <hr>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label" for="background_image">Background Image</label>
@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <div class="row gy-12">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="form-label" for="category">Category</label>
                                     <div class="form-control-wrap"> 
@@ -119,7 +119,7 @@
                                     <input class="form-control" name="question[{{ $value->id ?? '' }}]" id="question" value="{{ $value->question ?? '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="answer">Answer</label>
                                     <textarea class="form-control answer_editor" name="answer[{{ $value->id ?? '' }}]" id="answer">{{ $value->answer ?? '' }}</textarea>
@@ -140,22 +140,16 @@
                 <div class="col-md-4 right-content">
                     <div class="card card-bordered card-preview">
                         <div class="card-inner">
-                            <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="title_tag">Title Tag</label>
-                                        <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
-                                        @error('title_tag')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                            </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-2">
                                 <div class="form-group">
-                                    <label class="form-label" for="title_description">Title Description</label>
-                                    <textarea class="form-control" id="title_tag" name="title_description"></textarea>
-                                    @error('title_description')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                        <label class="form-label" for="meta_title">Meta Title</label>
+                                        <input type="text" class="form-control" id="meta_title" name="meta_title" maxlength="50" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                        <label class="form-label" for="meta_description">Meta Description</label>
+                                        <textarea class="form-control" id="meta_description" name="meta_description" maxlength="155"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -169,7 +163,7 @@
                             </div>
                             <div class="row">
                                 <div class="view_btn col-md-6 mt-3">
-                                    <a href="{{ url('/faq') }}" target="_blank" class="btn btn-primary">View Page</a>
+                                    <a href="{{ url('/faq') }}" target="_blank" class="btn view_page">View Page</a>
                                 </div>
                                 <div class="up-btn col-md-6 mt-3">
                                     <button class="btn btn-primary" type="submit">Save</button>
@@ -231,7 +225,7 @@ $(document).ready(function() {
                     <div><span class="remove-faq-sec" value="appended"><i class="fa fa-times"></i></span></div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label" for="new_category">Category</label>
                     <div class="form-control-wrap"> 
@@ -248,7 +242,7 @@ $(document).ready(function() {
                     <input class="form-control" name="new_question[]" id="new_question" value="">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label class="form-label" for="new_answer">Answer</label>
                     <textarea class="form-control answer_editor" name="new_answer[]" id="new_answer"></textarea>

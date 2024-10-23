@@ -85,7 +85,10 @@ img {
     max-width: 100%;
 }
 
-a,
+a{
+    text-decoration: none;
+    color: #fff;
+}
 button {
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
@@ -353,7 +356,7 @@ div#navbarSupportedContent {
 
 .banner_sec .searchTerm {
     width: 100%;
-    padding: 0 20px;
+    padding: 0 6px 0px 8px;
     background-color: transparent;
     border: 0;
     outline: none;
@@ -369,12 +372,13 @@ div#navbarSupportedContent {
     color: #fff;
     border-radius: 110px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 14px;
     background: #FD5602;
     outline: none;
     padding: 13px 33px !important;
-    font-weight: bold;
+     font-weight: 500; 
     border-color: #FD5602;
+    transition: none;
 }
 
 
@@ -384,8 +388,9 @@ div#navbarSupportedContent {
 }
 
 .banner_sec .searchButton:hover {
-    background-color: #fff;
-    color: #FD5602;
+    background-color: #002655;
+    color: #fff;
+    border-color: #002655;
 }
 
 .main_header .cta_dark {
@@ -507,7 +512,9 @@ div#navbarSupportedContent {
 .clientes_slider .slick-list.draggable {
     position: relative;
 }
-
+.slick-list{
+    overflow: visible !important;
+}
 .clientes_slider .slick-list.draggable:before {
     content: '';
     position: absolute;
@@ -534,6 +541,8 @@ div#navbarSupportedContent {
     margin-top: 20px;
     position: relative;
     z-index: 999;
+    display: flex;
+    gap: 15px;
 }
 
 .control_box span {
@@ -672,7 +681,7 @@ section.tab_sec_ot {
 
 .outer_foot_bg {
     background-color: rgba(1, 37, 85, 1);
-    padding: 100px 0px 50px 0px;
+    padding: 100px 0px 0px 0px;
 }
 
 footer .foot_ul {
@@ -691,6 +700,7 @@ footer .foot_h h5 {
 
 footer .foot_li {
     line-height: 40px;
+    font-weight: 300;
 }
 
 footer .foot_end_box {
@@ -718,7 +728,7 @@ footer .select-menu .select-btn {
     background: transparent;
     color: #fff;
     /* padding: 20px; */
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
     border-radius: 8px;
     align-items: center;
@@ -821,9 +831,13 @@ footer .select-menu {
     position: relative;
 }
 
+footer .foot_li a {
+color: #fff;
+font-size: 14px;
+font-weight: 300;
+}
 footer .foot_li a:hover {
     color: #fd5602;
-    -webkit-text-stroke: 1px;
 }
 
 
@@ -1115,7 +1129,7 @@ footer .foot_li a:hover {
 .inner_sec2 .inside_ul_pdf {
     display: flex;
     list-style-type: none;
-    gap: 10px;
+    gap: 8px;
     padding-left: 0;
     font-size: 24px;
     font-weight: 500;
@@ -1139,6 +1153,7 @@ footer .foot_li a:hover {
     align-items: center;
     font-weight: 400;
     padding-left: 0;
+    gap: 8px;
 }
 
 .cont_ul .selectDropdown {
@@ -1337,24 +1352,24 @@ footer .foot_li a:hover {
     text-align: center;
 }
 
-.sec4_conrt_ot .card_sec4_conrt:hover .img_sec4 img {
+/* .sec4_conrt_ot .card_sec4_conrt:hover .img_sec4 img {
      filter: brightness(0) invert(1); 
 
-}
+} */
 
 
-.sec4_conrt_ot .card_sec4_conrt:hover {
+ .sec4_conrt_ot .card_sec4_conrt:hover {
     cursor: pointer;
-    background-color: #002655;
+    /* background-color: #002655;
     color: #fff;
-    transition: 0.3s ease;
+    transition: 0.3s ease; */
 }
 
-.sec4_conrt_ot .card_sec4_conrt:hover h6 {
+/* .sec4_conrt_ot .card_sec4_conrt:hover h6 {
     color: #fff;
     transition: 0.3s ease;
 
-}
+} */
 
 .in_sec4_card_box {
     padding-top: 40px;
@@ -1410,8 +1425,9 @@ footer .foot_li a:hover {
 }
 
 .const_hed_sec7 {
-    max-width: 825px;
+    max-width: 880px;
     margin: auto;
+    text-align: center;
 }
 
 .sec7_cont_out .h_sec_const h6 {
@@ -1428,7 +1444,7 @@ footer .foot_li a:hover {
 }
 
 .sec7_cont_out .sec7_const_h {
-    padding: 0px 20px 0px 50px;
+    padding: 0px 20px 0px 30px;
     text-align: center;
 }
 
@@ -1566,9 +1582,9 @@ footer .foot_li a:hover {
 }
 
 
-.tab_sec_ot .inside_box_tab a.cta_org {
+/* .tab_sec_ot .inside_box_tab a.cta_org {
     border: 1px solid #FD5602;
-}
+} */
 
 
 
@@ -1723,6 +1739,7 @@ header.fun-header {
 .generate-sec.Comienza_sec .col-md-6 a.cta_org {
     display: inline-block;
     max-width: 260px;
+    width: 100%;
 }
 
 .generate-sec.Comienza_sec .col-md-6 a.cta_org i {
@@ -1827,7 +1844,7 @@ header.fun-header {
 
 .explore_sec .explore-cntnt:hover {
     cursor: pointer;
-    box-shadow: -29px 32px 84px rgba(41, 56, 95, 0.15);
+    /* box-shadow: -29px 32px 84px rgba(41, 56, 95, 0.15); */
 }
 
 /* ********(como_sec)*********** */
@@ -1995,12 +2012,13 @@ header.fun-header {
 
 }
 
-.clientes_slider.cd .slick-slide.slick-active .control_box {
+/* .clientes_slider.cd .slick-slide.slick-active .control_box {
     background: #fff;
     border: none;
     box-shadow: 0px 18px 35px 0px #00000014;
 
-}
+} */
+
 
 /* ************Quiénes Somos PAGE******************** */
 
@@ -2659,11 +2677,11 @@ header.fun-header {
 }
 
 .vision_sec .row.sec-row .hv-brdr .vision {
-    padding-inline-end: 50px;
+    padding-inline-end: 60px;
 }
 
 .vision_sec .row.sec-row .vision {
-    padding-inline-start: 50px;
+    padding-inline-start: 30px;
 }
 
 .vision_sec .row.sec-row .vision .vision-img {
@@ -2704,11 +2722,7 @@ header.fun-header {
     border: 1px solid #FD5602; /* ********in style.css line no:366 with the following css********* */
 }
 
-/* footer .foot_li a:hover {
-    color: #fd5602; */
-    /* font-weight: bold; remove font-weight */ /* ********in style.css line no:810 with the following css********* */
-    /* -webkit-text-stroke: 1px;
-} */
+
 .Comienza-img {
     padding-right: 50px;    /* ********in style.css line no: 445, 449********* */
 }
@@ -2716,11 +2730,7 @@ header.fun-header {
     padding-left: 70px;
 }
 
-footer .foot_li a:hover {
-    color: #fd5602;
-    /* font-weight: bold; remove font-weight */ 
-    -webkit-text-stroke: 1px;
-}
+
 
 .full-stars-example-two {
   padding:20px 0px;
@@ -2744,4 +2754,125 @@ section.banner_sec.dark {
 }
 .vision-txt h3 {
     color: #fff;
+}
+
+
+/*//////////////////////// 22oct2024////////////////////////// */
+
+
+.inside_box_b:hover .tab_btn a {
+    background-color: #002655;
+    border: 1px solid #fff;
+    color: #fff;
+}
+ .Comienza-btn a {
+    padding: 12px 40px;
+}
+ .Comienza-btn{
+    display: inline-flex;
+ margin:20px 0px 0px 0px ;
+}
+.tc-sec .col-lg-4 .tc-index ol.tc-links li.tc-item a {
+    color: #000;
+}
+/* .tc-sec .tc-cntnt h3 {
+    color: #000;
+} */
+.clientes_data h2 {
+    line-height: 34px;
+}
+.clientes_data h2{
+    color: #000;
+}
+.clientes_slider .slick-slide.slick-current .control_box {
+    box-shadow: 0px 0px 25px 0px #00000014;
+   background-color: #fff;
+   border: none;
+}
+.clientes_slider .btn-wrap button {
+    border: 1px solid #0026551C;
+    font-size: 18px;
+    padding: 10px 25px 10px 25px;
+    border-radius: 40px;
+    background-color: transparent;
+    transition: none;
+}
+.clientes_slider .btn-wrap button:hover {
+    background-color: #FD5602;
+    border: 1px solid #FD5602;;
+}
+.clientes_slider .btn-wrap button:hover i{ 
+    color: #fff;
+}
+.clientes_slider .btn-wrap button i{
+    font-size: 22px;
+    color:#969696;
+}
+.slick-next:before{
+    display: none;
+}
+.outer_cate .in_box_cate .in_cate_content h3 {
+    font-size: 17px;
+}
+.Comienza-content .cta_org:hover {
+    background-color: #fff;
+    border: 1px solid #fff;
+    color: #002655;
+}
+.outer_sec2 .pdf_in2 .con_btn_div a:hover {
+    background-color: #002655;
+    border: 1px solid #002655;
+    color: #fff;
+}
+.sec5_conrt_ot .ot_sec5_cont a{
+    border: 1px solid #FD5602;
+    
+}
+.sec5_conrt_ot .ot_sec5_cont a:hover {
+    background-color: #fff;
+    border: 1px solid  #002655;
+    color: #002655;
+}
+.sec8_cont_ot .tab_btn:hover .cta_blue {
+    background-color: #FD5602;
+    color: #fff;
+}
+
+/* 23oct2024//////////////////////////////////////////// */
+
+.hedaer_bnt .cta_dark:hover {
+   color: #002655;
+}
+.outer_cate 
+ .cata_btn .cta_org:hover {
+    background-color: #fff;
+    border: 1px  solid #fff;
+    color: #002655;
+}
+.clientes_slider .btn-wrap button:hover img{
+    filter: brightness(0) invert(1);
+}
+footer .foot_end_box .reserve_box{
+    font-size: 14px;
+}
+.pdf_head h1 {
+    position: relative; 
+}
+
+.pdf_head h1::after {
+    content: '';
+    position: absolute; 
+    top: 73%;          
+    left: 30%;       
+    transform: translateY(-50%); 
+    width: 38px;      
+    height: 38px;     
+    background-image: url('https://sagmetic.site/2023/laravel/contracts/public/assets/img/share_icon.png'); 
+    background-size: cover;
+    background-repeat: no-repeat; 
+}
+.generate-sec.Comienza_sec .col-md-6 a.cta_org:hover {
+    background-color: #002655;
+    color: white;
+    border: 1px solid #002655;;
 }

@@ -43,7 +43,7 @@
     padding: 0px 20px;
   }
 
- 
+
 
   .banner_sec .searchButton {
     padding: 10px 33px;
@@ -99,8 +99,8 @@
 
   h3 {
     line-height: 1.1;
-    color: #002655;
-}
+    /* color: #002655; */
+  }
 
   .card_sec_out .othr_platform a {
     padding: 16px 20px;
@@ -114,8 +114,8 @@
     font-size: 16px;
   }
 
- 
-  
+
+
 
 }
 
@@ -133,12 +133,11 @@
     gap: 20px;
   }
 
- 
-  
+
+
 
   .banner_sec .searchButton {
     padding: 10px 33px;
-    font-size: 16px;
   }
 
   .banner_sec .search {
@@ -150,7 +149,7 @@
     padding-bottom: 150px;
   }
 
-  h2 {
+    {
     color: #002655;
     font-weight: 600;
   }
@@ -173,7 +172,7 @@
     padding: 0;
   }
 
- 
+
 
   .Comienza-img {
     padding-right: 0;
@@ -197,25 +196,19 @@
 
 
 
-  footer .in1_foot {
-    margin-bottom: 30px;
-  }
+
 
   footer .foot_li {
     line-height: 35px;
   }
 
-  footer .foot_li a {
-    font-size: 14px;
-  }
+
 
   .outer_foot_bg {
-    padding: 100px 0px 30px 0px;
+    padding: 100px 0px 0px 0px;
   }
 
-  footer .foot_end_box .reserve_box {
-    font-size: 15px;
-  }
+
 
   .clientes_data p {
     font-size: 16px;
@@ -225,13 +218,13 @@
     font-size: 16px;
     line-height: 1.4;
     color: #002655;
-}
+  }
 
   .control_box .d-flex h6 {
     font-size: 22px;
     font-weight: 600;
     color: #002655;
-}
+  }
 
   .control_box .d-flex span {
     font-size: 17px;
@@ -241,9 +234,6 @@
     gap: 10px;
   }
 
-  footer .select-menu .select-btn {
-    font-size: 16px;
-  }
 
   .Comienza-img {
     padding-right: 50px;
@@ -352,8 +342,8 @@
     border-radius: 25px;
   }
 
-  .Comienza-content h2 {
-    
+  .Comienza-content {
+
     line-height: normal;
   }
 
@@ -386,10 +376,6 @@
     font-size: 17px;
   }
 
-  .clientes_data h2 {
-    
-  }
-
   .clientes_slider .slick-list.draggable {
     padding-right: 30%;
   }
@@ -402,7 +388,7 @@
     font-size: 16px;
   }
 
- 
+
 
   .social_login .right-line:after {
 
@@ -421,7 +407,7 @@
     padding: 16px 36px;
   }
 
- 
+
 
   .Comienza-img {
     padding-right: 30px;
@@ -437,6 +423,27 @@
 
   section.tab_sec_ot {
     padding-top: 140px;
+  }
+
+  /* 22oct2024 ////////////////////// */
+
+  .banner_sec.dark.inner-banner h1 {
+    line-height: 38px;
+  }
+
+  /* 23oct2024 ///////////////////////////////////// */
+
+  .const_hed_sec7 h2 {
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+  }
+
+  h2 {
+    line-height: 40px;
+  }
+  .pdf_head h1::after {
+    left: 37%;
   }
 }
 
@@ -551,7 +558,7 @@
     color: #000;
   }
 
- 
+
 
   .faq_sec .accordion .accordion-item {
     padding: 23px 30px;
@@ -563,7 +570,7 @@
   } */
 
   section.banner_sec.dark.inner-banner.fun-banner .banner_content.pre-heading h1 {
-    font-size:34px;
+    font-size: 34px;
   }
 
   .Comienza-img {
@@ -584,6 +591,8 @@
   section.tab_sec_ot {
     padding-top: 140px;
   }
+
+  
 }
 
 @media only screen and (max-width: 991px) {
@@ -593,7 +602,7 @@
   }
 
   .outer_foot_bg {
-    padding: 70px 0px 30px 0px;
+    padding: 70px 0px 0px 0px;
   }
 
   .inner-header .main_header .hedaer_bnt {
@@ -659,7 +668,7 @@
     width: 100%;
   }
 
-  
+
 
   .mobile-hide {
     display: none;
@@ -937,7 +946,7 @@
 
   }
 
-  .tc-sec .col-lg-8 h2.b-dark {
+  .tc-sec .col-lg-8 .b-dark {
     margin-bottom: 28px;
   }
 
@@ -993,7 +1002,7 @@
     row-gap: 20px;
   }
 
-  .faq_sec h2.b-dark {
+  .faq_sec .b-dark {
     line-height: 1.3;
   }
 
@@ -1096,7 +1105,8 @@
   .sec5_conrt_ot.dark.Comienza_sec .row .sec5_cont_btn a.cta_org.padd-cta {
     font-size: 15px;
   }
-/* 
+
+  /* 
   .banner_sec.dark.inner-banner.centro h1 {
     font-size: 34px;
   } */
@@ -1116,6 +1126,12 @@
   .banner_sec.dark.inner-banner {
     padding-top: 140px !important;
   }
+
+  .pdf_head h1::after {
+    top: 50%;
+    left: 90%;
+  }
+
 
 }
 
@@ -1158,9 +1174,9 @@
     margin: 20px 0;
   }
 
-  
 
- 
+
+
 
   .Comienza-content {
     margin-top: 30px;
@@ -1171,7 +1187,7 @@
     font-size: 14px;
   }
 
-  
+
 
   .banner_sec {
     padding-top: 150px;
@@ -1314,7 +1330,7 @@
     margin-top: 12px;
   }
 
-  
+
 
   .sec5_conrt_ot.dark.Comienza_sec .row {
     flex-direction: column-reverse;
@@ -1347,14 +1363,22 @@
   /* .banner_sec.dark.inner-banner.tc h1 {
     font-size: 34px;
   } */
+  .pdf_head h1::after {
+    top: 74%;
+    left: 34%;
+}
 }
 
 
 @media only screen and (max-width: 575px) {
 
-  /* h1 {
-    font-size: 34px;
-  } */
+  .banner_sec.dark.inner-banner h1 {
+    line-height: 34px;
+  }
+
+  h2 {
+    line-height: 30px;
+  }
 
   h5 {
     line-height: 28px !important;
@@ -1362,8 +1386,8 @@
 
   .banner_sec .searchButton {
     padding: 8px 15px;
-    font-size: 12px;
   }
+
 
   .banner_sec .search {
     padding: 5px;
@@ -1376,7 +1400,7 @@
     border-radius: 15px;
   }
 
-  
+
 
   .p_120 {
     padding: 40px 0px;
@@ -1414,7 +1438,7 @@
     padding-right: 5%;
   }
 
-  
+
 
   .banner_sec {
     padding-top: 140px;
@@ -1556,7 +1580,7 @@
     height: 60px;
   }
 
-  .tc-sec .col-lg-8 h2.b-dark {
+  .tc-sec .col-lg-8 .b-dark {
     margin-bottom: 15px;
   }
 
@@ -1593,7 +1617,7 @@
     row-gap: 20px;
   }
 
-  .faq_sec h2.b-dark {
+  .faq_sec .b-dark {
     line-height: 1.3;
   }
 
@@ -1767,7 +1791,7 @@
     margin-left: 10px;
   }
 
-  
+
 
   .vision_sec {
     padding-inline: 12px;
@@ -1870,6 +1894,17 @@
   .contac_login_card .h_contac_box {
     margin-bottom: 15px !important;
   }
+
+  /* /////////////22oct2024/////////////////////////////// */
+  .tab_sec_ot .btn {
+    width: 100%;
+  }
+
+  .pdf_head h1::after {
+    top: 18%;
+    left: 85%;
+}
+
 }
 
 /* Container css */
@@ -1884,25 +1919,25 @@
 
 @media (min-width: 576px) {
   .container {
-      max-width:540px
+    max-width: 540px
   }
 }
 
 @media (min-width: 768px) {
   .container {
-      max-width:720px
+    max-width: 720px
   }
 }
 
 @media (min-width: 992px) {
   .container {
-      max-width:960px
+    max-width: 960px
   }
 }
 
 @media (min-width: 1200px) {
   .container {
-      max-width:1140px
+    max-width: 1140px
   }
 }
 
@@ -1913,8 +1948,14 @@
   margin-right: auto;
   margin-left: auto
 }
+
 @media only screen and (min-width: 1399px) {
   .container {
-      max-width:1310px
+    max-width: 1310px
+  }
+
+  .pdf_head h1::after {
+    top: 50%;
+    left: 100%;
   }
 }

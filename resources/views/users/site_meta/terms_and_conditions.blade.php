@@ -49,10 +49,13 @@
             <div class="col-lg-8">
                 <h2 class="b-dark">{{ $data['main_heading'] ?? '' }}</h2>
                 @if(!empty($termsAndCondition))
+                <?php $count=1; ?>
                     @foreach($termsAndCondition as $condition)
-                    <div class="b-dark tc-cntnt" id="c{{ $loop->iteration ?? '' }}">
+                    <div class="tc-cntnt" id="c{{ $loop->iteration ?? '' }}">
+                        <h3>{{ $count }}. {{ $condition->terms ?? '' }}</h3>
                         <?php print_r($condition->condition); ?>
                     </div>
+                    <?php $count++ ; ?>
                     @endforeach
                 @endif
             </div>

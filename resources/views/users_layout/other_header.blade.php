@@ -1,6 +1,16 @@
 @php 
-    $setting = App\Models\Setting::where('key', 'header_logo')->first();
-	$path = str_replace('public/', '', $setting->file_path ?? null);
+    $keys = [
+		'header_logo',
+		'header_btn_1',
+		'header_btn_2'
+	];
+
+	$results = App\Models\Setting::whereIn('key', $keys)->get()->keyBy('key');
+	$data = [
+		'header_logo' => str_replace('public/', '', $results['header_logo']->file_path ?? null),
+		'button1' => $results['header_btn_1']->value ?? null,
+		'button2' => $results['header_btn_2']->value ?? null,
+	];
 @endphp
 
 <header class="inner-header fun-header">
@@ -10,7 +20,7 @@
                 <div class="hedaer_logo mobile-hide">
                
                     <a href="{{ url('/') }}">
-                    <img src="{{ asset('storage/'.$path) }}" alt="">
+                    <img src="{{ asset('storage/'.$data['header_logo']) }}" alt="">
                     </a>
                 </div>
                 <div class="form">
@@ -18,8 +28,8 @@
                     <button class="btn cta_dark"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
                 <div class="hedaer_bnt">
-                    <a href="" class="cta_dark"><i class="fa-solid fa-file-lines"></i>Crear documento</a>
-                    <a href="{{ url('/login') }}" class="cta_light">Iniciar sesión</a>
+                    <a href="" class="cta_dark">{{ $data['button1'] ?? 'Crear documento' }}</a>
+                    <a href="{{ url('/login') }}" class="cta_light">{{ $data['button2'] ?? 'Iniciar sesión' }}</a>
                 </div>
 
             </div>
@@ -344,7 +354,7 @@
                     </div>
                 </div>
                 <div class="hedaer_logo">
-                    <a href="{{ url('/') }}"><img src="{{ asset('storage/'.$path) }}" alt=""></a>
+                    <a href="{{ url('/') }}"><img src="{{ asset('storage/'.$data['header_logo']) }}" alt=""></a>
                 </div>
             </nav>
         </div>

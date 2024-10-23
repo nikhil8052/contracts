@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('document_id')->nullable();
             $table->text('heading')->nullable();
             $table->longText('description')->nullable();
+            $table->longText('description2')->nullable();
             $table->string('media_id')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();

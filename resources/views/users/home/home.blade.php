@@ -52,57 +52,56 @@
 				@endforeach
 			@endif
 			</div>
-
 			<div class="tabContentWrap">
-			@if(isset($document_category) && $document_category != null)
+				@if(isset($document_category) && $document_category != null)
 				@foreach($document_category as $catg)
 				<div class="tabContent tab_box_sec {{ $loop->first ? 'show' : 'tab_btn'.$loop->iteration }}">
 					<div class="slider">
 						@php 
-							$popular_document_ids = json_decode($data['popular']) ?? '';
+							$popular_document_ids = json_decode($data['popular']) ?? [];
 						@endphp
-						@if(isset($popular_document_ids) && $popular_document_ids != null)
-							@foreach($popular_document_ids as $document)
-							@php 
-								$documents = App\Models\Document::find($document);
+
+						@if(!empty($popular_document_ids))
+							@php
+								$documents = App\Models\Document::whereIn('id', $popular_document_ids)->get();
 							@endphp
-							@if($documents && $documents->category_id != null)
-								@php 
-									$doc_category = json_decode($documents->category_id);
-								@endphp
-								@if(in_array($catg->id, $doc_category))
-									<div class="inside_box_b">
-										<div class="inside_box_tab">
-											<div class="img_tab_sec">
-											<img src="{{ asset('storage/'.$documents->document_image ?? '' ) }}" alt="">
-											</div>
-											<div class="cont_tab_ot">
+
+							@foreach($documents as $document)
+								@if($document->categories->contains('id', $catg->id))
+								<div class="inside_box_b">
+									<div class="inside_box_tab">
+										<div class="img_tab_sec">
+										<?php 
+											$image_path = str_replace('public/', '', $document->document_file_path ?? null);
+										?>
+											<img src="{{ asset('storage/'.$image_path) }}" alt="">
+										</div>
+										<div class="cont_tab_ot">
 											<div class="tab_text">
-												<h5 class="size20">
-													{{ $documents->title ?? '' }}
-												</h5>
+												<h5 class="size20">{{ $document->title ?? '' }}</h5>
 												<ul class="tab_ul">
 													<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
 													<li>4.6</li>
 												</ul>
 											</div>
 											<div class="tab_2text light">
-												<?php print_r(Str::limit($documents->short_description, 70, '...')); ?> 
+												<?php $short = Str::limit($document->short_description, 70, '...'); 
+													print_r($short);
+												?>
 											</div>
 											<div class="tab_btn">
-												<a href="{{ url('document') }}/{{ $documents->slug }}" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
-											</div>
+												<a href="{{ url('document/'.$document->slug) }}" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
 											</div>
 										</div>
 									</div>
+								</div>
 								@endif
-							@endif
 							@endforeach
 						@endif
 					</div>
 				</div>
 				@endforeach
-			@endif
+				@endif
 			</div>
 		</div>
 	</div>
@@ -123,7 +122,9 @@
 					<div class="Comienza-content">
 						<h2>{{ $data['bottom_heading'] ?? '' }}</h2>
 						<p>{{ $data['bottom_subheading'] ?? '' }}</p>
-						<a href="{{ $data['bottom_button_link'] ?? '' }}" class="cta_org">{{ $data['bottom_button_label'] ?? '' }} <i class="fa-solid fa-arrow-right-long"></i></a>
+						<div class="Comienza-btn">
+							<a href="{{ $data['bottom_button_link'] ?? '' }}" class="cta_org">{{ $data['bottom_button_label'] ?? '' }} <i class="fa-solid fa-arrow-right-long"></i></a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -157,7 +158,7 @@
 							<img src="{{ asset('storage/'.$path ?? '' ) }}" alt="">
 						</div>
 						<div class="in_cate_content">
-							<h6>{{ $category->heading ?? '' }}</h6>
+							<h3>{{ $category->heading ?? '' }}</h3>
 							<p class="in_cate_para">
 								{{ $category->category_description ?? '' }}
 							</p>
@@ -222,10 +223,10 @@
 				</div>
 				<div class="btn-wrap">
 					<button class="prev-btn">
-						<img src="{{ asset('assets/img/left-arrow.png') }}" alt="">
+						<img src="{{ asset('assets/img/Vector1.png') }}" alt="">
 					</button>
 					<button class="next-btn">
-						<img src="{{ asset('assets/img/right-arrow.png') }}" alt="">
+						<img src="{{ asset('assets/img/Vector2.png') }}" alt="">
 					</button>
 				</div>
 			</div>
@@ -333,51 +334,51 @@
 </section>
 
 <script>
-$(document).ready(function(){
-	$(".client-slider").slick({
-		slidesToShow: 2,
-		slidesToScroll: 1,
-		arrows: true,
-		infinite: true,
-		autoplay: false,
-		responsive: [
-			{
-				breakpoint: 991,
-				settings: {
-				slidesToShow: 3,
+	$(document).ready(function(){
+		$(".client-slider").slick({
+			slidesToShow: 2,
+			slidesToScroll: 1,
+			arrows: true,
+			infinite: true,
+			autoplay: false,
+			responsive: [
+				{
+					breakpoint: 991,
+					settings: {
+					slidesToShow: 2,
+					},
 				},
-			},
-			{
-				breakpoint: 767,
-				settings: {
-				slidesToShow: 1,
+				{
+					breakpoint: 767,
+					settings: {
+					slidesToShow: 1,
+					},
 				},
-			},
-		],
+			],
+		});
+
+		$(".prev-btn").click(function () {
+			$(".client-slider").slick("slickPrev");
+		});
+
+		$('.next-btn').on('click', function() {
+		$('.client-slider').slick('slickNext'); 
 	});
 
-	$(".prev-btn").click(function () {
-		$(".client-slider").slick("slickPrev");
-	});
-
-	$('.next-btn').on('click', function() {
-        $('.client-slider').slick('slickNext'); 
-    });
-
-	$(".prev-btn").addClass("slick-disabled");
-	$(".slick-list").on("afterChange", function () {
-		if ($(".slick-prev").hasClass("slick-disabled")) {
-			$(".prev-btn").addClass("slick-disabled");
-		} else {
-			$(".prev-btn").removeClass("slick-disabled");
-		}
-		if ($(".slick-next").hasClass("slick-disabled")) {
-			$(".next-btn").addClass("slick-disabled");
-		} else {
-			$(".next-btn").removeClass("slick-disabled");
-		}
-	});
-})
+		$(".prev-btn").addClass("slick-disabled");
+		$(".slick-list").on("afterChange", function () {
+			if ($(".slick-prev").hasClass("slick-disabled")) {
+				$(".prev-btn").addClass("slick-disabled");
+			} else {
+				$(".prev-btn").removeClass("slick-disabled");
+			}
+			if ($(".slick-next").hasClass("slick-disabled")) {
+				$(".next-btn").addClass("slick-disabled");
+			} else {
+				$(".next-btn").removeClass("slick-disabled");
+			}
+		});
+	})
 
 
 </script>

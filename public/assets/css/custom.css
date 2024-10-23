@@ -2,28 +2,7 @@
     font-weight: 600;
 }
 
-
-.cta_org {
-    background-color: #FD5602;
-    padding: 12px 12px;
-    width: 100%;
-    text-align: center;
-    display: block;
-    border-radius: 100px;
-    color: #fff;
-    font-weight: 500;
-    border: 1px solid #FD5602;
-}
-
-.cta_org:hover img{
-    filter: brightness(0.5);
-    transition: 0.5s ease;
-}
- .cta_org:hover {
-    color: #FD5602;
-    background-color: #fff;
-    border: 1px solid #FD5602;
-} 
+ 
 
 
 .inside_box_tab {
@@ -86,148 +65,9 @@
 
 .outer_foot_bg {
     background-color: rgba(1, 37, 85, 1);
-    padding: 100px 0px 50px 0px;
+    padding: 100px 0px 0px 0px;
 }
 
-footer .foot_ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-footer .foot_h {
-    margin-bottom: 15px;
-}
-
-footer .foot_h h5 {
-    font-weight: 700;
-}
-
-footer .foot_li {
-    line-height: 40px;
-}
-
-footer .foot_end_box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-footer .in1_foot {
-    padding-bottom: 60px;
-    margin-bottom: 40px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-
-
-
-/* footer .select-menu {
-    max-width: 330px;
-    margin: 50px auto;
-  } */
-footer .select-menu .select-btn {
-    display: flex;
-    height: 55px;
-    background: transparent;
-    color: #fff;
-    /* padding: 20px; */
-    font-size: 18px;
-    font-weight: 400;
-    border-radius: 8px;
-    align-items: center;
-    cursor: pointer;
-    justify-content: space-between;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-footer .select-menu .options {
-    position: absolute;
-    width: 330px;
-    overflow-y: auto;
-    max-height: 295px;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    animation-name: fadeInDown;
-    -webkit-animation-name: fadeInDown;
-    animation-duration: 0.35s;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 0.35s;
-    -webkit-animation-fill-mode: both;
-    bottom: 100%;
-    right: 0;
-}
-
-footer .select-menu .options .option {
-    display: flex;
-    cursor: pointer;
-    padding: 0 16px;
-    border-radius: 8px;
-    align-items: center;
-    background: #fff;
-}
-
-footer .select-menu .options .option:hover {
-    background: #f2f2f2;
-}
-
-footer .select-menu .options .option i {
-    font-size: 25px;
-    margin-right: 12px;
-}
-
-
-
-footer .select-btn i {
-    margin-left: 10px;
-    font-size: 15px;
-    transition: 0.3s;
-}
-
-footer .select-menu.active .select-btn i {
-    transform: rotate(-180deg);
-}
-
-footer .select-menu.active .options {
-    display: block;
-    opacity: 0;
-    z-index: 10;
-    animation-name: fadeInUp;
-    -webkit-animation-name: fadeInUp;
-    animation-duration: 0.4s;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 0.4s;
-    -webkit-animation-fill-mode: both;
-}
-
-@keyframes fadeInUp {
-    from {
-        transform: translate3d(0, 30px, 0);
-    }
-
-    to {
-        transform: translate3d(0, 0, 0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInDown {
-    from {
-        transform: translate3d(0, 0, 0);
-        opacity: 1;
-    }
-
-    to {
-        transform: translate3d(0, 20px, 0);
-        opacity: 0;
-    }
-}
-
-footer .select-menu {
-    position: relative;
-}
 
 
 
@@ -430,13 +270,8 @@ footer .select-menu {
     border-right: 1px solid #FFFFFF26
 }
 
-.vision_sec .row.sec-row .hv-brdr .vision {
-    padding-inline-end: 50px;
-}
 
-.vision_sec .row.sec-row .vision {
-    padding-inline-start: 50px;
-}
+
 
 .vision_sec .row.sec-row .vision .vision-img {
     width: 80px;

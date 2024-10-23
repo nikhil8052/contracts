@@ -332,19 +332,19 @@
                               <div class="card-inner">
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_tag">Title Tag</label>
-                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                             <label class="form-label" for="meta_title">Meta Title</label>
+                                             <input type="text" class="form-control" id="meta_title" name="meta_title" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_description">Title Description</label>
-                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                             <label class="form-label" for="meta_description">Meta Description</label>
+                                             <textarea class="form-control" id="meta_description" name="meta_description"></textarea>
                                         </div>
                                    </div>
                                    <div class="row">
                                         <div class="view_btn col-md-6 mt-3">
-                                             <a href="{{ url('/') }}" class="btn btn-primary" target="_blank">View Page</a>
+                                             <a href="{{ url('/') }}" class="btn view_page" target="_blank">View Page</a>
                                         </div>
                                         <div class="up-btn col-md-6 mt-3">
                                              <button class="btn btn-primary" type="submit">Save</button>
@@ -381,7 +381,10 @@ $(document).ready(function(){
                contentType: false, 
                dataType: "json",
                success: function(response){
-                    console.log(response);
+                    NioApp.Toast('New image is updated', 'info', {position: 'top-right'});
+                    setTimeout(() => {
+                         location.reload();
+                    },1000);
                },
                error: function(response) {
                     console.log(response.responseText); 

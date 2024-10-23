@@ -64,12 +64,12 @@
                               ?>
                               <div class="banner_div" id="banner_div{{ $contact->id ?? '' }}">
                                    <div class="form-group">
-                                        <span class="col-md-9 offset-md-3 remove_banner_image" data-id="{{ $contact->id ?? '' }}">
+                                        <span class="col-md-8 offset-md-4 remove_banner_image" data-id="{{ $contact->id ?? '' }}">
                                              <i class="fa fa-times"></i>
                                         </span>
                                    </div>
                                    <div class="form-group">
-                                        <img src="{{ asset('storage/'.$path) }}" alt="banner_img" height="140px" width="160px">
+                                        <img src="{{ asset('storage/'.$path) }}" alt="banner_img" height="160px" width="220px">
                                    </div>
                               </div>
                               @endif
@@ -89,21 +89,21 @@
                     <div class="col-md-4 right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_tag">Title Tag</label>
-                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                             <label class="form-label" for="meta_title">Meta Title</label>
+                                             <input type="text" class="form-control" id="meta_title" name="meta_title" maxlength="50" value="">
                                         </div>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_description">Title Description</label>
-                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                             <label class="form-label" for="meta_description">Meta Description</label>
+                                             <textarea class="form-control" id="meta_description" name="meta_description" maxlength="155"></textarea>
                                         </div>
                                    </div>
                                    <div class="row">
                                         <div class="view_btn col-md-6 mt-3">
-                                             <a href="{{ url('/contact-us') }}" class="btn btn-primary" target="_blank">View Page</a>
+                                             <a href="{{ url('/contact-us') }}" class="btn view_page" target="_blank">View Page</a>
                                         </div>
                                         <div class="up-btn col-md-6 mt-3">
                                              <button class="btn btn-primary" type="submit">Save</button>

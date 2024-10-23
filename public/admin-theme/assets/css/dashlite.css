@@ -41618,8 +41618,8 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
   color: #fff;
 }
 
-.row .view_btn a:hover{
-  background-color: #FD5602;
-  border-color: #FD5602;
+.view_btn .btn{
+  background-color: #012555;
   color: #fff;
+  border-color: #012555;
 }

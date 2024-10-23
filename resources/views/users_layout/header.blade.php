@@ -24,7 +24,7 @@
 			</div>
 			<div class="col-md-6 ">
 				<div class="hedaer_bnt">
-					<a href="" class="cta_dark"><i class="fa-solid fa-file-lines"></i>{{ $data['button1'] ?? 'Crear documento' }}</a>
+					<a href="" class="cta_dark">{{ $data['button1'] ?? 'Crear documento' }}</a>
 					<a href="{{ url('/login') }}" class="cta_light">{{ $data['button2'] ?? 'Iniciar sesión' }}</a>
 				</div>
 
@@ -351,7 +351,7 @@
 				</div>
 			</div>
 			<div class="hedaer_logo">
-				<img src="{{ asset('storage/'.$path) }}" alt="">
+				<img src="{{ asset('storage/'.$data['header_logo']) }}" alt="">
 			</div>
 			</nav>
 		</div>

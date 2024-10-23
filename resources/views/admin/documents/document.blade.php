@@ -4,17 +4,17 @@
 <div class="nk-content">
      <div class="container-fluid">
           @if(isset($document) && $document != null)
-          <form action="{{ url('/admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ url('/admin-dashboard/update-document') }}" method="post" enctype="multipart/form-data">
           @else
           <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
           @endif
                @csrf
                <input type="hidden" name="id" value="{{ $document->id ?? '' }}">
                <input type="hidden" name="img_sec_ids" id="img_sec_ids" value="">
-               <input type="hidden" name="guide_sec_ids" id="guide_sec_ids" value="">
-               <input type="hidden" name="agg_sec_ids" id="agg_sec_ids" value="">
                <input type="hidden" name="slug" id="slug" value="{{ $document->slug ?? '' }}">
-               <input type="hidden" name="published" id="published" value="">
+               <input type="hidden" name="published" id="published" value="{{ $document->published ?? '' }}">
+               <input type="hidden" name="field_img_id" id="field_img_id" value="">
+               <input type="hidden" name="ag_img_id" id="ag_img_id" value="">
 
                <div class="nk-block-head doc-outer-div">
                     <div class="nk-block-head-content wrapper">
@@ -36,14 +36,14 @@
                <div class="row">
                     <div class="col md-8 left-content">
                          @if(isset($document) && $document != null)
-                         <div class="col-md-12 doc-title mt-2">
+                         <div class="col-md-12 doc-title mt-4 pb-4">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
                               </div>
                          </div>
                          @else
-                         <div class="col-md-12 doc-title mt-2">
+                         <div class="col-md-12 doc-title mt-4 pb-4">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
@@ -63,7 +63,10 @@
                               </div>
                               <div class="form-group">
                               @if(isset($document->document_image) && $document->document_image != null)
-                                   <img src="{{ asset('storage/'.$document->document_image) }}" alt="document_img" height="200px" width="200px">
+                              <?php 
+                                   $image_path = str_replace('public/', '', $document->document_file_path ?? null);
+                              ?>
+                                   <img src="{{ asset('storage/'.$image_path) }}" alt="document_img" height="200px" width="200px">
                               @endif
                               </div>
                          </div>
@@ -94,7 +97,7 @@
                          <div class="col-md-12 mt-2">
                               <div class="form-group">
                                    <label class="form-label" for="long_description">Long Description</label>
-                                   <textarea id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
+                                   <textarea class="form-control" id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
                                    @error('long_description')
                                         <span class="text-danger">{{ $message }}</span>
                                    @enderror
@@ -104,29 +107,37 @@
                               <div class="form-group">
                                    <label class="form-label" for="">Agreement Steps</label>
                               </div>
-                         </div>  
+                         </div> 
+                         <br> 
                          @if(isset($document->documentAgreement) && $document->documentAgreement != null)
                          @foreach($document->documentAgreement as $agrmnt)
-                         <?php $path = str_replace('public/', '', $agrmnt->media->file_path ?? null); ?>
+                         <?php 
+                         $path = str_replace('public/', '', $agrmnt->media->file_path ?? null); ?>
                          <div class="faq-append-sec{{ $agrmnt->id ?? '' }}">
-                              <div class="text-end">
-                                   <div class="form-group">
-                                        <div><span class="remove-faq" data-id="{{ $agrmnt->id ?? '' }}"><i class="fa fa-times"></i></span></div>
-                                   </div>
-                              </div>
                               <div class="row gy-12">
-                                   <div class="col-md-4">
+                                   <div class="col-md-2">
                                         <div class="form-group">
-                                             <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="">
+                                             <button class="btn-sm update_agreement_img" type="button" data-id="{{ $agrmnt->id ?? '' }}">Add New</button>
+                                             <input type="file" name="agreement_up_img" class="update_img" data-id="{{ $agrmnt->id ?? '' }}" id="agreement_up_img{{ $agrmnt->id ?? '' }}" style="display:none;">
+                                        </div>
+                                        <div class="img_div" id="img_div{{ $agrmnt->id ?? '' }}">
+                                             <div class="text-end">
+                                                  <span class="remove_img" data-id="{{ $agrmnt->id ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="agreement_img">
+                                             </div>
                                         </div>
                                    </div>
-                                   <div class="col-md-4">
+                                   <div class="col-md-5">
                                         <div class="form-group">
                                              <label class="form-label" for="agreement_heading">Heading</label>
                                              <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[{{ $agrmnt->id ?? '' }}]" value="{{ $agrmnt->heading ?? '' }}">
                                         </div>
                                    </div>
-                                   <div class="col-md-4">
+                                   <div class="col-md-5">
                                         <div class="form-group">
                                              <label class="form-label" for="agreement_description">Description</label>
                                              <textarea class="form-control" id="agreement_description" name="agreement_description[{{ $agrmnt->id ?? '' }}]">{{ $agrmnt->description ?? '' }}</textarea>
@@ -135,21 +146,44 @@
                               </div>
                          </div>
                          @endforeach
-                         @endif
-                         <div id="steps"></div>
-                         <br>
-                         <div class="text-end">
-                              <div class="form-group">
-                                   <button type="button" class="btn btn-sm btn-primary" id="add-sec">Add Row</button>
+                         @else
+                         @php $num=4; @endphp
+                         @for($i=1; $i<=$num; $i++)
+                         <div class="faq-append-sec{{ $i ?? '' }}">
+                              <div class="row gy-12">
+                                   <div class="col-md-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="agreement_image">Image</label>
+                                             <input type="file" class="form-control" name="agreement_image[]" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-5">
+                                        <div class="form-group">
+                                             <label class="form-label" for="agreement_heading">Heading</label>
+                                             <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[]" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-5">
+                                        <div class="form-group">
+                                             <label class="form-label" for="agreement_description">Description</label>
+                                             <textarea class="form-control" id="agreement_description" name="agreement_description[]"></textarea>
+                                        </div>
+                                   </div>
                               </div>
-                         </div>                      
+                         </div>
+                         @endfor
+                         @endif
+                         <br>
                          <h5>Documents Field</h5> 
                          <hr>
                          <h6>Image and text</h6>
-                         <hr>
                          @if(isset($document->documentField) && $document->documentField != null)
                               @foreach($document->documentField as $index=>$field)
+                              <?php 
+                                   $path = str_replace('public/', '', $field->media->file_path ?? null);
+                              ?>
                               <div class="img-txt-section{{ $field->id ?? '' }}">
+                                   <hr>
                                    <div class="text-end">
                                         <div class="form-group">
                                              <div><span class="remove-second-sec" data-id="{{ $field->id ?? '' }}"><i class="fa fa-times"></i></span></div>
@@ -167,36 +201,86 @@
                                              <textarea class="form-control" id="img_description{{ $index ?? '' }}" name="img_description[{{ $field->id ?? '' }}]">{{ $field->description ?? '' }}</textarea>
                                         </div>
                                    </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <button class="btn-sm update_field_img" type="button" data-id="{{ $field->id ?? '' }}">Add New</button>
+                                             <input type="file" name="field_up_img" class="up_img" data-id="{{ $field->id ?? '' }}" id="field_up_img{{ $field->id ?? '' }}" style="display:none;">
+                                        </div>
+                                        <div class="field_img_div" id="field_img_div{{ $field->id ?? '' }}">
+                                             <div class="text-end">
+                                                  <span class="remove_field_img" data-id="{{ $field->id ?? '' }}">
+                                                       <i class="fa fa-times"></i>
+                                                  </span>
+                                             </div>
+                                             <div class="form-group">
+                                                  <img src="{{ asset('storage/'.$path) }}" alt="documents_field_img">
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="img_description_second">Description Here</label>
+                                             <textarea class="form-control" id="img_description_second{{ $index ?? '' }}" name="img_description_second[{{ $field->id ?? '' }}]">{{ $field->description2 ?? '' }}</textarea>
+                                             @error('img_description_second.*')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
                               </div>
-                              <hr>
                               <script>
-                                   ClassicEditor
-                                   .create(document.querySelector('#img_description{{ $index }}'), {
-                                        toolbar: [
-                                             'heading', '|', 'bold', 'italic', 'link',
-                                             'bulletedList', 'numberedList', 'blockQuote',
-                                             'imageUpload', 'undo', 'redo'
-                                        ],
-                                        ckfinder: {
-                                             uploadUrl: "{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}"
-                                        }
-                                   })
-                                   .then(editor => {
-                                        console.log('Editor was initialized', editor);
-                                        editor.model.document.on('change:data', () => {
-                                             const url = editor.data.get('upload');
-                                             if (url) {
-                                                  console.log('Upload response:', url);
-                                             }
-                                        });
-                                   })
-                                   .catch(error => {
-                                        console.error('Error initializing editor:', error);
-                                   });
+                                   ClassicEditor.create(document.querySelector('#img_description{{ $index }}'),{
+                                   toolbar: {
+                                        items: [
+                                             'heading', 
+                                             'bold', 
+                                             'bulletedList', 
+                                             'numberedList', 
+                                        ]
+                                   },
+                                   heading: {
+                                        options: [
+                                             { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                                             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                                             { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+                                        ]
+                                   },
+                                   removePlugins: [
+                                        'Table','MediaEmbed', 'BlockQuote',
+                                   ]
+                              })
+                              .catch( error => {
+                                   console.error( error );
+                              });
+
+                              ClassicEditor.create(document.querySelector('#img_description_second{{ $index }}'),{
+                                   toolbar: {
+                                        items: [
+                                             'heading', 
+                                             'bold', 
+                                             'bulletedList', 
+                                             'numberedList', 
+                                        ]
+                                   },
+                                   heading: {
+                                        options: [
+                                             { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                                             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                                             { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+                                        ]
+                                   },
+                                   removePlugins: [
+                                        'Table','MediaEmbed', 'BlockQuote',
+                                   ]
+                              })
+                              .catch( error => {
+                                   console.error( error );
+                              });
+
                               </script>
                               @endforeach
                          @else
                          <div class="img-txt-section">
+                              <hr>
                               <div class="col-md-12 mt-2">
                                    <div class="form-group">
                                         <label class="form-label" for="img_heading">Heading</label>
@@ -223,9 +307,9 @@
                               </div>
                               <div class="col-md-12 mt-2">
                                    <div class="form-group">
-                                        <label class="form-label" for="img_description2">Description Here</label>
-                                        <textarea class="form-control" id="img_description2" name="img_description2[]"></textarea>
-                                        @error('img_description2.*')
+                                        <label class="form-label" for="img_description_second">Description Here</label>
+                                        <textarea class="form-control" id="img_description_second" name="img_description_second[]"></textarea>
+                                        @error('img_description_second.*')
                                              <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                    </div>
@@ -259,11 +343,7 @@
                          @if(isset($document->documentGuide) && $document->documentGuide != null)
                               @foreach($document->documentGuide as $guide)
                                    <div class="guide-append-sec{{ $guide->id ?? '' }}">
-                                        <div class="text-end">
-                                             <div class="form-group">
-                                                  <div><span class="remove-guide" data-id="{{ $guide->id ?? '' }}"><i class="fa fa-times"></i></span></div>
-                                             </div>
-                                        </div>
+                                        <hr>
                                         <div class="row gy-12">
                                              <div class="col-md-6">
                                                   <div class="form-group">
@@ -279,16 +359,36 @@
                                              </div>
                                         </div>
                                    </div>
-                                   <hr>
                               @endforeach
+                              @else
+                              @php $count=2; @endphp
+                              @for($i=1; $i<=$count; $i++)
+                              <div class="guide-append-sec{{ $i ?? '' }}">
+                                   <hr>
+                                   <div class="row gy-12">
+                                        <div class="col-md-6">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="step_title">Step Title</label>
+                                                  <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="">
+                                             </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="step_description">Step Description</label>
+                                                  <textarea class="form-control" id="step_description" name="step_description[]"></textarea>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                              @endfor
                          @endif
                          <div id="guide-sec-steps"></div>
                          <br>
-                         <div class="text-end">
+                         <!-- <div class="text-end">
                               <div class="form-group">
                                    <button type="button" class="btn btn-sm btn-primary" id="add-guide-sec">Add Row</button>
                               </div>
-                         </div>
+                         </div> -->
                          <hr>
                          <h6 class="mt-4">Legal Document</h6>
                          <hr>
@@ -395,6 +495,17 @@
                     <div class="col-md-4 right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
+                                   <div class="d-flex justify-content-end">
+                                        <div class="nk-block-head-content">
+                                             <div class="up-btn mbsc-form-group">
+                                                  @if(isset($document) && $document != null)
+                                                  <button class="btn btn-sm btn-primary" type="submit">Update</button>
+                                                  @else
+                                                  <button class="btn btn-sm btn-primary" type="submit" id="saveform">Save</button>
+                                                  @endif
+                                             </div>
+                                        </div>
+                                   </div> 
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <p>Published</p>
@@ -414,26 +525,29 @@
                                              </div>
                                         </div>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
                                              <label class="form-label" for="category_id">Categories</label>  
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2" multiple="multiple" name="category_id[]" id="category_id">
-                                                       @if(isset($categories) && $categories != null)
-                                                       @foreach($categories as $category)
-                                                            @if(isset($document->category_id) && $document->category_id != null)
-                                                                 <?php $categoryIDs = json_decode($document->category_id);?>
-                                                                 @if(in_array($category->id,$categoryIDs))
-                                                                      <option value="{{ $category->id ?? '' }}" selected>{{ $category->name ?? '' }}</option>
-                                                                 @else
-                                                                 <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
-                                                                 @endif
-                                                            @else
-                                                            <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
-                                                            @endif
-                                                       @endforeach
-                                                       @endif
-                                                       
+                                                  @if(isset($categories) && $categories != null)
+                                                  @foreach($categories as $category)
+                                                       @php
+                                                            $isSelected = false;
+                                                            if(isset($document->categories) && $document->categories != null){
+                                                                 foreach ($document->categories as $catg) {
+                                                                      if ($catg->id == $category->id) {
+                                                                           $isSelected = true;
+                                                                           break;
+                                                                      }
+                                                                 }
+                                                            }
+                                                       @endphp
+                                                       <option value="{{ $category->id ?? '' }}" {{ $isSelected ? 'selected' : '' }}>
+                                                            {{ $category->name ?? '' }}
+                                                       </option>
+                                                  @endforeach
+                                                  @endif
                                                   </select>
                                              </div>
                                              @error('category_id')
@@ -441,47 +555,42 @@
                                              @enderror
                                         </div>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="doc_price">Price *</label>
+                                             <label class="form-label" for="doc_price">Price (MXN)</label>
                                              <input type="text" class="form-control" id="doc_price" name="doc_price" value="{{ $document->doc_price ?? '' }}">
                                              @error('doc_price')
                                                   <span class="text-danger">{{ $message }}</span>
                                              @enderror
                                         </div>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_tag">Title Tag</label>
-                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                             <label class="form-label" for="meta_title">Meta Title</label>
+                                             <input type="text" class="form-control" id="meta_title" name="meta_title" maxlength="50" value="{{ $document->meta_title ?? '' }}">
                                              @error('title_tag')
                                                   <span class="text-danger">{{ $message }}</span>
                                              @enderror
                                         </div>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_description">Title Description</label>
-                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                             <label class="form-label" for="meta_description">Meta Description</label>
+                                             <textarea class="form-control" id="meta_description" name="meta_description" maxlength="155">{{ $document->meta_description ?? '' }}</textarea>
                                              @error('title_description')
                                                   <span class="text-danger">{{ $message }}</span>
                                              @enderror
                                         </div>
                                    </div>
-                                   <div class="row">
-                                        <div class="view_btn col-md-6 mt-3">
-                                             @if(isset($document) && $document != null)
-                                             <a href="{{ url('document/'.$document->slug ?? '') }}" target="_blank" class="btn btn-sm btn-primary">View Page</a>
-                                             @else
-                                             <a class="btn btn-sm btn-primary" disabled>View Page</a>
-                                             @endif
-                                        </div>
-                                        <div class="up-btn col-md-6 mt-3">
-                                             @if(isset($document) && $document != null)
-                                             <button class="btn btn-sm btn-primary" type="submit">Update</button>
-                                             @else
-                                             <button class="btn btn-sm btn-primary" type="submit" id="saveform">Save</button>
-                                             @endif
+                                   <div class="d-flex justify-content-end">
+                                        <div class="nk-block-head-content butn-cls">
+                                             <div class="mbsc-form-group view_btn mt-3">
+                                                  @if(isset($document) && $document != null)
+                                                  <a href="{{ url('document/'.$document->slug ?? '') }}" target="_blank" class="btn view_page">View Page</a>
+                                                  @else
+                                                  <a class="btn view_page" disabled>View Page</a>
+                                                  @endif
+                                             </div>
                                         </div>
                                    </div>
                               </div> 
@@ -496,34 +605,6 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 @endsection
 
-<!-- <script>
-     ClassicEditor
-     .create(document.querySelector('#img_description'), {
-          toolbar: [
-               'heading', '|', 'bold', 'italic', 'link',
-               'bulletedList', 'numberedList', 'blockQuote',
-               'imageUpload', 'undo', 'redo'
-          ],
-          ckfinder: {
-               uploadUrl: "{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}"
-          }
-     })
-     .then(editor => {
-          console.log('Editor was initialized', editor);
-     })
-     .catch(error => {
-          console.error('Error initializing editor:', error);
-     });
-
-     editor.model.document.on('change:data', () => {
-          const url = editor.data.get('upload');
-          if (url) {
-               console.log('Upload response:', url);
-          }
-     });
-
-</script> -->
-
 <script>
      $('#title').on('keyup',function(){
           const name = $(this).val();
@@ -532,31 +613,101 @@
      })
 
      ClassicEditor
-     .create( document.querySelector('#short_description'))
+     .create( document.querySelector('#short_description'),{
+          toolbar: {
+               items: [
+                    'heading', 
+                    'bold', 
+                    'bulletedList', 
+                    'numberedList', 
+               ]
+          },
+          heading: {
+               options: [
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+               ]
+          },
+          removePlugins: [
+               'Table','MediaEmbed', 'BlockQuote',
+          ]
+     })
      .catch( error => {
           console.error( error );
      });
 
      ClassicEditor
-     .create( document.querySelector('#long_description'))
+     .create( document.querySelector('#long_description'),{
+          toolbar: {
+               items: [
+                    'heading', 
+                    'bold', 
+                    'bulletedList', 
+                    'numberedList', 
+               ]
+          },
+          heading: {
+               options: [
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+               ]
+          },
+          removePlugins: [
+               'Table','MediaEmbed', 'BlockQuote',
+          ]
+     })
      .catch( error => {
           console.error( error );
      });
 
      ClassicEditor
-     .create( document.querySelector('#img_description'))
+     .create( document.querySelector('#img_description'),{
+          toolbar: {
+               items: [
+                    'heading', 
+                    'bold', 
+                    'bulletedList', 
+                    'numberedList', 
+               ]
+          },
+          heading: {
+               options: [
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+               ]
+          },
+          removePlugins: [
+               'Table','MediaEmbed', 'BlockQuote',
+          ]
+     })
      .catch( error => {
           console.error( error );
      });
 
      ClassicEditor
-     .create( document.querySelector('#img_description2'))
-     .catch( error => {
-          console.error( error );
-     });
-    
-     ClassicEditor
-     .create( document.querySelector('#additional_info'))
+     .create( document.querySelector('#img_description_second'),{
+          toolbar: {
+               items: [
+                    'heading', 
+                    'bold', 
+                    'bulletedList', 
+                    'numberedList', 
+               ]
+          },
+          heading: {
+               options: [
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+               ]
+          },
+          removePlugins: [
+               'Table','MediaEmbed', 'BlockQuote',
+          ]
+     })
      .catch( error => {
           console.error( error );
      });
@@ -568,29 +719,154 @@
      $(document).ready(function(){
           var switchStatus = false;
           $(".publish").on('change', function() {
-               if ($(this).is(':checked')) {
+               if($(this).is(':checked')) {
                     switchStatus = $(this).is(':checked');
                     $('#published').val(1);
                }
-               else {
+               else{
                     switchStatus = $(this).is(':checked');
                     $('#published').val(0);
                }
           })
+
+          // Update Document Field Image // 
+          $('.update_field_img').click(function(){
+               var id = $(this).data('id');
+               $('#field_up_img' + id).trigger('click');
+          });
+
+          $('.up_img').change(function() {
+               var id = $(this).data('id');
+               var file = this.files[0]; 
+               var formData = new FormData(); 
+               formData.append('field_image', file);
+               formData.append('_token', "{{ csrf_token() }}");
+               formData.append('id', id);
+
+               $.ajax({
+                    url: "{{ url('/update/documentField/image') }}", 
+                    type: 'POST',
+                    data: formData,
+                    processData: false,  
+                    contentType: false, 
+                    dataType: "json",
+                    success: function(response){
+                         console.log(response);
+                         NioApp.Toast('New image is updated', 'info', {position: 'top-right'});
+                         setTimeout(() => {
+                              location.reload();
+                         },1000);
+                    },
+                    error: function(response) {
+                         console.log(response.responseText); 
+                         alert('Error uploading image');
+                    }
+               });
+          });
+
+          // Delete Field Image //
+          $('.remove_field_img').click(function(){
+               id = $(this).data('id');
+               let removeIds = $('#field_img_id').val();
+               
+               if(removeIds) {
+                    removeIds += ',' + id;
+               }else{
+                    removeIds = id;
+               }
+               $('#field_img_id').val(removeIds);
+
+               $('#field_img_div'+id).hide();
+          })
+
+
+          // Update Agreement Image //
+          $('.update_agreement_img').click(function(){
+               var id = $(this).data('id');
+               $('#agreement_up_img' + id).trigger('click');
+          });
+
+          $('.update_img').change(function() {
+               var id = $(this).data('id');
+               var file = this.files[0]; 
+               var formData = new FormData(); 
+               formData.append('image', file);
+               formData.append('_token', "{{ csrf_token() }}");
+               formData.append('id', id);
+
+               $.ajax({
+                    url: "{{ url('/update/agreement/image') }}", 
+                    type: 'POST',
+                    data: formData,
+                    processData: false,  
+                    contentType: false, 
+                    dataType: "json",
+                    success: function(response){
+                         console.log(response);
+                         NioApp.Toast('New image is updated', 'info', {position: 'top-right'});
+                         setTimeout(() => {
+                              location.reload();
+                         },1000);
+                    },
+                    error: function(response) {
+                         console.log(response.responseText); 
+                         alert('Error uploading image');
+                    }
+               });
+          });
+
+          // Delete Agreement Image //
+          $('.remove_img').click(function(){
+               id = $(this).data('id');
+               let removeIds = $('#ag_img_id').val();
+               
+               if(removeIds) {
+                    removeIds += ',' + id;
+               }else{
+                    removeIds = id;
+               }
+               $('#ag_img_id').val(removeIds);
+
+               $('#img_div'+id).hide();
+          })
+
      });
 
 </script>
 
 <script>
 function initializeCKEditor(element) {
-    ClassicEditor.create(element).catch(error => {
-        console.error(error);
-    });
+     ClassicEditor
+     .create(element, {
+          toolbar: {
+               items: [
+                    'heading',   // For headings (h2, h3, h4)
+                    'bold',      // For bold text
+                    'bulletedList',  // For unordered list
+                    'numberedList'   // For ordered list
+               ]
+          },
+          heading: {
+               options: [
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+               ]
+          },
+          removePlugins: [
+               'Table', 'MediaEmbed', 'BlockQuote',
+          ]
+     })
+     .catch(error => {
+          console.error(error);
+     });
 }
 
 $(document).ready(function(){
      $('#second-section-add').on('click',function(){
+          
           var html = `<div class="img-txt-section">
+                         <hr>
                          <div class="text-end">
                               <div class="form-group">
                                    <div><span class="remove-second-sec" value="appended"><i class="fa fa-times"></i></span></div>
@@ -611,46 +887,31 @@ $(document).ready(function(){
                               </div>
                               <div class="col-md-12 mt-2">
                                    <div class="form-group">
-                                        <label class="form-label" for="field_image">Image</label>
-                                        <input type="file" class="form-control" id="field_image" name="field_image[]">
+                                        <label class="form-label" for="new_field_image">Image</label>
+                                        <input type="file" class="form-control" id="new_field_image" name="new_field_image[]">
                                    </div>
                               </div>
                               <div class="col-md-12 mt-2">
                                    <div class="form-group">
-                                        <label class="form-label" for="img_description2">Description Here</label>
-                                        <textarea class="description-editor" id="img_description2" name="img_description2[]"></textarea>
+                                        <label class="form-label" for="new_img_description_second">Description Here</label>
+                                        <textarea class="description-editor2" id="new_img_description_second" name="new_img_description_second[]"></textarea>
                                    </div>
                               </div>
                          </div>
                     </div>`
           $('#document_field_container').append(html);
 
-          $('.description-editor').each(function() {
-          initializeCKEditor(this);
-          });
+          const firstTextarea = $('.description-editor').last()[0];
+          if (firstTextarea && !$(firstTextarea).data('ckeditor-initialized')) {
+               initializeCKEditor(firstTextarea);
+               $(firstTextarea).data('ckeditor-initialized', true);
+          }
 
-          // $('.description-editor').each(function() {
-          //      if (!$(this).data('ckeditor-initialized')) {
-          //           ClassicEditor
-          //           .create(this, {
-          //                toolbar: [
-          //                     'heading', '|', 'bold', 'italic', 'link',
-          //                     'bulletedList', 'numberedList', 'blockQuote',
-          //                     'imageUpload', 'undo', 'redo'
-          //                ],
-          //                ckfinder: {
-          //                     uploadUrl: "{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}"
-          //                }
-          //           })
-          //           .then(editor => {
-          //                $(this).data('ckeditor-initialized', true);
-          //                console.log('Editor was initialized', editor);
-          //           })
-          //           .catch(error => {
-          //                console.error('Error initializing editor:', error);
-          //           });
-          //      }
-          // });
+          const secondTextarea = $('.description-editor2').last()[0];
+          if (secondTextarea && !$(secondTextarea).data('ckeditor-initialized')) {
+               initializeCKEditor(secondTextarea);
+               $(secondTextarea).data('ckeditor-initialized', true);
+          }
      });
 
      // Remove second section //
@@ -666,7 +927,7 @@ $(document).ready(function(){
                     deleteIds = id;
                }
                $('#img_sec_ids').val(deleteIds);
-               $(this).closest('.img-txt-section').hide();
+               $('.img-txt-section'+id).hide();
           }
      });
 
@@ -748,21 +1009,6 @@ $(document).ready(function(){
      });
 
 // Remove Faq section //
-     $('body').delegate('.remove-faq', 'click', function () {
-          if ($(this).attr('value') === 'appended') {
-               $(this).closest('.faq-append-sec').remove();
-          } else {
-               var id = $(this).data('id');
-               let deleteIds = $('#agg_sec_ids').val();
-               if (deleteIds) {
-                    deleteIds += ',' + id;
-               } else {
-                    deleteIds = id;
-               }
-               $('#agg_sec_ids').val(deleteIds);
-               $(this).closest('.faq-append-sec').hide();
-          }
-     });
 
 });
 

@@ -12,7 +12,6 @@ return new class extends Migration
        public function up(): void
     {
         Schema::table('documents', function (Blueprint $table) {
-            // Add new columns
             $table->id();
             $table->text('title')->nullable();
             $table->text('slug')->nullable()->after('title');
@@ -32,16 +31,11 @@ return new class extends Migration
             $table->text('file_path')->nullable();
             $table->string('published')->nullable();
             $table->string('valid_in')->nullable();
-            $table->json('category_id')->nullable();
             $table->text('related_heading')->nullable();
             $table->longtext('related_description')->nullable();
-            $table->longtext('additional_info')->nullable();
             $table->integer('doc_price')->nullable();
-            $table->integer('total_likes')->nullable();
-            $table->integer('no_of_downloads')->nullable()->after('total_likes');
-            $table->integer('discount_price')->nullable()->after('no_of_downloads');
-            $table->string('format')->nullable();
-            $table->string('reviews')->default('1');
+            $table->longtext('meta_title')->nullable();
+            $table->longtext('meta_description')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });

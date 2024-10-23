@@ -15,7 +15,7 @@
                     <div class="col-md-8 left-content">
                          <div class="col-md-12 pb-2">
                               <div class="form-group">
-                                   <label class="form-label" for="title"><b><h5>Title</b></h5></label>
+                                   <label class="form-label" for="title"><b><h4>Page Title</b></h4></label>
                                    <input class="form-control form-control-lg" type="text" id="title"  name="title" value="{{ $data['title'] ?? '' }}">
                               </div>
                          </div>        
@@ -94,7 +94,7 @@
                                    </div>
                                    <div class="col-md-2">
                                         <div class="form-group">
-                                             <button class="btn-sm update_help_img" data-id="{{ $help->id ?? '' }}">Add New</button>
+                                             <button type="button" class="btn-sm update_help_img" data-id="{{ $help->id ?? '' }}">Add New</button>
                                              <input type="file" name="help_up_img" class="help_img" data-id="{{ $help->id ?? '' }}" id="help_up_img{{ $help->id ?? '' }}" style="display:none;">
                                         </div>
                                         <div class="help_img_div" id="help_img_div{{ $help->id ?? '' }}">
@@ -227,21 +227,21 @@
                     <div class="col-md-4 right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_tag">Title Tag</label>
-                                             <input type="text" class="form-control" id="title_tag" name="title_tag" value="">
+                                             <label class="form-label" for="meta_title">Meta Title</label>
+                                             <input type="text" class="form-control" id="meta_title" name="meta_title" maxlength="50" value="">
                                         </div>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="title_description">Title Description</label>
-                                             <textarea class="form-control" id="title_tag" name="title_description"></textarea>
+                                             <label class="form-label" for="meta_description">Meta Description</label>
+                                             <textarea class="form-control" id="meta_description" name="meta_description" maxlength="155"></textarea>
                                         </div>
                                    </div>
                                    <div class="row">
                                         <div class="view_btn col-md-6 mt-3">
-                                             <a href="{{ url('/help-center') }}" class="btn btn-primary" target="_blank">View Page</a>
+                                             <a href="{{ url('/help-center') }}" class="btn view_page" target="_blank">View Page</a>
                                         </div>
                                         <div class="up-btn col-md-6 mt-3">
                                              <button class="btn btn-primary" type="submit">Save</button>
@@ -280,7 +280,10 @@
                contentType: false, 
                dataType: "json",
                success: function(response){
-                    console.log(response);
+                    NioApp.Toast('New image is updated', 'info', {position: 'top-right'});
+                    setTimeout(() => {
+                         location.reload();
+                    },1000);
                },
                error: function(response) {
                     console.log(response.responseText); 

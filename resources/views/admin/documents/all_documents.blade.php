@@ -39,16 +39,9 @@
                                                   <th scope="row">{{ $count ?? '' }}</th>
                                                   <td><a href="{{ url('admin-dashboard/edit-document/'.$data->slug) }}">{{ $data->title ?? '' }}</a></td>
                                                   <td>
-                                                  @if(isset($data->category_id) && $data->category_id != null)
-                                                       <?php 
-                                                            $category = json_decode($data->category_id); 
-                                                            foreach($category as $cat){
-                                                                 $documentCategory = App\Models\DocumentCategory::find($cat);
-                                                                 print_r($documentCategory->name);
-                                                                 echo ',';
-                                                            }
-                                                       ?>
-                                                  @endif
+                                                  <?php foreach($data->categories as $category){ ?>
+                                                            <?php print_r($category->name); echo ',';?>
+                                                  <?php }?>
                                                   </td>
                                              </tr>
                                              <?php $count++; ?>

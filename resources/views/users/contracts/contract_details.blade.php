@@ -13,14 +13,19 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 ">
                     <div class="pdf_in1">
-                        <img src="{{ asset('storage/'.$document->document_image ?? '' ) }}" alt="">
+                        <?php 
+                            $image_path = str_replace('public/', '', $document->document_file_path ?? null);
+                        ?>
+                        <img src="{{ asset('storage/'.$image_path) }}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="pdf_in2">
                         <div class="pdf_head">
-                            <h2>{{ $document->title ?? '' }} <span class="share_sn">
-                            <a href=""> <img src="{{ asset('assets/img/share_icon.png') }}" alt=""> </a></span> </h2>
+                            <h1>{{ $document->title ?? '' }}
+                              <!-- <span class="share_sn">
+                            <a href=""> <img src="{{ asset('assets/img/share_icon.png') }}" alt=""> </a></span>   -->
+                        </h1>
                         </div>
                         <div class="ul_st">
                             <ul class="inside_ul_pdf">
@@ -29,29 +34,13 @@
                             </ul>
                         </div>
                         <ul class="cont_ul">
+                        <li class="cont_li ">5.0 </li>
                             <li class="drop_cont_li">
-                                <div class="select">
-                                    <div class="selectBtn" data-type="firstOption">
-                                        5.0 <span class="span_img"> <img src="{{ asset('assets/img/stars.png') }}" alt=""> </span>
-                                    </div>
-                                    <div class="selectDropdown">
-                                        <div class="option" data-type="fourthOption">
-                                            4.5 <span class="span_img"><img src="{{ asset('assets/img/stars.png') }}" alt=""></span>
-                                        </div>               
-                                        <div class="option" data-type="fifthOption">
-                                            3.0 <span class="span_img"><img src="{{ asset('assets/img/stars.png') }}" alt=""></span>
-                                        </div>
-                                        <div class="option" data-type="fifthOption">
-                                            2.0 <span class="span_img"><img src="{{ asset('assets/img/stars.png') }}" alt=""></span>
-                                        </div>
-                                        <div class="option" data-type="fifthOption">
-                                            1.0 <span class="span_img"><img src="{{ asset('assets/img/stars.png') }}" alt=""></span>
-                                        </div>
-                                    </div>
+                                <div class="select_ul">
+                                    <div class="stars_li" data-type="firstOption">
+                                        <span class="span_img"> <img src="{{ asset('assets/img/stars.png') }}" alt=""> </span>
+                                    </div>           
                                 </div>
-                                
-                                
-
                             </li>
                             <li class="cont_li ">81 opiniones</li>
                         </ul>
@@ -135,10 +124,13 @@
             <div class="row">
             @if(isset($document->documentAgreement) && $document->documentAgreement != null)
             @foreach($document->documentAgreement as $agreement)
+            <?php 
+                $ag_path = str_replace('public/', '', $agreement->media->file_path ?? null); 
+            ?>
                 <div class="col-lg-3 col-md-6  mb-2">
                     <div class="card_sec4_conrt ">
                         <div class="img_sec4">
-                            <img src="{{ asset('storage/'.$agreement->media->file_name ?? '' ) }}" alt="">
+                            <img src="{{ asset('storage/'.$ag_path ) }}" alt="">
                         </div>
                         <div class="sec4_card_p">
                             <h6 class="size20">{{ $agreement->heading ?? '' }}</h6>
@@ -184,7 +176,10 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="cont_sec5_img">
-                        <img src="{{ asset('storage/'.$document->legal_doc_image ?? '' ) }}" alt="">
+                    <?php 
+                        $legal_path = str_replace('public/', '', $document->file_path ?? null); 
+                    ?>
+                        <img src="{{ asset('storage/'.$legal_path ) }}" alt="">
                     </div>
                 </div>
             </div>
@@ -204,64 +199,22 @@
                 <div class="col-lg-12">
                 @if(isset($document->documentField) && $document->documentField != null)
                 @foreach($document->documentField as $field)
+                <?php 
+                    $path = str_replace('public/', '', $field->media->file_path ?? null);
+                ?>
                     <div class="Para_ot_box">
                         <div class="head_sec6_para">
-                            <h3>
+                            <h2>
                                 {{ $field->heading ?? '' }}
-                            </h3>
+                            </h2>
                             <?php print_r($field->description ?? '' ); ?>
+
+                            <div class="img_sec6_box">
+                                <img class="sec6_inner_img" src="{{ asset('storage/'.$path) }}" alt="">
+                            </div>
+                            <?php print_r($field->description2 ?? '' ); ?>
                         </div>
-                        <!-- <div class="para_h_const">
-                            <h6 class="creac">Creación rápida y sencilla</h6>
-                            <p class="h_const_p">
-                                Elabora tu Acuerdo Unilateral de Confidencialidad de forma rápida y directa. Nuestra
-                                plataforma es fácil de usar y está optimizada para ahorrar tiempo y esfuerzo,
-                                permitiéndote enfocarte en lo que realmente importa. Simplificamos el proceso legal
-                                para que puedas obtener un documento vital sin complicaciones.
-                            </p>
-                        </div>
-                        <div class="para_h_const">
-                            <h6 class="creac">Innovación y desarrollo de productos</h6>
-                            <p class="h_const_p">
-                                En la industria de la innovación y desarrollo de productos, el intercambio de ideas
-                                y conceptos es crucial. Este acuerdo se convierte en un recurso clave para
-                                salvaguardar la propiedad intelectual y mantener la privacidad de diseños, planes y
-                                prototipos. Esto permite a las partes explorar nuevas posibilidades sin el riesgo de
-                                que la información se divulgue de manera indebida.
-                            </p>
-                        </div>
-                        <div class="img_sec6_box">
-                            <img class="sec6_inner_img" src="img/sec6_img1.png" alt="">
-                        </div>
-                        <div class="para_h_const">
-                            <h6 class="creac">Negociaciones y acuerdos comerciales</h6>
-                            <p class="h_const_p">
-                                Durante las negociaciones y la formalización de acuerdos comerciales, es común
-                                compartir detalles estratégicos, financieros y comerciales. El Acuerdo Unilateral de
-                                Confidencialidad actúa como un escudo protector para resguardar la información
-                                durante estas etapas críticas. Esto asegura que las partes puedan intercambiar
-                                información relevante sin preocuparse por su divulgación.G
-                            </p>
-                        </div>
-                        <div class="para_h_const">
-                            <h6 class="creac">Investigación y desarrollo</h6>
-                            <p class="h_const_p">
-                                En el ámbito de la investigación científica y tecnológica, la colaboración puede
-                                conducir a avances significativos. Este acuerdo es esencial cuando las partes
-                                comparten resultados experimentales, datos técnicos o ideas innovadoras. Al
-                                formalizar la confidencialidad de esta información, se fomenta la cooperación entre
-                                investigadores y científicos.
-                            </p>
-                        </div>
-                        <div class="para_h_const">
-                            <h6 class="creac">Protección de propiedad intelectual</h6>
-                            <p class="h_const_p">
-                                Para las empresas creativas, proteger la propiedad intelectual es esencial. El
-                                acuerdo asegura que los detalles sobre invenciones, diseños y creaciones artísticas
-                                se mantengan en secreto durante el proceso de colaboración. Esto garantiza que los
-                                derechos de propiedad intelectual estén preservados.
-                            </p>
-                        </div> -->
+                        
                     </div>
                 @endforeach
                 @endif
@@ -279,9 +232,9 @@
     <div class="container">
         <div class="const_bg_sec7">
             <div class="const_hed_sec7">
-                <h2>
+                <h1>
                     {{ $document->guide_main_heading ?? '' }}
-                </h2>
+                </h1>
             </div>
 
 
@@ -292,7 +245,7 @@
                         <div class="col-lg-6">
                             <div class="sec7_const_h {{ $key == 0 ? 'b_right' : '' }}">
                                 <div class="sec7_const_img">
-                                    <img src="{{ $key == 0 ? asset('assets/img/sec7_1img.png') : asset('assets/img/sec7_img2.png') }}" alt="">
+                                    <img src="{{ $key == 0 ? asset('assets/img/Group_36131.png') : asset('assets/img/Group_36132.png') }}" alt="">
                                 </div>
 
                                 <div class="h_sec_const">
@@ -354,7 +307,7 @@
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">
                         <div class="inside_box_tab">
                             <div class="img_tab_sec">
-                                <img src="img/tab1_img.png" alt="">
+                                <img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
                             </div>
                             <div class="cont_tab_ot">
                                 <div class="tab_ot_text">
@@ -364,7 +317,7 @@
                                             Carta de Recomendación Personal
                                         </h5>
                                         <ul class="tab_ul">
-                                            <li> <img src="img/stars.png" alt=""></li>
+                                            <li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
                                             <li>4.6</li>
                                         </ul>
                                     </div>
@@ -387,7 +340,7 @@
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">
                         <div class="inside_box_tab">
                             <div class="img_tab_sec">
-                                <img src="img/tab1_img.png" alt="">
+                                <img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
                             </div>
                             <div class="cont_tab_ot">
                                 <div class="tab_ot_text">
@@ -397,7 +350,7 @@
                                             Carta de Recomendación Personal
                                         </h5>
                                         <ul class="tab_ul">
-                                            <li> <img src="img/stars.png" alt=""></li>
+                                            <li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
                                             <li>4.6</li>
                                         </ul>
                                     </div>
@@ -420,7 +373,7 @@
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">
                         <div class="inside_box_tab">
                             <div class="img_tab_sec">
-                                <img src="img/tab1_img.png" alt="">
+                                <img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
                             </div>
                             <div class="cont_tab_ot">
                                 <div class="tab_ot_text">
@@ -430,7 +383,7 @@
                                             Carta de Recomendación Personal
                                         </h5>
                                         <ul class="tab_ul">
-                                            <li> <img src="img/stars.png" alt=""></li>
+                                            <li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
                                             <li>4.6</li>
                                         </ul>
                                     </div>
@@ -453,7 +406,7 @@
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">
                         <div class="inside_box_tab">
                             <div class="img_tab_sec">
-                                <img src="img/tab1_img.png" alt="">
+                                <img src="{{ asset('assets/img/tab1_img.png') }}" alt="">
                             </div>
                             <div class="cont_tab_ot">
                                 <div class="tab_ot_text">
@@ -463,7 +416,7 @@
                                             Carta de Recomendación Personal
                                         </h5>
                                         <ul class="tab_ul">
-                                            <li> <img src="img/stars.png" alt=""></li>
+                                            <li> <img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
                                             <li>4.6</li>
                                         </ul>
                                     </div>
@@ -500,8 +453,12 @@
                         <p>Valoramos tu opinión - Así nos califican nuestros clientes.</p>
                     </div>
                     <div class="btn-wrap">
-                        <button class="prev-btn"><img src="{{ asset('assets/img/left-arrow.png') }}" alt=""></button>
-                        <button class="next-btn"><img src="{{ asset('assets/img/right-arrow.png') }}" alt=""></button>
+                        <button class="prev-btn">
+                            <img src="{{ asset('assets/img/Vector1.png') }}" alt="">
+                        </button>
+                        <button class="next-btn">
+                            <img src="{{ asset('assets/img/Vector2.png') }}" alt="">
+                        </button>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -575,120 +532,56 @@
             </div>
         </div>
     </section>
-    <!-- <section class="clientes_slider p_140 light">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="clientes_data size20">
-                        <h2>{{ $data['reviews_heading'] ?? '' }}</h2>
-                        <p>{{ $data['reviews_sub_heading'] ?? '' }}</p>
-                    </div>
-                    <div class="btn-wrap">
-                        <button class="prev-btn"><img src="{{ asset('storage/'.$data['review_left_arrow'] ?? '' ) }}" alt=""></button>
-                        <button class="next-btn"><img src="{{ asset('storage/'.$data['review_right_arrow'] ?? '' ) }}" alt=""></button>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="client-slider slick-list">
-                    @if(isset($reviews) && $reviews != null)
-                    @foreach($reviews as $review)
-                        <div class="control_box">
-                            <div class="d-flex">
-                                <div class="slider-img">
-
-                                <?php 
-                                // $initials = strtoupper(substr($review->first_name, 0, 1)) . strtoupper(substr($review->last_name, 0, 1)); ?>
-                                <span>{{ $initials ?? '' }}</span>
-                                
-                                </div>
-                                <div class="txt_slider">
-                                    <h6>{{ $review->first_name ?? '' }} {{ $review->last_name ?? '' }}</h6>
-                                    <span>{{ $review->city ?? '' }}</span>
-                                </div>
-                            </div>
-                            @if(isset($review->rating) && $review->rating != null)
-                            <div id="full-stars-example-two">
-                                <div class="ratings">
-                                @if($review->rating == 1)
-                                    <label for="rating1">
-                                        <i rate="1" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-                                @elseif($review->rating == 2)
-                                    <label for="rating1">
-                                        <i rate="1" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-                                    <label for="rating2">
-                                        <i rate="2" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
-                                @elseif($review->rating == 3)
-                                    <label for="rating1">
-                                        <i rate="1" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-                                    <label for="rating2">
-                                        <i rate="2" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
-                                    <label for="rating3">
-                                        <i rate="3" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
-                                @elseif($review->rating == 4)
-                                    <label for="rating1">
-                                        <i rate="1" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-                                    <label for="rating2">
-                                        <i rate="2" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
-                                    <label for="rating3">
-                                        <i rate="3" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
-                                    <label for="rating4">
-                                        <i rate="4" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                @elseif($review->rating == 5)
-                                    <label for="rating1">
-                                        <i rate="1" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-                                    <label for="rating2">
-                                        <i rate="2" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
-                                    <label for="rating3">
-                                        <i rate="3" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
-                                    <label for="rating4">
-                                        <i rate="4" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating4" class="chkbox" style="display:none;" value="4">
-                                    <label for="rating5">
-                                        <i rate="5" class="star fa fa-star rating-color"></i>
-                                    </label>
-                                    <input name="rating" id="rating5" class="chkbox" style="display:none;" value="5" checked>
-                                @endif
-                                </div>
-                            </div>
-                            @endif
-                            <p>“{{ $review->description ?? '' }}”</p>
-                            <span>{{ $review->date ? \Carbon\Carbon::parse($review->date)->diffForHumans() : '' }}</span>
-                        </div>
-                    @endforeach
-                    @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
 </section>
 
+<script>
+	$(document).ready(function(){
+		$(".client-slider").slick({
+			slidesToShow: 2,
+			slidesToScroll: 1,
+			arrows: true,
+			infinite: true,
+			autoplay: false,
+			responsive: [
+				{
+					breakpoint: 991,
+					settings: {
+					slidesToShow: 2,
+					},
+				},
+				{
+					breakpoint: 767,
+					settings: {
+					slidesToShow: 1,
+					},
+				},
+			],
+		});
+
+		$(".prev-btn").click(function () {
+			$(".client-slider").slick("slickPrev");
+		});
+
+		$('.next-btn').on('click', function() {
+		$('.client-slider').slick('slickNext'); 
+	});
+
+		$(".prev-btn").addClass("slick-disabled");
+		$(".slick-list").on("afterChange", function () {
+			if ($(".slick-prev").hasClass("slick-disabled")) {
+				$(".prev-btn").addClass("slick-disabled");
+			} else {
+				$(".prev-btn").removeClass("slick-disabled");
+			}
+			if ($(".slick-next").hasClass("slick-disabled")) {
+				$(".next-btn").addClass("slick-disabled");
+			} else {
+				$(".next-btn").removeClass("slick-disabled");
+			}
+		});
+	})
+
+
+</script>
 
 @endsection

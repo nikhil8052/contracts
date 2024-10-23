@@ -123,9 +123,13 @@
                          <p>{{ $data2['reviews_sub_heading'] ?? '' }}</p>
                     </div>
                     <div class="btn-wrap">
-                         <button class="prev-btn"><img src="{{ asset('storage/'.$data2['review_left_arrow'] ?? '' ) }}" alt=""></button>
-                         <button class="next-btn"><img src="{{ asset('storage/'.$data2['review_right_arrow'] ?? '' ) }}" alt=""></button>
-                    </div>
+					<button class="prev-btn">
+						<img src="{{ asset('assets/img/Vector1.png') }}" alt="">
+					</button>
+					<button class="next-btn">
+						<img src="{{ asset('assets/img/Vector2.png') }}" alt="">
+					</button>
+				</div>
                </div>
                <div class="col-md-8">
                     <div class="client-slider">
@@ -242,7 +246,7 @@ $(document).ready(function(){
 			{
 				breakpoint: 991,
 				settings: {
-				slidesToShow: 3,
+				slidesToShow: 2,
 				},
 			},
 			{
