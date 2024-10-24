@@ -45,7 +45,7 @@ class AuthController extends Controller
     }
 
     public function registerProcc(Request $request){
-        dd($request->all());
+
        try {
             // Validate the incoming request
             $request->validate([

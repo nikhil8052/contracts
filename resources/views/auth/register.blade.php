@@ -105,21 +105,42 @@
                         <div class="inside_contac_fild">
                             <input type="text" class="mine_input" name="first_name" placeholder="Name" />
                         </div>
+                        <span class="error text-danger" style="display:none"></span>
+                        @error('first_name')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <div class="inside_contac_fild">
                             <input type="text" class="mine_input" name="last_name" placeholder="Phone number" />
                         </div>
+                        <span class="error text-danger" style="display:none"></span>
+                        @error('last_name')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <div class="inside_contac_fild">
-                            <input type="text" class="mine_input" name="email" placeholder="Email" />
+                            <input type="text" class="mine_input" name="email" placeholder="Email" id="email" />
                         </div>
+
+                        <span id="email-wrong" class="text-danger" style="display:none"></span>
+                        @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <div class="inside_contac_fild">
                             <input type="password" class="mine_input" name="password" placeholder="Password" />
                         </div>
+                        <span class="error text-danger" style="display:none"></span>
+                        @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <div class="inside_contac_fild">
                             <input type="password" class="mine_input" name="password_confirmation" placeholder="Confirm Password" />
                         </div>
-                        <div class="outer_aft_btn">
-                            <button class="cta_org submit-btn" type="submit" tabindex="0">
-                                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Register</font></font>
+                        <span class="error text-danger" style="display:none"></span>
+                        @error('password_confirmation')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                        <div class="outer_aft_btn ">
+                            <button class="cta_org submit-btn register_btn" type="button" tabindex="0">
+                                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Crear cuenta</font></font>
                             </button>
                         </div>
                     </div>
@@ -149,9 +170,22 @@ function togglePasswordVisibility(inputId) {
 
 <script>
 $(document).ready(function(){
-    $('#register_btn').click(function(e){
+    $('.register_btn').click(function(e){
         e.preventDefault();
+        let emailVal = $('#email').val();
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+        
+        // Clear any previous error messages
 
+        let hasError = false;
+
+        if (emailVal === '') {
+            $('#email-wrong').text('Email field is required').show();
+            hasError = true;
+        } else if (!emailRegex.test(emailVal)) {
+            $('#email-wrong').text('Please enter a valid email address').show();
+            hasError = true;
+        }
         var first_name = $("input[name='first_name']").val();
         var last_name = $("input[name='last_name']").val();
         var email = $("input[name='email']").val();
@@ -160,7 +194,7 @@ $(document).ready(function(){
         var isvalid = true;
 
         if(first_name === '' || first_name === undefined || first_name === null && last_name === '' || last_name === undefined || last_name === null && email === '' || email === undefined || email === null && password === '' || password === undefined || password === null && password_confirmation === '' || password_confirmation === undefined || password_confirmation === null){
-            $('.error').show();
+            $('.error').text('this field is required').show();
             isvalid = false;
         }
 
