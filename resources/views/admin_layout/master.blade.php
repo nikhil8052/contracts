@@ -149,6 +149,20 @@
                                 </li> -->
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-mail"></em></span>
+                                        <span class="nk-menu-text">Emails</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <!-- <li class="nk-menu-item">
+                                            <a href="" class="nk-menu-link"><span class="nk-menu-text"></span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="" class="nk-menu-link"><span class="nk-menu-text"></span></a>
+                                        </li> -->
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
                                         <span class="nk-menu-text">Configuration</span>
                                     </a>
@@ -159,9 +173,9 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/web-setting') }}" class="nk-menu-link"><span class="nk-menu-text">Logos</span></a>
                                         </li>
-                                        <!-- <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/add/favIcon') }}" class="nk-menu-link"><span class="nk-menu-text">Favicon</span></a>
-                                        </li> -->
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/messages') }}" class="nk-menu-link"><span class="nk-menu-text">Messages</span></a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul><!-- .nk-menu -->

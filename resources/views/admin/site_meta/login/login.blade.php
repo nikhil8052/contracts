@@ -87,7 +87,7 @@
     $(document).ready(function(){
         $('.remove_background_image').click(function(){
                id = $(this).data('id');
-               $('#bg_img_id').val(id);
+            //    $('#bg_img_id').val(id);
                $('#bg_image'+id).hide();
           });
     })

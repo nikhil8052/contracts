@@ -395,19 +395,20 @@ $(document).ready(function(){
 
      $('.remove_background_image').click(function(){
           id = $(this).data('id');
-          $('#bg_image_id').val(id);
+          console.log(id);
+          // $('#bg_image_id').val(id);
           $('#bg_image'+id).hide();
      });
 
      $('.remove_banner_image').click(function(){
           id = $(this).data('id');
-          $('#baner_image_id').val(id);
+          // $('#baner_image_id').val(id);
           $('#banner_div'+id).hide();
      });
 
      $('.remove_bottom_banner').click(function(){
           id = $(this).data('id');
-          $('#btom_banner_id').val(id);
+          // $('#btom_banner_id').val(id);
           $('#bottom_bnnr'+id).hide();
      });
 

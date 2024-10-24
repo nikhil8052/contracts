@@ -1,5 +1,7 @@
-@extends('users_layout.master')
+@extends('users_layout.other_master')
 @section('content')
+
+
 <style>
     .password-input {
     position: relative;
@@ -15,100 +17,118 @@
 }
 
 </style>
-<section class="login-sec register-sec p-100">
+<!-- <section class="login-sec register-sec p-100">
     <div class="container">
 		<div class="woocommerce">
 			<div class="login-contant fa-text">
 				<h1>{{ $register->title ?? '' }}</h1>
 				<div class="woocommerce-notices-wrapper"></div> 
-                <form method="post" action="{{ url('/registerProcc') }}" id="register-form" class="woocommerce-form woocommerce-form-register register">
-                    @csrf
-                <p class="form-row form-row-first">
-                    <label for="first_name">Nombre <span class="required">*</span></label>
-                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="first_name" id="first_name" value="">
-                    <span class="text text-danger error" style="display:none;">This field is required</span>
-                    @error('first_name')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <form method="post" action="{{ url('/registerProcc') }}" id="register-form" class="woocommerce-form woocommerce-form-register register">
+                        @csrf
+                        <p class="form-row form-row-first">
+                            <label for="first_name">Nombre <span class="required">*</span></label>
+                            <input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="first_name" id="first_name" value="">
+                            <span class="text text-danger error" style="display:none;">This field is required</span>
+                            @error('first_name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
 
-                </p>
-                <p class="form-row form-row-last">
-                    <label for="last_name">Apellido <span class="required">*</span></label>
-                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="last_name" id="last_name" value="">
-                    <span class="text text-danger error" style="display:none;">This field is required</span>
-                    @error('last_name')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </p>
-        
-                <div class="clear"></div>
-                <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                    <label for="email">Correo electrónico&nbsp;<span class="required">*</span></label>
-                    <input type="email" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="email" id="email" autocomplete="email" value="" data-gtm-form-interact-field-id="0">
-                    <span class="text text-danger error" style="display:none;">This field is required</span>
-                     @error('email')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </p> 
+                        </p>
+                        <p class="form-row form-row-last">
+                            <label for="last_name">Apellido <span class="required">*</span></label>
+                            <input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="last_name" id="last_name" value="">
+                            <span class="text text-danger error" style="display:none;">This field is required</span>
+                            @error('last_name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </p>
                 
-                <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                    <label for="reg_password">Contraseña&nbsp;<span class="required">*</span></label>
-                    <span class="password-input">
-                        <input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="password" id="reg_password" autocomplete="new-password" aria-autocomplete="list" data-gtm-form-interact-field-id="1">
-                        <span class="show-password-input display-password" onclick="togglePasswordVisibility('reg_password')">
-                            <i class="fas fa-eye" id="icon-reg_password"></i>
-                        </span>
-                        @error('password')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </span>
-                    <span class="text text-danger error" style="display:none;">This field is required</span>
-                </p>
-                
-                <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                    <label for="reg_password_confirmation">Confirmar Contraseña&nbsp;<span class="required">*</span></label>
-                    <span class="password-input">
-                        <input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="password_confirmation" id="reg_password_confirmation" autocomplete="new-password" aria-autocomplete="list" data-gtm-form-interact-field-id="1">
-                        <span class="show-password-input display-password" onclick="togglePasswordVisibility('reg_password_confirmation')">
-                            <i class="fas fa-eye" id="icon-reg_password_confirmation"></i>
-                        </span>
-                        @error('password_confirmation')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </span>
-                    <span class="text text-danger error" style="display:none;">This field is required</span>
-                </p>
-                
-
-            <wc-order-attribution-inputs>
-                <!-- <input type="hidden" name="wc_order_attribution_source_type" value="referral">
-                <input type="hidden" name="wc_order_attribution_referrer" value="https://app.ringcentral.com/">
-                <input type="hidden" name="wc_order_attribution_utm_campaign" value="(none)">
-                <input type="hidden" name="wc_order_attribution_utm_source" value="app.ringcentral.com">
-                <input type="hidden" name="wc_order_attribution_utm_medium" value="referral">
-                <input type="hidden" name="wc_order_attribution_utm_content" value="/">
-                <input type="hidden" name="wc_order_attribution_utm_id" value="(none)">
-                <input type="hidden" name="wc_order_attribution_utm_term" value="(none)">
-                <input type="hidden" name="wc_order_attribution_utm_source_platform" value="(none)">
-                <input type="hidden" name="wc_order_attribution_utm_creative_format" value="(none)">
-                <input type="hidden" name="wc_order_attribution_utm_marketing_tactic" value="(none)">
-                <input type="hidden" name="wc_order_attribution_session_entry" value="https://documentos-legales.mx/crear-cuenta/">
-                <input type="hidden" name="wc_order_attribution_session_start_time" value="2024-09-23 05:59:00">
-                <input type="hidden" name="wc_order_attribution_session_pages" value="1">
-                <input type="hidden" name="wc_order_attribution_session_count" value="2"><input type="hidden" name="wc_order_attribution_user_agent" value="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"> -->
-                </wc-order-attribution-inputs><div class="woocommerce-privacy-policy-text"></div>
-            <p class="woocommerce-form-row form-row">
-                <!-- <input type="hidden" id="woocommerce-register-nonce" name="woocommerce-register-nonce" value="4a976e7af3"><input type="hidden" name="_wp_http_referer" value="/crear-cuenta/">				
-                 -->
-                 <button type="button" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register" id="register_btn" value="Register">Crear cuenta</button>
-            </p>
-
-                
-            </form>
+                        <div class="clear"></div>
+                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                            <label for="email">Correo electrónico&nbsp;<span class="required">*</span></label>
+                            <input type="email" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="email" id="email" autocomplete="email" value="" data-gtm-form-interact-field-id="0">
+                            <span class="text text-danger error" style="display:none;">This field is required</span>
+                            @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </p> 
+                    
+                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                            <label for="reg_password">Contraseña&nbsp;<span class="required">*</span></label>
+                            <span class="password-input">
+                                <input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="password" id="reg_password" autocomplete="new-password" aria-autocomplete="list" data-gtm-form-interact-field-id="1">
+                                <span class="show-password-input display-password" onclick="togglePasswordVisibility('reg_password')">
+                                    <i class="fas fa-eye" id="icon-reg_password"></i>
+                                </span>
+                                @error('password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </span>
+                            <span class="text text-danger error" style="display:none;">This field is required</span>
+                        </p>
+                        
+                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                            <label for="reg_password_confirmation">Confirmar Contraseña&nbsp;<span class="required">*</span></label>
+                            <span class="password-input">
+                                <input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="password_confirmation" id="reg_password_confirmation" autocomplete="new-password" aria-autocomplete="list" data-gtm-form-interact-field-id="1">
+                                <span class="show-password-input display-password" onclick="togglePasswordVisibility('reg_password_confirmation')">
+                                    <i class="fas fa-eye" id="icon-reg_password_confirmation"></i>
+                                </span>
+                                @error('password_confirmation')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </span>
+                            <span class="text text-danger error" style="display:none;">This field is required</span>
+                        </p>
+                        <p class="woocommerce-form-row form-row">
+                            <button type="button" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register" id="register_btn" value="Register">Crear cuenta</button>
+                        </p>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+</section> -->
+<section class="contac_login_card p_120 light">
+    <div class="container">
+        <div class="wt_ot">
+            <div class="inside_contac_box">
+                <div class="h_contac_box" id="top">
+                    <h3 class="ponte_h">
+                        <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><h3>{{ $register->title ?? '' }}</h3</font></font>
+                    </h3>
+                </div>
+                <form method="post" action="{{ url('/registerProcc') }}" id="register-form" enctype="multipart/form-data">
+                    @csrf
+                    <!-- <input type="hidden" name="_token" value="" autocomplete="off" /> -->
+                    <div class="contac_inp_fld">
+                        <div class="inside_contac_fild">
+                            <input type="text" class="mine_input" name="first_name" placeholder="Name" />
+                        </div>
+                        <div class="inside_contac_fild">
+                            <input type="text" class="mine_input" name="last_name" placeholder="Phone number" />
+                        </div>
+                        <div class="inside_contac_fild">
+                            <input type="text" class="mine_input" name="email" placeholder="Email" />
+                        </div>
+                        <div class="inside_contac_fild">
+                            <input type="password" class="mine_input" name="password" placeholder="Password" />
+                        </div>
+                        <div class="inside_contac_fild">
+                            <input type="password" class="mine_input" name="password_confirmation" placeholder="Confirm Password" />
+                        </div>
+                        <div class="outer_aft_btn">
+                            <button class="cta_org submit-btn" type="submit" tabindex="0">
+                                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Register</font></font>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </section>
+
 <script>
 function togglePasswordVisibility(inputId) {
     const passwordInput = document.getElementById(inputId);

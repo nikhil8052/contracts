@@ -15,6 +15,7 @@
                             <label class="form-label" for="header_logo">Header Logo</label>
                             <input type="file" class="form-control" id="header_logo" name="header_logo">
                         </div>
+
                         @if(isset($data['header_logo']) && $data['header_logo'] != null)
                             <div class="header_image_div" id="header_image_div{{ $data['header_logo_id'] ?? '' }}">
                                 <div class="form-group">
@@ -90,19 +91,19 @@
 $(document).ready(function(){
     $('.remove_header_logo').click(function(){
         id = $(this).data('id');
-        $('#remove_logo1').val(id);
+        // $('#remove_logo1').val(id);
         $('#header_image_div'+id).hide();
     });
 
     $('.remove_footer_logo').click(function(){
         id = $(this).data('id');
-        $('#remove_logo2').val(id);
+        // $('#remove_logo2').val(id);
         $('#footer_image_div'+id).hide();
     });
 
     $('.remove_favicon').click(function(){
         id = $(this).data('id');
-        $('#favicon_img_id').val(id);
+        // $('#favicon_img_id').val(id);
         $('#favicon_image_div'+id).hide();
     });
 });

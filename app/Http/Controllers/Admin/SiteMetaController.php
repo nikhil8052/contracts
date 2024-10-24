@@ -91,13 +91,18 @@ class SiteMetaController extends Controller
 
             if($request->hasFile('banner_image')){
                 $file = $request->file('banner_image');
+     
                 $directory = "public/how_it_work";
                 $filename = generateFileName($file);
+                
                 $filepath = $file->storeAs($directory, $filename);
 
                 $how_it_works = HowItWork::where('key','banner_image')->first();
+          
                 $how_it_works->value = $filename;
+              
                 $how_it_works->file_path = $filepath;
+
                 $how_it_works->update();
             }
 
@@ -334,13 +339,18 @@ class SiteMetaController extends Controller
         try{
             if($request->hasFile('background_image')){
                 $file = $request->file('background_image');
+            
                 $filename = generateFileName($file);
+                
                 $directory = 'public/terms_and_conditions';
                 $path = $file->storeAs($directory, $filename);
-
+            
                 $termsCondition = TermsAndCondition::where('key','background_image')->first();
+
                 $termsCondition->value = $filename;
+                
                 $termsCondition->file_path = $path;
+            
                 $termsCondition->update();
             }
 
@@ -792,7 +802,7 @@ class SiteMetaController extends Controller
 
     public function homepage(){
         $document_category = DocumentCategory::all();
-
+      
         $keys = [
             'title',
             'background_image',
@@ -854,16 +864,21 @@ class SiteMetaController extends Controller
     }
 
     public function addHomeContent(Request $request){
+
         try{
             if($request->hasFile('background_image')){
                 $home_content = HomeContent::where('key','background_image')->first();
+              
                 $background_image = $request->file('background_image');
+         
                 $directory = "public/home_images";
                 $filename = generateFileName($background_image);
                 $filepath = $background_image->storeAs($directory, $filename);
-
+        
                 $home_content->value = $filename;
+
                 $home_content->file_path = $filepath;
+
                 $home_content->update();
             }
 
@@ -1556,6 +1571,7 @@ class SiteMetaController extends Controller
 
             if($request->hasFile('banner_image')){
                 $help_center = HelpCenter::where('key','banner_image')->first();
+
                 $banner_image = $request->file('banner_image');
                 
                 $directory = "public/help_center";

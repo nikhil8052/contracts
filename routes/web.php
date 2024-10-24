@@ -143,6 +143,9 @@ Route::group(['middleware' =>['auth']],function(){
      Route::get('/admin-dashboard/web-setting',[SiteMetaController::class,'webSetting']);
      Route::post('/admin-dashboard/add/web-setting',[SiteMetaController::class,'addWebsetting']);
 
+     Route::get('/admin-dashboard/messages',[AdminController::class,'messages']);
+     Route::post('/admin-dashboard/save/messages',[AdminController::class,'saveMesage']);
+
      Route::get('/admin-dashboard/add/favIcon',[SiteMetaController::class.'getfavicon']);
 
      //*********************Product Sections***************//

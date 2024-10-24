@@ -16,5 +16,11 @@ class AdminController extends Controller
         return view('admin.country.countries');
     }
 
+    public function messages(){
+        return view('admin.configurations.messages');
+    }
 
+    public function saveMesage(Request $request){
+        return $request->all();
+    }
 }

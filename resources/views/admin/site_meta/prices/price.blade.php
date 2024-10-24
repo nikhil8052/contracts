@@ -250,13 +250,13 @@
 
           $('.remove_background_image').click(function(){
                id = $(this).data('id');
-               $('#bg_img_id').val(id);
+               // $('#bg_img_id').val(id);
                $('#bg_image'+id).hide();
           });
 
           $('.remove_banner_image').click(function(){
                id = $(this).data('id');
-               $('#baner_image_id').val(id);
+               // $('#baner_image_id').val(id);
                $('#banner_div'+id).hide();
           });
 

@@ -443,7 +443,8 @@
     line-height: 40px;
   }
   .pdf_head h1::after {
-    left: 37%;
+    top: 76%;
+    left: 45%;
   }
 }
 
@@ -596,6 +597,9 @@
 }
 
 @media only screen and (max-width: 991px) {
+  h1{
+    font-size: 34px;
+  }
 
   .inner-header .main_header button.btn {
     border-radius: 10px;
@@ -1365,7 +1369,7 @@
   } */
   .pdf_head h1::after {
     top: 74%;
-    left: 34%;
+    left: 38%;
 }
 }
 
@@ -1901,7 +1905,7 @@
   }
 
   .pdf_head h1::after {
-    top: 18%;
+    top: 85%;
     left: 85%;
 }
 
@@ -1956,6 +1960,6 @@
 
   .pdf_head h1::after {
     top: 50%;
-    left: 100%;
+    left: 85%;
   }
 }

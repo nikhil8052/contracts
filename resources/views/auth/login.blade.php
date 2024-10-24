@@ -60,11 +60,10 @@
                                 <input id="password-field" type="password" class="form-control inside_contac"
                                     name="password" placeholder="Contraseña">
                                 <span toggle="#password-field"
-                                    class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    class="fa fa-fw fa-eye-slash field-icon toggle-password">
+                                </span>
                             </div>
-
                         </div>
-
                         <div class="selct_div">
                             <div class="mainte_box">
                                 <div class="ot_check_mainte">
@@ -77,10 +76,8 @@
                                     <p class=" ot_check_mainte_pra">
                                         Recuperar contraseña
                                     </p>
-
                                 </div>
                             </div>
-
                         </div>
                         <div class="contac_ot_box">
                             <button id="login_submit" class="cta_org" tabindex="0">Ingresar</a>
@@ -90,18 +87,11 @@
                                 ¿No estas registrado? <span class="span1"><a href="">Crear cuenta</a></span>
                             </p>
                         </div>
-
-
                     </div>
-
                 </div>
             </div>
         </div>
-
     </section>
-
-
-
 <script>
   $(document).ready(function() {
     $('#login_submit').click(function(e) {
@@ -136,6 +126,20 @@
     });
 });
 
+$(document).ready(function() {
+    $(".toggle-password").click(function() {
+        const passwordField = $($(this).attr("toggle"));
+        const type = passwordField.attr("type") === "password" ? "text" : "password";
+        passwordField.attr("type", type);
+        
+        // Toggle the eye icon
+        if (type === "password") {
+            $(this).removeClass("fa-eye").addClass("fa-eye-slash"); // When hidden
+        } else {
+            $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // When shown
+        }
+    });
+});
 </script>
 
 @endsection

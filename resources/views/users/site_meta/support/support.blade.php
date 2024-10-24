@@ -46,7 +46,7 @@
                 $path = str_replace('public/', '', $help->media->file_path ?? null);
             ?>
             <div class="col-lg-4 col-sm-6">
-                <div class="{{ $loop->first ? 'help active' : 'help' }}">
+                <div class="help">
                     <div class="hlp-img">
                         <img src="{{ asset('storage/'.$path) }}" alt="helpIcon">
                     </div>

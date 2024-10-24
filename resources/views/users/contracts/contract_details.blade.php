@@ -159,9 +159,9 @@
                 <div class="col-lg-7">
                     <div class="ot_sec5_cont">
                         <div class="head_cont">
-                            <h3>
+                            <h2>
                                 {{ $document->legal_heading ?? '' }}
-                            </h3>
+                            </h2>
                             <p>
                                {{ $document->legal_description ?? '' }}
                             </p>
@@ -232,9 +232,9 @@
     <div class="container">
         <div class="const_bg_sec7">
             <div class="const_hed_sec7">
-                <h1>
+                <h2>
                     {{ $document->guide_main_heading ?? '' }}
-                </h1>
+                </h2>
             </div>
 
 
@@ -249,7 +249,7 @@
                                 </div>
 
                                 <div class="h_sec_const">
-                                    <h6>{{ $guide->step_title }}</h6>
+                                    <h3>{{ $guide->step_title }}</h3>
                                     <p>
                                         {!! $guide->step_description !!}
                                     </p>

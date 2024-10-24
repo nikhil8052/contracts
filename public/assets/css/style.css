@@ -44,7 +44,7 @@ body {
 }
 
 h1 {
-    font-size: 34px ;
+    font-size: 50px ;
     font-weight: 700;
     line-height: 1.1;
 }
@@ -599,9 +599,12 @@ div#navbarSupportedContent {
     height: 100%;
 }
  .inside_box_tab:hover {
-    box-shadow: 10px 10px 40px rgba(41, 56, 95, 0.15);
+    /* box-shadow: 10px 10px 40px rgba(41, 56, 95, 0.15); */
     transition: 0.3s ease;
     cursor: pointer;
+}
+.sec5_conrt_ot .ot_sec5_cont h2 {
+    line-height: 36px;
 }
 
 .inside_box_b {
@@ -1129,7 +1132,7 @@ footer .foot_li a:hover {
 .inner_sec2 .inside_ul_pdf {
     display: flex;
     list-style-type: none;
-    gap: 8px;
+    gap: 4px;
     padding-left: 0;
     font-size: 24px;
     font-weight: 500;
@@ -1359,7 +1362,7 @@ footer .foot_li a:hover {
 
 
  .sec4_conrt_ot .card_sec4_conrt:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
     /* background-color: #002655;
     color: #fff;
     transition: 0.3s ease; */
@@ -1688,7 +1691,7 @@ header.fun-header {
     position: relative;
 }
 
-.explore_sec .explore-cntnt::after {
+ .explore_sec .explore-cntnt::after {
     position: absolute;
     content: " ";
     top: 50%;
@@ -1700,7 +1703,7 @@ header.fun-header {
     background-repeat: no-repeat;
     background-size: contain;
     z-index: 1;
-}
+} 
 
 .explore_sec .row .col-md-4:last-child .explore-cntnt::after {
     display: none;
@@ -1843,7 +1846,8 @@ header.fun-header {
 /* ********(explore_sec)*********** */
 
 .explore_sec .explore-cntnt:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
+
     /* box-shadow: -29px 32px 84px rgba(41, 56, 95, 0.15); */
 }
 
@@ -2713,7 +2717,12 @@ header.fun-header {
     cursor: pointer;
     border: 1px solid transparent; /* ********in style.css line no:1766 with the following css********* */
     box-shadow: -29px 32px 84px rgba(41, 56, 95, 0.15);
-    transition: 0.3s ease-in-out;
+    /* transition: 0.3s ease-in-out; */
+    background-color: #002655;
+    color: #fff;
+}
+.help:hover .hlp-txt h5 {
+    color: #fff;
 }
 .Comienza-content h2 {
     line-height: 36px;
@@ -2760,7 +2769,7 @@ section.banner_sec.dark {
 /*//////////////////////// 22oct2024////////////////////////// */
 
 
-.inside_box_b:hover .tab_btn a {
+.inside_box_b .tab_btn a:hover {
     background-color: #002655;
     border: 1px solid #fff;
     color: #fff;
@@ -2838,7 +2847,7 @@ section.banner_sec.dark {
     color: #fff;
 }
 
-/* 23oct2024//////////////////////////////////////////// */
+/*////////////////////////////////// 23oct2024//////////////////////////////////////////// */
 
 .hedaer_bnt .cta_dark:hover {
    color: #002655;
@@ -2862,8 +2871,8 @@ footer .foot_end_box .reserve_box{
 .pdf_head h1::after {
     content: '';
     position: absolute; 
-    top: 73%;          
-    left: 30%;       
+    top: 50%;          
+    left: 98%;       
     transform: translateY(-50%); 
     width: 38px;      
     height: 38px;     
@@ -2875,4 +2884,11 @@ footer .foot_end_box .reserve_box{
     background-color: #002655;
     color: white;
     border: 1px solid #002655;;
+}
+
+/*//////////////////////////////////////// 24oct2024 ///////////////////////*/
+
+.inside_ul_pdf img {
+    width: 26px;
+    height: 23px;
 }
