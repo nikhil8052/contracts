@@ -28,8 +28,12 @@ class DocumentFormRequest extends FormRequest
             'short_description' => 'required',
             'document_button_text' => 'required',
             'long_description' => 'required',
+            'agreement_image.*' => 'required',
+            'agreement_heading.*' => 'required',
+            'agreement_description.*' => 'required',
             'img_heading.*' => 'required',
             'img_description.*' => 'required',
+            'img_description_second.*' => 'required',
             'guide_heading' => 'required',
             'doc_price' => 'required',
             'category_id' => 'required',
@@ -38,14 +42,24 @@ class DocumentFormRequest extends FormRequest
             'legal_btn_text' => 'required',
             'related_heading' => 'required',
             'related_description' => 'required',
+            'step_title.*' => 'required',
+            'step_description.*' =>'required',
         ];
     }
 
     public function messages()
     {
         return [
+            'agreement_image.*.required' => 'The image field is required',
+            'agreement_heading.*.required' => 'The heading field is required',
+            'agreement_description.*.required' => 'The description field is required',
+            'category_id.required' => 'The category field is required.',
             'img_heading.*.required' => 'The heading field is required.',
             'img_description.*.required' => 'The description here field is required.',
+            'field_image.*.required' => 'The image is required',
+            'img_description_second.*.required' => 'The description here field is required.',
+            'step_title.*.required' => 'The step title is required.',
+            'step_description.*.required' => 'The step description is required.',
             'doc_price.required' => 'The price field is required.',
             'legal_heading.required' => 'The heading field is required.',
             'legal_description.required' => 'The description here field is required.',

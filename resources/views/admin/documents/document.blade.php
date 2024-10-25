@@ -4,9 +4,9 @@
 <div class="nk-content">
      <div class="container-fluid">
           @if(isset($document) && $document != null)
-          <form action="{{ url('/admin-dashboard/update-document') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ url('/admin-dashboard/update-document') }}" id="documentForm" method="post" enctype="multipart/form-data">
           @else
-          <form action="{{ url('admin-dashboard/add-documents') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ url('admin-dashboard/add-documents') }}" id="documentForm" method="post" enctype="multipart/form-data">
           @endif
                @csrf
                <input type="hidden" name="id" value="{{ $document->id ?? '' }}">
@@ -27,14 +27,14 @@
                               <button type="button" class="btn tab_btn">Document Text</button>
                          </div>
                     </div>
-                    <div class="doc-top-butns2 mt-4">
-                         <div class="form-group">
-                              <button type="button" class="btn btn-light">AI Autofill</button>
-                         </div>
-                    </div>
                </div>
-               <div class="row">
-                    <div class="col md-8 left-content">
+               <div class="row main_section_div">
+                    <div class="col md-8 doc-left-content">
+                         <div class="doc-top-butns2 mt-0">
+                              <div class="form-group">
+                                   <button type="button" class="btn btn-light">AI Autofill</button>
+                              </div>
+                         </div>
                          @if(isset($document) && $document != null)
                          <div class="col-md-12 doc-title mt-4 pb-4">
                               <div class="form-group">
@@ -50,6 +50,7 @@
                                    @error('title')
                                         <span class="text-danger">{{ $message }}</span>
                                    @enderror
+                                   <span class="text-danger validation_error"></span>
                               </div>
                          </div>
                          @endif 
@@ -90,6 +91,7 @@
                                    @error('document_button_text')
                                         <span class="text-danger">{{ $message }}</span>
                                    @enderror
+                                   <span class="text-danger validation_error"></span>
                               </div>
                          </div>
                          <h5 class="mt-4">Agreement Section</h5>
@@ -154,19 +156,28 @@
                                    <div class="col-md-2">
                                         <div class="form-group">
                                              <label class="form-label" for="agreement_image">Image</label>
-                                             <input type="file" class="form-control" name="agreement_image[]" value="">
+                                             <input type="file" class="form-control" name="agreement_image[]">
+                                             @error('agreement_image.*')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
                                    <div class="col-md-5">
                                         <div class="form-group">
                                              <label class="form-label" for="agreement_heading">Heading</label>
                                              <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[]" value="">
+                                             @error('agreement_heading.*')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
                                    <div class="col-md-5">
                                         <div class="form-group">
                                              <label class="form-label" for="agreement_description">Description</label>
                                              <textarea class="form-control" id="agreement_description" name="agreement_description[]"></textarea>
+                                             @error('agreement_description.*')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
                               </div>
@@ -221,9 +232,6 @@
                                         <div class="form-group">
                                              <label class="form-label" for="img_description_second">Description Here</label>
                                              <textarea class="form-control" id="img_description_second{{ $index ?? '' }}" name="img_description_second[{{ $field->id ?? '' }}]">{{ $field->description2 ?? '' }}</textarea>
-                                             @error('img_description_second.*')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
                                         </div>
                                    </div>
                               </div>
@@ -288,6 +296,7 @@
                                         @error('img_heading.*')
                                              <span class="text-danger">{{ $message }}</span>
                                         @enderror
+                                        <span class="text-danger validation_error"></span>
                                    </div>
                               </div>
                               <div class="col-md-12 mt-2">
@@ -303,6 +312,9 @@
                                    <div class="form-group">
                                         <label class="form-label" for="field_image">Image</label>
                                         <input type="file" class="form-control" id="field_image" name="field_image[]">
+                                        @error('field_image.*')
+                                             <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                    </div>
                               </div>
                               <div class="col-md-12 mt-2">
@@ -370,12 +382,18 @@
                                              <div class="form-group">
                                                   <label class="form-label" for="step_title">Step Title</label>
                                                   <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="">
+                                                  @error('step_title.*')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
                                              </div>
                                         </div>
                                         <div class="col-md-6">
                                              <div class="form-group">
                                                   <label class="form-label" for="step_description">Step Description</label>
                                                   <textarea class="form-control" id="step_description" name="step_description[]"></textarea>
+                                                  @error('step_description.*')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
                                              </div>
                                         </div>
                                    </div>
@@ -492,7 +510,7 @@
                               </div>
                          </div>
                     </div>
-                    <div class="col-md-4 right-content">
+                    <div class="col-md-4 doc-right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="d-flex justify-content-end">
@@ -501,7 +519,7 @@
                                                   @if(isset($document) && $document != null)
                                                   <button class="btn btn-sm btn-primary" type="submit">Update</button>
                                                   @else
-                                                  <button class="btn btn-sm btn-primary" type="submit" id="saveform">Save</button>
+                                                  <button class="btn btn-sm btn-primary" type="submit" onclick="formValidation()">Save</button>
                                                   @endif
                                              </div>
                                         </div>
@@ -557,11 +575,12 @@
                                    </div>
                                    <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="doc_price">Price (MXN)</label>
+                                             <label class="form-label" for="doc_price">Price (MXN)</label> 
                                              <input type="text" class="form-control" id="doc_price" name="doc_price" value="{{ $document->doc_price ?? '' }}">
                                              @error('doc_price')
                                                   <span class="text-danger">{{ $message }}</span>
                                              @enderror
+                                             <span class="text-danger validation_error"></span>
                                         </div>
                                    </div>
                                    <div class="col-md-12 mt-2">
@@ -835,182 +854,182 @@
 </script>
 
 <script>
-function initializeCKEditor(element) {
-     ClassicEditor
-     .create(element, {
-          toolbar: {
-               items: [
-                    'heading',   // For headings (h2, h3, h4)
-                    'bold',      // For bold text
-                    'bulletedList',  // For unordered list
-                    'numberedList'   // For ordered list
+     function initializeCKEditor(element) {
+          ClassicEditor
+          .create(element, {
+               toolbar: {
+                    items: [
+                         'heading',   // For headings (h2, h3, h4)
+                         'bold',      // For bold text
+                         'bulletedList',  // For unordered list
+                         'numberedList'   // For ordered list
+                    ]
+               },
+               heading: {
+                    options: [
+                         { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                         { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                         { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+                    ]
+               },
+               removePlugins: [
+                    'Table', 'MediaEmbed', 'BlockQuote',
                ]
-          },
-          heading: {
-               options: [
-                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
-               ]
-          },
-          removePlugins: [
-               'Table', 'MediaEmbed', 'BlockQuote',
-          ]
-     })
-     .catch(error => {
-          console.error(error);
-     });
-}
+          })
+          .catch(error => {
+               console.error(error);
+          });
+     }
 
-$(document).ready(function(){
-     $('#second-section-add').on('click',function(){
-          
-          var html = `<div class="img-txt-section">
-                         <hr>
-                         <div class="text-end">
-                              <div class="form-group">
-                                   <div><span class="remove-second-sec" value="appended"><i class="fa fa-times"></i></span></div>
-                              </div>
-                         </div>
-                         <div class="second-append-sec" id="second-append-sec">
-                              <div class="col-md-12 mt-2">
+     $(document).ready(function(){
+          $('#second-section-add').on('click',function(){
+               
+               var html = `<div class="img-txt-section">
+                              <hr>
+                              <div class="text-end">
                                    <div class="form-group">
-                                        <label class="form-label" for="new_img_heading">Heading</label>
-                                        <input type="text" class="form-control" name="new_img_heading[]" value="">
+                                        <div><span class="remove-second-sec" value="appended"><i class="fa fa-times"></i></span></div>
                                    </div>
                               </div>
-                              <div class="col-md-12 mt-2">
-                                   <div class="form-group">
-                                        <label class="form-label" for="new_img_description">Description Here</label>
-                                        <textarea class="description-editor" name="new_img_description[]"></textarea>
+                              <div class="second-append-sec" id="second-append-sec">
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_img_heading">Heading</label>
+                                             <input type="text" class="form-control" name="new_img_heading[]" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_img_description">Description Here</label>
+                                             <textarea class="description-editor" name="new_img_description[]"></textarea>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_field_image">Image</label>
+                                             <input type="file" class="form-control" id="new_field_image" name="new_field_image[]">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_img_description_second">Description Here</label>
+                                             <textarea class="description-editor2" id="new_img_description_second" name="new_img_description_second[]"></textarea>
+                                        </div>
                                    </div>
                               </div>
-                              <div class="col-md-12 mt-2">
-                                   <div class="form-group">
-                                        <label class="form-label" for="new_field_image">Image</label>
-                                        <input type="file" class="form-control" id="new_field_image" name="new_field_image[]">
-                                   </div>
-                              </div>
-                              <div class="col-md-12 mt-2">
-                                   <div class="form-group">
-                                        <label class="form-label" for="new_img_description_second">Description Here</label>
-                                        <textarea class="description-editor2" id="new_img_description_second" name="new_img_description_second[]"></textarea>
-                                   </div>
-                              </div>
-                         </div>
-                    </div>`
-          $('#document_field_container').append(html);
+                         </div>`
+               $('#document_field_container').append(html);
 
-          const firstTextarea = $('.description-editor').last()[0];
-          if (firstTextarea && !$(firstTextarea).data('ckeditor-initialized')) {
-               initializeCKEditor(firstTextarea);
-               $(firstTextarea).data('ckeditor-initialized', true);
-          }
-
-          const secondTextarea = $('.description-editor2').last()[0];
-          if (secondTextarea && !$(secondTextarea).data('ckeditor-initialized')) {
-               initializeCKEditor(secondTextarea);
-               $(secondTextarea).data('ckeditor-initialized', true);
-          }
-     });
-
-     // Remove second section //
-     $('body').delegate('.remove-second-sec', 'click', function () {
-          if ($(this).attr('value') === 'appended') {
-               $(this).closest('.img-txt-section').remove();
-          } else {
-               var id = $(this).data('id');
-               let deleteIds = $('#img_sec_ids').val();
-               if (deleteIds) {
-                    deleteIds += ',' + id;
-               } else {
-                    deleteIds = id;
+               const firstTextarea = $('.description-editor').last()[0];
+               if (firstTextarea && !$(firstTextarea).data('ckeditor-initialized')) {
+                    initializeCKEditor(firstTextarea);
+                    $(firstTextarea).data('ckeditor-initialized', true);
                }
-               $('#img_sec_ids').val(deleteIds);
-               $('.img-txt-section'+id).hide();
-          }
-     });
 
-     // Append Guide section //
-     $('#add-guide-sec').click(function(){
-          var html = `<div class="guide-append-sec">
-                         <div class="text-end">
-                              <div class="form-group">
-                                   <div><span class="remove-guide" value="appended"><i class="fa fa-times"></i></span></div>
-                              </div>
-                         </div>
-                         <div class="row gy-12">
-                              <div class="col-md-6">
-                                   <div class="form-group">
-                                        <label class="form-label" for="new_step_title">Step Title</label>
-                                        <input type="text" class="form-control" name="new_step_title[]" value="">
-                                   </div>
-                              </div>
-                              <div class="col-md-6">
-                                   <div class="form-group">
-                                        <label class="form-label" for="new_step_description">Step Description</label>
-                                        <textarea class="form-control" name="new_step_description[]"></textarea>
-                                   </div>
-                              </div>
-                         </div>
-                    </div>`;
-
-          $('#guide-sec-steps').append(html);
-     });
-
-     // Remove guide section //
-     $('body').delegate('.remove-guide', 'click', function () {
-          if ($(this).attr('value') === 'appended') {
-               $(this).closest('.guide-append-sec').remove();
-          } else {
-               var id = $(this).data('id');
-               let deleteIds = $('#guide_sec_ids').val();
-               if (deleteIds) {
-                    deleteIds += ',' + id;
-               } else {
-                    deleteIds = id;
+               const secondTextarea = $('.description-editor2').last()[0];
+               if (secondTextarea && !$(secondTextarea).data('ckeditor-initialized')) {
+                    initializeCKEditor(secondTextarea);
+                    $(secondTextarea).data('ckeditor-initialized', true);
                }
-               $('#guide_sec_ids').val(deleteIds);
-               $(this).closest('.guide-append-sec').hide();
-          }
+          });
+
+          // Remove second section //
+          $('body').delegate('.remove-second-sec', 'click', function () {
+               if ($(this).attr('value') === 'appended') {
+                    $(this).closest('.img-txt-section').remove();
+               } else {
+                    var id = $(this).data('id');
+                    let deleteIds = $('#img_sec_ids').val();
+                    if (deleteIds) {
+                         deleteIds += ',' + id;
+                    } else {
+                         deleteIds = id;
+                    }
+                    $('#img_sec_ids').val(deleteIds);
+                    $('.img-txt-section'+id).hide();
+               }
+          });
+
+          // Append Guide section //
+          $('#add-guide-sec').click(function(){
+               var html = `<div class="guide-append-sec">
+                              <div class="text-end">
+                                   <div class="form-group">
+                                        <div><span class="remove-guide" value="appended"><i class="fa fa-times"></i></span></div>
+                                   </div>
+                              </div>
+                              <div class="row gy-12">
+                                   <div class="col-md-6">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_step_title">Step Title</label>
+                                             <input type="text" class="form-control" name="new_step_title[]" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-6">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_step_description">Step Description</label>
+                                             <textarea class="form-control" name="new_step_description[]"></textarea>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>`;
+
+               $('#guide-sec-steps').append(html);
+          });
+
+          // Remove guide section //
+          $('body').delegate('.remove-guide', 'click', function () {
+               if ($(this).attr('value') === 'appended') {
+                    $(this).closest('.guide-append-sec').remove();
+               } else {
+                    var id = $(this).data('id');
+                    let deleteIds = $('#guide_sec_ids').val();
+                    if (deleteIds) {
+                         deleteIds += ',' + id;
+                    } else {
+                         deleteIds = id;
+                    }
+                    $('#guide_sec_ids').val(deleteIds);
+                    $(this).closest('.guide-append-sec').hide();
+               }
+          });
+
+          // Add Faq Section //
+          $('#add-sec').click(function(){
+               var html = `<div class="faq-append-sec">
+                              <div class="text-end">
+                                   <div class="form-group">
+                                        <div><span class="remove-faq" value="appended"><i class="fa fa-times"></i></span></div>
+                                   </div>
+                              </div>
+                              <div class="row gy-8">
+                                   <div class="col-md-4">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_agreement_image">Image</label>
+                                             <input type="file" class="form-control" name="new_agreement_image[]" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-4">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_agreement_heading">Heading</label>
+                                             <input type="text" class="form-control" name="new_agreement_heading[]" value="">
+                                        </div>
+                                   </div>
+                                   <div class="col-md-4">
+                                        <div class="form-group">
+                                             <label class="form-label" for="new_agreement_description">Description</label>
+                                             <textarea class="form-control" name="new_agreement_description[]"></textarea>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>`;
+
+               $('#steps').append(html);
+          });
+
+     // Remove Faq section //
+
      });
-
-     // Add Faq Section //
-     $('#add-sec').click(function(){
-          var html = `<div class="faq-append-sec">
-                         <div class="text-end">
-                              <div class="form-group">
-                                   <div><span class="remove-faq" value="appended"><i class="fa fa-times"></i></span></div>
-                              </div>
-                         </div>
-                         <div class="row gy-8">
-                              <div class="col-md-4">
-                                   <div class="form-group">
-                                        <label class="form-label" for="new_agreement_image">Image</label>
-                                        <input type="file" class="form-control" name="new_agreement_image[]" value="">
-                                   </div>
-                              </div>
-                              <div class="col-md-4">
-                                   <div class="form-group">
-                                        <label class="form-label" for="new_agreement_heading">Heading</label>
-                                        <input type="text" class="form-control" name="new_agreement_heading[]" value="">
-                                   </div>
-                              </div>
-                              <div class="col-md-4">
-                                   <div class="form-group">
-                                        <label class="form-label" for="new_agreement_description">Description</label>
-                                        <textarea class="form-control" name="new_agreement_description[]"></textarea>
-                                   </div>
-                              </div>
-                         </div>
-                    </div>`;
-
-          $('#steps').append(html);
-     });
-
-// Remove Faq section //
-
-});
 
 </script>
 

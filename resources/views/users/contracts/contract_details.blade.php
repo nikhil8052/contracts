@@ -1,4 +1,4 @@
-@extends('users_layout.other_master')
+@extends('users_layout.master')
 @section('content')
 
 @php use Carbon\Carbon; @endphp

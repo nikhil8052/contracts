@@ -1835,4 +1835,36 @@ class SiteMetaController extends Controller
         }
     }
 
+    public function legal_document(){
+        $legal = LoginRegister::where('key','legal')->first();
+        return view('admin.site_meta.legal_document.legal_document',compact('legal'));
+    }
+
+    public function addLegal(Request $request){
+        try{
+            if($request->id != null){
+                $legal = LoginRegister::find($request->id);    
+                $status = 'updated';       
+            }else{
+                $legal = new LoginRegister;  
+                $status = 'saved';  
+                $legal->key = 'legal';
+            }
+
+            $legal->title = $request->page_title;
+            $legal->main_heading = $request->heading;
+            $legal->main_sub_heading = $request->sub_heading;
+            $legal->save();
+        
+            if($status == 'updated'){
+                return redirect()->back()->with('success','Data Successfully updated');
+            }elseif($status == 'saved'){
+                return redirect()->back()->with('success','Data Successfully saved');
+            }
+        }catch(Exception $e){
+            saveLog("Error:", "SiteMetaController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
 }

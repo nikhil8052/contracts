@@ -34,10 +34,10 @@ Route::get('/',[HomeController::class,'home']);
 Route::get('/document/{slug}',[HomeController::class,'getDocument']);
 Route::get('/contact-us',[ContactUsController::class,'index']);
 Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
-Route::get('/register',[AuthController::class,'register']);
+Route::get('/register',[AuthController::class,'register'])->name('register');
 Route::get('/login',[AuthController::class,'loginUser'])->name('login.user');
-Route::post('login-process',[AuthController::class,'loginProcess']);
-Route::get('/forget-password',[AuthController::class,'forgetPassword']);
+Route::post('login-process',[AuthController::class,'loginProcess'])->name('login.process');
+Route::get('/forget-password',[AuthController::class,'forgetPassword'])->name('recover.password');
 Route::post('/forget-password-email',[AuthController::class,'forgetPasswordEmail']);
 Route::get('password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
@@ -46,7 +46,16 @@ Route::post('/get-contract',[ContractController::class,'getContract']);
 Route::get('/legal-document',[ContractController::class,'legalDocument']);
 
 Route::post('/registerProcc',[AuthController::class,'registerProcc']);
-Route::get('logout',[AuthController::class,'logout']);
+Route::get('logout',[AuthController::class,'logout'])->name('logout');
+
+// Login with Google Route
+Route::get('login-google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('auth-google-callback', [AuthController::class, 'handleGoogleCallback']);
+
+
+
+// end login with google route
+
 
 
 // ****************** SitePagesController Start**********************//
@@ -146,7 +155,8 @@ Route::group(['middleware' =>['auth']],function(){
      Route::get('/admin-dashboard/messages',[AdminController::class,'messages']);
      Route::post('/admin-dashboard/save/messages',[AdminController::class,'saveMesage']);
 
-     Route::get('/admin-dashboard/add/favIcon',[SiteMetaController::class.'getfavicon']);
+     Route::get('/admin-dashboard/legal-document',[SiteMetaController::class,'legal_document']);
+     Route::post('/admin-dashboard/add-legal-document',[SiteMetaController::class,'addLegal']);
 
      //*********************Product Sections***************//
      Route::get('/admin-dashboard/product',[ProductController::class,'product']);

@@ -46,7 +46,7 @@
 			<div class="tab">
 			@if(isset($document_category) && $document_category != null)
 				@foreach($document_category as $category)
-					<div class="btn {{ $loop->first ? 'tab_btn1 active' : 'tab_btn' . $loop->iteration }}">
+					<div class="btn {{ $loop->first ? 'tab_btn1 active' : 'tab_btn'.$loop->iteration }}">
 						{{ $category->name ?? '' }}
 					</div>
 				@endforeach
@@ -362,8 +362,8 @@
 		});
 
 		$('.next-btn').on('click', function() {
-		$('.client-slider').slick('slickNext'); 
-	});
+			$('.client-slider').slick('slickNext'); 
+		});
 
 		$(".prev-btn").addClass("slick-disabled");
 		$(".slick-list").on("afterChange", function () {

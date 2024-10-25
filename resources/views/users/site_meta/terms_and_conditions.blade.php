@@ -1,4 +1,4 @@
-@extends('users_layout.other_master')
+@extends('users_layout.master')
 @section('content')
 
 <section class="banner_sec dark inner-banner tc" style="background-image: url({{ asset('storage/'.$data['background_image']) }});">

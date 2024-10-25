@@ -36,11 +36,11 @@ class DocumentController extends Controller
         return view('admin.documents.document',compact('categories','related_documents','reviews'));
     }
 
-    public function addDocuments(Request $request){
-        $request->validate([
-            'title' => 'required',
-            'slug' => 'required|string|unique:documents,slug',
-        ]);
+    public function addDocuments(DocumentFormRequest $request){
+        // $request->validate([
+        //     'title' => 'required',
+        //     'slug' => 'required|string|unique:documents,slug',
+        // ]);
 
         DB::beginTransaction(); 
         try{
@@ -117,7 +117,6 @@ class DocumentController extends Controller
                         DB::rollBack();
                         return redirect()->back()->with('error', $fileuploadData->error);
                     }
-                    
                 }
             }
 

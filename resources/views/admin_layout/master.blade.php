@@ -125,6 +125,9 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/prices') }}" class="nk-menu-link"><span class="nk-menu-text">Prices</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/legal-document') }}" class="nk-menu-link"><span class="nk-menu-text">Legal Document</span></a>
+                                        </li>
                                     </ul>
                                 </li> 
                                 <!-- <li class="nk-menu-item has-sub">

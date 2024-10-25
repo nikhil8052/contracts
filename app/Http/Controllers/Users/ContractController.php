@@ -8,6 +8,9 @@ use App\Models\PrepareContract;
 use App\Models\PrepareContractWork;
 use App\Models\ProductCategory;
 use App\Models\Product;
+use App\Models\LoginRegister;
+use App\Models\Document;
+use App\Models\DocumentCategory;
 
 class ContractController extends Controller
 {
@@ -69,6 +72,9 @@ class ContractController extends Controller
     }
 
     public function legalDocument(){
-        return view('users.contracts.legal_document');
+        $legal = LoginRegister::where('key','legal')->first();
+        $document_category = DocumentCategory::limit(4)->get();
+        $alldocuments = Document::where('published',1)->paginate(12);
+        return view('users.contracts.legal_document',compact('legal','document_category','alldocuments'));
     }
 }

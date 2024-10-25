@@ -11,10 +11,13 @@ use Auth;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Models\PasswordResetToken;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Mail\Mailable;
 class AuthController extends Controller
 {
 
     public function login(){
+        
         $login = LoginRegister::where('key','login')->first();
         return view('auth.adminLogin',compact('login'));
     }
@@ -39,6 +42,7 @@ class AuthController extends Controller
     }
 
     public function register(){
+
         $register = LoginRegister::where('key','register')->first();
      
         return view('auth.register',compact('register'));
@@ -94,7 +98,7 @@ class AuthController extends Controller
         
         $request->validate([
         'email' => 'required|email', // Added email format validation
-        'password' => 'required|string',
+        'password' => 'required|min:6',
         ]);
 
         // Attempt to log the user in
@@ -123,8 +127,8 @@ class AuthController extends Controller
 
     public function forgetPassword(){
      
-      
-        return view('auth.forget_password');
+        $login = LoginRegister::where('key','login')->first();
+        return view('auth.forget_password',compact('login'));
     }
 
     public function forgetPasswordEmail(Request $request)
@@ -185,5 +189,180 @@ class AuthController extends Controller
 
         return back()->withErrors(['email' => trans($resetStatus)]);
     }
+
+
+    // login with google  function define
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+      
+    }
+        
+    // public function handleGoogleCallback()
+    // {
+    //     try {
+    //         $googleUser = Socialite::driver('google')->stateless()->user();
+          
+    //         // Check if the user already exists in the database by Google ID
+    //         $user = User::where('google_id', $googleUser->getId())->first();
+          
+    //         if ($user) {
+    //             // Check if the email matches
+    //             if ($user->email != $googleUser->getEmail()) {
+    //                 return redirect('/')->with('error', 'Email mismatch. Please contact support.');
+    //             }
+
+    //             // If the user exists, log them in
+    //             if (Auth::login($user)) {
+
+    //                 if ($user->email_verified == 1) {
+    //                     switch ($user->is_admin) {
+    //                         case 1:
+    //                             return redirect('/admin-dashboard')->with('success', 'Welcome ' . $user->first_name . ' to Admin Dashboard.');
+    //                         case 0:
+    //                             return redirect('/')->with('success', 'Welcome ' . $user->first_name . ' to the home page.');
+    //                         default:
+    //                             Auth::logout();
+    //                             abort(401, 'Invalid user.');
+    //                     }
+    //                 } else {
+    //                     Auth::logout();
+    //                     return redirect('/')->with('error', 'not verify your email address');
+    //                 }
+    //             }
+    //         } else {
+    //             // User does not exist, check if a user with the same email exists
+    //             $existingUser = User::where('email', $googleUser->getEmail())->first();
+            
+    //             if ($existingUser) {
+    //                 // If the user exists but doesn't have a Google ID, store the Google ID
+    //                 $existingUser->google_id = $googleUser->getId();
+    //                 $existingUser->save();
+
+    //                 // Redirect to email verification if necessary
+    //                 $login_email = Crypt::encryptString($existingUser->email);
+    //                 return redirect('/verify-email/' . $login_email);
+    //             }
+
+    //             // Create a new user
+    //             $newUser = User::create([
+    //                 'first_name' => $googleUser->name,
+    //                 'email' => $googleUser->getEmail(),
+    //                 'google_id' => $googleUser->getId(),
+    //                 'password' => Hash::make($googleUser->id), // Use a random password
+    //                 'is_admin' => 0, // Default role
+    //                 'email_verified' => 1, // Assume verified by default
+    //                 'status' => 1, // Set status as active
+    //             ]);
+
+    //             if ($newUser->email_verified == 1) {
+    //                 switch ($newUser->is_admin) {
+    //                     case 1: // Admin
+    //                         return redirect('/admin-dashboard')->with('success', 'Welcome ' . $newUser->first_name . ' to Admin Dashboard.');
+    //                     case 0: // Regular user
+    //                         return redirect('/')->with('success', 'Welcome ' . $newUser->first_name . ' to the home page.');
+    //                     default:
+    //                         Auth::logout();
+    //                         abort(401, 'Invalid user.');
+    //                 }
+    //             } else {
+    //                 Auth::logout();
+    //                 return redirect('/')->with('error', 'Your email address has not been verified.');
+    //             }
+    //             return redirect('/')->with('success', 'Welcome ' . $newUser->first_name . ' to the home page.');
+    //         }
+    //     } catch (\Throwable $th) {
+    //         // Log the exception message
+          
+    //         return redirect('/')->with('error', 'Something went wrong. Please try again.');
+    //     }
+    // }
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser  = Socialite::driver('google')->stateless()->user();
+
+            // Check if the user already exists in the database by Google ID
+            $user = User::where('google_id', $googleUser->getId())->first();
+           
+            if ($user) {
+                // Check if the email matches
+                if ($user->email != $googleUser->getEmail()) {
+                    return redirect('/')->with('error', 'Email mismatch. Please contact support.');
+                }
+
+                // If the user exists, log them in
+                if (Auth::login($user)) {
+                    // Check if the user's email is verified
+                    if ($user->email_verified_at == 1) {
+                        switch ($user->is_admin) {
+                            case 1:
+                                return redirect('/admin-dashboard')->with('success', 'Welcome ' . $user->first_name . ' to Admin Dashboard.');
+                            case 0:
+                                return redirect('/')->with('success', 'Welcome ' . $user->first_name . ' to the home page.');
+                            default:
+                                Auth::logout();
+                                abort(401, 'Invalid user.');
+                        }
+                    } else {
+                        Auth::logout();
+                        return redirect('/')->with('error', 'Your email address has not been verified.');
+                    }
+                }
+            } else {
+                // User does not exist, check if a user with the same email exists
+                $existingUser  = User::where('email', $googleUser->getEmail())->first();
+            
+                if ($existingUser ) {
+                    // If the user exists but doesn't have a Google ID, store the Google ID
+                    $existingUser->google_id = $googleUser->getId();
+                    $existingUser->save();
+
+                    // Redirect to email verification if necessary
+                    $login_email = Crypt::encryptString($existingUser ->email);
+                    return redirect('/verify-email/' . $login_email);
+               } 
+               else {
+                    $newUser = new User();
+                    $newUser->first_name = $googleUser->name;
+                    $newUser->last_name = $googleUser->name;
+                    $newUser->email = $googleUser->email;
+                    $newUser->google_id = $googleUser->getId();
+                    $newUser->password = Hash::make(Str::random(16)); // Use a random password
+                    $newUser->email_verified_at	 = 1; // Assume verified by default
+                    $newUser->is_admin = 0;
+                    $newUser->status = 1; // Set status as active
+                   
+                    // Save the new user
+                    if ($newUser->save()) {
+                        // Check email verification
+                        if ($newUser->email_verified_at	 == 1) {
+                            switch ($newUser->is_admin) {
+                                case 1: // Admin
+                                    return redirect('/admin-dashboard')->with('success', 'Welcome ' . $newUser->first_name . ' to Admin Dashboard.');
+                                case 0: // Regular user
+                                    return redirect('/')->with('success', 'Welcome ' . $newUser->first_name . ' to the home page.');
+                                default:
+                                    Auth::logout();
+                                    abort(401, 'Invalid user.');
+                            }
+                        } else {
+                            Auth::logout();
+                            return redirect('/')->with('error', 'Your email address has not been verified.');
+                        }
+                    } else {
+                        Auth::logout();
+                        return redirect('/')->with('error', 'Failed to create user. Please try again.');
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            // Log the exception message
+            \Log::error('Google Callback Error: ' . $th->getMessage());
+            return redirect('/')->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
  
 }

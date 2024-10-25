@@ -1,37 +1,63 @@
 @extends('users_layout.master')
 @section('content')
-<style>
-	@media only screen and (max-width: 767px) {
-	.lost_reset_password, .register-sec .register {
-		border: 1px solid #e0e0e0;
-		border-radius: 15px;
-		padding: 30px 30px;
-		max-width: 709px;
-		margin: auto;
-	}
-	}
-</style>
-<section class="login-sec p-100">
+
+@if($login->background_image != null)
+    <?php $path = str_replace('public/', '', $login->file_path ?? null); ?>
+    <section class="banner_sec dark inner-banner acerca model_banner" style="background-image: url({{ asset('storage/'.$path) }});">
+@else
+    <section class="banner_sec dark inner-banner acerca model_banner" style="background-image: url({{ asset('assets/img/banner-img.png') }});">
+@endif
     <div class="container">
-        <div class="login-contant fa-text">
-            <h1>Recuperar contraseña</h1>
-			<div class="woocommerce-notices-wrapper"></div>
-
-			<form method="post" action="{{url('forget-password-email')}}" class="woocommerce-ResetPassword lost_reset_password">
-				@csrf
-				<p>Recibirás un enlace para crear una nueva contraseña por correo electrónico.</p>
-				<p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-					
-					<input class="woocommerce-Input woocommerce-Input--text input-text form-control" type="email" placeholder="Correo electrónico" name="email" id="user_login" autocomplete="username">
-				</p>
-
-				<div class="clear"></div>
-
-				<p class="woocommerce-form-row form-row">
-					<button type="submit" class="woocommerce-Button reset-btn button" value="Reset password">Recuperar contraseña</button>
-				</p>
-			</form>
-		</div>
-	</div>
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <div class="banner_content">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="banner_img">
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+<section class="social_login light p_120">
+    <div class="inner_social_log">
+        <div class="container">
+            <div class="social_sec_wt">
+                <div class="social_contct">
+                    <form method="post" action="{{ url('forget-password-email') }}" class="needs-validation" novalidate>
+                        @csrf
+                        <div class="social_hd">
+                            <h2>Recuperar contraseña</h2>
+                            <p class="hd_para_consta">
+                                Recibirás un enlace para crear una nueva contraseña por correo electrónico.
+                            </p>
+                        </div>
+
+                        <div class="contac_ot_box">
+                            <input class="form-control inside_contac" id="user_login" type="email" placeholder="Correo electrónico" name="email" required>
+                            <div class="invalid-feedback">
+                                Por favor, introduce un correo electrónico válido.
+                            </div>
+                            <span class="text-danger">@error('email') {{ $message }} @enderror</span>
+                        </div>
+
+                        <div class="contac_ot_box">
+                            <button type="submit" class="cta_org btn btn-primary btn-block">Recuperar contraseña</button>
+                        </div>
+
+                        <div class="contac_ot_box">
+                            <p class="contaco_para_in">
+                                ¿No estás registrado? <span class="span1"><a href="{{route('register')}}" class="link-url">Crear cuenta</a></span>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 @endsection
