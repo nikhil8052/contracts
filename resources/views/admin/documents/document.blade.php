@@ -73,6 +73,7 @@
                          </div>
                          <h5 class="mt-2">Document Short Description</h5>  
                          <hr>
+                         <hr>
                          <div class="row gy-12 mt-2">
                               <div class="col-md-12 doc-short-des">
                                    <div class="form-group">

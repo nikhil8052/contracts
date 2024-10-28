@@ -15,6 +15,7 @@ use App\Models\Review;
 use App\Models\DocumentAgreement;
 use App\Models\DocumentWithCategory;
 use App\Models\Media;
+use App\Models\QuestionType;
 use Illuminate\Support\Str;
 use App\Services\FileUploadService;
 use Illuminate\Support\Facades\DB;
@@ -715,4 +716,57 @@ class DocumentController extends Controller
         }
     }
 
+    public function allQuestion(){
+        return view('admin.documents.all_document_question');
+    }
+
+    public function documentQuestion(){
+        $documents = Document::where('published',1)->get();
+        return view('admin.documents.document_questions',compact('documents'));
+    }
+
+    public function allquestionType(){
+        $question_types = QuestionType::all();
+        return view('admin.documents.all_types',compact('question_types'));
+    }
+
+    public function questionType(){
+        return view('admin.documents.question_types');
+    }
+
+    public function addTypes(Request $request){
+        try{
+            if($request->id != null){
+                $question_type = QuestionType::find($request->id);
+                $status = 'updated';
+            }else{
+                $request->validate([
+                    'name' => 'required',
+                    'slug' => 'required|unique:question_types,slug',
+                ]);
+
+                $question_type = new QuestionType;
+                $status = 'saved';
+            }
+            
+            $question_type->name = $request->name;
+            $question_type->slug = $request->slug;
+            $question_type->save();
+
+            if($status == 'updated'){
+                return redirect()->back()->with('success','Data Successfully updated');
+            }elseif($status == 'saved'){
+                return redirect()->back()->with('success','Data Successfully saved');
+            }
+
+        }catch(Exception $e){
+            saveLog("Error:", "DocumentController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    public function editQuestionType($slug){
+        $question_type = QuestionType::where('slug',$slug)->first();
+        return view('admin.documents.question_types',compact('question_type'));
+    }
 }

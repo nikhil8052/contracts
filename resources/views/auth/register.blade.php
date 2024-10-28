@@ -30,7 +30,7 @@
                         <form method="post" action="{{ url('/registerProcc') }}" id="register-form" enctype="multipart/form-data">
                             @csrf
                             <div class="social_hd">
-                                <h2>{{ $register->title ?? 'Crear cuenta' }}</h2>
+                                <h2>{{ $register->main_heading ?? 'Crear cuenta' }}</h2>
                             </div>
                             <div class="fs-n-lt-n">
                                 <div class="contac_ot_box">

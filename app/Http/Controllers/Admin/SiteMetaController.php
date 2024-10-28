@@ -611,7 +611,34 @@ class SiteMetaController extends Controller
             }
             $register->key = 'register';
             $register->title = $request->title;
+            $register->main_heading = $request->main_heading;
+            
+            if($request->hasFile('background_image')){
+                $file = $request->file('background_image');
+                $directory = "public/site_images";
+                $filename = generateFileName($file);
+                $filepath = $file->storeAs($directory, $filename);
+
+                $register->background_image = $filename;
+                $register->file_path = $filepath;
+            }
+
             $register->save();
+
+            if($request->bg_img_id != null){
+                $register = LoginRegister::where('id',$request->bg_img_id)->first();
+                $file_path = getFilePath($login->file_path);
+                if(File::exists($file_path)) {
+                    $directory_path = dirname($file_path);
+                    unlink($file_path);              
+                    if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
+                        rmdir($directory_path);
+                    }
+                }
+                $register->background_image = null;
+                $register->file_path = null;
+                $register->update();
+            }
         
             if($status == 'updated'){
                 return redirect()->back()->with('success','Data Successfully updated');

@@ -599,7 +599,7 @@ div#navbarSupportedContent {
     height: 100%;
 }
  .inside_box_tab:hover {
-    /* box-shadow: 10px 10px 40px rgba(41, 56, 95, 0.15); */
+    box-shadow: 10px 10px 40px rgba(41, 56, 95, 0.15);
     transition: 0.3s ease;
     cursor: pointer;
 }
@@ -2833,9 +2833,10 @@ section.banner_sec.dark {
     border: 1px solid  #002655;
     color: #002655;
 }
-.sec8_cont_ot .tab_btn:hover .cta_blue {
+.sec8_cont_ot .tab_btn .cta_blue:hover {
     background-color: #FD5602;
     color: #fff;
+    border: 1px solid #fff;
 }
 
 /*////////////////////////////////// 23oct2024//////////////////////////////////////////// */

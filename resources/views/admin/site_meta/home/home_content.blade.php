@@ -25,6 +25,7 @@
                          <h5>Home Page</h5>  
                          <hr>
                          <h6>Banner Section</h6>
+                         <hr>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="background_image">Background Image</label>
@@ -87,6 +88,7 @@
                          </div>
                          <hr>
                          <h6>Most popular Documents</h6>  
+                         <hr>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="main_title">Main Title</label>
@@ -126,6 +128,7 @@
                          </div>
                          <hr>
                          <h6>Bottom Banner</h6>  
+                         <hr>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="bottom_heading">Heading</label>
@@ -170,6 +173,7 @@
                          </div>
                          <hr>
                          <h6>Categories Section</h6>  
+                         <hr>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="category_main_title">Main Title</label>
