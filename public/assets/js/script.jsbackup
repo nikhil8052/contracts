@@ -145,36 +145,36 @@ $(function () {
 
   prevIndex = 0;
 
-//   $(document).ready(function() {
-//     $('.doc_cat_tab .btn').on('click', function() {
-//         // Remove 'active' class from all buttons
-//         $('.doc_cat_tab .btn').removeClass('active');
+  $(document).ready(function() {
+    $('.doc_cat_tab .btn').on('click', function() {
+        // Remove 'active' class from all buttons
+        $('.doc_cat_tab .btn').removeClass('active');
 
-//         // Add 'active' class to the clicked button
-//         $(this).addClass('active');
-//     });
-// });
-  btn.on("click", function () {
-    var th, thIndex;
+        // Add 'active' class to the clicked button
+        $(this).addClass('active');
+    });
+});
+  // btn.on("click", function () {
+  //   var th, thIndex;
 
-    th = $(this);
-    thIndex = th.index();
+  //   th = $(this);
+  //   thIndex = th.index();
 
-    if (!th.hasClass("active")) {
-      if (prevIndex != thIndex && prevIndex !== "undefined") {
-        btn.eq(prevIndex).removeClass("active");
-        tabC.eq(prevIndex).removeClass("show");
-      }
-      btn.eq(thIndex).addClass("active");
-      tabC.eq(thIndex).addClass("show");
-      prevIndex = thIndex;
+  //   if (!th.hasClass("active")) {
+  //     if (prevIndex != thIndex && prevIndex !== "undefined") {
+  //       btn.eq(prevIndex).removeClass("active");
+  //       tabC.eq(prevIndex).removeClass("show");
+  //     }
+  //     btn.eq(thIndex).addClass("active");
+  //     tabC.eq(thIndex).addClass("show");
+  //     prevIndex = thIndex;
 
-      //slick position filter
-      //if you have problem with slick in tabs, use next option
-      //magic option
-      tabC.eq(thIndex).find(".slider").slick("setPosition");
-    }
-  });
+  //     //slick position filter
+  //     //if you have problem with slick in tabs, use next option
+  //     //magic option
+  //     tabC.eq(thIndex).find(".slider").slick("setPosition");
+  //   }
+  // });
 
   slider = $(".slider");
 

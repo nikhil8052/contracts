@@ -43,7 +43,7 @@
         <!-- tab1 ///////////////////////////////////////////////////////////////////////////// -->
 	<div class="container ">
 		<div class="wrapper">
-			<div class="tab">
+			<div class="tab doc_cat_tab">
 			@if(isset($document_category) && $document_category != null)
 				@foreach($document_category as $category)
 					<div class="btn {{ $loop->first ? 'tab_btn1 active' : 'tab_btn'.$loop->iteration }}">
