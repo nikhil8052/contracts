@@ -403,11 +403,18 @@
                          @endif
                          <div id="guide-sec-steps"></div>
                          <br>
-                         <!-- <div class="text-end">
+                         <div class="col-md-12 mt-2">
                               <div class="form-group">
-                                   <button type="button" class="btn btn-sm btn-primary" id="add-guide-sec">Add Row</button>
+                                   <label class="form-label" for="guide_button">Guide Button</label>
+                                   <input type="text" class="form-control form-control" id="guide_button" name="guide_button" value="{{ $document->guide_button ?? '' }}">
                               </div>
-                         </div> -->
+                         </div>
+                         <div class="col-md-12 mt-2">
+                              <div class="form-group">
+                                   <label class="form-label" for="guide_button_link">Guide Section Button Link</label>
+                                   <input type="text" class="form-control form-control" id="guide_button_link" name="guide_button_link" value="{{ $document->guide_button_link ?? '' }}">
+                              </div>
+                         </div>
                          <hr>
                          <h6 class="mt-4">Legal Document</h6>
                          <hr>

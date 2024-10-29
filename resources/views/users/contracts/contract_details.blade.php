@@ -33,17 +33,27 @@
                                 <li>{{ $document->valid_in ?? '' }}</li>
                             </ul>
                         </div>
-                        <ul class="cont_ul">
-                        <li class="cont_li ">5.0 </li>
-                            <li class="drop_cont_li">
-                                <div class="select_ul">
-                                    <div class="stars_li" data-type="firstOption">
-                                        <span class="span_img"> <img src="{{ asset('assets/img/stars.png') }}" alt=""> </span>
-                                    </div>           
-                                </div>
-                            </li>
-                            <li class="cont_li ">81 opiniones</li>
-                        </ul>
+                        <div class="share_icon">
+                            <div class="review">
+                                <ul class="cont_ul">
+                                    <li class="cont_li ">5.0 </li>
+                                    <li class="drop_cont_li">
+                                        <div class="select_ul">
+                                            <div class="stars_li" data-type="firstOption">
+                                                <span class="span_img"><img src="{{ asset('assets/img/stars.png') }}" alt=""> </span>
+                                            </div>           
+                                        </div>
+                                    </li>
+                                    <li class="cont_li ">81 opiniones</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <span class="share_sn">
+                                    <a href=""><img src="{{ asset('assets/img/share_icon.png') }}" alt=""></a>
+                                </span>
+                            </div>
+                        </div>
+                        
 
                         <div class="cont_content">
                             @if(isset($document->short_description) && $document->short_description != null)
@@ -236,8 +246,6 @@
                     {{ $document->guide_main_heading ?? '' }}
                 </h2>
             </div>
-
-
             <div class="sec7_const_content">
                 <div class="container">
                     <div class="row">
@@ -257,39 +265,11 @@
                             </div>
                         </div>
                     @endforeach
-
-                        <!-- <div class="col-lg-6">
-                            <div class="sec7_const_h b_right">
-                                <div class="sec7_const_img">
-                                    <img src="img/sec7_1img.png" alt="">
-                                </div>
-                                <div class="h_sec_const">
-                                    <h6>Crea tu acuerdo</h6>
-                                    <p>
-                                        Utiliza nuestro Generador de Acuerdos para crear tu acuerdo personalizado en
-                                        solo unos minutos, permitiéndote elaborar el documento de acuerdo a tus
-                                        necesidades específicas.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="sec7_const_h">
-                                <div class="sec7_const_img">
-                                    <img src="img/sec7_img2.png" alt="">
-                                </div>
-                                <div class="h_sec_const">
-                                    <h6>Descarga tu acuerdo</h6>
-                                    <p>
-                                        Descarga el acuerdo en el formato que prefieras, disponible en PDF o DOCX,
-                                        listo para imprimir, editar y ser firmado por todas las partes involucradas,
-                                        asegurando así su validez legal.
-                                    </p>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
+            </div>
+            <div class="con_btn_div h_sec_btn">
+                <a href="{{ $document->guide_button_link ?? '' }}" class="cta_light_cont ">{{ $document->guide_button ?? '' }}</a>
             </div>
         </div>
 
@@ -303,6 +283,9 @@
     <div class="inside_sec8_const">
         <div class="container">
             <div class="row">
+                <div class="heading_sec_tabs">
+                    <h2 class="doc_h">{{ $document->related_heading ?? '' }}</h2>
+                </div>
                 <div class="col-lg-3 col-md-6 p-0 mb-2">
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">
                         <div class="inside_box_tab">

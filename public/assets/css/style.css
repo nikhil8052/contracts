@@ -7,7 +7,7 @@ html {
 body {
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400 !important;
     overflow-x: hidden;
 }
 
@@ -461,6 +461,7 @@ div#navbarSupportedContent {
     border: 1px solid #0026551C;
     border-radius: 25px;
     padding: 40px;
+    margin: 5px 0px !important;
     height: 100%;
 }
 .tab_box_sec .img_tab_sec {
@@ -519,7 +520,7 @@ div#navbarSupportedContent {
     content: '';
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 102%;
     background: #fff;
     right: 100%;
     top: 0;
@@ -599,7 +600,7 @@ div#navbarSupportedContent {
     height: 100%;
 }
  .inside_box_tab:hover {
-    box-shadow: 10px 10px 40px rgba(41, 56, 95, 0.15);
+    box-shadow: 0px 0px 15px rgba(41, 56, 95, 0.15);
     transition: 0.3s ease;
     cursor: pointer;
 }
@@ -727,7 +728,7 @@ footer .in1_foot {
   } */
 footer .select-menu .select-btn {
     display: flex;
-    height: 55px;
+    height: 30px;
     background: transparent;
     color: #fff;
     /* padding: 20px; */
@@ -853,11 +854,11 @@ footer .foot_li a:hover {
 }
 
 .card_sec_out .card_ot_lyr {
-    max-width: 660px;
+    max-width: 460px;
     width: 100%;
     margin: auto;
     background-color: #fff;
-    padding: 58px 68px;
+    padding: 30px 30px;
     border-radius: 25px;
 }
 
@@ -976,8 +977,8 @@ footer .foot_li a:hover {
     display: inline-block;
     cursor: pointer;
     transition: background-color .3s;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .slick-dots {
@@ -1141,8 +1142,8 @@ footer .foot_li a:hover {
 }
 
 .inner_sec2 .share_sn img {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     margin-bottom: 10px;
 }
 
@@ -1456,11 +1457,11 @@ footer .foot_li a:hover {
 }
 
 .sec9_outer_cont {
-    background-color: rgba(242, 251, 255, 1);
+    /* background-color: rgba(242, 251, 255, 1); */
 }
 
 .sec9_outer_cont .clientes_slider .slick-list.draggable:before {
-    background-color: rgba(242, 251, 255, 1);
+    /* background-color: rgba(242, 251, 255, 1); */
 
 }
 
@@ -2013,6 +2014,7 @@ header.fun-header {
 
 .clientes_slider.cd .slick-slide .control_box {
     background: #F5F5F5;
+
 
 }
 
@@ -2785,7 +2787,7 @@ section.banner_sec.dark {
     color: #000;
 }
 .clientes_slider .slick-slide.slick-current .control_box {
-    box-shadow: 0px 0px 25px 0px #00000014;
+    box-shadow: 0px 0px 10px 0px #00000014;
    background-color: #fff;
    border: none;
 }
@@ -2858,20 +2860,10 @@ footer .foot_end_box .reserve_box{
 }
 .pdf_head h1 {
     position: relative; 
+    font-size: 36px;
 }
 
-.pdf_head h1::after {
-    content: '';
-    position: absolute; 
-    top: 50%;          
-    left: 98%;       
-    transform: translateY(-50%); 
-    width: 38px;      
-    height: 38px;     
-    background-image: url('https://sagmetic.site/2023/laravel/contracts/public/assets/img/share_icon.png'); 
-    background-size: cover;
-    background-repeat: no-repeat; 
-}
+
 .generate-sec.Comienza_sec .col-md-6 a.cta_org:hover {
     background-color: #002655;
     color: white;
@@ -2883,6 +2875,7 @@ footer .foot_end_box .reserve_box{
 .inside_ul_pdf img {
     width: 26px;
     height: 23px;
+    margin-bottom: 3px;
 }
 
 /*///////////////////////////////////////// 25oct2024 /////////////////////////////////////*/
@@ -2897,4 +2890,20 @@ footer .foot_end_box .reserve_box{
 }
 .social_sec_wt .fs-n-lt-n .contac_ot_box {
     width: 100%;
+}
+
+/* 29oct2024  */
+
+.share_icon {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+.con_btn_div {
+    text-align: center;
+    margin-top: 30px;
+}
+.card_h h3 {
+    font-size: 18px;
+    text-align: center;
 }

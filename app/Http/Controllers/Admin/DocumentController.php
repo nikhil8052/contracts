@@ -150,6 +150,8 @@ class DocumentController extends Controller
             }
 
             $document->guide_main_heading = $request->guide_heading;
+            $document->guide_button = $request->guide_button;
+            $document->guide_button_link = $request->guide_button_link;
 
             if($request->has('step_title') != null && $request->has('step_description') != null){
                 $step_title = $request->step_title;
@@ -340,6 +342,8 @@ class DocumentController extends Controller
             }
 
             $document->guide_main_heading = $request->guide_heading;
+            $document->guide_button = $request->guide_button;
+            $document->guide_button_link = $request->guide_button_link;
 
             if($request->has('step_title') != null){
                 foreach($request->step_title as $key=>$val){
@@ -722,7 +726,8 @@ class DocumentController extends Controller
 
     public function documentQuestion(){
         $documents = Document::where('published',1)->get();
-        return view('admin.documents.document_questions',compact('documents'));
+        $types = QuestionType::all();
+        return view('admin.documents.document_questions',compact('documents','types'));
     }
 
     public function allquestionType(){
@@ -754,7 +759,7 @@ class DocumentController extends Controller
             $question_type->save();
 
             if($status == 'updated'){
-                return redirect()->back()->with('success','Data Successfully updated');
+                return redirect('/admin-dashboard/edit-question-type/'.$request->slug)->with('success','Data Successfully updated');
             }elseif($status == 'saved'){
                 return redirect()->back()->with('success','Data Successfully saved');
             }

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('btn_text')->nullable();
             $table->longtext('long_description')->nullable();
             $table->text('guide_main_heading')->nullable();
+            $table->text('guide_button')->nullable();
+            $table->text('guide_button_link')->nullable();
             $table->text('legal_heading')->nullable();
             $table->longtext('legal_description')->nullable();
             $table->string('legal_btn_text')->nullable();

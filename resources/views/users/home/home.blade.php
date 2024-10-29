@@ -154,8 +154,8 @@
 			?>
 				<div class="col-lg-3">
 					<div class="in_box_cate">
-						<div class="in_img_cate">
-							<img src="{{ asset('storage/'.$path ?? '' ) }}" alt="">
+						<div class="">
+							<img src="{{ asset('storage/'.$path ?? '' ) }}" alt="" class="h_cateimg">
 						</div>
 						<div class="in_cate_content">
 							<h3>{{ $category->heading ?? '' }}</h3>

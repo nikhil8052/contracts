@@ -4,24 +4,24 @@
 
  
 
-
+/* 
 .inside_box_tab {
     border: 1px solid rgba(1, 37, 85, 0.1);
     border-radius: 15px;
-}
+} */
 
-.inside_box_b {
+/* .inside_box_b {
     padding: 0px 10px;
-}
+} */
 
 
 
-.inside_box_b .img_tab_sec {
+/* .inside_box_b .img_tab_sec {
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     background-color: rgba(1, 37, 85, 0.08);
     padding: 25px 32px;
-}
+} */
 
 .tab_sec_ot .tab_ul {
     list-style-type: none;
@@ -77,14 +77,14 @@
     background-position: center;
 }
 
-.card_sec_out .card_ot_lyr {
+/* .card_sec_out .card_ot_lyr {
     max-width: 660px;
     width: 100%;
     margin: auto;
     background-color: #fff;
     padding: 58px 68px;
     border-radius: 25px;
-}
+} */
 
 .card_sec_out .othr_platform a {
     display: block;
@@ -127,7 +127,7 @@
     color: #000;
 }
 
-.outer_cate .in_box_cate {
+/* .outer_cate .in_box_cate {
     border: 1px solid rgba(1, 37, 85, 0.2);
     padding: 50px 24px 37px 24px;
     border-radius: 25px;
@@ -135,7 +135,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-}
+} */
 
 .outer_cate .cata_h {
     text-align: center;
@@ -172,7 +172,7 @@
     border-radius: 100px;
 }
 
-.tab_sec_ot .btn {
+/* .tab_sec_ot .btn {
     position: relative;
     padding: 8px 16px;
     border: 0;
@@ -187,7 +187,7 @@
 .tab_sec_ot .btn:hover {
     background-color: #FD5602;
     color: #fff;
-}
+} */
 .tab_text {
     padding: 0px 50px 0px 0px;
 }
