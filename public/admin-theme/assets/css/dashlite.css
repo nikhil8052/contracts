@@ -288,6 +288,7 @@ a {
   color: #012555;
   text-decoration: none;
 }
+
 a:hover {
   color: var(--bs-link-hover-color);
   text-decoration: none;
@@ -41618,8 +41619,9 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
   color: #fff;
 }
 
-.view_btn .btn{
-  background-color: #012555;
-  color: #fff;
-  border-color: #012555;
+.view_btn .view_page{
+   color: #012555;
+   font-size: 15px;
+   font-weight: bold;
+   text-decoration: underline;
 }

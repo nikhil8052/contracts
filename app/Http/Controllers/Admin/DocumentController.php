@@ -37,12 +37,7 @@ class DocumentController extends Controller
         return view('admin.documents.document',compact('categories','related_documents','reviews'));
     }
 
-    public function addDocuments(DocumentFormRequest $request){
-        // $request->validate([
-        //     'title' => 'required',
-        //     'slug' => 'required|string|unique:documents,slug',
-        // ]);
-
+    public function addDocuments(DocumentFormRequest $request){      
         DB::beginTransaction(); 
         try{
             $document = new Document;
@@ -151,7 +146,7 @@ class DocumentController extends Controller
 
             $document->guide_main_heading = $request->guide_heading;
             $document->guide_button = $request->guide_button;
-            $document->guide_button_link = $request->guide_button_link;
+            // $document->guide_button_link = $request->guide_button_link;
 
             if($request->has('step_title') != null && $request->has('step_description') != null){
                 $step_title = $request->step_title;
@@ -251,6 +246,8 @@ class DocumentController extends Controller
     }
 
     public function updateDocument(Request $request){
+        // return $request->all();
+
         DB::beginTransaction(); 
         try{
             $document = Document::find($request->id);
@@ -259,7 +256,7 @@ class DocumentController extends Controller
             $document->short_description = $request->short_description;
             $document->btn_text = $request->document_button_text;
             $document->long_description = $request->long_description;
-
+            
             if($request->hasFile('document_image')){
                 $document_image = $request->file('document_image');
                 $image_id = $request->id;
@@ -343,7 +340,7 @@ class DocumentController extends Controller
 
             $document->guide_main_heading = $request->guide_heading;
             $document->guide_button = $request->guide_button;
-            $document->guide_button_link = $request->guide_button_link;
+            // $document->guide_button_link = $request->guide_button_link;
 
             if($request->has('step_title') != null){
                 foreach($request->step_title as $key=>$val){

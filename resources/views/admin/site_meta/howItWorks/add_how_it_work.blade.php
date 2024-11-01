@@ -190,10 +190,11 @@
                     <div class="col-md-4 right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="meta_title">Meta Title</label>
-                                             <input type="text" class="form-control" id="meta_title" name="meta_title" maxlength="50" value="">
+                                   <div class="d-flex justify-content-end">
+                                        <div class="nk-block-head-content">
+                                             <div class="up-btn mbsc-form-group">
+                                                  <button class="btn btn-primary" type="submit">Update</button>
+                                             </div>
                                         </div>
                                    </div>
                                    <div class="col-md-12 mt-2">
@@ -208,12 +209,11 @@
                                              <input type="text" class="form-control" id="url" name="url" value="">
                                         </div>
                                    </div>
-                                   <div class="row">
-                                        <div class="view_btn col-md-6 mt-3">
-                                             <a href="{{ url('/how-it-works') }}" target="_blank" class="btn view_page">View Page</a>
-                                        </div>
-                                        <div class="up-btn col-md-6 mt-3">
-                                             <button class="btn btn-primary" type="submit">Save</button>
+                                   <div class="d-flex justify-content-end">
+                                        <div class="nk-block-head-content butn-cls">
+                                             <div class="mbsc-form-group view_btn mt-3">
+                                                  <a href="{{ url('/') }}" class="view_page" target="_blank">View Page</a>
+                                             </div>
                                         </div>
                                    </div>
                               </div> 

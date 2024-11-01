@@ -1,6 +1,4 @@
-.span1 {
-    font-weight: 600;
-}
+
 
  
 
@@ -34,11 +32,6 @@
 
 .inside_box_b .tab_btn {
     padding-top: 30px;
-}
-
-.heading_sec_tabs {
-    padding-bottom: 23px;
-    text-align: center;
 }
 
 
@@ -86,46 +79,11 @@
     border-radius: 25px;
 } */
 
-.card_sec_out .othr_platform a {
-    display: block;
-    padding: 19px 20px;
-    width: 100%;
-    font-size: 18px;
-    text-align: center;
-    border-radius: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-}
 
-.card_sec_out .othr_platform a:hover {
-    background-color: rgba(1, 37, 85, 1);
-    color: #fff;
-}
 
-.ot_plat {
-    margin-top: 35px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
 
-.card_sec_out .google {
-    position: relative;
-    background-color: rgba(219, 68, 55, 1);
-}
 
-.card_sec_out .facebook {
-    position: relative;
-    background-color: rgba(24, 119, 242, 1);
-}
 
-.card_sec_out .email {
-    position: relative;
-    border: 1px solid rgba(224, 223, 224, 1);
-    color: #000;
-}
 
 /* .outer_cate .in_box_cate {
     border: 1px solid rgba(1, 37, 85, 0.2);

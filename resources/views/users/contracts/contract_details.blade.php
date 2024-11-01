@@ -29,7 +29,7 @@
                         </div>
                         <div class="ul_st">
                             <ul class="inside_ul_pdf">
-                                <li><img src="{{ asset('assets/img/org_tick.png') }}" alt=""></li>
+                                <li><img src="{{ asset('assets/img/org_tick.svg') }}" alt=""></li>
                                 <li>{{ $document->valid_in ?? '' }}</li>
                             </ul>
                         </div>
@@ -285,6 +285,7 @@
             <div class="row">
                 <div class="heading_sec_tabs">
                     <h2 class="doc_h">{{ $document->related_heading ?? '' }}</h2>
+                    <p class="doc_sub_heading">{{ $document->related_description ?? '' }}</p>
                 </div>
                 <div class="col-lg-3 col-md-6 p-0 mb-2">
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">

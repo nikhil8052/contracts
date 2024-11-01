@@ -90,10 +90,11 @@ a{
     color: #fff;
 }
 button {
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
+    /* -webkit-transition: all 0.3s ease-in-out; */
+    /* transition: all 0.3s ease-in-out; */
     text-decoration: none;
     color: inherit;
+    transition: none !important;
 }
 
 a:hover,
@@ -139,7 +140,7 @@ input:focus {
 
 .cta_blue:hover img {
     filter: brightness(0.5);
-    transition: 0.5s ease;
+    /* transition: 0.5s ease; */
 }
 
 .cta_blue:hover {
@@ -162,7 +163,7 @@ input:focus {
 
 .cta_org:hover img {
     filter: brightness(0.5);
-    transition: 0.5s ease;
+    /* transition: 0.5s ease; */
 }
 
 .cta_org:hover {
@@ -177,7 +178,7 @@ input:focus {
 
 .dropdown:hover .rotate_icon {
     transform: rotate(180deg);
-    transition: 0.3s ease;
+    /* transition: 0.3s ease; */
 }
 
 header {
@@ -378,7 +379,7 @@ div#navbarSupportedContent {
     padding: 13px 33px !important;
      font-weight: 500; 
     border-color: #FD5602;
-    transition: none;
+    /* transition: none; */
 }
 
 
@@ -521,7 +522,7 @@ div#navbarSupportedContent {
     position: absolute;
     width: 100%;
     height: 102%;
-    background: #fff;
+    background: rgba(245, 245, 245, 1);
     right: 100%;
     top: 0;
     z-index: 9;
@@ -586,6 +587,8 @@ div#navbarSupportedContent {
 
 .clientes_slider {
     overflow: hidden;
+    background-color: rgba(245, 245, 245, 1);
+    ;
 }
 
 
@@ -601,7 +604,7 @@ div#navbarSupportedContent {
 }
  .inside_box_tab:hover {
     box-shadow: 0px 0px 15px rgba(41, 56, 95, 0.15);
-    transition: 0.3s ease;
+    /* transition: 0.3s ease; */
     cursor: pointer;
 }
 .sec5_conrt_ot .ot_sec5_cont h2 {
@@ -640,6 +643,7 @@ div#navbarSupportedContent {
 
 
 .heading_sec_tabs {
+    color: #000;
     padding-bottom: 23px;
     text-align: center;
 }
@@ -789,7 +793,7 @@ footer .select-menu .options .option .option-text {
 footer .select-btn i {
     margin-left: 10px;
     font-size: 15px;
-    transition: 0.3s;
+    /* transition: 0.3s; */
 }
 
 footer .select-menu.active .select-btn i {
@@ -858,15 +862,16 @@ footer .foot_li a:hover {
     width: 100%;
     margin: auto;
     background-color: #fff;
-    padding: 30px 30px;
+    padding: 40px 40px;
     border-radius: 25px;
 }
 
 .card_sec_out .othr_platform a {
     display: block;
-    padding: 19px 20px;
+    padding: 15px 0px;
     width: 100%;
-    font-size: 18px;
+    font-size: 14px;
+    font-weight: 400;
     text-align: center;
     border-radius: 100px;
     display: flex;
@@ -917,14 +922,15 @@ footer .foot_li a:hover {
 .outer_cate .in_box_cate:hover{
     background-color: #002655;
     color: #fff;
-    transition: 0.3s ease;
+    /* transition: 0.3s ease; */
 }
 .outer_cate .in_box_cate:hover h6{
     color: #fff;
-    transition: 0.3s ease;
+    /* transition: 0.3s ease; */
 }
 .outer_cate .in_box_cate:hover .h_cateimg {
     filter: brightness(0) invert(1);
+    transition: none;
 }
 .outer_cate .cata_h {
     text-align: center;
@@ -988,7 +994,7 @@ footer .foot_li a:hover {
 
 .in_box_cate:hover .h_cateimg {
     filter: grayscale(0);
-    transition: 0.5s ease;
+    /* transition: 0.5s ease; */
 }
 
 .ot_text_cate {
@@ -1158,6 +1164,7 @@ footer .foot_li a:hover {
     font-weight: 400;
     padding-left: 0;
     gap: 8px;
+    margin-bottom: 10px;
 }
 
 .cont_ul .selectDropdown {
@@ -1207,7 +1214,7 @@ footer .foot_li a:hover {
     transform: translateY(-50%) rotate(45deg);
     border-right: 2px solid #000;
     border-bottom: 2px solid #000;
-    transition: 0.2s ease;
+    /* transition: 0.2s ease; */
 }
 
 .drop_cont_li .select .selectBtn.toggle {
@@ -1234,7 +1241,7 @@ footer .foot_li a:hover {
     -webkit-transform-origin: top center;
     transform-origin: top center;
     visibility: hidden;
-    transition: 0.2s ease;
+    /* transition: 0.2s ease; */
 }
 
 .drop_cont_li .select .selectDropdown .option {
@@ -1356,17 +1363,16 @@ footer .foot_li a:hover {
     text-align: center;
 }
 
-/* .sec4_conrt_ot .card_sec4_conrt:hover .img_sec4 img {
+ .sec4_conrt_ot .card_sec4_conrt:hover .img_sec4 img {
      filter: brightness(0) invert(1); 
 
-} */
+} 
 
 
  .sec4_conrt_ot .card_sec4_conrt:hover {
-    /* cursor: pointer; */
-    /* background-color: #002655;
+    cursor: pointer; 
+     background-color: #002655;
     color: #fff;
-    transition: 0.3s ease; */
 }
 
 /* .sec4_conrt_ot .card_sec4_conrt:hover h6 {
@@ -1437,6 +1443,7 @@ footer .foot_li a:hover {
 .sec7_cont_out .h_sec_const h6 {
     font-size: 26px;
     font-weight: 600;
+    text-align: center;
 }
 
 .sec7_cont_out .sec7_const_content {
@@ -1445,6 +1452,7 @@ footer .foot_li a:hover {
 
 .sec7_cont_out .sec7_const_img {
     margin-bottom: 35px;
+    text-align: center;
 }
 
 .sec7_cont_out .sec7_const_h {
@@ -1457,13 +1465,13 @@ footer .foot_li a:hover {
 }
 
 .sec9_outer_cont {
-    /* background-color: rgba(242, 251, 255, 1); */
+     background-color: rgba(245, 245, 245, 1);
 }
 
-.sec9_outer_cont .clientes_slider .slick-list.draggable:before {
-    /* background-color: rgba(242, 251, 255, 1); */
+/* .sec9_outer_cont .clientes_slider .slick-list.draggable:before {
+     background-color: rgba(242, 251, 255, 1); 
 
-}
+} */
 
 /*------------------------------------------- contract_model_page ------------------------------------------- */
 
@@ -1928,7 +1936,7 @@ header.fun-header {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform .2s ease-in-out;
+    /* transition: transform .2s ease-in-out; */
 }
 
 .faq_sec .accordion .accordion-item .accordion-header .accordion-button:not(.collapsed)::after {
@@ -2114,7 +2122,7 @@ header.fun-header {
     text-align: center;
     cursor: pointer;
     border-radius: 5px;
-    transition: border-color 0.3s ease;
+    /* transition: border-color 0.3s ease; */
 }
 
 .contac_login_card .upload-box:hover {
@@ -2412,7 +2420,7 @@ header.fun-header {
     text-align: center;
     cursor: pointer;
     border-radius: 5px;
-    transition: border-color 0.3s ease;
+    /* transition: border-color 0.3s ease; */
 }
 
 .contac_login_card .upload-box:hover {
@@ -2798,6 +2806,8 @@ section.banner_sec.dark {
     border-radius: 40px;
     background-color: transparent;
     transition: none;
+
+
 }
 .clientes_slider .btn-wrap button:hover {
     background-color: #FD5602;
@@ -2860,7 +2870,7 @@ footer .foot_end_box .reserve_box{
 }
 .pdf_head h1 {
     position: relative; 
-    font-size: 36px;
+    font-size: 34px;
 }
 
 
@@ -2874,8 +2884,8 @@ footer .foot_end_box .reserve_box{
 
 .inside_ul_pdf img {
     width: 26px;
-    height: 23px;
-    margin-bottom: 3px;
+    height: 18px;
+    margin-bottom: 4px;
 }
 
 /*///////////////////////////////////////// 25oct2024 /////////////////////////////////////*/
@@ -2900,10 +2910,27 @@ footer .foot_end_box .reserve_box{
     justify-content: space-between;
 }
 .con_btn_div {
-    text-align: center;
+  
     margin-top: 30px;
 }
 .card_h h3 {
-    font-size: 18px;
+    font-size: large;
     text-align: center;
+}
+
+/* 30oct2024///////////////////////////////////// */
+.const_hed_sec7 h2 {
+    text-align: center;
+}
+/* 31oct2024/////////////////////////////////////// */
+.con_btn_div .cta_light_cont:hover {
+    border: 1px solid  #fff;
+    color: rgba(1, 37, 85, 1);
+}
+.const_bg_sec7 .con_btn_div {
+    text-align: -webkit-center;
+}
+.doc_sub_heading {
+    font-size: 20px;
+    font-weight: 500;
 }

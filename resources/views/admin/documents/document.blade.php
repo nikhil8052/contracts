@@ -67,12 +67,11 @@
                               <?php 
                                    $image_path = str_replace('public/', '', $document->document_file_path ?? null);
                               ?>
-                                   <img src="{{ asset('storage/'.$image_path) }}" alt="document_img" height="200px" width="200px">
+                                   <img src="{{ asset('storage/'.$image_path) }}" alt="{{ asset('storage/'.$image_path) }}" height="200px" width="200px">
                               @endif
                               </div>
                          </div>
                          <h5 class="mt-2">Document Short Description</h5>  
-                         <hr>
                          <hr>
                          <div class="row gy-12 mt-2">
                               <div class="col-md-12 doc-short-des">
@@ -124,13 +123,13 @@
                                              <input type="file" name="agreement_up_img" class="update_img" data-id="{{ $agrmnt->id ?? '' }}" id="agreement_up_img{{ $agrmnt->id ?? '' }}" style="display:none;">
                                         </div>
                                         <div class="img_div" id="img_div{{ $agrmnt->id ?? '' }}">
-                                             <div class="text-end">
+                                             <!-- <div class="text-end">
                                                   <span class="remove_img" data-id="{{ $agrmnt->id ?? '' }}">
                                                        <i class="fa fa-times"></i>
                                                   </span>
-                                             </div>
+                                             </div> -->
                                              <div class="form-group">
-                                                  <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="agreement_img">
+                                                  <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="{{ asset('storage/'.$path ?? '' ) }}">
                                              </div>
                                         </div>
                                    </div>
@@ -196,11 +195,11 @@
                               ?>
                               <div class="img-txt-section{{ $field->id ?? '' }}">
                                    <hr>
-                                   <div class="text-end">
+                                   <!-- <div class="text-end">
                                         <div class="form-group">
                                              <div><span class="remove-second-sec" data-id="{{ $field->id ?? '' }}"><i class="fa fa-times"></i></span></div>
                                         </div>
-                                   </div>
+                                   </div> -->
                                    <div class="col-md-12 mt-2">
                                         <div class="form-group">
                                              <label class="form-label" for="img_heading">Heading</label>
@@ -219,13 +218,13 @@
                                              <input type="file" name="field_up_img" class="up_img" data-id="{{ $field->id ?? '' }}" id="field_up_img{{ $field->id ?? '' }}" style="display:none;">
                                         </div>
                                         <div class="field_img_div" id="field_img_div{{ $field->id ?? '' }}">
-                                             <div class="text-end">
+                                             <!-- <div class="text-end">
                                                   <span class="remove_field_img" data-id="{{ $field->id ?? '' }}">
                                                        <i class="fa fa-times"></i>
                                                   </span>
-                                             </div>
+                                             </div> -->
                                              <div class="form-group">
-                                                  <img src="{{ asset('storage/'.$path) }}" alt="documents_field_img">
+                                                  <img src="{{ asset('storage/'.$path) }}" alt="{{ asset('storage/'.$path) }}">
                                              </div>
                                         </div>
                                    </div>
@@ -409,12 +408,12 @@
                                    <input type="text" class="form-control form-control" id="guide_button" name="guide_button" value="{{ $document->guide_button ?? '' }}">
                               </div>
                          </div>
-                         <div class="col-md-12 mt-2">
+                         <!-- <div class="col-md-12 mt-2">
                               <div class="form-group">
                                    <label class="form-label" for="guide_button_link">Guide Section Button Link</label>
                                    <input type="text" class="form-control form-control" id="guide_button_link" name="guide_button_link" value="{{ $document->guide_button_link ?? '' }}">
                               </div>
-                         </div>
+                         </div> -->
                          <hr>
                          <h6 class="mt-4">Legal Document</h6>
                          <hr>
@@ -613,9 +612,9 @@
                                         <div class="nk-block-head-content butn-cls">
                                              <div class="mbsc-form-group view_btn mt-3">
                                                   @if(isset($document) && $document != null)
-                                                  <a href="{{ url('document/'.$document->slug ?? '') }}" target="_blank" class="btn view_page">View Page</a>
+                                                  <a href="{{ url('document/'.$document->slug ?? '') }}" target="_blank" class="view_page">View Page</a>
                                                   @else
-                                                  <a class="btn view_page" disabled>View Page</a>
+                                                  <a class="view_page" disabled>View Page</a>
                                                   @endif
                                              </div>
                                         </div>
