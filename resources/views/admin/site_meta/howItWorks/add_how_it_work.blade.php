@@ -197,22 +197,22 @@
                                              </div>
                                         </div>
                                    </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="meta_title">Meta Title</label>
+                                             <input type="text" class="form-control" id="meta_title" name="meta_title" value="">
+                                        </div>
+                                   </div>
                                    <div class="col-md-12 mt-2">
                                         <div class="form-group">
                                              <label class="form-label" for="meta_description">Meta Description</label>
-                                             <textarea class="form-control" id="meta_description" name="meta_description" maxlength="155"></textarea>
-                                        </div>
-                                   </div>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="url">URL</label>
-                                             <input type="text" class="form-control" id="url" name="url" value="">
+                                             <textarea class="form-control" id="meta_description" name="meta_description"></textarea>
                                         </div>
                                    </div>
                                    <div class="d-flex justify-content-end">
                                         <div class="nk-block-head-content butn-cls">
                                              <div class="mbsc-form-group view_btn mt-3">
-                                                  <a href="{{ url('/') }}" class="view_page" target="_blank">View Page</a>
+                                                  <a href="{{ url('/how-it-works') }}" class="view_page" target="_blank">View Page</a>
                                              </div>
                                         </div>
                                    </div>

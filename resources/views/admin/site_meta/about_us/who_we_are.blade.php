@@ -254,7 +254,7 @@
                                    <div class="d-flex justify-content-end">
                                         <div class="nk-block-head-content butn-cls">
                                              <div class="mbsc-form-group view_btn mt-3">
-                                                  <a href="{{ url('/') }}" class="view_page" target="_blank">View Page</a>
+                                                  <a href="{{ url('/who-we-are') }}" class="view_page" target="_blank">View Page</a>
                                              </div>
                                         </div>
                                    </div>

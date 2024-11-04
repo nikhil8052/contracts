@@ -22,7 +22,7 @@
 
      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
      <link rel="stylesheet" href="{{ asset('assets/css/style.css?iuutrfg') }}">
-     <link rel="stylesheet" href="{{ asset('assets/css/custom.css?fdgvfg') }}">
+     <!-- <link rel="stylesheet" href="{{ asset('assets/css/custom.css?fdgvfg') }}"> -->
      <link rel="stylesheet" href="{{ asset('assets/css/responsive.css?uiyu') }}">
 
      <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>

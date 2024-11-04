@@ -109,6 +109,52 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// btn.on("click", function () {
+//   var th, thIndex;
+
+//   th = $(this);
+//   thIndex = th.index();
+
+//   if (!th.hasClass("active")) {
+//     if (prevIndex != thIndex && prevIndex !== "undefined") {
+//       btn.eq(prevIndex).removeClass("active");
+//       tabC.eq(prevIndex).removeClass("show");
+//     }
+//     btn.eq(thIndex).addClass("active");
+//     tabC.eq(thIndex).addClass("show");
+//     prevIndex = thIndex;
+
+//     //slick position filter
+//     //if you have problem with slick in tabs, use next option
+//     //magic option
+//     tabC.eq(thIndex).find(".slider").slick("setPosition");
+//   }
+// });
+
+slider = $(".slider");
+
+slider.slick({
+  dots: true,
+  arrows: false,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 3,
+      },
+    },
+    {
+      breakpoint: 767,
+      settings: {
+        slidesToShow: 1,
+      },
+    },
+  ],
+});
+
+
 // /////////////////////////30sep/////////////////////////////////
 
 // $(document).ready(function () {
@@ -131,19 +177,8 @@ $('.tc-item a').click(function(event){
 });
 
 
-// tabinatin slider ---//////////////////////////////////////
-$(function () {
-  // vars
-  var slider,
-    btn,
-    tabC,
-    prevIndex,
-    objTab = {};
+//// --- tabinatin slider ---//////////////////////////////////////
 
-  btn = $(".btn");
-  tabC = $(".tabContent");
-
-  prevIndex = 0;
 
 //   $(document).ready(function() {
 //     $('.doc_cat_tab .btn').on('click', function() {
@@ -154,48 +189,66 @@ $(function () {
 //         $(this).addClass('active');
 //     });
 // });
+
+ // Slider Tabs
+$(function() {
+     // Slider Tabs
+  var btn = $(".btn");
+  var tabC = $(".tabContent > div");
+  var prevIndex = 0;
+  
+  // btn.eq(0).addClass("active");
+  tabC.eq(0).addClass("show").show();
+
   btn.on("click", function () {
-    var th, thIndex;
+      var th = $(this);
+      var thIndex = th.index();
 
-    th = $(this);
-    thIndex = th.index();
-
-    if (!th.hasClass("active")) {
-      if (prevIndex != thIndex && prevIndex !== "undefined") {
-        btn.eq(prevIndex).removeClass("active");
-        tabC.eq(prevIndex).removeClass("show");
+      if(!th.hasClass("active")) {
+          // Blink effect on all tab contents
+          tabC.fadeOut(100).fadeIn(100, function () {
+              // Remove active class from the previously active button and hide its content
+              btn.eq(prevIndex).removeClass("active");
+              tabC.eq(prevIndex).removeClass("show").hide(); // Hide previous tab content
+  
+              // Update prevIndex
+              prevIndex = thIndex;
+  
+              // Add active class to the clicked button and show its content
+              // th.addClass("active");
+              tabC.eq(thIndex).addClass("show").fadeIn(100); // Show new tab with fade in
+          });
       }
-      btn.eq(thIndex).addClass("active");
-      tabC.eq(thIndex).addClass("show");
-      prevIndex = thIndex;
-
-      //slick position filter
-      //if you have problem with slick in tabs, use next option
-      //magic option
-      tabC.eq(thIndex).find(".slider").slick("setPosition");
-    }
   });
 
-  slider = $(".slider");
-
-  slider.slick({
-    dots: true,
-    arrows: false,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 3,
+    // Initialize the tab slider
+    slidertab = $(".slider_tab");
+  
+    slidertab.slick({
+      dots: true,
+      arrows: false,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 1199,
+          settings: {
+            slidesToShow: 3,
+          },
         },
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          slidesToShow: 1,
+        {
+          breakpoint: 991,
+          settings: {
+            slidesToShow: 2,
+          },
         },
-      },
-    ],
+        {
+          breakpoint: 767,
+          settings: {
+            slidesToShow: 1,
+          },
+        },
+      ],
+    });
   });
-});
+

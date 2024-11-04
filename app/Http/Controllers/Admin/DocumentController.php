@@ -250,7 +250,7 @@ class DocumentController extends Controller
 
         DB::beginTransaction(); 
         try{
-            $document = Document::find($request->id);
+            $document = Document::where('id',$request->id)->first();
             $document->title = $request->title;
             $document->slug = $request->slug;
             $document->short_description = $request->short_description;
@@ -475,6 +475,7 @@ class DocumentController extends Controller
             return redirect()->back()->with('success','Document Successfully Updated.');
 
         }catch(Exception $e){
+            DB::rollBack();
             saveLog("Error:", "DocumentController", $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }

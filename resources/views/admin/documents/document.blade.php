@@ -36,7 +36,7 @@
                               </div>
                          </div>
                          @if(isset($document) && $document != null)
-                         <div class="col-md-12 doc-title mt-4 pb-4">
+                         <div class="col-md-12 doc-title mt-5 pb-5">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">

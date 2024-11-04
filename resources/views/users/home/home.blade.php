@@ -41,66 +41,71 @@
 		</div>
 	</div>
         <!-- tab1 ///////////////////////////////////////////////////////////////////////////// -->
-	<div class="container ">
+	
+	<div class="container">
 		<div class="wrapper">
-			<div class="tab doc_cat_tab">
-			@if(isset($document_category) && $document_category != null)
-				@foreach($document_category as $category)
-					<div class="btn {{ $loop->first ? 'tab_btn1 active' : 'tab_btn'.$loop->iteration }}">
+			<div class="tab">
+				@if(isset($document_category) && $document_category != null)
+					@foreach($document_category as $category)
+						<div class="{{ $loop->first ? 'btn active' : 'btn' }}">
 						{{ $category->name ?? '' }}
-					</div>
-				@endforeach
-			@endif
+						</div>
+					@endforeach
+				@endif
 			</div>
+
 			<div class="tabContentWrap">
 				@if(isset($document_category) && $document_category != null)
-				@foreach($document_category as $catg)
-				<div class="tabContent tab_box_sec {{ $loop->first ? 'show' : 'tab_btn'.$loop->iteration }}">
-					<div class="slider">
-						@php 
-							$popular_document_ids = json_decode($data['popular']) ?? [];
-						@endphp
-
-						@if(!empty($popular_document_ids))
+					@foreach($document_category as $catg)
+					<div class="{{ $loop->first ? 'tabContent show tab_box_sec' : 'tabContent' }}">
+						<div class="slider_tab">
 							@php
-								$documents = App\Models\Document::whereIn('id', $popular_document_ids)->get();
+								$popular_document_ids = json_decode($data['popular']) ?? [];
 							@endphp
 
-							@foreach($documents as $document)
-								@if($document->categories->contains('id', $catg->id))
-								<div class="inside_box_b">
-									<div class="inside_box_tab">
-										<div class="img_tab_sec">
-										<?php 
-											$image_path = str_replace('public/', '', $document->document_file_path ?? null);
-										?>
-											<img src="{{ asset('storage/'.$image_path) }}" alt="">
+							@if(!empty($popular_document_ids))
+								@php
+									$documents = App\Models\Document::whereIn('id', $popular_document_ids)->get();
+								@endphp
+
+								@foreach($documents as $document)
+									@if($document->categories->contains('id', $catg->id))
+										<div class="inside_box_b">
+											<div class="inside_box_tab">
+												<div class="img_tab_sec">
+													@php
+														$image_path = str_replace('public/', '', $document->document_file_path ?? null);
+													@endphp
+													<img src="{{ asset('storage/'.$image_path) }}" alt="">
+												</div>
+												<div class="cont_tab_ot">
+													<div class="tab_ot_text">
+														<div class="tab_text">
+															<h5 class="size20">{{ $document->title ?? '' }}</h5>
+															<ul class="tab_ul">
+																<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+																<li>4.6</li>
+															</ul>
+														</div>
+														<div class="tab_2text light">
+															<?php 
+																$short_description = Str::limit($document->short_description, 70, '...'); 
+																print_r($short_description);
+															?>
+														</div>
+													</div>
+												</div>
+												<div class="tab_btn">
+													<a href="{{ url('document/'.$document->slug) }}" class="cta_org">Crear ahora</a>
+												</div>
+											</div>
 										</div>
-										<div class="cont_tab_ot">
-											<div class="tab_text">
-												<h5 class="size20">{{ $document->title ?? '' }}</h5>
-												<ul class="tab_ul">
-													<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-													<li>4.6</li>
-												</ul>
-											</div>
-											<div class="tab_2text light">
-												<?php $short = Str::limit($document->short_description, 70, '...'); 
-													print_r($short);
-												?>
-											</div>
-											<div class="tab_btn">
-												<a href="{{ url('document/'.$document->slug) }}" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
-											</div>
-										</div>
-									</div>
-								</div>
-								@endif
-							@endforeach
-						@endif
+									@endif
+								@endforeach
+							@endif
+						</div>
 					</div>
-				</div>
-				@endforeach
+					@endforeach
 				@endif
 			</div>
 		</div>
@@ -332,6 +337,7 @@
 		</div>
 	</div>
 </section>
+
 
 <script>
 	$(document).ready(function(){
