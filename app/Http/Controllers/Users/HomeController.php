@@ -86,7 +86,20 @@ class HomeController extends Controller
             'reviews_heading' => $results['reviews_heading']->value ?? null, 
             'reviews_sub_heading' => $results['reviews_sub_heading']->value ?? null, 
         ];
-        
+        // dd($document->relatedDocuments);
+
         return view('users.contracts.contract_details',compact('document','reviews','data'));
     }
+
+
+    // This is the testing for the questions 
+    public function question_testing(){
+        
+
+        return view('users.contracts.questions');
+    }
+    
+
+
+
 }

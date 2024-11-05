@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Auth;
 
-class Admin
+class SiteUserCheck
 {
     /**
      * Handle an incoming request.
@@ -18,12 +18,12 @@ class Admin
     {
         if(Auth::check()){
             if(Auth::user()->is_admin == 1){
-                return $next($request);
+                return redirect('/admin-dashboard')->with('error','Logout from admin account to visit site');
             }else{
-                abort('404');
+                return $next($request);
             }
         }else{
-            return redirect('/admin-login');
+            return $next($request);
         }
     }
 }

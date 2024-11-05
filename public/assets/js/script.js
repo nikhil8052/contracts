@@ -109,50 +109,72 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// btn.on("click", function () {
-//   var th, thIndex;
 
-//   th = $(this);
-//   thIndex = th.index();
+// $(function () {
 
-//   if (!th.hasClass("active")) {
-//     if (prevIndex != thIndex && prevIndex !== "undefined") {
-//       btn.eq(prevIndex).removeClass("active");
-//       tabC.eq(prevIndex).removeClass("show");
+//   // vars
+//   var slider,
+//     btn,
+//     tabC,
+//     prevIndex,
+//     objTab = {};
+
+//   btn = $(".btn");
+//   tabC = $(".tabContent");
+
+//   prevIndex = 0;
+
+//   btn.on("click", function () {
+//     var th, thIndex;
+
+//     // Current button and the index of the current button 
+//     th = $(this);
+//     thIndex = th.index();
+
+//     console.log( thIndex , " Current Index");
+//     console.log( prevIndex , " Pre Index");
+
+
+//     if(!th.hasClass("active")) {
+//       if(prevIndex != thIndex && prevIndex !== "undefined"){
+//         btn.eq(prevIndex).removeClass("active");
+//         tabC.eq(prevIndex).removeClass("show");
+//       }
+//       btn.eq(thIndex).addClass("active");
+//       tabC.eq(thIndex).addClass("show");
+//       prevIndex = thIndex;
+
+//       //slick position filter
+//       //if you have problem with slick in tabs, use next option
+//       //magic option
+//       tabC.eq(thIndex).find(".slider").slick("setPosition");
 //     }
-//     btn.eq(thIndex).addClass("active");
-//     tabC.eq(thIndex).addClass("show");
-//     prevIndex = thIndex;
+//   });
 
-//     //slick position filter
-//     //if you have problem with slick in tabs, use next option
-//     //magic option
-//     tabC.eq(thIndex).find(".slider").slick("setPosition");
-//   }
+//   slider = $(".slider");
+
+//   slider.slick({
+//     dots: true,
+//     arrows: false,
+//     slidesToShow: 4,
+//     slidesToScroll: 1,
+//     responsive: [
+//       {
+//         breakpoint: 991,
+//         settings: {
+//           slidesToShow: 3,
+//         },
+//       },
+//       {
+//         breakpoint: 767,
+//         settings: {
+//           slidesToShow: 1,
+//         },
+//       },
+//     ],
+//   });
 // });
 
-slider = $(".slider");
-
-slider.slick({
-  dots: true,
-  arrows: false,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 991,
-      settings: {
-        slidesToShow: 3,
-      },
-    },
-    {
-      breakpoint: 767,
-      settings: {
-        slidesToShow: 1,
-      },
-    },
-  ],
-});
 
 
 // /////////////////////////30sep/////////////////////////////////
@@ -191,64 +213,128 @@ $('.tc-item a').click(function(event){
 // });
 
  // Slider Tabs
-$(function() {
-     // Slider Tabs
-  var btn = $(".btn");
-  var tabC = $(".tabContent > div");
-  var prevIndex = 0;
+// $(function() {
+//      // Slider Tabs
+//   var btn = $(".btn");
+//   var tabC = $(".tabContent > div");
+//   var prevIndex = 0;
   
-  // btn.eq(0).addClass("active");
-  tabC.eq(0).addClass("show").show();
+//   // btn.eq(0).addClass("active");
+//   tabC.eq(0).addClass("show").show();
 
-  btn.on("click", function () {
-      var th = $(this);
-      var thIndex = th.index();
+//   btn.on("click", function () {
+//       var th = $(this);
+//       var thIndex = th.index();
 
-      if(!th.hasClass("active")) {
-          // Blink effect on all tab contents
-          tabC.fadeOut(100).fadeIn(100, function () {
-              // Remove active class from the previously active button and hide its content
-              btn.eq(prevIndex).removeClass("active");
-              tabC.eq(prevIndex).removeClass("show").hide(); // Hide previous tab content
+//       if(!th.hasClass("active")) {
+//           // Blink effect on all tab contents
+//           tabC.fadeOut(100).fadeIn(100, function () {
+//               // Remove active class from the previously active button and hide its content
+//               btn.eq(prevIndex).removeClass("active");
+//               tabC.eq(prevIndex).removeClass("show").hide(); // Hide previous tab content
   
-              // Update prevIndex
-              prevIndex = thIndex;
+//               // Update prevIndex
+//               prevIndex = thIndex;
   
-              // Add active class to the clicked button and show its content
-              // th.addClass("active");
-              tabC.eq(thIndex).addClass("show").fadeIn(100); // Show new tab with fade in
-          });
+//               // Add active class to the clicked button and show its content
+//               // th.addClass("active");
+//               tabC.eq(thIndex).addClass("show").fadeIn(100); // Show new tab with fade in
+//           });
+//       }
+//   });
+
+//     // Initialize the tab slider
+//     slidertab = $(".slider_tab");
+  
+//     slidertab.slick({
+//       dots: true,
+//       arrows: false,
+//       slidesToShow: 4,
+//       slidesToScroll: 1,
+//       responsive: [
+//         {
+//           breakpoint: 1199,
+//           settings: {
+//             slidesToShow: 3,
+//           },
+//         },
+//         {
+//           breakpoint: 991,
+//           settings: {
+//             slidesToShow: 2,
+//           },
+//         },
+//         {
+//           breakpoint: 767,
+//           settings: {
+//             slidesToShow: 1,
+//           },
+//         },
+//       ],
+//     });
+//   });
+
+
+
+// Nikhil Code 
+
+// Home Page Tabs 
+$(function () {
+  // vars
+  var slider,
+    btn,
+    tabC,
+    prevIndex,
+    objTab = {};
+
+
+  btn = $(".home_tab_btns");
+  tabC = $(".tabContent");
+
+  prevIndex = 0;
+
+  btn.on("click", function (e) {
+    var th, thIndex;
+    // Current button and the index of the current button 
+    th = $(this);
+    thIndex = th.index();
+    if(!th.hasClass("active")) {
+      if(prevIndex != thIndex && prevIndex !== "undefined"){
+        btn.eq(prevIndex).removeClass("active");
+        tabC.eq(prevIndex).removeClass("show");
       }
+      btn.eq(thIndex).addClass("active");
+      tabC.eq(thIndex).addClass("show");
+      prevIndex = thIndex;
+      tabC.eq(thIndex).find(".slider").slick("setPosition");
+    }
   });
+  slider = $(".slider");
+  slider.slick({
+    dots: true,
+    arrows: false,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  });
+});
 
-    // Initialize the tab slider
-    slidertab = $(".slider_tab");
-  
-    slidertab.slick({
-      dots: true,
-      arrows: false,
-      slidesToShow: 4,
-      slidesToScroll: 1,
-      responsive: [
-        {
-          breakpoint: 1199,
-          settings: {
-            slidesToShow: 3,
-          },
-        },
-        {
-          breakpoint: 991,
-          settings: {
-            slidesToShow: 2,
-          },
-        },
-        {
-          breakpoint: 767,
-          settings: {
-            slidesToShow: 1,
-          },
-        },
-      ],
-    });
-  });
+
+
+// End code 
+
+
 

@@ -93,8 +93,7 @@ class AuthController extends Controller
         return view('auth.login',compact('login'));
     }
 
-    public function loginProcess(Request $request)
-    {
+    public function loginProcess(Request $request){
         
         $request->validate([
         'email' => 'required|email', // Added email format validation
@@ -104,9 +103,7 @@ class AuthController extends Controller
         // Attempt to log the user in
         if (Auth::attempt($request->only('email', 'password'))) {
             // Check if the user is an admin
-            if (auth()->user()->is_admin == 1) {
-                return redirect('/admin-dashboard')->with('success', 'Welcome to Admin Dashboard');
-            } else {
+            if(auth()->user()->is_admin == 0){
                 return redirect('/')->with('success', 'Login Successfully');
             }
         };

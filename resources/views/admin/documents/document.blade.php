@@ -15,7 +15,8 @@
                <input type="hidden" name="published" id="published" value="{{ $document->published ?? '' }}">
                <input type="hidden" name="field_img_id" id="field_img_id" value="">
                <input type="hidden" name="ag_img_id" id="ag_img_id" value="">
-
+               <input type="hidden" name="editor_value" id="editor_value" value="">
+               
                <div class="nk-block-head doc-outer-div">
                     <div class="nk-block-head-content wrapper">
                          <div class="tab">
@@ -526,7 +527,7 @@
                                                   @if(isset($document) && $document != null)
                                                   <button class="btn btn-sm btn-primary" type="submit">Update</button>
                                                   @else
-                                                  <button class="btn btn-sm btn-primary" type="submit" onclick="formValidation()">Save</button>
+                                                  <button class="btn btn-sm btn-primary" type="submit">Save</button>
                                                   @endif
                                              </div>
                                         </div>
@@ -737,8 +738,6 @@
      .catch( error => {
           console.error( error );
      });
-     
-
 </script>
 
 <script>

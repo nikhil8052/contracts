@@ -30,45 +30,41 @@ use App\Http\Controllers\Users\ContractController;
 //     return view('welcome');
 // });
 
-Route::get('/',[HomeController::class,'home']);
-Route::get('/document/{slug}',[HomeController::class,'getDocument']);
-Route::get('/contact-us',[ContactUsController::class,'index']);
-Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
-Route::get('/register',[AuthController::class,'register'])->name('register');
-Route::get('/login',[AuthController::class,'loginUser'])->name('login.user');
-Route::post('login-process',[AuthController::class,'loginProcess'])->name('login.process');
-Route::get('/forget-password',[AuthController::class,'forgetPassword'])->name('recover.password');
-Route::post('/forget-password-email',[AuthController::class,'forgetPasswordEmail']);
-Route::get('password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
-Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
-Route::post('/get-contract',[ContractController::class,'getContract']);
+Route::group(['middleware' => ['front']], function() {
+     Route::get('/',[HomeController::class,'home']);
+     Route::get('/document/{slug}',[HomeController::class,'getDocument']);
+     Route::get('/contact-us',[ContactUsController::class,'index']);
+     Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
+     Route::get('/register',[AuthController::class,'register'])->name('register');
+     Route::get('/login',[AuthController::class,'loginUser'])->name('login.user');
+     Route::post('login-process',[AuthController::class,'loginProcess'])->name('login.process');
+     Route::get('/forget-password',[AuthController::class,'forgetPassword'])->name('recover.password');
+     Route::post('/forget-password-email',[AuthController::class,'forgetPasswordEmail']);
+     Route::get('password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+     Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
+     Route::post('/get-contract',[ContractController::class,'getContract']);
 
-Route::get('/legal-document',[ContractController::class,'legalDocument']);
+     Route::get('/legal-document',[ContractController::class,'legalDocument']);
 
-Route::post('/registerProcc',[AuthController::class,'registerProcc']);
-Route::get('logout',[AuthController::class,'logout'])->name('logout');
+     Route::post('/registerProcc',[AuthController::class,'registerProcc']);
+     Route::get('logout',[AuthController::class,'logout'])->name('logout');
 
-// Login with Google Route
-Route::get('login-google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('auth-google-callback', [AuthController::class, 'handleGoogleCallback']);
+     // Login with Google Route
+     Route::get('login-google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
+     Route::get('auth-google-callback', [AuthController::class, 'handleGoogleCallback']);
+     // end login with google route
 
-
-
-// end login with google route
-
-
-
-// ****************** SitePagesController Start**********************//
-Route::get('/how-it-works',[SitePagesController::class,'howItWork']);
-Route::get('/faq',[SitePagesController::class,'Faq']);
-Route::get('/terms-and-conditions',[SitePagesController::class,'termsAndConditions']);
-Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
-Route::get('/prices',[SitePagesController::class,'prices']);
-Route::post('/ckeditor/upload',[SitePagesController::class,'upload'])->name('ckeditor.upload');
-Route::get('/help-center',[SitePagesController::class,'HelpCenter'])->name('help.center');
-Route::get('/who-we-are',[SitePagesController::class,'whoWeAre']);
-// ****************** SitePagesController End **********************//
-
+     // ****************** SitePagesController Start**********************//
+     Route::get('/how-it-works',[SitePagesController::class,'howItWork']);
+     Route::get('/faq',[SitePagesController::class,'Faq']);
+     Route::get('/terms-and-conditions',[SitePagesController::class,'termsAndConditions']);
+     Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
+     Route::get('/prices',[SitePagesController::class,'prices']);
+     Route::post('/ckeditor/upload',[SitePagesController::class,'upload'])->name('ckeditor.upload');
+     Route::get('/help-center',[SitePagesController::class,'HelpCenter'])->name('help.center');
+     Route::get('/who-we-are',[SitePagesController::class,'whoWeAre']);
+     // ****************** SitePagesController End **********************//
+});
 
 Route::middleware('admin.redirect')->group(function () {
      Route::get('/admin-login',[AuthController::class,'login'])->name('login');;
@@ -76,7 +72,7 @@ Route::middleware('admin.redirect')->group(function () {
 });
 Route::get('/admin-logout',[AuthController::class,'adminLogout']);
 
-Route::group(['middleware' =>['auth']],function(){
+Route::group(['middleware' =>['admin']],function(){
      Route::get('/admin-dashboard',[AdminController::class,'index']);
      Route::get('/admin-dashboard/country',[AdminController::class,'country']);
 
@@ -191,5 +187,8 @@ Route::group(['middleware' =>['auth']],function(){
      //*********************End Users Sections***************//
 
 });
+
+
+Route::get('/question-testing',[HomeController::class,'question_testing'])->name('question_testing');
 
 

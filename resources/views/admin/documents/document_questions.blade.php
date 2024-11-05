@@ -44,6 +44,7 @@
      .show{
           display: block;
      }
+
 </style>
 
 @extends('admin_layout.master')

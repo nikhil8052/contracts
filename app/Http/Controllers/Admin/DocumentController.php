@@ -37,11 +37,10 @@ class DocumentController extends Controller
         return view('admin.documents.document',compact('categories','related_documents','reviews'));
     }
 
-    public function addDocuments(DocumentFormRequest $request){      
+    public function addDocuments(DocumentFormRequest $request){     
         DB::beginTransaction(); 
         try{
             $document = new Document;
-
             $document->title = $request->title;
             $document->slug = $request->slug;
             $document->save();

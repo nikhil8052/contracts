@@ -41625,3 +41625,9 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
    font-weight: bold;
    text-decoration: underline;
 }
+
+
+/* ck-editor */
+.ck.ck-powered-by {
+  display: none;
+}

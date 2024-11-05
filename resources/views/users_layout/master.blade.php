@@ -32,7 +32,6 @@
           
      @yield('title')
 
-
 </head>
 
 <body>
