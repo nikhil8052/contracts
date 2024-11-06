@@ -53,6 +53,7 @@ h2 {
     font-size: 28px;
     font-weight: 700;
     line-height: 58.51px;
+    color: #012555;
 }
 
 h3 {
@@ -2933,6 +2934,7 @@ footer .foot_end_box .reserve_box {
 .pdf_head h1 {
     position: relative;
     font-size: 34px;
+    color: #002655;
 }
 
 
@@ -3014,4 +3016,10 @@ footer .foot_end_box .reserve_box {
 
 .como_sec .help:hover .hlp-img img {
     filter: brightness(0) invert(1);
+}
+
+/* 6nov2024 //////////////////////////// */
+
+.questions_page_main_div {
+    padding: 200px 0px 0px 0px;
 }

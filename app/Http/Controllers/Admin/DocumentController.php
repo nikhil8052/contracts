@@ -246,7 +246,6 @@ class DocumentController extends Controller
 
     public function updateDocument(Request $request){
         // return $request->all();
-
         DB::beginTransaction(); 
         try{
             $document = Document::where('id',$request->id)->first();
@@ -255,6 +254,19 @@ class DocumentController extends Controller
             $document->short_description = $request->short_description;
             $document->btn_text = $request->document_button_text;
             $document->long_description = $request->long_description;
+            $document->guide_main_heading = $request->guide_heading;
+            $document->guide_button = $request->guide_button;
+            $document->legal_heading = $request->legal_heading;
+            $document->legal_description = $request->legal_description;
+            $document->legal_btn_text = $request->legal_btn_text;
+            $document->valid_in = $request->valid_in;
+            $document->published = $request->published;
+            $document->related_heading = $request->related_heading;
+            $document->related_description = $request->related_description;
+            $document->doc_price = $request->doc_price;
+            $document->meta_title = $request->meta_title;
+            $document->meta_description = $request->meta_description;
+            $document->update();
             
             if($request->hasFile('document_image')){
                 $document_image = $request->file('document_image');
@@ -337,8 +349,7 @@ class DocumentController extends Controller
                 }
             }
 
-            $document->guide_main_heading = $request->guide_heading;
-            $document->guide_button = $request->guide_button;
+            
             // $document->guide_button_link = $request->guide_button_link;
 
             if($request->has('step_title') != null){
@@ -357,10 +368,6 @@ class DocumentController extends Controller
                 }
             }
 
-            $document->legal_heading = $request->legal_heading;
-            $document->legal_description = $request->legal_description;
-            $document->legal_btn_text = $request->legal_btn_text;
-
             if($request->hasFile('legal_doc_image')){
                 $legal_image = $request->file('legal_doc_image');
                 $directory = "public/document_images";
@@ -371,11 +378,6 @@ class DocumentController extends Controller
                 $document->directory_name = $directory;
                 $document->file_path = $path;
             }
-
-            $document->valid_in = $request->valid_in;
-            $document->published = $request->published;
-            $document->related_heading = $request->related_heading;
-            $document->related_description = $request->related_description;
 
             if($request->has('select_related_doc')){
                 $related_doc = $request->select_related_doc;
@@ -397,9 +399,6 @@ class DocumentController extends Controller
                     }
                 }
             }
-
-
-            $document->doc_price = $request->doc_price;
 
             if($request->has('category_id')) {
                 $document = Document::find($request->id);
@@ -464,14 +463,11 @@ class DocumentController extends Controller
                     }
                     $removeDocumentFields->delete();
                 }
-                
             }
-            $document->meta_title = $request->meta_title;
-            $document->meta_description = $request->meta_description;
-            $document->update();
+            
             DB::commit(); 
 
-            return redirect()->back()->with('success','Document Successfully Updated.');
+            return redirect('/admin-dashboard/edit-document/'.$document->slug)->with('success','Document Successfully Updated.');
 
         }catch(Exception $e){
             DB::rollBack();
@@ -756,7 +752,7 @@ class DocumentController extends Controller
             $question_type->save();
 
             if($status == 'updated'){
-                return redirect('/admin-dashboard/edit-question-type/'.$request->slug)->with('success','Data Successfully updated');
+                return redirect('/admin-dashboard/edit-question-type/'.$question_type->slug)->with('success','Data Successfully updated');
             }elseif($status == 'saved'){
                 return redirect()->back()->with('success','Data Successfully saved');
             }

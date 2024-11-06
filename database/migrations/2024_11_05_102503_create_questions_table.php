@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('type'); // For question type (textbox, dropdown, etc.)
             $table->boolean('is_condition')->default(false); // Condition attached (True | False)
-            $table->boolean('is_question_label_condition')->default(false);
+            $table->boolean('is_question_label_condition')->nullable();
             $table->timestamps();
         });
     }

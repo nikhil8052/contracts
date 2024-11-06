@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\ApiQuestionController;
 |
 */
 Route::get('/questions', [ApiQuestionController::class, 'index']);
+Route::get('/questions/{id}', [ApiQuestionController::class, 'show']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

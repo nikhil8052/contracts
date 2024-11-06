@@ -9,6 +9,7 @@ use App\Models\HomeCategories;
 use App\Models\Document;
 use App\Models\DocumentCategory;
 use App\Models\Review;
+use App\Models\Question;
 
 class HomeController extends Controller
 {
@@ -96,7 +97,9 @@ class HomeController extends Controller
     public function question_testing(){
         
 
-        return view('users.contracts.questions');
+        $questions = Question::with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
+
+        return view('users.contracts.questions',compact('questions'));
     }
     
 
