@@ -69,31 +69,33 @@
 							@foreach($documents as $document)
 								@if($document->categories->contains('id', $catg->id))
 								<div class="inside_box_b">
-									<div class="inside_box_tab">
-										<div class="img_tab_sec">
-										<?php 
-											$image_path = str_replace('public/', '', $document->document_file_path ?? null);
-										?>
-											<img src="{{ asset('storage/'.$image_path) }}" alt="">
+									<a href="{{ url('document/'.$document->slug) }}" class="contract_link">
+										<div class="inside_box_tab">
+											<div class="img_tab_sec">
+											<?php 
+												$image_path = str_replace('public/', '', $document->document_file_path ?? null);
+											?>
+												<img src="{{ asset('storage/'.$image_path) }}" alt="">
+											</div>
+											<div class="cont_tab_ot">
+												<div class="tab_text">
+													<h5 class="size20">{{ $document->title ?? '' }}</h5>
+													<ul class="tab_ul">
+														<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+														<li>4.6</li>
+													</ul>
+												</div>
+												<div class="tab_2text light">
+													<?php $short = Str::limit($document->short_description, 70, '...'); 
+														print_r($short);
+													?>
+												</div>
+												<div class="tab_btn">
+													<a href="{{ url('document/'.$document->slug) }}" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
+												</div>
+											</div>
 										</div>
-										<div class="cont_tab_ot">
-											<div class="tab_text">
-												<h5 class="size20">{{ $document->title ?? '' }}</h5>
-												<ul class="tab_ul">
-													<li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-													<li>4.6</li>
-												</ul>
-											</div>
-											<div class="tab_2text light">
-												<?php $short = Str::limit($document->short_description, 70, '...'); 
-													print_r($short);
-												?>
-											</div>
-											<div class="tab_btn">
-												<a href="{{ url('document/'.$document->slug) }}" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
-											</div>
-										</div>
-									</div>
+									</a>
 								</div>
 								@endif
 							@endforeach

@@ -14,9 +14,12 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
+            $table->string('qid');
             $table->string('type'); // For question type (textbox, dropdown, etc.)
             $table->boolean('is_condition')->default(false); // Condition attached (True | False)
-            $table->boolean('is_question_label_condition')->nullable();
+            $table->boolean('condition_type')
+                ->nullable()
+                ->comment('1: question_label_condition; 2: go_to_step_condition; 3: if both the conditions are applied');        
             $table->timestamps();
         });
     }

@@ -364,7 +364,7 @@
 							<a href="{{ url('/how-it-works') }}">Así funciona </a>
 						</li>
 						<li>
-							<a href="#">Ayuda</a>
+							<a href="{{ url('/help-center') }}">Ayuda</a>
 						</li>
 					</ul>
 					</div>

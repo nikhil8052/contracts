@@ -79,7 +79,7 @@
                                 <li class="time_li"> <span class=" span1">Última revision: </span> @php $date = $document->created_at; $formattedDate = Carbon::parse($date)->format('m/Y');@endphp {{ $formattedDate ?? '' }}</li>
                             </ul>
                             <ul class="time_ul">
-                                <li class="time_li"> <span class=" span1">Formatos </span>PDF, DOCX </li>
+                                <li class="time_li"> <span class=" span1">Formatos: </span>PDF, DOCX </li>
                             </ul>
                             <ul class="time_ul">
                                 <li class="time_li"> <span class=" span1">Descargas: </span>1,587 </li>
@@ -250,8 +250,8 @@
                 <div class="container">
                     <div class="row">
                     @foreach($document->documentGuide as $key => $guide)
-                        <div class="col-lg-6">
-                            <div class="sec7_const_h {{ $key == 0 ? 'b_right' : '' }}">
+                        <div class="col-lg-6 {{ $key == 0 ? 'b_right' : '' }}">
+                            <div class="sec7_const_h">
                                 <div class="sec7_const_img">
                                     <img src="{{ $key == 0 ? asset('assets/img/Group_361311.png') : asset('assets/img/Group_36132.png') }}" alt="">
                                 </div>

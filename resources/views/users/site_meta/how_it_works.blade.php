@@ -39,7 +39,7 @@
                     </div>
                     <div class="explore-txt">
                         <h5 class="b-dark">{{ $work->heading ?? '' }}</h5>
-                        <p class="light">
+                        <p class="">
                             {{ $work->description ?? '' }}
                         </p>
                     </div>

@@ -767,4 +767,13 @@ class DocumentController extends Controller
         $question_type = QuestionType::where('slug',$slug)->first();
         return view('admin.documents.question_types',compact('question_type'));
     }
+
+    public function addDocumentQuestion(Request $request){
+        return $request->all();
+    }
+
+    public function documentRightContent(){
+        $documents = Document::where('published',1)->get();
+        return view('admin.document_right_content.document_right_content',compact('documents'));
+    }
 }

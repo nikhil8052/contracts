@@ -1,58 +1,9 @@
-<style>
-     .dropbtn{
-          background-color: #3498DB;
-          color: white;
-          padding: 16px;
-          font-size: 16px;
-          border: none;
-          cursor: pointer;
-     }
-
-     .dropbtn:hover, .dropbtn:focus{
-          background-color: #FD5602;
-     }
-
-     .dropdown{
-          position: relative;
-          display: inline-block;
-     }
-
-     .dropdown-content{
-          display: none;
-          position: absolute;
-          background-color: #f1f1f1;
-          min-width: 160px;
-          overflow: auto;
-          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-          z-index: 1;
-     }
-
-     .dropdown-content a{
-          color: black;
-          padding: 8px 16px;
-          text-decoration: none;
-          display: block;
-          background-color: #fff;
-          text-align: left;
-     }
-
-     .dropdown a:hover{
-          background-color: #DDF4F4;
-          color: #012555;
-     }
-
-     .show{
-          display: block;
-     }
-
-</style>
-
 @extends('admin_layout.master')
 @section('content')
 
 <div class="nk-content">
      <div class="container-fluid">
-          <form action="" id="documentForm" method="post" enctype="multipart/form-data">
+          <form action="{{ url('/admin-dashboard/add/document-questions') }}" method="post" enctype="multipart/form-data">
           @csrf
           <div class="row main_section">
                <div class="col md-8 left-content">
@@ -120,7 +71,7 @@
 
 <script>
      function toggleDropdown(id) {
-          console.log("Toggling dropdown for ID:", id);
+          // console.log("Toggling dropdown for ID:", id);
           const dropdown = document.getElementById(id);
           if(dropdown){
                dropdown.classList.toggle("show");
@@ -130,8 +81,8 @@
      }
 
      window.onclick = function(event) {
-          if (!event.target.matches('.dropbtn')) {
-               const dropdowns = document.getElementsByClassName("dropdown-content");
+          if(!event.target.matches('.question_dropbtn')) {
+               const dropdowns = document.getElementsByClassName("question_dropdown-content");
                for(let i=0; i<dropdowns.length; i++){
                     const openDropdown = dropdowns[i];
                     if(openDropdown.classList.contains('show')){
@@ -176,125 +127,201 @@
                     $('.append_textbox'+id).hide();
                }
           })
+     });
 
-          $('body').delegate('.add_label','click',function(){
-               const html = `<div class="label-condition">
-                              <hr>
-                              <div class="text-end">
+     function addLabel(id){
+          const html = `<div class="label-condition">
+                         <hr>
+                         <div class="text-end">
+                              <div class="form-group">
+                                   <div>
+                                        <span onclick="removeLabel(this)" value="appended">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="col-md-4">
                                    <div class="form-group">
-                                        <div>
-                                             <span class="remove_label_condition" value="appended">
-                                                  <i class="fa fa-times"></i>
-                                             </span>
-                                        </div>
+                                        <label class="form-label" for="condition_question_label">Label</label>
+                                        <input type="text" class="form-control" id="condition_question_label" name="condition_question_label" value="">
                                    </div>
                               </div>
-                              <div class="row">
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="condition_question_label">Label</label>
-                                             <input type="text" class="form-control" id="condition_question_label" name="condition_question_label" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="label_qu_id">Question ID</label>
-                                             <input type="text" class="form-control" id="label_qu_id" name="label_qu_id" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="condition_question_value">Value</label>
-                                             <input type="text" class="form-control" id="condition_question_value" name="condition_question_value" value="">
-                                        </div>
-                                   </div>
-                              </div>
-                              <br>
-                         </div>`
-               $('.append_label_condition').append(html);
-          })
-
-          $('body').delegate('.remove_label_condition','click', function(){
-               if($(this).attr('value') === 'appended'){
-                    $(this).closest('.label-condition').remove();
-               }else{
-                    var id = $(this).data('id');
-                    let deleteIds = $('#img_sec_ids').val();
-                    if(deleteIds){
-                         deleteIds += ',' + id;
-                    }else{
-                         deleteIds = id;
-                    }
-                    $('#img_sec_ids').val(deleteIds);
-                    $('.label-condition'+id).hide();
-               }
-          })
-
-          $('body').delegate('.add_condition','click',function(){
-               const html = `<div class="sec-condition">
-                              <hr>
-                              <div class="text-end">
+                              <div class="col-md-4">
                                    <div class="form-group">
-                                        <div>
-                                             <span class="remove_condition" value="appended">
-                                                  <i class="fa fa-times"></i>
-                                             </span>
-                                        </div>
+                                        <label class="form-label" for="label_qu_id">Question ID</label>
+                                        <input type="text" class="form-control" id="label_qu_id" name="label_qu_id" value="">
                                    </div>
                               </div>
-                              <div class="row">
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="page_Setting_qu_id">Question ID</label>
-                                             <input type="text" class="form-control" id="page_Setting_qu_id" name="page_Setting_qu_id" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="page_Setting_conditions">Condition</label>
-                                             <div class="form-control-wrap"> 
-                                                  <select class="form-select js-select2" name="page_Setting_conditions" id="page_Setting_conditions">
-                                                       <option value="is equal to">is equal to</option>
-                                                       <option value="is greater than">is greater than</option>
-                                                       <option value="is less than">is less than</option>
-                                                       <option value="not equal to">not equal to</option>
-                                                  </select>
-                                             </div>
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="page_Setting_qu_val">Value</label>
-                                             <input type="text" class="form-control" id="page_Setting_qu_val" name="page_Setting_qu_val" value="">
-                                        </div>
+                              <div class="col-md-4">
+                                   <div class="form-group">
+                                        <label class="form-label" for="condition_question_value">Value</label>
+                                        <input type="text" class="form-control" id="condition_question_value" name="condition_question_value" value="">
                                    </div>
                               </div>
-                              <br>
-                         </div>`
-               $('.append_page_condition').append(html);
-          })
+                         </div>
+                         <br>
+                    </div>`
+          $('#append_label_condition'+id).append(html);
+     }
 
-          $('body').delegate('.remove_condition','click', function(){
-               if($(this).attr('value') === 'appended'){
-                    $(this).closest('.sec-condition').remove();
+     function removeLabel(e){
+          if($(e).attr('value') === 'appended'){
+               $(e).closest('.label-condition').remove();
+          }else{
+               var id = $(e).data('id');
+               let deleteIds = $('#img_sec_ids').val();
+               if(deleteIds){
+                    deleteIds += ',' + id;
                }else{
-                    var id = $(this).data('id');
-                    let deleteIds = $('#img_sec_ids').val();
-                    if(deleteIds){
-                         deleteIds += ',' + id;
-                    }else{
-                         deleteIds = id;
-                    }
-                    $('#img_sec_ids').val(deleteIds);
-                    $('.sec-condition'+id).hide();
+                    deleteIds = id;
                }
-          })
+               $('#img_sec_ids').val(deleteIds);
+               $('.label-condition'+id).hide();
+          }
+     }
 
-          $('body').delegate('.remove_dropdown_option','click', function(){
-               if($(this).attr('value') === 'appended'){
-                    $(this).closest('.dropdown-option').remove();
+     function addCondition(id){
+          const html = `<div class="sec-condition">
+                         <hr>
+                         <div class="text-end">
+                              <div class="form-group">
+                                   <div>
+                                        <span onclick="removeCondition(this)" value="appended">
+                                             <i class="fa fa-times"></i>
+                                        </span>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="col-md-4">
+                                   <div class="form-group">
+                                        <label class="form-label" for="page_Setting_qu_id">Question ID</label>
+                                        <input type="text" class="form-control" id="page_Setting_qu_id" name="page_Setting_qu_id" value="">
+                                   </div>
+                              </div>
+                              <div class="col-md-4">
+                                   <div class="form-group">
+                                        <label class="form-label" for="page_Setting_conditions">Condition</label>
+                                        <div class="form-control-wrap"> 
+                                             <select class="form-select js-select2" name="page_Setting_conditions" id="page_Setting_conditions">
+                                                  <option value="is equal to">is equal to</option>
+                                                  <option value="is greater than">is greater than</option>
+                                                  <option value="is less than">is less than</option>
+                                                  <option value="not equal to">not equal to</option>
+                                             </select>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="col-md-4">
+                                   <div class="form-group">
+                                        <label class="form-label" for="page_Setting_qu_val">Value</label>
+                                        <input type="text" class="form-control" id="page_Setting_qu_val" name="page_Setting_qu_val" value="">
+                                   </div>
+                              </div>
+                         </div>
+                         <br>
+                    </div>`
+          $('#append_page_condition'+id).append(html);
+     }
+
+     function removeCondition(e){
+          if($(e).attr('value') === 'appended'){
+               $(e).closest('.sec-condition').remove();
+          }else{
+               var id = $(e).data('id');
+               let deleteIds = $('#img_sec_ids').val();
+               if(deleteIds){
+                    deleteIds += ',' + id;
                }else{
-                    var id = $(this).data('id');
+                    deleteIds = id;
+               }
+               $('#img_sec_ids').val(deleteIds);
+               $('.sec-condition'+id).hide();
+          }
+     }
+
+     function addOptions(value,id){
+          let html = ``;
+          if(value === 'dropdown'){
+               html = `<div class="dropdown-option">
+                    <hr>
+                    <div class="text-end">
+                         <div class="form-group">
+                              <div>
+                                   <span onclick="removeOptions(this)" data-field="${value}" value="appended">
+                                        <i class="fa fa-times"></i>
+                                   </span>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="dropdown_option_label">Label</label>
+                                   <input type="text" class="form-control" id="dropdown_option_label" name="dropdown_option_label" value="">
+                              </div>
+                         </div>
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="dropdown_option_value">Value</label>
+                                   <input type="text" class="form-control" id="dropdown_option_value" name="dropdown_option_value" value="">
+                              </div>
+                         </div>
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="dropdown_go_to_step">Go to Step</label>
+                                   <input type="text" class="form-control" id="dropdown_go_to_step" name="dropdown_go_to_step" value="">
+                              </div>
+                         </div>
+                    </div>
+                    <br>
+               </div>`;
+          }else if(value === 'radio-button'){
+               html = `<div class="radio-option">
+                    <hr>
+                    <div class="text-end">
+                         <div class="form-group">
+                              <div>
+                                   <span onclick="removeOptions(this)" data-field="${value}" value="appended">
+                                        <i class="fa fa-times"></i>
+                                   </span>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="radio_option_label">Label</label>
+                                   <input type="text" class="form-control" id="radio_option_label" name="radio_option_label" value="">
+                              </div>
+                         </div>
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="radio_option_value">Value</label>
+                                   <input type="text" class="form-control" id="radio_option_value" name="radio_option_value" value="">
+                              </div>
+                         </div>
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label class="form-label" for="radio_go_to_step">Go to Step</label>
+                                   <input type="text" class="form-control" id="radio_go_to_step" name="radio_go_to_step" value="">
+                              </div>
+                         </div>
+                    </div>
+                    <br>
+               </div>`;
+          }
+          $('#append_options_'+id).append(html);
+     }
+
+     function removeOptions(e){
+          if($(e).attr('data-field') === 'dropdown'){
+               if($(e).attr('value') === 'appended'){
+                    $(e).closest('.dropdown-option').remove();
+               }else{
+                    var id = $(e).data('id');
                     let deleteIds = $('#img_sec_ids').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
@@ -304,10 +331,22 @@
                     $('#img_sec_ids').val(deleteIds);
                     $('.dropdown-option'+id).hide();
                }
-          });
-     });
-
-    
+          }else if($(e).attr('data-field') === 'radio-button'){
+               if($(e).attr('value') === 'appended'){
+                    $(e).closest('.radio-option').remove();
+               }else{
+                    var id = $(e).data('id');
+                    let deleteIds = $('#img_sec_ids').val();
+                    if(deleteIds){
+                         deleteIds += ',' + id;
+                    }else{
+                         deleteIds = id;
+                    }
+                    $('#img_sec_ids').val(deleteIds);
+                    $('.radio-option'+id).hide();
+               }
+          }
+     }
 
      function addContractRow(){
           const html = `<div class="dropdown-option">
@@ -352,14 +391,16 @@
      function conditionalQuestions(id){
           if($('#condition_qu_label'+id).is(':checked')){
                $('.cond_ques_div'+id).show();
+               $('#hide_question_label'+id).hide();
           }else{
                $('.cond_ques_div'+id).hide();
+               $('#hide_question_label'+id).show();
           }
      }
 
 
      function conditionalPageSetting(id){
-          if($('#textbox_condition_go_to'+id).is(':checked')){
+          if($('#condition_go_to'+id).is(':checked')){
                $('.cond_div'+ id).show();
           }else{
                $('.cond_div'+id).hide();
@@ -399,9 +440,9 @@
                               </div>
                          </div>
                          <div class="text-end">
-                              <button type="button" class="btn btn-sm btn-primary dropbtn" onclick="toggleDropdown('${uniqueDropdownId}')">Add Question</button>
-                              <div class="form-group dropdown"> 
-                                   <div id="${uniqueDropdownId}" class="dropdown-content">
+                              <button type="button" class="btn btn-sm btn-primary question_dropbtn" onclick="toggleDropdown('${uniqueDropdownId}')">Add Question</button>
+                              <div class="form-group question_dropdown"> 
+                                   <div id="${uniqueDropdownId}" class="question_dropdown-content">
                                         @foreach($types as $type)
                                              <a onclick="addQuestionfields('{{ $type->slug ?? '' }}','${unqId}')">{{ $type->name ?? '' }}</a>
                                         @endforeach
@@ -462,27 +503,21 @@
                                                   <label class="form-label" for="">Add conditional questions label</label>
                                              </div>
                                         </div>
-                                        <div class="append_label_condition"></div>
+                                        <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
                                              </div>
                                         </div>
+                                        <hr>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label">Question Label</label>
                                              <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
                                         </div>
+                                        <hr>
                                    </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
-                                        </div>
-                                   </div>
-                                   <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_id">Text Box ID</label>
@@ -513,24 +548,24 @@
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="">Conditional Go to page Settings</label>
+                                             <label class="form-label" for="">Conditional Go to step Settings</label>
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                        <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Page Settings</label>
+                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
-                                   <div class="cond_div${newUniqueId}" style="display:none;">
+                                   <div class="cond_div${newUniqueId}">
                                         <div class="col-md-12">
                                              <div class="form-group">
                                                   <label class="form-label" for="">Add Conditions</label>
                                              </div>
                                         </div>
-                                        <div class="append_page_condition"></div>
+                                        <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_condition" id="add_condition">Add Condition</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
                                    </div>
@@ -573,20 +608,21 @@
                                                        <label class="form-label" for="">Add conditional questions label</label>
                                                   </div>
                                              </div>
-                                             <div class="append_label_condition"></div>
+                                             <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
                                              <div class="text-end">
                                                   <div class="form-group">
-                                                       <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
+                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
                                                   </div>
                                              </div>
+                                             <hr>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                              <div class="form-group">
                                                   <label class="form-label" for="text_qu_label">Question Label</label>
                                                   <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
                                              </div>
+                                             <hr>
                                         </div>
-                                        <hr>
                                         <div class="col-md-12">
                                              <div class="form-group">
                                                   <label class="form-label" for="text_id">Text Box ID</label>
@@ -621,8 +657,8 @@
                                              </div>
                                         </div>
                                         <div class="custom-control custom-checkbox checked">
-                                             <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                             <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                             <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                             <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                         </div>
                                         <hr>
                                         <div class="cond_div${newUniqueId}" style="display:none;">
@@ -631,10 +667,10 @@
                                                        <label class="form-label" for="">Add Conditions</label>
                                                   </div>
                                              </div>
-                                             <div class="append_page_condition"></div>
+                                             <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
                                              <div class="text-end">
                                                   <div class="form-group">
-                                                       <button type="button" class="btn btn-sm btn-primary add_condition" id="add_condition">Add Condition</button>
+                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                                   </div>
                                              </div>
                                         </div>
@@ -676,20 +712,21 @@
                                                   <label class="form-label" for="">Add conditional questions label</label>
                                              </div>
                                         </div>
-                                        <div class="append_label_condition"></div>
+                                        <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
                                              </div>
                                         </div>
+                                        <hr>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label">Question Label</label>
                                              <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
                                         </div>
+                                        <hr>
                                    </div>
-                                   <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_id">Question ID</label>
@@ -701,43 +738,11 @@
                                         <div class="form-group">
                                              <label class="form-label" for="">Add Dropdown Option</label>
                                         </div>
-                                        <div class="text-end">
-                                             <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_option" id="add_option">Add Option</button>
-                                             </div>
-                                        </div>
-                                        <div class="dropdown-option">
-                                             <hr>
-                                             <div class="text-end">
-                                                  <div class="form-group">
-                                                       <div>
-                                                            <span class="remove_dropdown_option" value="appended">
-                                                                 <i class="fa fa-times"></i>
-                                                            </span>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="row">
-                                                  <div class="col-md-4">
-                                                       <div class="form-group">
-                                                            <label class="form-label" for="dropdown_option_label">Label</label>
-                                                            <input type="text" class="form-control" id="dropdown_option_label" name="dropdown_option_label" value="">
-                                                       </div>
-                                                  </div>
-                                                  <div class="col-md-4">
-                                                       <div class="form-group">
-                                                            <label class="form-label" for="dropdown_value">Value</label>
-                                                            <input type="text" class="form-control" id="dropdown_value" name="dropdown_value" value="">
-                                                       </div>
-                                                  </div>
-                                                  <div class="col-md-4">
-                                                       <div class="form-group">
-                                                            <label class="form-label" for="dropdown_go_to_step">Go to Step</label>
-                                                            <input type="text" class="form-control" id="dropdown_go_to_step" name="dropdown_go_to_step" value="">
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <br>
+                                   </div>
+                                   <div class="append_options" id="append_options_${newUniqueId}"></div>
+                                   <div class="text-end">
+                                        <div class="form-group">
+                                             <button type="button" class="btn btn-sm btn-primary" onclick="addOptions('${name}','${newUniqueId}')">Add Option</button>
                                         </div>
                                    </div>
                                    <div class="col-md-12">
@@ -746,8 +751,22 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                        <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                   </div>
+                                   <hr>
+                                   <div class="cond_div${newUniqueId}" style="display:none;">
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="">Add Conditions</label>
+                                             </div>
+                                        </div>
+                                        <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
+                                        <div class="text-end">
+                                             <div class="form-group">
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
+                                             </div>
+                                        </div>
                                    </div>
                               </div>
                          </div>
@@ -781,19 +800,6 @@
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
-                                   <div class="cond_ques_div${newUniqueId}" style="display:none;">
-                                        <div class="col-md-12">
-                                             <div class="form-group">
-                                                  <label class="form-label" for="">Add conditional questions label</label>
-                                             </div>
-                                        </div>
-                                        <div class="append_label_condition"></div>
-                                        <div class="text-end">
-                                             <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
-                                             </div>
-                                        </div>
-                                   </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label">Question Label</label>
@@ -801,6 +807,20 @@
                                         </div>
                                    </div>
                                    <hr>
+                                   <div class="cond_ques_div${newUniqueId}" style="display:none;">
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="">Add conditional questions label</label>
+                                             </div>
+                                        </div>
+                                        <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
+                                        <div class="text-end">
+                                             <div class="form-group">
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
+                                             </div>
+                                        </div>
+                                        <hr>
+                                   </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_id">Question ID</label>
@@ -812,44 +832,11 @@
                                         <div class="form-group">
                                              <label class="form-label" for="">Add Radio Option</label>
                                         </div>
-                                        <br>
-                                        <div class="text-end">
-                                             <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_option" id="add_option">Add Option</button>
-                                             </div>
-                                        </div>
-                                        <div class="dropdown-option">
-                                             <hr>
-                                             <div class="text-end">
-                                                  <div class="form-group">
-                                                       <div>
-                                                            <span class="remove_dropdown_option" value="appended">
-                                                                 <i class="fa fa-times"></i>
-                                                            </span>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="row">
-                                                  <div class="col-md-4">
-                                                       <div class="form-group">
-                                                            <label class="form-label" for="dropdown_option_label">Label</label>
-                                                            <input type="text" class="form-control" id="dropdown_option_label" name="dropdown_option_label" value="">
-                                                       </div>
-                                                  </div>
-                                                  <div class="col-md-4">
-                                                       <div class="form-group">
-                                                            <label class="form-label" for="dropdown_value">Value</label>
-                                                            <input type="text" class="form-control" id="dropdown_value" name="dropdown_value" value="">
-                                                       </div>
-                                                  </div>
-                                                  <div class="col-md-4">
-                                                       <div class="form-group">
-                                                            <label class="form-label" for="dropdown_go_to_step">Go to Step</label>
-                                                            <input type="text" class="form-control" id="dropdown_go_to_step" name="dropdown_go_to_step" value="">
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <br>
+                                   </div>
+                                   <div class="append_options" id="append_options_${newUniqueId}"></div>
+                                   <div class="text-end">
+                                        <div class="form-group">
+                                             <button type="button" class="btn btn-sm btn-primary" onclick="addOptions('${name}','${newUniqueId}')">Add Option</button>
                                         </div>
                                    </div>
                                    <div class="col-md-12">
@@ -858,8 +845,22 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                        <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                   </div>
+                                   <hr>
+                                   <div class="cond_div${newUniqueId}" style="display:none;">
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="">Add Conditions</label>
+                                             </div>
+                                        </div>
+                                        <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
+                                        <div class="text-end">
+                                             <div class="form-group">
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
+                                             </div>
+                                        </div>
                                    </div>
                               </div>
                          </div>
@@ -893,19 +894,6 @@
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
-                                   <div class="cond_ques_div${newUniqueId}" style="display:none;">
-                                        <div class="col-md-12">
-                                             <div class="form-group">
-                                                  <label class="form-label" for="">Add conditional questions label</label>
-                                             </div>
-                                        </div>
-                                        <div class="append_label_condition"></div>
-                                        <div class="text-end">
-                                             <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
-                                             </div>
-                                        </div>
-                                   </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label">Question Label</label>
@@ -913,6 +901,20 @@
                                         </div>
                                    </div>
                                    <hr>
+                                   <div class="cond_ques_div${newUniqueId}" style="display:none;">
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="">Add conditional questions label</label>
+                                             </div>
+                                        </div>
+                                        <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
+                                        <div class="text-end">
+                                             <div class="form-group">
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
+                                             </div>
+                                        </div>
+                                        <hr>
+                                   </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="date_field_id">Date field ID</label>
@@ -932,8 +934,22 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                        <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                   </div>
+                                   <hr>
+                                   <div class="cond_div${newUniqueId}" style="display:none;">
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="">Add Conditions</label>
+                                             </div>
+                                        </div>
+                                        <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
+                                        <div class="text-end">
+                                             <div class="form-group">
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
+                                             </div>
+                                        </div>
                                    </div>
                               </div>
                          </div>
@@ -973,20 +989,21 @@
                                                   <label class="form-label" for="">Add conditional questions label</label>
                                              </div>
                                         </div>
-                                        <div class="append_label_condition"></div>
+                                        <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
                                              </div>
                                         </div>
+                                        <hr>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label">Question Label</label>
                                              <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
                                         </div>
+                                        <hr>
                                    </div>
-                                   <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_id">Text Box ID</label>
@@ -1021,8 +1038,8 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                        <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
                                    <div class="cond_div${newUniqueId}" style="display:none;">
@@ -1031,10 +1048,10 @@
                                                   <label class="form-label" for="">Add Conditions</label>
                                              </div>
                                         </div>
-                                        <div class="append_page_condition"></div>
+                                        <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_condition" id="add_condition">Add Condition</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
                                    </div>
@@ -1076,20 +1093,21 @@
                                                   <label class="form-label" for="">Add conditional questions label</label>
                                              </div>
                                         </div>
-                                        <div class="append_label_condition"></div>
+                                        <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
                                              </div>
                                         </div>
+                                        <hr>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label">Question Label</label>
                                              <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
                                         </div>
+                                        <hr>
                                    </div>
-                                   <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_id">Number field ID</label>
@@ -1124,8 +1142,8 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                        <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
                                    <div class="cond_div${newUniqueId}" style="display:none;">
@@ -1134,10 +1152,10 @@
                                                   <label class="form-label" for="">Add Conditions</label>
                                              </div>
                                         </div>
-                                        <div class="append_page_condition"></div>
+                                        <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_condition" id="add_condition">Add Condition</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
                                    </div>
@@ -1148,7 +1166,7 @@
                // $('.add_qu_sec').append(html);
           }else if(name === 'percentage-box'){
                // console.log(name);
-               html = `<div class="appendPercentageBox>
+               html = `<div class="appendPercentageBox">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -1180,20 +1198,21 @@
                                                   <label class="form-label" for="">Add conditional questions label</label>
                                              </div>
                                         </div>
-                                        <div class="append_label_condition"></div>
+                                        <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
                                              </div>
                                         </div>
+                                        <hr>
                                    </div>
-                                   <div class="col-md-12">
+                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label">Question Label</label>
                                              <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
                                         </div>
+                                        <hr>
                                    </div>
-                                   <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_id">Text Box ID</label>
@@ -1228,8 +1247,8 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                        <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
                                    <div class="cond_div${newUniqueId}" style="display:none;">
@@ -1238,10 +1257,10 @@
                                                   <label class="form-label" for="">Add Conditions</label>
                                              </div>
                                         </div>
-                                        <div class="append_page_condition"></div>
+                                        <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
                                         <div class="text-end">
                                              <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_condition" id="add_condition">Add Condition</button>
+                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
                                    </div>
@@ -1268,29 +1287,6 @@
                                         </div>
                                    </div>
                                    <hr>
-                                   <!-- <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="">Conditional questions label</label>
-                                        </div>
-                                   </div>
-                                   <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
-                                        <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
-                                   </div>
-                                   <hr>
-                                   <div class="cond_ques_div${newUniqueId}" style="display:none;">
-                                        <div class="col-md-12">
-                                             <div class="form-group">
-                                                  <label class="form-label" for="">Add conditional questions label</label>
-                                             </div>
-                                        </div>
-                                        <div class="append_label_condition"></div>
-                                        <div class="text-end">
-                                             <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_label">Add Label</button>
-                                             </div>
-                                        </div>
-                                   </div> -->
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label">Question Label</label>
@@ -1331,30 +1327,6 @@
                                              <input type="text" class="form-control" id="text_go_to_step" name="text_go_to_step">
                                         </div>
                                    </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="">Conditional Go to step Settings</label>
-                                        </div>
-                                   </div>
-                                   <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="textbox_condition_go_to${newUniqueId}" name="textbox_condition_go_to">
-                                        <label class="custom-control-label" for="textbox_condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
-                                   </div>
-                                   <hr>
-                                   <div class="cond_div${newUniqueId}" style="display:none;">
-                                        <div class="col-md-12">
-                                             <div class="form-group">
-                                                  <label class="form-label" for="">Add Conditions</label>
-                                             </div>
-                                        </div>
-                                        <div class="append_page_condition"></div>
-                                        <div class="text-end">
-                                             <div class="form-group">
-                                                  <button type="button" class="btn btn-sm btn-primary add_condition" id="add_condition">Add Condition</button>
-                                             </div>
-                                        </div>
-                                   </div>
                               </div>
                          </div>
                          <br>
@@ -1370,14 +1342,13 @@
           });
 
           conditionalPageSetting(newUniqueId);
-          $('#textbox_condition_go_to'+newUniqueId).change(function(){
+
+          $('#condition_go_to'+newUniqueId).change(function(){
                conditionalPageSetting(newUniqueId);
           })
      }
 
-
      function removeFields(e){
-          // console.log($(e).attr('data-field'));
           if($(e).attr('data-field') === 'textbox'){
                if($(e).attr('value') === 'appended'){
                     $(e).closest('.append_textbox').remove();

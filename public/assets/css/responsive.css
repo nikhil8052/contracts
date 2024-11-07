@@ -257,9 +257,9 @@
     padding-right: 30px;
   }
 
-  section.tab_sec_ot {
+  /* section.tab_sec_ot {
     padding-top: 160px;
-  }
+  } */
 }
 
 @media only screen and (max-width: 1440px) {

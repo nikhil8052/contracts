@@ -18,12 +18,14 @@ return new class extends Migration
             $table->string('question_label')->nullable(); // Label to show if condition matches
             $table->unsignedBigInteger('conditional_question_id'); // Question ID to check condition on
             $table->string('conditional_question_value'); // Value to check against for the condition
+            $table->integer('conditional_check')->comment('1: is equal to; 2: is greater than; 3: is less than; 4: not equal to');
             $table->boolean('status')->default(1); // Indicates if condition should be executed
+            $table->unsignedBigInteger('go_to_step')->nullable(); // New field for go-to step question
             $table->timestamps();
-            
-            
-            // Foreign key for conditional question ID
+
+            // Foreign keys
             $table->foreign('conditional_question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreign('go_to_step')->references('id')->on('questions')->onDelete('cascade'); // Foreign key for go_to_step
         });
     }
 

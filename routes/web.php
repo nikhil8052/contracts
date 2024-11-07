@@ -84,17 +84,23 @@ Route::group(['middleware' =>['admin']],function(){
      Route::post('/admin-dashboard/update-document',[DocumentController::class,'updateDocument']);
      Route::post('/update/documentField/image',[DocumentController::class,'updateFieldImage']);
      Route::post('/update/agreement/image',[DocumentController::class,'updateAgreementImage']);
-     //*************************End Documents Urls *******************//
+     //*************************End Documents Urls ***********************//
 
-     //*************************Document Questions *******************//
+     //*************************Document Questions ***********************//
      Route::get('/admin-dashboard/all-document-questions',[DocumentController::class,'allQuestion']);
      Route::get('/admin-dashboard/document-questions',[DocumentController::class,'documentQuestion']);
+     Route::post('/admin-dashboard/add/document-questions',[DocumentController::class,'addDocumentQuestion']);
      Route::get('/admin-dashboard/all-question-type',[DocumentController::class,'allquestionType']);
      Route::get('/admin-dashboard/question-type',[DocumentController::class,'questionType']);
      Route::post('/admin-dashboard/add-question-type',[DocumentController::class,'addTypes']);
      Route::get('/admin-dashboard/edit-question-type/{slug}',[DocumentController::class,'editQuestionType']);
 
-     //*************************End Document Questions ***************//
+     //*************************End Document Questions *******************//
+
+     //*************************Document Right Section *******************//
+     Route::get('/admin-dashboard/document-right-content',[DocumentController::class,'documentRightContent']);
+     //*************************End Document Right Section ***************//
+
      Route::get('/admin-dashboard/reviews',[DocumentController::class,'reviews']);
      Route::post('/admin-dashboard/add-review',[DocumentController::class,'addReview']);
      Route::get('/admin-dashboard/published-reviews',[DocumentController::class,'publishedReview']);
