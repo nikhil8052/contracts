@@ -118,7 +118,7 @@ input:focus {
 }
 
 .p_120 {
-    padding: 120px 0px;
+    padding: 80px 0px;
 }
 
 .p_140 {
@@ -620,6 +620,7 @@ div#navbarSupportedContent {
 }
 
 .inside_box_b {
+    height: 100%;
     padding: 0px 10px;
 }
 
@@ -644,10 +645,7 @@ div#navbarSupportedContent {
     font-weight: 600;
 }
 
-.inside_box_b .tab_btn {
-    padding: 0 20px 30px;
-    margin-top: auto;
-}
+
 
 
 .heading_sec_tabs {
@@ -1148,8 +1146,8 @@ footer .foot_li a:hover {
 }
 
 .inner_sec2 .pdf_in1 {
-    border-radius: 25px;
-    padding: 60px 90px;
+    border-radius: 12px;
+    padding: 100px 100px;
     background-color: #EDEEF1;
     margin-right: 50px;
 }
@@ -1162,7 +1160,7 @@ footer .foot_li a:hover {
     font-size: 24px;
     font-weight: 500;
     line-height: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .inner_sec2 .share_sn img {
@@ -1625,7 +1623,7 @@ footer .foot_li a:hover {
 }
 
 .tab_sec_ot .inside_box_tab .tab_btn {
-    padding: 0 20px 30px;
+    padding: 0 0px 0px;
     margin-top: auto;
 }
 
@@ -2009,6 +2007,7 @@ header.fun-header {
     font-size: 16px;
     padding: 0;
     max-width: 980px;
+    color: #002655;
 }
 
 
@@ -2174,14 +2173,7 @@ header.fun-header {
 /* /////////////////////////////////////////dragdrop ////////////////////////////////////////////// */
 
 
-.contac_login_card .upload-box {
 
-    padding: 44px;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 5px;
-    /* transition: border-color 0.3s ease; */
-}
 
 .contac_login_card .upload-box:hover {
     border-color: rgba(1, 37, 85, 1);
@@ -2476,7 +2468,7 @@ header.fun-header {
 
 .contac_login_card .upload-box {
 
-    padding: 44px;
+    padding: 30px;
     text-align: center;
     cursor: pointer;
     border-radius: 5px;
@@ -3088,7 +3080,7 @@ footer .foot_end_box .reserve_box {
 /* 6nov2024 //////////////////////////// */
 
 .questions_page_main_div {
-    padding: 200px 0px 0px 0px;
+    padding: 120px 0px 0px 0px;
 }
 
 /* 7nov2024////////////////////////// */
@@ -3132,7 +3124,38 @@ footer .foot_end_box .reserve_box {
 /* 7nov 2024///////////////////////// */
 .tab-pane .faq-heading h2 {
     text-align: left;
+    margin-bottom: 0;
 }
 .help:hover .hlp-txt p{
     color: #fff;
 }
+
+/* 8nov 2024///////////////////////// */
+
+.sec8_cont_ot .tab_btn {
+    margin-top: auto;
+    padding: 20px;
+}
+.faq-heading {
+    margin-top: 20px;
+}
+.upload-box.mine_input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.file_input_para {
+    width: 80%;
+    text-align: left;
+}
+
+.file_img_icon #contact_image {
+    width: 40px;
+    height: 40px;
+}
+.drag_drop_box .file_img_icon {
+    width: 40px;
+}
+.cont_tab_ot {
+    padding: 15px 10px 15px 10px;
+  }

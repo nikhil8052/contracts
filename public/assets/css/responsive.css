@@ -40,9 +40,7 @@
 }
 @media only screen and (max-width: 1599px) {
 
-  .cont_tab_ot {
-    padding: 15px 10px 15px 10px;
-  }
+ 
 
   header .container-fluid {
     padding: 0px 20px;
@@ -65,7 +63,7 @@
   }
 
   .p_120 {
-    padding: 100px 0px;
+    padding: 80px 0px;
   }
 
   .tab_text {
@@ -422,9 +420,9 @@
     padding-left: 40px;
   }
 
-  section.tab_sec_ot {
+  /* section.tab_sec_ot {
     padding-top: 140px;
-  }
+  } */
 
   /* 22oct2024 ////////////////////// */
 
@@ -590,9 +588,9 @@
     padding: 0;
   }
 
-  section.tab_sec_ot {
+  /* section.tab_sec_ot {
     padding-top: 140px;
-  }
+  } */
 
   
 }
@@ -1096,7 +1094,7 @@
   }
 
   section.tab_sec_ot {
-    padding-top: 120px;
+    padding-top: 40px;
   }
 
   .in_sec4_card_box .row {

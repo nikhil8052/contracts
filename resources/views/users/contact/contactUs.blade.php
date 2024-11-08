@@ -69,12 +69,23 @@
                                         </h6>
                                    </div>
                                    <div class="drag_drop_box">
-                                        <div class="upload-box mine_input">
+                                        <!-- <div class="upload-box mine_input">
                                              <input type="file" name="file" id="fileInput" hidden />
                                              <label for="fileInput">
                                                   <img src="{{ asset('assets/img/drag_dp.svg') }}" alt="">
                                                   <p>Arrastra una imagen aquí o <span>sube un archivo</span></p>
                                              </label>
+                                        </div> -->
+                                        <div class="upload-box mine_input">
+                                             <div class="file_input_para">
+                                                  <input type="file" id="fileInput" class="form-control-file upload_input_file" name="fileInput" style="display:none;">
+                                                  <p>Arrastra una imagen aquí o <span>sube un archivo</span></p>
+                                             </div>
+                                             <div class="file_img_icon">
+                                                  <label for="fileInput11">
+                                                       <img id="contact_image" src="{{ asset('assets/img/upload_img.svg') }}" alt="">
+                                                  </label>
+                                             </div>
                                         </div>
                                    </div>
                                    @if($errors->has('file'))
@@ -98,5 +109,13 @@
 </section>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+     $(document).ready(function(){
+          $('#contact_image').on('click',function(){
+               $('#fileInput').trigger('click');
+          });
+     })
+</script>
 
 @endsection

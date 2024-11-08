@@ -76,7 +76,7 @@
 			</div>
 			<div class="foot_end_box">
 				<div class="reserve_box">
-					©2024 Documentos-Legales.mx
+					©2024 Legalio. Todos los derechos reservados.
 				</div>
 				<div class="reserve_box">
 					<div class="select-menu active">

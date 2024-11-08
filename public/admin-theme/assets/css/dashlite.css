@@ -41636,13 +41636,11 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
 .question_dropbtn{
   background-color: #FD5602;
   color: white;
-  padding: 16px;
-  font-size: 16px;
+  font-size: 14px;
   border: none;
-  cursor: pointer;
 }
 
-.question_dropbtn:hover, .question_dropbtn:focus{
+.question_dropbtn:hover{
   background-color: #FD5602;
 }
 
@@ -41677,5 +41675,11 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
 
 .show{
   display: block;
+}
+
+/* paragraph size */
+p.p_label {
+  font-weight: 500;
+  color: #344357;
 }
 

@@ -10,6 +10,7 @@ use App\Models\Document;
 use App\Models\DocumentCategory;
 use App\Models\Review;
 use App\Models\Question;
+use App\Models\DocumentRightSection;
 
 class HomeController extends Controller
 {
@@ -94,13 +95,32 @@ class HomeController extends Controller
 
 
     // This is the testing for the questions 
-    public function question_testing(){
-        
+  public function question_testing()
+{
+    $questions = Question::with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
+    $documentContents = DocumentRightSection::where('document_id', 3)->get();
 
-        $questions = Question::with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
-
-        return view('users.contracts.questions',compact('questions'));
+    // Process each content and replace placeholders
+    foreach ($documentContents as $content) {
+        // Match and replace all #{number}# patterns
+        $content->content = preg_replace_callback(
+            '/#(\d+)#/',
+            function ($matches) {
+                $classNumber = $matches[1];
+                return "<span class=\"answered_spns qidtarget-$classNumber\"></span>";
+            },
+            $content->content
+        );
     }
+
+    // Log the output to ensure replacements are made
+    // dd($documentContents);
+
+    return view('users.contracts.canvas_question_testing', compact('questions', 'documentContents'));
+}
+
+
+
     
 
 

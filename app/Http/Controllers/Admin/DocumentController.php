@@ -16,6 +16,7 @@ use App\Models\DocumentAgreement;
 use App\Models\DocumentWithCategory;
 use App\Models\Media;
 use App\Models\QuestionType;
+use App\Models\DocumentRightSection;
 use Illuminate\Support\Str;
 use App\Services\FileUploadService;
 use Illuminate\Support\Facades\DB;
@@ -772,8 +773,28 @@ class DocumentController extends Controller
         return $request->all();
     }
 
+    public function allRightContent(){
+        return view('admin.document_right_content.all_document_right_content');
+    }
+
     public function documentRightContent(){
         $documents = Document::where('published',1)->get();
         return view('admin.document_right_content.document_right_content',compact('documents'));
+    }
+
+    public function addDocumentRightContent(Request $request){
+        return $request->all();
+        // if($request->has('content_val')){
+        //     if($request->has('start_new_section') == '1'){
+        //         if(isset($request->text_align) && $request->text_align != null){
+                    
+        //         }
+        //     }
+        // }
+
+        // if($request->has('content_headings')){
+
+        // }
+
     }
 }

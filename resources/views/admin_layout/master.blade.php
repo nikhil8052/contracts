@@ -86,14 +86,25 @@
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
-                                        <span class="nk-menu-text">Documents Questions</span>
+                                        <span class="nk-menu-text">Document Questions</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/all-document-questions') }}" class="nk-menu-link"><span class="nk-menu-text">All Documents Questions</span></a>
+                                            <a href="{{ url('/admin-dashboard/all-document-questions') }}" class="nk-menu-link"><span class="nk-menu-text">Document Questions</span></a>
                                         </li>
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/all-question-type') }}" class="nk-menu-link"><span class="nk-menu-text">Question Type</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
+                                        <span class="nk-menu-text">Document Right Content</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/all-document-right-content') }}" class="nk-menu-link"><span class="nk-menu-text">Document Right Content</span></a>
                                         </li>
                                     </ul>
                                 </li>

@@ -98,7 +98,9 @@ Route::group(['middleware' =>['admin']],function(){
      //*************************End Document Questions *******************//
 
      //*************************Document Right Section *******************//
+     Route::get('/admin-dashboard/all-document-right-content',[DocumentController::class,'allRightContent']);
      Route::get('/admin-dashboard/document-right-content',[DocumentController::class,'documentRightContent']);
+     Route::post('/admin-dashboard/add-document-right-content',[DocumentController::class,'addDocumentRightContent']);
      //*************************End Document Right Section ***************//
 
      Route::get('/admin-dashboard/reviews',[DocumentController::class,'reviews']);
