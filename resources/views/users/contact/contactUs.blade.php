@@ -1,6 +1,21 @@
 @extends('users_layout.master')
 @section('content')
+<style>
+.textarea-wrapper{
+  position: relative;
+  /* width: fit-content; */
+}
 
+#contact_image {
+  position: absolute;
+  top: 50%;
+  right: 10px;  /* Adjust position as needed */
+  transform: translateY(-50%);
+  width:40px;
+  /* Remove pointer-events: none; to make the image clickable */
+}
+
+</style>
 <?php 
      $path = str_replace('public/', '', $contact->background_image_path ?? null);
 ?>
@@ -55,27 +70,44 @@
                                    <span class="text-danger">{{ $errors->first('email') }}</span>
                                    @endif
                               </div>
-                              <div class="inside_contac_fild">
+                              <!-- <div class="inside_contac_fild textarea-wrapper">
                                    <textarea class="mine_input" name="message" cols="0" rows="6" placeholder="Mensaje"></textarea>
+                                   <img id="contact_image" src="{{ asset('assets/img/upload_img.svg') }}" alt="">
+                                   @if($errors->has('message'))
+                                   <span class="text-danger">{{ $errors->first('message') }}</span>
+                                   @endif
+                              </div> -->
+                              <div class="inside_contac_fild textarea-wrapper">
+                                   <textarea class="mine_input" name="message" cols="0" rows="6" placeholder="Mensaje"></textarea>
+                                   
+                                   <!-- New wrapper for the image -->
+                                   <div class="image-wrapper">
+                                   <img id="contact_image" src="{{ asset('assets/img/upload_img.svg') }}" alt="Upload Icon">
+                                   </div>
+                                   
                                    @if($errors->has('message'))
                                    <span class="text-danger">{{ $errors->first('message') }}</span>
                                    @endif
                               </div>
+                              <input type="file" id="fileInput" class="form-control-file upload_input_file" name="fileInput" style="display:none;">
+                              @if($errors->has('fileInput'))
+                                   <span class="text-danger">{{ $errors->first('fileInput') }}</span>
+                              @endif
 
-                              <div class="inside_contac_fild">
+                              <!-- <div class="inside_contac_fild">
                                    <div class="drag_h_contac">
                                         <h6 class="drg_hd">
                                              Agregar archivo :
                                         </h6>
                                    </div>
                                    <div class="drag_drop_box">
-                                        <!-- <div class="upload-box mine_input">
+                                        <div class="upload-box mine_input">
                                              <input type="file" name="file" id="fileInput" hidden />
                                              <label for="fileInput">
                                                   <img src="{{ asset('assets/img/drag_dp.svg') }}" alt="">
                                                   <p>Arrastra una imagen aquí o <span>sube un archivo</span></p>
                                              </label>
-                                        </div> -->
+                                        </div>
                                         <div class="upload-box mine_input">
                                              <div class="file_input_para">
                                                   <input type="file" id="fileInput" class="form-control-file upload_input_file" name="fileInput" style="display:none;">
@@ -91,7 +123,7 @@
                                    @if($errors->has('file'))
                                    <span class="text-danger">{{ $errors->first('file') }}</span>
                                    @endif
-                              </div>
+                              </div> -->
 
                               <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                               @if($errors->has('g-recaptcha-response'))
@@ -113,9 +145,10 @@
 <script>
      $(document).ready(function(){
           $('#contact_image').on('click',function(){
+               console.log('Image clicked'); // Log message to console
                $('#fileInput').trigger('click');
           });
-     })
+     });
 </script>
 
 @endsection

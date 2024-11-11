@@ -25,12 +25,13 @@ class ContactUsController extends Controller
     }
 
     public function contactUsProcc(Request $request){
+
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
             'email' => 'required|email',
             'message' => 'required',
-            'file' => 'required',
+            'fileInput' => 'required',
             'g-recaptcha-response' => 'required',
         ]);
 
@@ -42,7 +43,8 @@ class ContactUsController extends Controller
             $response = (array)json_decode($response_json);
     
             if($response['success'] == true){
-                $file = $request->file('file');
+                $file = $request->file('fileInput');
+       
                 $contactUs = new ContactUs;
                 $contactUs->name = $request->name;
                 $contactUs->phone_number = $request->phone_number;
@@ -52,7 +54,7 @@ class ContactUsController extends Controller
                 $directory = "public/contact_form_images";
                 $fileupload = $this->fileUploadService->upload($file, $directory);
                 $fileuploadData = $fileupload->getData();
-        
+                
                 if(isset($fileuploadData) && $fileuploadData->status == '200'){
                     $contactUs->media_id = $fileuploadData->id;
                     $contactUs->save();

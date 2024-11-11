@@ -17,6 +17,7 @@ use App\Models\DocumentWithCategory;
 use App\Models\Media;
 use App\Models\QuestionType;
 use App\Models\DocumentRightSection;
+use App\Models\RightSectionCondition;
 use Illuminate\Support\Str;
 use App\Services\FileUploadService;
 use Illuminate\Support\Facades\DB;
@@ -783,18 +784,32 @@ class DocumentController extends Controller
     }
 
     public function addDocumentRightContent(Request $request){
-        return $request->all();
-        // if($request->has('content_val')){
-        //     if($request->has('start_new_section') == '1'){
-        //         if(isset($request->text_align) && $request->text_align != null){
-                    
-        //         }
-        //     }
-        // }
+        // return $request->all();
+        DB::beginTransaction(); 
+        try{
+            // if(isset($request->heading_type) && $request->heading_type != null){
+            //     $typeArray = explode(',', $request->heading_type);
+            //     foreach($typeArray as $heading){
+            //         list($type, $number) = explode('-', $heading);
+            //         $content_html_key = 'content_heading_html-' . $number;
+            //         $content_value = $request->input($content_html_key);
+            //         if($content_value){
+            //             $document_right_section = new DocumentRightSection;
+            //             $document_right_section->type = $type;
+            //             $document_right_section->content = $content_value;
+            //             $document_right_section->document_id = $request->document_id;
+            //             $document_right_section->save();
 
-        // if($request->has('content_headings')){
-
-        // }
-
+            //             DB::commit();
+            //         }
+            //     }
+            //     return redirect()->back()->with('success', 'Document Right Content added successfully');
+            // }
+            
+        }catch(Exception $e){
+            DB::rollBack();
+            saveLog("Error:", "DocumentController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
     }
 }

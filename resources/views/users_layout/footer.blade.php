@@ -44,7 +44,7 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-lg-3">
+					<div class="col-lg-2">
 						<div class="foot_sec">
 							<div class="foot_h">
 								<h5>

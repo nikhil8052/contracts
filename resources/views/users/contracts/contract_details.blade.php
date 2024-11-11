@@ -11,7 +11,7 @@
     <div class="inner_sec2 light">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 ">
+                <div class="col-lg-5">
                     <div class="pdf_in1">
                         <?php 
                             $image_path = str_replace('public/', '', $document->document_file_path ?? null);
@@ -19,7 +19,7 @@
                         <img src="{{ asset('storage/'.$image_path) }}" alt="">
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                     <div class="pdf_in2">
                         <div class="pdf_head">
                             <h1>{{ $document->title ?? '' }}
