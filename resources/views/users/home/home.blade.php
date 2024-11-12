@@ -72,9 +72,9 @@
 									<a href="{{ url('document/'.$document->slug) }}" class="contract_link">
 										<div class="inside_box_tab">
 											<div class="img_tab_sec">
-											<?php 
-												$image_path = str_replace('public/', '', $document->document_file_path ?? null);
-											?>
+												<?php 
+													$image_path = str_replace('public/', '', $document->document_file_path ?? null);
+												?>
 												<img src="{{ asset('storage/'.$image_path) }}" alt="">
 											</div>
 											<div class="cont_tab_ot">

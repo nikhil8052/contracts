@@ -58,7 +58,7 @@
                               <div class="d-flex justify-content-end mt-2">
                                    <div class="nk-block-head-content">
                                         <div class="up-btn mbsc-form-group">
-                                             <button class="btn btn-sm btn-primary" type="submit">Save</button>
+                                             <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata">Save</button>
                                         </div>
                                    </div>
                               </div> 
@@ -407,10 +407,12 @@
           }
      }
 
+     let step_count = 0;
      function addSteps(){
           const uniqueDropdownId = 'dropdown_' + Date.now();
           const unqId = Date.now();
-          const html = `<div class="steps_section" id="steps_section">
+          step_count++ ;
+          const html = `<div class="steps_section" id="steps_section${step_count}">
                <div class="card card-bordered card-preview">
                     <div class="card-inner">
                          <div class="row add_step">
@@ -428,8 +430,8 @@
                          <hr>
                          <div class="col-md-12">
                               <div class="form-group">
-                                   <label class="form-label" for="step">Step *</label>
-                                   <input type="text" class="form-control" id="step" name="step">
+                                   <label class="form-label" for="step${step_count}">Step *</label>
+                                   <input type="text" class="form-control" id="step${step_count}" name="step${step_count}">
                               </div>
                          </div>
                          <hr>
@@ -1480,5 +1482,22 @@
      }
 </script>
 
+<script>
+
+     function getAllSteps(){
+          var questions = [];
+
+          $('.add_qu_sec .append_textbox').each(function(){
+               
+          })
+     }
+
+     $(document).ready(function(){
+          $('#saveQuestiondata').click(function(){
+
+          })
+     })
+     
+</script>
 
 @endsection

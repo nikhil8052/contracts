@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('document_right_sections', function (Blueprint $table) {
             $table->id();
+            $table->text('title')->nullable();
             $table->foreignId('document_id')->constrained('documents')->onDelete('cascade'); // Link to the documents table
             $table->string('type')->nullable();
             $table->boolean('start_new_section')->default(false);
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->string('content_class')->nullable(); // CSS class for content styling
             $table->boolean('secure_blur_content')->default(false); // true | false for secure blur
             $table->boolean('blur_content')->default(false); // true | false for blur content
+            $table->tinyInt('published')->nullable();
             $table->timestamps();
         });
     }

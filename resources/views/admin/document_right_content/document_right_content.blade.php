@@ -5,13 +5,10 @@
      <div class="container-fluid">
           <form action="{{ url('/admin-dashboard/add-document-right-content') }}" id="contentForm" method="post" enctype="multipart/form-data">
                @csrf
-               <input type="hidden" id="sign_field" name="sign_field" value="">
-               <input type="hidden" id="content_type" name="content_type" value="">
-               <input type="hidden" id="heading_type" name="heading_type" value="">
-               <input type="hidden" id="content_headings" name="content_headings" value="">
-               <input type="hidden" id="content_val" name="content_val" value="">
+               <input type="hidden" id="published" name="published" value="">
                <input type="hidden" id="remove_content_heading" name="remove_content_heading" value="">
                <input type="hidden" id="remove_content" name="remove_content" value="">
+               <input type="hidden" id="formdata" name="formdata" value="">
                <div class="row main_section">
                     <div class="col md-8 left-content">
                          <div class="col-md-12 doc-title mt-4 pb-4">
@@ -68,7 +65,7 @@
                                    <div class="d-flex justify-content-end mt-2">
                                         <div class="nk-block-head-content">
                                              <div class="up-btn mbsc-form-group">
-                                                  <button class="btn btn-sm btn-primary" type="submit">Save</button>
+                                                  <button class="btn btn-sm btn-primary" type="button" id="saveFormdata">Save</button>
                                              </div>
                                         </div>
                                    </div> 
@@ -443,6 +440,83 @@
 </script>
 
 <script>
+
+function getAllContents() {
+     var contents = [];
+
+     $('.add_contents .append_content_heading').each(function() {
+          // var contentHeadingId = $(this).attr('id');
+          var headingInputValue = $(this).find('input[type="text"]').val();
+          
+          contents.push({
+               section: 'content_heading',
+               heading_html: headingInputValue
+          });
+     });
+
+     $('.add_contents .append_content').each(function() {
+          // var contentId = $(this).attr('id');
+          var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
+          var textAlign = $(this).find('select[name^="text_align"]').val();
+          var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
+          var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
+          var contentClass = $(this).find('input[name^="content_class"]').val();
+          var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
+          var secureBlurrContent = $(this).find('input[name^="secure_blurr_content"]').is(':checked') ? 1 : 0;
+          var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
+
+          var contentData = {
+               section: 'content',
+               start_new_section: startNewSection,
+               text_align: textAlign,
+               signature_field: signatureField,
+               content_html: contentHtml,
+               content_class: contentClass,
+               add_condition: addCondition,
+               secure_blurr_content: secureBlurrContent,
+               blurr_content: blurrContent,
+               conditions: []
+          };
+
+          if(addCondition){
+               $(this).find('.append_condition .condition-section').each(function() {
+                    var condition = {
+                         question_id: $(this).find('input[name^="condition_question_id"]').val(),
+                         condition: $(this).find('select[name^="conditions"]').val(),
+                         question_value: $(this).find('input[name^="condition_question_value"]').val()
+                    };
+               
+                    if(condition.question_id || condition.condition || condition.question_value){
+                         contentData.conditions.push(condition);
+                    }
+               });
+          }
+          contents.push(contentData);
+     });
+
+     console.log(contents);
+     return contents;
+}
+
+$(document).ready(function() {
+     $('#saveFormdata').click(function() {
+          var data = getAllContents();
+          data = JSON.stringify(data);
+          $('#formdata').val(data);
+          $('#contentForm').submit();
+     });
+
+     var switchStatus = false;
+     $(".publish").on('change', function() {
+          if($(this).is(':checked')) {
+               switchStatus = $(this).is(':checked');
+               $('#published').val(1);
+          }else{
+               switchStatus = $(this).is(':checked');
+               $('#published').val(0);
+          }
+     })
+});
 
 </script>
 

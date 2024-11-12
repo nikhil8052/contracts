@@ -110,73 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// $(function () {
-
-//   // vars
-//   var slider,
-//     btn,
-//     tabC,
-//     prevIndex,
-//     objTab = {};
-
-//   btn = $(".btn");
-//   tabC = $(".tabContent");
-
-//   prevIndex = 0;
-
-//   btn.on("click", function () {
-//     var th, thIndex;
-
-//     // Current button and the index of the current button 
-//     th = $(this);
-//     thIndex = th.index();
-
-//     console.log( thIndex , " Current Index");
-//     console.log( prevIndex , " Pre Index");
-
-
-//     if(!th.hasClass("active")) {
-//       if(prevIndex != thIndex && prevIndex !== "undefined"){
-//         btn.eq(prevIndex).removeClass("active");
-//         tabC.eq(prevIndex).removeClass("show");
-//       }
-//       btn.eq(thIndex).addClass("active");
-//       tabC.eq(thIndex).addClass("show");
-//       prevIndex = thIndex;
-
-//       //slick position filter
-//       //if you have problem with slick in tabs, use next option
-//       //magic option
-//       tabC.eq(thIndex).find(".slider").slick("setPosition");
-//     }
-//   });
-
-//   slider = $(".slider");
-
-//   slider.slick({
-//     dots: true,
-//     arrows: false,
-//     slidesToShow: 4,
-//     slidesToScroll: 1,
-//     responsive: [
-//       {
-//         breakpoint: 991,
-//         settings: {
-//           slidesToShow: 3,
-//         },
-//       },
-//       {
-//         breakpoint: 767,
-//         settings: {
-//           slidesToShow: 1,
-//         },
-//       },
-//     ],
-//   });
-// });
-
-
-
 // /////////////////////////30sep/////////////////////////////////
 
 // $(document).ready(function () {
@@ -212,70 +145,7 @@ $('.tc-item a').click(function(event){
 //     });
 // });
 
- // Slider Tabs
-// $(function() {
-//      // Slider Tabs
-//   var btn = $(".btn");
-//   var tabC = $(".tabContent > div");
-//   var prevIndex = 0;
-  
-//   // btn.eq(0).addClass("active");
-//   tabC.eq(0).addClass("show").show();
-
-//   btn.on("click", function () {
-//       var th = $(this);
-//       var thIndex = th.index();
-
-//       if(!th.hasClass("active")) {
-//           // Blink effect on all tab contents
-//           tabC.fadeOut(100).fadeIn(100, function () {
-//               // Remove active class from the previously active button and hide its content
-//               btn.eq(prevIndex).removeClass("active");
-//               tabC.eq(prevIndex).removeClass("show").hide(); // Hide previous tab content
-  
-//               // Update prevIndex
-//               prevIndex = thIndex;
-  
-//               // Add active class to the clicked button and show its content
-//               // th.addClass("active");
-//               tabC.eq(thIndex).addClass("show").fadeIn(100); // Show new tab with fade in
-//           });
-//       }
-//   });
-
-//     // Initialize the tab slider
-//     slidertab = $(".slider_tab");
-  
-//     slidertab.slick({
-//       dots: true,
-//       arrows: false,
-//       slidesToShow: 4,
-//       slidesToScroll: 1,
-//       responsive: [
-//         {
-//           breakpoint: 1199,
-//           settings: {
-//             slidesToShow: 3,
-//           },
-//         },
-//         {
-//           breakpoint: 991,
-//           settings: {
-//             slidesToShow: 2,
-//           },
-//         },
-//         {
-//           breakpoint: 767,
-//           settings: {
-//             slidesToShow: 1,
-//           },
-//         },
-//       ],
-//     });
-//   });
-
-
-
+ 
 // Nikhil Code 
 
 // Home Page Tabs 
@@ -332,9 +202,29 @@ $(function () {
   });
 });
 
-
-
 // End code 
+
+// Function to check the scroll position
+function checkScroll() {
+  var myElement = document.getElementById("myID");
+  
+  // Check if the page has been scrolled 460px or more
+  if (window.scrollY > 460) {
+      myElement.style.visibility = "visible";  // Show the element
+  } else {
+      myElement.style.visibility = "hidden";   // Hide the element if scroll position is less than 460px
+  }
+}
+
+// Add the scroll event listener
+window.addEventListener("scroll", checkScroll);
+
+// Run the checkScroll function on initial page load to account for already scrolled pages
+document.addEventListener("DOMContentLoaded", function() {
+  var myElement = document.getElementById("myID");
+  myElement.style.visibility = "hidden";  // Hide element initially
+  checkScroll();  // Run checkScroll to handle initial scroll position
+});
 
 
 

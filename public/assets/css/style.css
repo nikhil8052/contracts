@@ -186,7 +186,7 @@ input:focus {
 header {
     position: absolute;
     width: 100%;
-    left: 0;
+    left: -2px;
     right: 0;
     z-index: 9999;
     padding-top: 20px;
@@ -348,7 +348,7 @@ div#navbarSupportedContent {
 
 /*  */
 
-.banner_sec .search {
+.search {
     width: 100%;
     position: relative;
     display: flex;
@@ -358,7 +358,7 @@ div#navbarSupportedContent {
     border-radius: 160px;
 }
 
-.banner_sec .searchTerm {
+ .searchTerm {
     width: 100%;
     padding: 0 6px 0px 8px;
     background-color: transparent;
@@ -367,11 +367,10 @@ div#navbarSupportedContent {
     font-size: 16px;
 }
 
-.banner_sec .searchTerm:focus {
+ .searchTerm:focus {
     color: #000000;
 }
-
-.banner_sec .searchButton {
+ .searchButton {
     text-align: center;
     color: #fff;
     border-radius: 110px;
@@ -386,12 +385,12 @@ div#navbarSupportedContent {
 }
 
 
-.banner_sec .search_bar {
+ .search_bar {
     position: relative;
     margin-top: 30px;
 }
 
-.banner_sec .searchButton:hover {
+ .searchButton:hover {
     background-color: #002655;
     color: #fff;
     border-color: #002655;
@@ -543,6 +542,7 @@ div#navbarSupportedContent {
     cursor: pointer;
     position: relative;
     z-index: 9999;
+    filter: invert(10%) sepia(32%) saturate(4926%) hue-rotate(200deg) brightness(101%) contrast(102%);
 }
 
 .clientes_slider .btn-wrap {
@@ -1151,7 +1151,7 @@ footer .foot_li a:hover {
 
 .inner_sec2 .pdf_in1 {
     border-radius: 12px;
-    padding: 50px;
+    padding: 100px;
     background-color: #EDEEF1;
     margin-right: 50px;
 }
@@ -2859,6 +2859,7 @@ td {
 section.banner_sec {
     background-size: cover;
     background-repeat: no-repeat;
+    background-color: #002655;
 }
 
 .vision-txt h3 {
@@ -3113,9 +3114,14 @@ footer .foot_end_box .reserve_box {
 }
 
 /* Ensures both boxes take up equal width */
-.left-box,
+.left-box {
+    flex: 0.3; /* 30% width for the left box */
+    padding: 10px;
+    min-height:50vh;
+}
+
 .right-box {
-    flex: 1;
+    flex: 0.7; /* 70% width for the right box */
     padding: 20px;
 }
 
@@ -3203,4 +3209,24 @@ footer .foot_end_box .reserve_box {
 
 .explore-txt h5 {
     margin-bottom: 20px;
+}
+
+/* 12nov2024 //////////////////// */
+
+.outer_cate .in_box_cate:hover .in_img_cate img {
+    filter: invert(38%) sepia(76%) saturate(2497%) hue-rotate(359deg) brightness(100%) contrast(106%);
+}
+.header_search_bar {
+    width: 60%;
+}
+.header_search_bar .search_bar {
+    margin-top: 0;
+}
+.outer_cate .cata_btn a {
+    background-color: #002655;
+    border: 1px solid #002655;
+}
+.outer_cate .in_box_cate:hover  .cata_btn a {
+    background-color: #FD5602;
+    border: 1px solid #FD5602;
 }

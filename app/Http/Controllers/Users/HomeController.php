@@ -111,15 +111,29 @@ class HomeController extends Controller
             },
             $content->content
         );
+
+        if($content->secure_blur_content){
+            $content->content= $this->encryptText($content->content, "nik");
+        }
     }
 
     // Log the output to ensure replacements are made
     // dd($documentContents);
 
-    return view('users.contracts.canvas_question_testing', compact('questions', 'documentContents'));
+    return view('users.contracts.questions', compact('questions', 'documentContents'));
 }
 
+    private function encryptText($text, $key)
+    {
+        $cipherMethod = "AES-256-CBC";
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipherMethod)); // Generate a secure IV
 
+        // Encrypt the text
+        $encryptedText = openssl_encrypt($text, $cipherMethod, $key, 0, $iv);
+
+        // Encode IV with the encrypted text
+        return base64_encode($iv . $encryptedText);
+    }
 
     
 

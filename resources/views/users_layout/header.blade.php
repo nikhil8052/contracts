@@ -15,6 +15,18 @@
 	$current_url = url()->current();
 	$home_url = url('/');
 
+	$keys2 = [
+		'banner_placeholder',
+		'button_name'	
+	];
+
+	$results2 = App\Models\HomeContent::whereIn('key', $keys2)->get()->keyBy('key');
+
+	$data2 = [
+		'banner_placeholder' => $results2['banner_placeholder']->value ?? null,
+          'button_name' => $results2['button_name']->value ?? null,
+	];
+
 @endphp
 
 
@@ -28,9 +40,18 @@
 					</a>
 				</div>
 				@if($current_url == $home_url)
-				<div class="form" style="display:none;">
-					<input type="search" placeholder="Buscar documento legal">
-					<button class="btn cta_dark"><i class="fa-solid fa-magnifying-glass"></i></button>
+				<div class="header_search_bar" id="myID">
+					<div class="search_bar">
+						<div class="wrap">
+							<div class="search">
+								<input type="text" class="searchTerm"
+									placeholder="{{ $data2['banner_placeholder'] ?? '¿Qué documento necesitas?' }}">
+								<button type="submit" class="searchButton">
+									{{ $data2['button_name'] ?? 'Empezar' }}
+								</button>
+							</div>
+						</div>
+					</div>
 				</div>
 				@else
 				<div class="form">

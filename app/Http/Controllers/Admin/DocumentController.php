@@ -18,6 +18,7 @@ use App\Models\Media;
 use App\Models\QuestionType;
 use App\Models\DocumentRightSection;
 use App\Models\RightSectionCondition;
+use App\Models\QuestionCondition;
 use Illuminate\Support\Str;
 use App\Services\FileUploadService;
 use Illuminate\Support\Facades\DB;
@@ -787,25 +788,56 @@ class DocumentController extends Controller
         // return $request->all();
         DB::beginTransaction(); 
         try{
-            // if(isset($request->heading_type) && $request->heading_type != null){
-            //     $typeArray = explode(',', $request->heading_type);
-            //     foreach($typeArray as $heading){
-            //         list($type, $number) = explode('-', $heading);
-            //         $content_html_key = 'content_heading_html-' . $number;
-            //         $content_value = $request->input($content_html_key);
-            //         if($content_value){
-            //             $document_right_section = new DocumentRightSection;
-            //             $document_right_section->type = $type;
-            //             $document_right_section->content = $content_value;
-            //             $document_right_section->document_id = $request->document_id;
-            //             $document_right_section->save();
+            if(isset($request->formdata) && $request->formdata != null){
+                $formData = json_decode($request->formdata);
+                foreach($formData as $data){
+                    $document_right_section = new DocumentRightSection;
+                    $document_right_section->type = $data->section;
+                    $document_right_section->title = $request->title;
+                    $document_right_section->document_id = $request->document_id;
+                    $document_right_section->published = $request->published;
+    
+                    if($data->section == 'content_heading'){
+                        $document_right_section->content = $data->heading_html;
+                    }elseif($data->section == 'content'){
+                        $document_right_section->start_new_section = $data->start_new_section;
+                        $document_right_section->content = $data->content_html;
+                        $document_right_section->text_align = $data->text_align;
+                        $document_right_section->signature_field = $data->signature_field;
+                        $document_right_section->content_class = $data->content_class ?? null;
+                        $document_right_section->is_condition = $data->add_condition;
+                        $document_right_section->secure_blur_content = $data->secure_blurr_content;
+                        $document_right_section->blur_content = $data->blurr_content;
+                    }
 
-            //             DB::commit();
-            //         }
-            //     }
-            //     return redirect()->back()->with('success', 'Document Right Content added successfully');
-            // }
-            
+                    $document_right_section->save();
+    
+                    if(!empty($data->conditions) && $data->add_condition){
+                        foreach($data->conditions as $condition){
+                            if($condition->condition == 'is_equal_to'){
+                                $condition_value = 1;
+                            }elseif($condition->condition == 'is_greater_than'){
+                                $condition_value = 2;
+                            }elseif($condition->condition == 'is_less_than'){
+                                $condition_value = 3;
+                            }elseif($condition->condition == 'not_equal_to'){
+                                $condition_value = 4;
+                            }
+
+                            $documentCondition = new QuestionCondition;
+                            $documentCondition->condition_type = 'content_condition';
+                            $documentCondition->document_right_content_id = $document_right_section->id;
+                            $documentCondition->conditional_question_id  = $condition->question_id;
+                            $documentCondition->conditional_check = $condition_value;
+                            $documentCondition->conditional_question_value = $condition->question_value ?? null;
+                            $documentCondition->save();
+                        }
+                    }
+                }
+    
+                DB::commit();
+                return redirect()->back()->with('success', 'Document Right Section successfully saved.');
+            }
         }catch(Exception $e){
             DB::rollBack();
             saveLog("Error:", "DocumentController", $e->getMessage());
@@ -813,3 +845,6 @@ class DocumentController extends Controller
         }
     }
 }
+
+
+
