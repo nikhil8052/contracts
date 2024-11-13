@@ -561,8 +561,8 @@
                                                        @php
                                                             $isSelected = false;
                                                             if(isset($document->categories) && $document->categories != null){
-                                                                 foreach ($document->categories as $catg) {
-                                                                      if ($catg->id == $category->id) {
+                                                                 foreach($document->categories as $catg){
+                                                                      if($catg->id == $category->id){
                                                                            $isSelected = true;
                                                                            break;
                                                                       }

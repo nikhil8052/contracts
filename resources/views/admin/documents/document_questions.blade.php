@@ -14,19 +14,41 @@
                          </div>
                     </div>
                     <h5>Contract Questions</h5>
-                    <hr>
-                    <h6>Steps</h6>
-                    <!-- <div class="card card-bordered card-preview">
-                         <div class="card-inner"> -->
-                              <div class="add_steps"></div>
-                              <br>
-                              <div class="text-end">
-                                   <div class="form-group">
-                                        <button type="button" class="btn btn-sm btn-primary" id="addsteps" onclick="addSteps()">Add Step</button>
+                    <div class="steps_section" id="steps_section${step_count}">
+                         <div class="card card-bordered card-preview">
+                              <div class="card-inner">
+                                   <div class="row add_step">
+                                        <div class="col-md-6">
+                                             <h6>Add Question  </h6>
+                                        </div>
+                                   </div>
+                                   <hr>
+                    
+                                   <div id ="add_qu_sec"></div>
+                                   <div class="text-end">
+                                        <button type="button" class="btn btn-sm btn-primary question_dropbtn"
+                                             onclick="toggleDropdown('testing')">Select Type </button>
+                                        <div class="form-group question_dropdown">
+                                             <div id="testing" class="question_dropdown-content">
+                                                  @foreach($types as $type)
+                                                       <a onclick="addQuestionfields('{{ $type->slug ?? '' }}','${unqId}')">{{ $type->name ?? '' }}</a>
+                                                  @endforeach
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="last_step" name="last_step">
+                                        <label class="custom-control-label" for="last_step">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
-                         <!-- </div>
-                    </div> -->
+                         </div>
+                    </div>
                </div>
                <div class="col md-4 right-content">
                     <div class="card card-bordered card-preview">
@@ -58,7 +80,9 @@
                               <div class="d-flex justify-content-end mt-2">
                                    <div class="nk-block-head-content">
                                         <div class="up-btn mbsc-form-group">
-                                             <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata">Save</button>
+                                             <!-- <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata">Save</button> -->
+                                             <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata1">Save</button>
+
                                         </div>
                                    </div>
                               </div> 
@@ -96,6 +120,11 @@
 
 <script>
      $(document).ready(function(){
+
+      
+
+
+          // To remove the steps 
           $('body').delegate('.remove_steps','click', function(){
                if($(this).attr('value') === 'appended'){
                     $(this).closest('.steps_section').remove();
@@ -111,7 +140,18 @@
                     $('.steps_section'+id).hide();
                }
           })
+
+
+          // $(document).on('keyup', 'input', (e) => {
+          //      const input = $(e.target); // Select the current input field
+          //      const value = input.val(); // Get the current value of the input
+          //      input.attr('attempted', value); // Set the 'attempted' attribute with the current value
+          //      console.log(value); // Log the value if needed
+          // });
+
+
           
+          // To remove the questions 
           $('body').delegate('.remove_questions','click', function(){
                if($(this).attr('value') === 'appended'){
                     $(this).closest('.append_textbox').remove();
@@ -129,6 +169,7 @@
           })
      });
 
+     // To add the  Label 
      function addLabel(id){
           const html = `<div class="label-condition">
                          <hr>
@@ -166,6 +207,7 @@
           $('#append_label_condition'+id).append(html);
      }
 
+     // To remove  the label 
      function removeLabel(e){
           if($(e).attr('value') === 'appended'){
                $(e).closest('.label-condition').remove();
@@ -182,6 +224,7 @@
           }
      }
 
+     // Add the condition 
      function addCondition(id){
           const html = `<div class="sec-condition">
                          <hr>
@@ -226,6 +269,7 @@
           $('#append_page_condition'+id).append(html);
      }
 
+     // Remove the condition 
      function removeCondition(e){
           if($(e).attr('value') === 'appended'){
                $(e).closest('.sec-condition').remove();
@@ -242,6 +286,7 @@
           }
      }
 
+     // Add the options inside the dropdown 
      function addOptions(value,id){
           let html = ``;
           if(value === 'dropdown'){
@@ -316,6 +361,7 @@
           $('#append_options_'+id).append(html);
      }
 
+     // Remove the options 
      function removeOptions(e){
           if($(e).attr('data-field') === 'dropdown'){
                if($(e).attr('value') === 'appended'){
@@ -408,16 +454,17 @@
      }
 
      let step_count = 0;
+     // Add the new step code 
      function addSteps(){
           const uniqueDropdownId = 'dropdown_' + Date.now();
           const unqId = Date.now();
           step_count++ ;
           const html = `<div class="steps_section" id="steps_section${step_count}">
                <div class="card card-bordered card-preview">
-                    <div class="card-inner">
+                    <div class="card-inner main_question_div">
                          <div class="row add_step">
                               <div class="col-md-6">
-                                   <h6>Add Steps</h6>  
+                                   <h6>Add Steps </h6>  
                               </div> 
                               <div class="col-md-6">
                                    <div class="form-group">
@@ -428,13 +475,7 @@
                               </div>
                          </div>
                          <hr>
-                         <div class="col-md-12">
-                              <div class="form-group">
-                                   <label class="form-label" for="step${step_count}">Step *</label>
-                                   <input type="text" class="form-control" id="step${step_count}" name="step${step_count}">
-                              </div>
-                         </div>
-                         <hr>
+
                          <div class="add_qu_sec" id="add_qu_sec_${unqId}"></div>
                          <div class="col-md-12">
                               <div class="form-group">
@@ -468,6 +509,8 @@
           $('.add_steps').append(html);
      }
 
+
+     // This is the question field 
      function addQuestionfields(name,id){
           // console.log(name,id);
           const newUniqueId = Date.now();
@@ -475,7 +518,7 @@
           if(name === 'textbox'){
                html = `<div class="append_textbox">
                          <div class="card card-bordered card-preview">
-                              <div class="card-inner">
+                              <div class="card-inner main_question_div">
                                    <div class="row add_step">
                                         <div class="col-md-6">
                                              <h6>Textbox</h6>  
@@ -1335,7 +1378,7 @@
                     </div>`;
                // $('.add_qu_sec').append(html);
           }
-          $('#add_qu_sec_'+id).append(html);
+          $('#add_qu_sec').append(html);
 
           conditionalQuestions(newUniqueId);
 
@@ -1493,7 +1536,14 @@
      }
 
      $(document).ready(function(){
-          $('#saveQuestiondata').click(function(){
+          $('#saveQuestiondata1').click(function(){
+
+
+
+               var mainDiv=  $('.main_question_div');
+               var isLableCondition = mainDiv.find('input[name="condition_qu_label"]:checked').val(); // Get the value of checked checkbox
+
+               console.log( isLableCondition , " This is the lable oncdoiton value ")
 
           })
      })

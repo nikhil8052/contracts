@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\DocumentRightController;
 use App\Http\Controllers\Admin\SiteMetaController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\AllPagesController;
@@ -98,9 +99,10 @@ Route::group(['middleware' =>['admin']],function(){
      //*************************End Document Questions *******************//
 
      //*************************Document Right Section *******************//
-     Route::get('/admin-dashboard/all-document-right-content',[DocumentController::class,'allRightContent']);
-     Route::get('/admin-dashboard/document-right-content',[DocumentController::class,'documentRightContent']);
-     Route::post('/admin-dashboard/add-document-right-content',[DocumentController::class,'addDocumentRightContent']);
+     Route::get('/admin-dashboard/all-document-right-content',[DocumentRightController::class,'allRightContent']);
+     Route::get('/admin-dashboard/document-right-content',[DocumentRightController::class,'documentRightContent']);
+     Route::post('/admin-dashboard/add-document-right-content',[DocumentRightController::class,'addDocumentRightContent']);
+     Route::get('/admin-dashboard/edit-document-right-content/{id}',[DocumentRightController::class,'editRightContent']);
      //*************************End Document Right Section ***************//
 
      Route::get('/admin-dashboard/reviews',[DocumentController::class,'reviews']);

@@ -205,26 +205,36 @@ $(function () {
 // End code 
 
 // Function to check the scroll position
-function checkScroll() {
-  var myElement = document.getElementById("myID");
-  
-  // Check if the page has been scrolled 460px or more
-  if (window.scrollY > 460) {
-      myElement.style.visibility = "visible";  // Show the element
-  } else {
-      myElement.style.visibility = "hidden";   // Hide the element if scroll position is less than 460px
+// function checkScroll() {
+//   var myElement = document.getElementById("myID");
+//   // Check if the page has been scrolled 200px or more
+//   if(window.scrollY > 460) {
+//     myElement.style.visibility = "visible";  // Show the element
+//   }else{
+//     myElement.style.visibility = "hidden"; 
+//   } 
+// }
+
+// // Add the scroll event listener
+// window.addEventListener("scroll", checkScroll);
+
+// // Run the checkScroll function on initial page load to account for already scrolled pages
+// document.addEventListener("DOMContentLoaded", checkScroll);
+
+
+$(document).ready(function() {
+  function checkScroll() {
+      const $myElement = $('#myID');
+      if($(window).scrollTop() > 460) {
+          $myElement.show(); 
+      }else {
+          $myElement.hide();
+      }
   }
-}
-
-// Add the scroll event listener
-window.addEventListener("scroll", checkScroll);
-
-// Run the checkScroll function on initial page load to account for already scrolled pages
-document.addEventListener("DOMContentLoaded", function() {
-  var myElement = document.getElementById("myID");
-  myElement.style.visibility = "hidden";  // Hide element initially
-  checkScroll();  // Run checkScroll to handle initial scroll position
+  checkScroll();
+  $(window).on('scroll', checkScroll);
 });
+
 
 
 

@@ -30,12 +30,16 @@
                                                   </tr>
                                              </thead>
                                              <tbody>
-                                             <tr>
-                                                  <th scope="row"></th>
-                                                  <td><a href=""></a></td>
-                                                  <td>
-                                                  </td>
-                                             </tr>
+                                             @if(isset($documents) && $documents != null)
+                                             <?php $count = 1;?>
+                                                  @foreach($documents as $document)
+                                                  <tr>
+                                                       <th scope="row">{{ $count++ }}</th>
+                                                       <td><a href="{{ url('admin-dashboard/edit-document-right-content/'.$document->id) }}">{{ $document->title ?? '' }}</a></td>
+                                                       <!-- <td></td> -->
+                                                  </tr>
+                                                  @endforeach
+                                             @endif
                                              </tbody>
                                         </table>
                                    </div>
@@ -46,5 +50,6 @@
           </div>
      </div>
 </div>
+
 
 @endsection

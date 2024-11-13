@@ -1,9 +1,14 @@
 @extends('admin_layout.master')
 @section('content')
 
+@php use Carbon\Carbon; @endphp
 <div class="nk-content">
      <div class="container-fluid">
+          @if(isset($documentRight) && $documentRight != null)
+          <form action="{{ url('/admin-dashboard/update-document-right-content') }}" id="contentForm" method="post" enctype="multipart/form-data">
+          @else
           <form action="{{ url('/admin-dashboard/add-document-right-content') }}" id="contentForm" method="post" enctype="multipart/form-data">
+          @endif     
                @csrf
                <input type="hidden" id="published" name="published" value="">
                <input type="hidden" id="remove_content_heading" name="remove_content_heading" value="">
@@ -13,15 +18,321 @@
                     <div class="col md-8 left-content">
                          <div class="col-md-12 doc-title mt-4 pb-4">
                               <div class="form-group">
-                                   <label class="form-label" for="title"><b><h4>Add New Right Content</h4></b></label>
-                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="">
+                                   <label class="form-label" for="title"><b><h4>@if(isset($documentRight) && $documentRight != null) Edit Right Content @else Add New Right Content @endif</h4></b></label>
+                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $documentRight[0]->title ?? '' }}">
                               </div>
                          </div>
                          <h5>Contract Right Content</h5>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <h6>Contract Right Content</h6>
-                                   <div class="add_contents"></div>
+                                   <div class="add_contents">
+                                        @if(isset($documentRight) && $documentRight != null)
+                                        <?php 
+                                             $count = 1;
+                                             $date = Carbon::now();
+                                             $carbonDate = Carbon::parse($date);
+                                             $uniqueId = $carbonDate->timestamp * 1000;
+                                        ?>
+                                             @foreach($documentRight as $data)
+                                                  @if($data->type == 'content_heading')
+                                                  <div class="append_content_heading{{ $data->id ?? '' }}" id="content_heading_{{ $count++ }}">
+                                                       <hr>
+                                                       <div class="card card-bordered card-preview">
+                                                            <div class="card-inner">
+                                                                 <div class="row add_content_heading">
+                                                                      <div class="col-md-6">
+                                                                           <h6>Content Heading</h6>  
+                                                                      </div> 
+                                                                      <div class="col-md-6">
+                                                                           <div class="form-group">
+                                                                                <span class="col-md-2 offset-md-10">
+                                                                                     <span onclick="removeContent(this)" data-id="{{ $data->id ?? '' }}" data-field="content_heading"><i class="fa-solid fa-minus"></i></span>
+                                                                                </span>  
+                                                                           </div>
+                                                                      </div>
+                                                                 </div> 
+                                                                 <hr>
+                                                                 <div class="col-md-12">
+                                                                      <div class="form-group">
+                                                                           <label class="form-label" for="content_heading_html{{ $uniqueId ?? '' }}">Content Html</label>
+                                                                           <input type="text" class="form-control" name="content_heading_html-{{ $count++ }}" id="content_heading_html{{ $uniqueId ?? '' }}" value="{{ $data->content ?? '' }}">
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                                  @elseif($data->type == 'content')
+                                                  <div class="append_content{{ $data->id ?? '' }}" id="content_{{ $count++ }}">
+                                                       <hr>
+                                                       <div class="card card-bordered card-preview">
+                                                            <div class="card-inner">
+                                                                 <div class="row">
+                                                                      <div class="col-md-6">
+                                                                           <h6>Content</h6>  
+                                                                      </div> 
+                                                                      <div class="col-md-6">
+                                                                           <div class="form-group">
+                                                                                <span class="col-md-2 offset-md-10">
+                                                                                     <span onclick="removeContent(this)" data-id="{{ $data->id ?? '' }}" data-field="content"><i class="fa-solid fa-minus"></i></span>
+                                                                                </span>  
+                                                                           </div>
+                                                                      </div>
+                                                                 </div> 
+                                                                 <hr>
+                                                                 <div class="col-md-12">
+                                                                      <div class="form-group">
+                                                                           <label class="form-label" for="">Start New Section</label>
+                                                                      </div>
+                                                                 </div>
+                                                                 <div class="custom-control custom-checkbox">
+                                                                 @if(isset($data->start_new_section) && $data->start_new_section != null)
+                                                                      @if($data->start_new_section == '1')
+                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $uniqueId ?? '' }}" name="start_new_section-{{ $count++ }}" checked>
+                                                                      <label class="custom-control-label" for="start_new_section{{ $uniqueId ?? '' }}"></label>
+                                                                      @else
+                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $uniqueId ?? '' }}" name="start_new_section-{{ $count++ }}">
+                                                                      <label class="custom-control-label" for="start_new_section{{ $uniqueId ?? '' }}"></label>
+                                                                      @endif
+                                                                 @else
+                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $uniqueId ?? '' }}" name="start_new_section-{{ $count++ }}">
+                                                                      <label class="custom-control-label" for="start_new_section{{ $uniqueId ?? '' }}"></label>
+                                                                 @endif
+                                                                 </div>
+                                                                 <hr>
+                                                                 <div class="start_append_section{{ $uniqueId ?? '' }}">
+                                                                      <div class="row">
+                                                                           <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="text_align">Text align</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="text_align-{{ $count++ }}" id="text_align">
+                                                                                               <option value=""></option>
+                                                                                               @if(isset($data->text_align) && $data->text_align != null)
+                                                                                                    @if($data->text_align == 'left')
+                                                                                                    <option value="left" selected>left</option>
+                                                                                                    @else
+                                                                                                    <option value="left">left</option>
+                                                                                                    @endif
+
+                                                                                                    @if($data->text_align == 'right')
+                                                                                                    <option value="right" selected>right</option>
+                                                                                                    @else
+                                                                                                    <option value="right">right</option>
+                                                                                                    @endif
+
+                                                                                                    @if($data->text_align == 'center')
+                                                                                                    <option value="center" selected>center</option>
+                                                                                                    @else
+                                                                                                    <option value="center">center</option>
+                                                                                                    @endif
+                                                                                               @else
+                                                                                               <option value="left">left</option>
+                                                                                               <option value="right">right</option>
+                                                                                               <option value="center">center</option>
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-6">
+                                                                                <p class="p_label">This is signature field</p>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                @if(isset($data->signature_field) && $data->signature_field != null)
+                                                                                     @if($data->signature_field == '1')
+                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $uniqueId ?? '' }}" name="signature_field-{{ $count++ }}" checked>
+                                                                                     <label class="custom-control-label" for="signature_field{{ $uniqueId ?? '' }}"></label>
+                                                                                     @else
+                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $uniqueId ?? '' }}" name="signature_field-{{ $count++ }}">
+                                                                                     <label class="custom-control-label" for="signature_field{{ $uniqueId ?? '' }}"></label>
+                                                                                     @endif
+                                                                                @else
+                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $uniqueId ?? '' }}" name="signature_field-{{ $count++ }}">
+                                                                                     <label class="custom-control-label" for="signature_field{{ $uniqueId ?? '' }}"></label>
+                                                                                @endif
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <hr>
+                                                                 </div>
+                                                                 <div class="col-md-12">
+                                                                      <div class="form-group">
+                                                                           <label class="form-label" for="content_content_html">Content Html</label>
+                                                                           <textarea class="form-control" name="content_content_html-{{ $count++ }}" id="content_content_html">{{ $data->content ?? '' }}</textarea>
+                                                                      </div>
+                                                                 </div>
+                                                                 <hr>
+                                                                 <div class="row">
+                                                                      <div class="col-md-6">
+                                                                           <div class="form-group">
+                                                                                <label class="form-label" for="content_class">Content Class</label>
+                                                                                <input type="text" class="form-control" name="content_class-{{ $count++ }}" id="content_class" value="{{ $data->content_class ?? '' }}">
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="col-md-6">
+                                                                           <p class="p_label">Add Condition</p>
+                                                                           <div class="custom-control custom-checkbox">
+                                                                           @if(isset($data->is_condition) && $data->is_condition != null)
+                                                                                @if($data->is_condition == '1')
+                                                                                <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}" checked>
+                                                                                <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
+                                                                                @else
+                                                                                <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
+                                                                                <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
+                                                                                @endif
+                                                                           @else
+                                                                                <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
+                                                                                <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
+                                                                           @endif
+                                                                           </div>
+                                                                      </div>
+                                                                 </div>
+                                                                 <hr>
+                                                                 @if(isset($data->is_condition) && $data->is_condition != null)
+                                                                 <div class="add_condition_section{{ $data->id ?? '' }}" style="display:block;">
+                                                                      <div class="col-md-12">
+                                                                           <p class="p_label">Add Content Html Condition</p> 
+                                                                      </div>
+                                                                      <div class="append_condition" id="append_condition{{ $data->id ?? '' }}">
+                                                                      @if(isset($data->conditions) && $data->conditions != null)
+                                                                      @foreach($data->conditions as $qu_conditions)
+                                                                      @if($qu_conditions->condition_type == 'content_condition')
+                                                                           <div class="condition-section{{ $qu_conditions->id ?? '' }}">
+                                                                                <hr>
+                                                                                <div class="text-end">
+                                                                                     <div class="form-group">
+                                                                                          <div>
+                                                                                               <span onclick="removeCondition(this)" data-id="{{ $qu_conditions->id ?? '' }}">
+                                                                                                    <i class="fa fa-times"></i>
+                                                                                               </span>
+                                                                                          </div>
+                                                                                     </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                     <div class="col-md-4">
+                                                                                          <div class="form-group">
+                                                                                               <label class="form-label" for="condition_question_id">Question ID</label>
+                                                                                               <input type="text" class="form-control" id="condition_question_id" name="condition_question_id-${num}[]" value="{{ $qu_conditions->conditional_question_id ?? '' }}">
+                                                                                          </div>
+                                                                                     </div>
+                                                                                     <div class="col-md-4">
+                                                                                          <div class="form-group">
+                                                                                               <label class="form-label" for="conditions">Condition</label>
+                                                                                               <div class="form-control-wrap"> 
+                                                                                                    <select class="form-select js-select2" name="conditions-${num}[]" id="conditions">
+                                                                                                         <option value=""></option>
+                                                                                                         @if(isset($qu_conditions->conditional_check) && $qu_conditions->conditional_check != null)
+                                                                                                              @if($qu_conditions->conditional_check == '1')
+                                                                                                              <option value="is_equal_to" selected>is equal to</option>
+                                                                                                              @else
+                                                                                                              <option value="is_equal_to">is equal to</option>
+                                                                                                              @endif
+
+                                                                                                              @if($qu_conditions->conditional_check == '2')
+                                                                                                              <option value="is_greater_than" selected>is greater than</option>
+                                                                                                              @else
+                                                                                                              <option value="is_greater_than">is greater than</option>
+                                                                                                              @endif
+
+                                                                                                              @if($qu_conditions->conditional_check == '3')
+                                                                                                              <option value="is_less_than" selected>is less than</option>
+                                                                                                              @else
+                                                                                                              <option value="is_less_than">is less than</option>
+                                                                                                              @endif
+
+                                                                                                              @if($qu_conditions->conditional_check == '4')
+                                                                                                              <option value="not_equal_to" selected>not equal to</option>
+                                                                                                              @else
+                                                                                                              <option value="not_equal_to">not equal to</option>
+                                                                                                              @endif
+
+                                                                                                         @else
+                                                                                                         <option value="is_equal_to">is equal to</option>
+                                                                                                         <option value="is_greater_than">is greater than</option>
+                                                                                                         <option value="is_less_than">is less than</option>
+                                                                                                         <option value="not_equal_to">not equal to</option>
+                                                                                                         @endif
+                                                                                                    </select>
+                                                                                               </div>
+                                                                                          </div>
+                                                                                     </div>
+                                                                                     <div class="col-md-4">
+                                                                                          <div class="form-group">
+                                                                                               <label class="form-label" for="condition_question_value">Question Value</label>
+                                                                                               <input type="text" class="form-control" id="condition_question_value" name="condition_question_value-${num}[]" value="{{ $qu_conditions->conditional_question_value ?? '' }}">
+                                                                                          </div>
+                                                                                     </div>
+                                                                                </div>
+                                                                                <br>
+                                                                           </div>
+                                                                      @endif
+                                                                      @endforeach
+                                                                      @endif
+                                                                      </div>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $data->id ?? '' }}','{{ $count++ }}')">Add Condition</button>
+                                                                           </div>
+                                                                      </div>
+                                                                      <hr>
+                                                                 </div>
+                                                                 @else
+                                                                 <div class="add_condition_section{{ $data->id ?? '' }}" style="display:none;">
+                                                                      <div class="col-md-12">
+                                                                           <p class="p_label">Add Content Html Condition</p> 
+                                                                      </div>
+                                                                      <div class="append_condition" id="append_condition{{ $data->id ?? '' }}"></div>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $data->id ?? '' }}','{{ $count++ }}')">Add Condition</button>
+                                                                           </div>
+                                                                      </div>
+                                                                      <hr>
+                                                                 </div>
+                                                                 @endif
+                                                                 <div class="row">
+                                                                      <div class="col-md-6">
+                                                                           <p class="p_label">Secure Blurr Content</p>
+                                                                           <div class="custom-control custom-checkbox">
+                                                                           @if(isset($data->secure_blur_content) && $data->secure_blur_content != null)
+                                                                                @if($data->secure_blur_content == '1')
+                                                                                <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $uniqueId ?? '' }}" name="secure_blurr_content-{{ $count++ }}" checked>
+                                                                                <label class="custom-control-label" for="secure_blurr_content{{ $uniqueId ?? '' }}">Secure Blurr Content</label>
+                                                                                @else
+                                                                                <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $uniqueId ?? '' }}" name="secure_blurr_content-{{ $count++ }}">
+                                                                                <label class="custom-control-label" for="secure_blurr_content{{ $uniqueId ?? '' }}">Secure Blurr Content</label>
+                                                                                @endif
+                                                                           @else
+                                                                           <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $uniqueId ?? '' }}" name="secure_blurr_content-{{ $count++ }}">
+                                                                           <label class="custom-control-label" for="secure_blurr_content{{ $uniqueId ?? '' }}">Secure Blurr Content</label>
+                                                                           @endif
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="col-md-6">
+                                                                           <p class="p_label">Blurr Content</p>
+                                                                           <div class="custom-control custom-checkbox">
+                                                                           @if(isset($data->blur_content) && $data->blur_content != null)
+                                                                                @if($data->blur_content == '1')
+                                                                                <input type="checkbox" class="custom-control-input" id="blurr_content{{ $uniqueId ?? '' }}" name="blurr_content-{{ $count++ }}">
+                                                                                <label class="custom-control-label" for="blurr_content{{ $uniqueId ?? '' }}">Blurr Content</label>
+                                                                                @else
+                                                                                <input type="checkbox" class="custom-control-input" id="blurr_content{{ $uniqueId ?? '' }}" name="blurr_content-{{ $count++ }}">
+                                                                                <label class="custom-control-label" for="blurr_content{{ $uniqueId ?? '' }}">Blurr Content</label>
+                                                                                @endif
+                                                                           @else
+                                                                                <input type="checkbox" class="custom-control-input" id="blurr_content{{ $uniqueId ?? '' }}" name="blurr_content-{{ $count++ }}">
+                                                                                <label class="custom-control-label" for="blurr_content{{ $uniqueId ?? '' }}">Blurr Content</label>
+                                                                           @endif
+                                                                           </div>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                                  @endif
+                                             @endforeach
+                                        @endif
+                                   </div>
                                    <br>
                                    <div class="text-end">
                                         <button type="button" class="btn btn-primary question_dropbtn" onclick="toggleDropdown()">Add Content</button>
@@ -329,7 +640,7 @@
                if($(e).attr('value') === 'appended'){
                     $(e).closest('.append_content_heading').remove();
                }else{
-                    var id = $(e).data('id');
+                    var id = $(e).attr('data-id');
                     let deleteIds = $('#remove_content_heading').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
@@ -343,7 +654,7 @@
                if($(e).attr('value') === 'appended'){
                     $(e).closest('.append_content').remove();
                }else{
-                    var id = $(e).data('id');
+                    var id = $(e).attr('data-id');
                     let deleteIds = $('#img_sec_ids').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
@@ -405,7 +716,7 @@
           if($(e).attr('value') === 'appended'){
                $(e).closest('.condition-section').remove();
           }else{
-               var id = $(e).data('id');
+               var id = $(e).attr('data-id');
                let deleteIds = $('#img_sec_ids').val();
                if(deleteIds){
                     deleteIds += ',' + id;
@@ -441,82 +752,84 @@
 
 <script>
 
-function getAllContents() {
-     var contents = [];
-
-     $('.add_contents .append_content_heading').each(function() {
-          // var contentHeadingId = $(this).attr('id');
-          var headingInputValue = $(this).find('input[type="text"]').val();
-          
-          contents.push({
-               section: 'content_heading',
-               heading_html: headingInputValue
-          });
-     });
-
-     $('.add_contents .append_content').each(function() {
-          // var contentId = $(this).attr('id');
-          var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
-          var textAlign = $(this).find('select[name^="text_align"]').val();
-          var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
-          var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
-          var contentClass = $(this).find('input[name^="content_class"]').val();
-          var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
-          var secureBlurrContent = $(this).find('input[name^="secure_blurr_content"]').is(':checked') ? 1 : 0;
-          var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
-
-          var contentData = {
-               section: 'content',
-               start_new_section: startNewSection,
-               text_align: textAlign,
-               signature_field: signatureField,
-               content_html: contentHtml,
-               content_class: contentClass,
-               add_condition: addCondition,
-               secure_blurr_content: secureBlurrContent,
-               blurr_content: blurrContent,
-               conditions: []
-          };
-
-          if(addCondition){
-               $(this).find('.append_condition .condition-section').each(function() {
-                    var condition = {
-                         question_id: $(this).find('input[name^="condition_question_id"]').val(),
-                         condition: $(this).find('select[name^="conditions"]').val(),
-                         question_value: $(this).find('input[name^="condition_question_value"]').val()
-                    };
+     function getAllContents() {
+          var contents = [];
+          var order = 1;
+          $('.add_contents .append_content_heading').each(function() {
+               // var contentHeadingId = $(this).attr('id');
+               var headingInputValue = $(this).find('input[type="text"]').val();
                
-                    if(condition.question_id || condition.condition || condition.question_value){
-                         contentData.conditions.push(condition);
-                    }
+               contents.push({
+                    section: 'content_heading',
+                    heading_html: headingInputValue,
+                    order: order++
                });
-          }
-          contents.push(contentData);
+          });
+
+          $('.add_contents .append_content').each(function() {
+               // var contentId = $(this).attr('id');
+               var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
+               var textAlign = $(this).find('select[name^="text_align"]').val();
+               var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
+               var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
+               var contentClass = $(this).find('input[name^="content_class"]').val();
+               var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
+               var secureBlurrContent = $(this).find('input[name^="secure_blurr_content"]').is(':checked') ? 1 : 0;
+               var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
+
+               var contentData = {
+                    section: 'content',
+                    start_new_section: startNewSection,
+                    text_align: textAlign,
+                    signature_field: signatureField,
+                    content_html: contentHtml,
+                    content_class: contentClass,
+                    add_condition: addCondition,
+                    secure_blurr_content: secureBlurrContent,
+                    blurr_content: blurrContent,
+                    order: order++,
+                    conditions: []
+               };
+
+               if(addCondition){
+                    $(this).find('.append_condition .condition-section').each(function() {
+                         var condition = {
+                              question_id: $(this).find('input[name^="condition_question_id"]').val(),
+                              condition: $(this).find('select[name^="conditions"]').val(),
+                              question_value: $(this).find('input[name^="condition_question_value"]').val()
+                         };
+                    
+                         if(condition.question_id || condition.condition || condition.question_value){
+                              contentData.conditions.push(condition);
+                         }
+                    });
+               }
+               contents.push(contentData);
+          });
+
+          console.log(contents);
+          return contents;
+     }
+
+     $(document).ready(function() {
+          $('#saveFormdata').click(function() {
+               var data = getAllContents();
+               data = JSON.stringify(data);
+               $('#formdata').val(data);
+               $('#contentForm').submit();
+          });
+
+          var switchStatus = false;
+          $(".publish").on('change', function() {
+               if($(this).is(':checked')) {
+                    switchStatus = $(this).is(':checked');
+                    $('#published').val(1);
+               }else{
+                    switchStatus = $(this).is(':checked');
+                    $('#published').val(0);
+               }
+          })
      });
-
-     console.log(contents);
-     return contents;
-}
-
-$(document).ready(function() {
-     $('#saveFormdata').click(function() {
-          var data = getAllContents();
-          data = JSON.stringify(data);
-          $('#formdata').val(data);
-          $('#contentForm').submit();
-     });
-
-     var switchStatus = false;
-     $(".publish").on('change', function() {
-          if($(this).is(':checked')) {
-               switchStatus = $(this).is(':checked');
-               $('#published').val(1);
-          }else{
-               switchStatus = $(this).is(':checked');
-               $('#published').val(0);
-          }
-     })
-});
 
 </script>
 

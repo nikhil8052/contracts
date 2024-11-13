@@ -40,9 +40,9 @@
 					</a>
 				</div>
 				@if($current_url == $home_url)
-				<div class="header_search_bar" id="myID">
+				<div class="header_search_bar">
 					<div class="search_bar">
-						<div class="wrap">
+						<div class="wrap" id="myID" style="display:none;">
 							<div class="search">
 								<input type="text" class="searchTerm"
 									placeholder="{{ $data2['banner_placeholder'] ?? '¿Qué documento necesitas?' }}">

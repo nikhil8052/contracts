@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->enum('condition_type', ['question_label_condition', 'go_to_step_condition', 'content_condition']); // Condition type
             $table->string('question_label')->nullable(); // Label to show if condition matches
             $table->unsignedBigInteger('conditional_question_id')->nullable(); // Question ID to check condition on
-            $table->string('conditional_question_value')->nullable(); // Value to check against for the condition
+            $table->text('conditional_question_value')->nullable(); // Value to check against for the condition
             $table->integer('conditional_check')->comment('1: is equal to; 2: is greater than; 3: is less than; 4: not equal to');
             $table->boolean('status')->default(1); // Indicates if condition should be executed
             $table->unsignedBigInteger('go_to_step')->nullable(); // New field for go-to step question

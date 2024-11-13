@@ -186,7 +186,7 @@ input:focus {
 header {
     position: absolute;
     width: 100%;
-    left: -2px;
+    left: 0px;
     right: 0;
     z-index: 9999;
     padding-top: 20px;
@@ -360,7 +360,7 @@ div#navbarSupportedContent {
 
  .searchTerm {
     width: 100%;
-    padding: 0 6px 0px 8px;
+    padding: 0 6px 0px 20px;
     background-color: transparent;
     border: 0;
     outline: none;
@@ -380,7 +380,7 @@ div#navbarSupportedContent {
     outline: none;
     padding: 13px 33px !important;
     font-weight: 500;
-    border-color: #FD5602;
+    border-color: transparent;
     /* transition: none; */
 }
 
@@ -542,7 +542,7 @@ div#navbarSupportedContent {
     cursor: pointer;
     position: relative;
     z-index: 9999;
-    filter: invert(10%) sepia(32%) saturate(4926%) hue-rotate(200deg) brightness(101%) contrast(102%);
+    filter: invert(10%) sepia(32%) saturate(4926%) hue-rotate(200deg) brightness(40%) contrast(102%);
 }
 
 .clientes_slider .btn-wrap {
@@ -1151,7 +1151,7 @@ footer .foot_li a:hover {
 
 .inner_sec2 .pdf_in1 {
     border-radius: 12px;
-    padding: 100px;
+    padding: 80px 100px;
     background-color: #EDEEF1;
     margin-right: 50px;
 }
@@ -1184,7 +1184,7 @@ footer .foot_li a:hover {
     font-weight: 400;
     padding-left: 0;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 .cont_ul .selectDropdown {
@@ -1721,8 +1721,9 @@ header.fun-header {
 .banner_sec.dark.inner-banner p {
     max-width: 719px;
     line-height: 1.6;
-    font-weight: 400;
+    font-weight: 600;
     text-align: left;
+    font-size: 18px;
 }
 
 /* ********(explore_sec)*********** */
@@ -2807,15 +2808,12 @@ td {
 .como_sec .help.active:hover {
     cursor: pointer;
     border: 1px solid transparent;
-    /* ********in style.css line no:1766 with the following css********* */
     box-shadow: -29px 32px 84px rgba(41, 56, 95, 0.15);
-    /* transition: 0.3s ease-in-out; */
-    background-color: #002655;
-    color: #fff;
+    color: #002655;
 }
 
 .help:hover .hlp-txt h5 {
-    color: #fff;
+    color: #002655;
 }
 
 .Comienza-content h2 {
@@ -2823,8 +2821,8 @@ td {
 }
 
 .banner_sec .searchButton {
-    border: 1px solid #FD5602;
-    /* ********in style.css line no:366 with the following css********* */
+    outline: none;
+    border: 0;
 }
 
 
@@ -2922,7 +2920,7 @@ section.banner_sec {
     border-radius: 40px;
     background-color: transparent;
     transition: none;
-
+    border: 1px solid #012555;
 
 }
 
@@ -3094,10 +3092,10 @@ footer .foot_end_box .reserve_box {
     color: #000;
     font-weight: 600;
 }
-
+/* 
 .como_sec .help:hover .hlp-img img {
     filter: brightness(0) invert(1);
-}
+} */
 
 /* 6nov2024 //////////////////////////// */
 
@@ -3157,9 +3155,9 @@ footer .foot_end_box .reserve_box {
     margin-bottom: 0;
 }
 
-.help:hover .hlp-txt p {
+/* .help:hover .hlp-txt p {
     color: #fff;
-}
+} */
 
 /* 8nov 2024///////////////////////// */
 
@@ -3217,7 +3215,7 @@ footer .foot_end_box .reserve_box {
     filter: invert(38%) sepia(76%) saturate(2497%) hue-rotate(359deg) brightness(100%) contrast(106%);
 }
 .header_search_bar {
-    width: 60%;
+    width:100%;
 }
 .header_search_bar .search_bar {
     margin-top: 0;
@@ -3229,4 +3227,52 @@ footer .foot_end_box .reserve_box {
 .outer_cate .in_box_cate:hover  .cata_btn a {
     background-color: #FD5602;
     border: 1px solid #FD5602;
+}
+
+/* 13nov2024 ////////////////////////////// */
+.sharing_icons .sharing_ul a {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(237, 238, 241);
+    border-radius: 50px;
+    display: inline-block;
+}
+
+.sharing_icons {
+    display: flex;
+    gap: 14px;
+}
+.sharing_ul a svg {
+    color: rgb(30, 44, 79);
+    font-size: 16px;
+    font-weight: 400;
+}
+.sharing_ul {
+    line-height: 30px;
+}
+.sec4_conrt_ot {
+    padding-top:80px ;
+    background-color: rgba(245, 245, 245, 1);
+}
+.sec4_conrt_ot  .sec4_card_p h6 {
+    margin-bottom: 15px;
+}
+.mensaje_img  .mine_input {
+    width: 92%;
+    border: 0px  ;
+    resize: none;
+}
+.mensaje_img{
+    border: 1px solid rgba(1, 37, 85, 0.1);
+    border-radius: 5px;
+   
+}
+.image-wrapper img{
+    cursor: pointer;
+} 
+.main_header #myID .search_bar {
+    height: 50px;
+}
+.header_search_bar .searchButton {
+    padding: 7px  33px!important;
 }

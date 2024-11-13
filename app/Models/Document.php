@@ -32,4 +32,5 @@ class Document extends Model
         // Categories 
         return $this->belongsToMany(DocumentCategory::class,'document_with_categories', 'document_id', 'category_id');
     }
+
 }

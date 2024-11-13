@@ -77,22 +77,24 @@
                                    <span class="text-danger">{{ $errors->first('message') }}</span>
                                    @endif
                               </div> -->
-          
-                              <div class="inside_contac_fild textarea-wrapper">
-                                   <textarea class="mine_input" name="message" cols="0" rows="6" placeholder="Mensaje"></textarea>
-                                   <div class="image-wrapper">
-                                        <img id="contact_image" src="{{ asset('assets/img/upload_img.svg') }}" alt="Upload Icon">
+                              <div class="mensaje_img">
+                                   <div class="inside_contac_fild textarea-wrapper">
+                                        <div class="message_div">
+                                             <textarea class="mine_input" name="message" cols="0" rows="6" placeholder="Mensaje"></textarea>
+                                        </div>
+                                        <div class="image-wrapper">
+                                             <img id="contact_image" src="{{ asset('assets/img/upload_img.svg') }}" alt="Upload Icon">
+                                        </div>
+                                        
+                                        @if($errors->has('message'))
+                                        <span class="text-danger">{{ $errors->first('message') }}</span>
+                                        @endif
                                    </div>
-                                   
-                                   @if($errors->has('message'))
-                                   <span class="text-danger">{{ $errors->first('message') }}</span>
+                                   <input type="file" id="fileInput" class="form-control-file upload_input_file" name="fileInput" style="display:none;">
+                                   @if($errors->has('fileInput'))
+                                        <span class="text-danger">{{ $errors->first('fileInput') }}</span>
                                    @endif
                               </div>
-                              <input type="file" id="fileInput" class="form-control-file upload_input_file" name="fileInput" style="display:none;">
-                              @if($errors->has('fileInput'))
-                                   <span class="text-danger">{{ $errors->first('fileInput') }}</span>
-                              @endif
-
                               <!-- <div class="inside_contac_fild">
                                    <div class="drag_h_contac">
                                         <h6 class="drg_hd">
