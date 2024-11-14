@@ -1,21 +1,6 @@
 @extends('users_layout.master')
 @section('content')
-<style>
-.textarea-wrapper{
-  position: relative;
-  /* width: fit-content; */
-}
 
-#contact_image {
-  position: absolute;
-  top: 50%;
-  right: 10px;  /* Adjust position as needed */
-  transform: translateY(-50%);
-  width:40px;
-  /* Remove pointer-events: none; to make the image clickable */
-}
-
-</style>
 <?php 
      $path = str_replace('public/', '', $contact->background_image_path ?? null);
 ?>
@@ -83,7 +68,7 @@
                                              <textarea class="mine_input" name="message" cols="0" rows="6" placeholder="Mensaje"></textarea>
                                         </div>
                                         <div class="image-wrapper">
-                                             <img id="contact_image" src="{{ asset('assets/img/upload_img.svg') }}" alt="Upload Icon">
+                                             <img id="contact_image" src="{{ asset('assets/img/Group1.svg') }}" alt="Upload Icon">
                                         </div>
                                         
                                         @if($errors->has('message'))

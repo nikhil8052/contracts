@@ -1542,8 +1542,29 @@
 
                var mainDiv=  $('.main_question_div');
                var isLableCondition = mainDiv.find('input[name="condition_qu_label"]:checked').val(); // Get the value of checked checkbox
+               var text_qu_label = mainDiv.find('input[id="text_qu_label"]').val(); // Get the value of checked checkbox
+               var textId = mainDiv.find('input[id="text_id"]').val();
+               var textPlaceholder = mainDiv.find('input[id="text_placeholder"]').val();
+               var textGoToStep = mainDiv.find('input[id="text_go_to_step"]').val();
+               
+               
+               if( isLableCondition !=undefined  && isLableCondition=="on"){
+                    var labelConditions = mainDiv.find('.append_label_condition');
 
-               console.log( isLableCondition , " This is the lable oncdoiton value ")
+                    console.log( labelConditions , " YThis sis the div whihc we need to use to get all the conditons " )
+               }
+
+               console.log(isLableCondition , ' isLableCondition ' );
+               console.log(text_qu_label , ' text_qu_label ' );
+
+               console.log(textId, ' textId ');
+
+               console.log(textPlaceholder, ' textPlaceholder ');
+
+               console.log(textGoToStep, ' textGoToStep ');
+
+           
+
 
           })
      })

@@ -103,6 +103,7 @@ Route::group(['middleware' =>['admin']],function(){
      Route::get('/admin-dashboard/document-right-content',[DocumentRightController::class,'documentRightContent']);
      Route::post('/admin-dashboard/add-document-right-content',[DocumentRightController::class,'addDocumentRightContent']);
      Route::get('/admin-dashboard/edit-document-right-content/{id}',[DocumentRightController::class,'editRightContent']);
+     Route::post('/admin-dashboard/update-document-right-content',[DocumentRightController::class,'updateRightContent']);
      //*************************End Document Right Section ***************//
 
      Route::get('/admin-dashboard/reviews',[DocumentController::class,'reviews']);

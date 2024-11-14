@@ -354,7 +354,7 @@ div#navbarSupportedContent {
     display: flex;
     border: 1px solid #E3E9ED;
     background-color: #fff;
-    padding: 6px 10px;
+    padding: 4px 10px;
     border-radius: 160px;
 }
 
@@ -527,7 +527,7 @@ div#navbarSupportedContent {
     position: absolute;
     width: 100%;
     height: 102%;
-    background: rgba(245, 245, 245, 1);
+    background: #EDEEF1;
     right: 100%;
     top: 0;
     z-index: 9;
@@ -594,7 +594,7 @@ div#navbarSupportedContent {
 
 .clientes_slider {
     overflow: hidden;
-    background-color: rgba(245, 245, 245, 1);
+    background-color: #EDEEF1;
     ;
 }
 
@@ -1389,6 +1389,7 @@ footer .foot_li a:hover {
     height: 100%;
     text-align: center;
     color: #002655;
+    background-color: #fff;
 }
 
 .head_sec6_para p {
@@ -1498,7 +1499,7 @@ footer .foot_li a:hover {
 }
 
 .sec9_outer_cont {
-    background-color: rgba(245, 245, 245, 1);
+    background-color:#EDEEF1;
 }
 
 /* .sec9_outer_cont .clientes_slider .slick-list.draggable:before {
@@ -1818,6 +1819,7 @@ header.fun-header {
 
 .generate-sec.Comienza_sec {
     color: #012555;
+    background-color: #EDEEF1;
 }
 
 
@@ -1958,7 +1960,7 @@ header.fun-header {
     margin-bottom: 30px;
     border: 1px solid #06498B26;
     border-radius: 15px;
-    padding: 33px 30px;
+    padding: 16px 20px;
 }
 
 .faq_sec .accordion .accordion-item:last-child {
@@ -2807,8 +2809,7 @@ td {
 .como_sec .help:hover,
 .como_sec .help.active:hover {
     cursor: pointer;
-    border: 1px solid transparent;
-    box-shadow: -29px 32px 84px rgba(41, 56, 95, 0.15);
+    box-shadow:0px 0px 15px rgba(41, 56, 95, 0.15);
     color: #002655;
 }
 
@@ -2868,13 +2869,16 @@ section.banner_sec {
 /*//////////////////////// 22oct2024////////////////////////// */
 
 
-.inside_box_b .tab_btn a:hover {
+.inside_box_b .tab_btn a {
     background-color: #002655;
     border: 1px solid #fff;
     color: #fff;
 }
+.inside_box_b .tab_btn a:hover {
 
-.Comienza-btn a {
+background-color:#fd5602 ;
+}
+    .Comienza-btn a {
     padding: 12px 40px;
     display: flex;
     align-items: center;
@@ -2916,7 +2920,7 @@ section.banner_sec {
 .clientes_slider .btn-wrap button {
     border: 1px solid #0026551C;
     font-size: 18px;
-    padding: 10px 25px 10px 25px;
+    padding: 7px 25px 10px 25px;
     border-radius: 40px;
     background-color: transparent;
     transition: none;
@@ -3240,7 +3244,7 @@ footer .foot_end_box .reserve_box {
 
 .sharing_icons {
     display: flex;
-    gap: 14px;
+    gap: 8px;
 }
 .sharing_ul a svg {
     color: rgb(30, 44, 79);
@@ -3252,13 +3256,13 @@ footer .foot_end_box .reserve_box {
 }
 .sec4_conrt_ot {
     padding-top:80px ;
-    background-color: rgba(245, 245, 245, 1);
+    background-color: #EDEEF1;
 }
 .sec4_conrt_ot  .sec4_card_p h6 {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 .mensaje_img  .mine_input {
-    width: 92%;
+    width: 100%;
     border: 0px  ;
     resize: none;
 }
@@ -3268,11 +3272,46 @@ footer .foot_end_box .reserve_box {
    
 }
 .image-wrapper img{
-    cursor: pointer;
+    width: 22px;
+ 
 } 
 .main_header #myID .search_bar {
     height: 50px;
 }
 .header_search_bar .searchButton {
     padding: 7px  33px!important;
+}
+
+/* 14nov2024  */
+.sec9_outer_cont .clientes_slider {
+    padding-bottom: 0;
+}
+.inside_box_tab:hover .tab_btn a {
+    background-color: #FD5602;
+}
+.image-wrapper {
+    display: flex;
+    background-color: #F1F1F4;
+    border-radius: 30px;
+    padding: 12px;
+    align-items: baseline;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+.message_div {
+    width: 90%;
+}
+.mensaje_img .inside_contac_fild {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.image-wrapper:hover{
+    background-color: #012555;
+}
+.image-wrapper:hover img{
+    filter: brightness(0) invert(1);
+
 }

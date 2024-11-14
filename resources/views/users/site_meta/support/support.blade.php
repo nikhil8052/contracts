@@ -95,7 +95,7 @@
     </section>
 
 
-    <section class="generate-sec p_100 Comienza_sec" style="background: #F5F5F5;">
+    <section class="generate-sec p_100 Comienza_sec">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">

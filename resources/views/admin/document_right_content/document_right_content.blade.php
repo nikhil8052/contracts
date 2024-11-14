@@ -5,7 +5,7 @@
 <div class="nk-content">
      <div class="container-fluid">
           @if(isset($documentRight) && $documentRight != null)
-          <form action="{{ url('/admin-dashboard/update-document-right-content') }}" id="contentForm" method="post" enctype="multipart/form-data">
+          <form action="{{ url('/admin-dashboard/update-document-right-content') }}" id="updatecontentForm" method="post" enctype="multipart/form-data">
           @else
           <form action="{{ url('/admin-dashboard/add-document-right-content') }}" id="contentForm" method="post" enctype="multipart/form-data">
           @endif     
@@ -13,13 +13,14 @@
                <input type="hidden" id="published" name="published" value="">
                <input type="hidden" id="remove_content_heading" name="remove_content_heading" value="">
                <input type="hidden" id="remove_content" name="remove_content" value="">
+               <input type="hidden" id="remove_condition" name="remove_condition" value="">
                <input type="hidden" id="formdata" name="formdata" value="">
                <div class="row main_section">
                     <div class="col md-8 left-content">
                          <div class="col-md-12 doc-title mt-4 pb-4">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>@if(isset($documentRight) && $documentRight != null) Edit Right Content @else Add New Right Content @endif</h4></b></label>
-                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $documentRight[0]->title ?? '' }}">
+                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $title ?? '' }}">
                               </div>
                          </div>
                          <h5>Contract Right Content</h5>
@@ -36,7 +37,7 @@
                                         ?>
                                              @foreach($documentRight as $data)
                                                   @if($data->type == 'content_heading')
-                                                  <div class="append_content_heading{{ $data->id ?? '' }}" id="content_heading_{{ $count++ }}">
+                                                  <div class="append_content_heading" id="content_heading{{ $data->id ?? '' }}" data-id="{{ $data->id ?? '' }}" data-is_new=”false”>
                                                        <hr>
                                                        <div class="card card-bordered card-preview">
                                                             <div class="card-inner">
@@ -63,7 +64,7 @@
                                                        </div>
                                                   </div>
                                                   @elseif($data->type == 'content')
-                                                  <div class="append_content{{ $data->id ?? '' }}" id="content_{{ $count++ }}">
+                                                  <div class="append_content" id="content{{ $data->id ?? '' }}" data-id="{{ $data->id ?? '' }}" data-is_new=”false”>
                                                        <hr>
                                                        <div class="card card-bordered card-preview">
                                                             <div class="card-inner">
@@ -88,19 +89,19 @@
                                                                  <div class="custom-control custom-checkbox">
                                                                  @if(isset($data->start_new_section) && $data->start_new_section != null)
                                                                       @if($data->start_new_section == '1')
-                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $uniqueId ?? '' }}" name="start_new_section-{{ $count++ }}" checked>
-                                                                      <label class="custom-control-label" for="start_new_section{{ $uniqueId ?? '' }}"></label>
+                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}" checked>
+                                                                      <label class="custom-control-label" for="start_new_section{{ $data->id ?? '' }}"></label>
                                                                       @else
-                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $uniqueId ?? '' }}" name="start_new_section-{{ $count++ }}">
-                                                                      <label class="custom-control-label" for="start_new_section{{ $uniqueId ?? '' }}"></label>
+                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}">
+                                                                      <label class="custom-control-label" for="start_new_section{{ $data->id ?? '' }}"></label>
                                                                       @endif
                                                                  @else
-                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $uniqueId ?? '' }}" name="start_new_section-{{ $count++ }}">
-                                                                      <label class="custom-control-label" for="start_new_section{{ $uniqueId ?? '' }}"></label>
+                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}">
+                                                                      <label class="custom-control-label" for="start_new_section{{ $data->id ?? '' }}"></label>
                                                                  @endif
                                                                  </div>
                                                                  <hr>
-                                                                 <div class="start_append_section{{ $uniqueId ?? '' }}">
+                                                                 <div class="start_append_section{{ $data->id ?? '' }}">
                                                                       <div class="row">
                                                                            <div class="col-md-6">
                                                                                 <div class="form-group">
@@ -140,15 +141,15 @@
                                                                                 <div class="custom-control custom-checkbox">
                                                                                 @if(isset($data->signature_field) && $data->signature_field != null)
                                                                                      @if($data->signature_field == '1')
-                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $uniqueId ?? '' }}" name="signature_field-{{ $count++ }}" checked>
-                                                                                     <label class="custom-control-label" for="signature_field{{ $uniqueId ?? '' }}"></label>
+                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $data->id ?? '' }}" name="signature_field-{{ $count++ }}" checked>
+                                                                                     <label class="custom-control-label" for="signature_field{{ $data->id ?? '' }}"></label>
                                                                                      @else
-                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $uniqueId ?? '' }}" name="signature_field-{{ $count++ }}">
-                                                                                     <label class="custom-control-label" for="signature_field{{ $uniqueId ?? '' }}"></label>
+                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $data->id ?? '' }}" name="signature_field-{{ $count++ }}">
+                                                                                     <label class="custom-control-label" for="signature_field{{ $data->id ?? '' }}"></label>
                                                                                      @endif
                                                                                 @else
-                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $uniqueId ?? '' }}" name="signature_field-{{ $count++ }}">
-                                                                                     <label class="custom-control-label" for="signature_field{{ $uniqueId ?? '' }}"></label>
+                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field{{ $data->id ?? '' }}" name="signature_field-{{ $count++ }}">
+                                                                                     <label class="custom-control-label" for="signature_field{{ $data->id ?? '' }}"></label>
                                                                                 @endif
                                                                                 </div>
                                                                            </div>
@@ -197,7 +198,7 @@
                                                                       @if(isset($data->conditions) && $data->conditions != null)
                                                                       @foreach($data->conditions as $qu_conditions)
                                                                       @if($qu_conditions->condition_type == 'content_condition')
-                                                                           <div class="condition-section{{ $qu_conditions->id ?? '' }}">
+                                                                           <div class="condition-section" id="condition-section{{ $qu_conditions->id ?? '' }}" data-id="{{ $qu_conditions->id ?? '' }}">
                                                                                 <hr>
                                                                                 <div class="text-end">
                                                                                      <div class="form-group">
@@ -212,14 +213,14 @@
                                                                                      <div class="col-md-4">
                                                                                           <div class="form-group">
                                                                                                <label class="form-label" for="condition_question_id">Question ID</label>
-                                                                                               <input type="text" class="form-control" id="condition_question_id" name="condition_question_id-${num}[]" value="{{ $qu_conditions->conditional_question_id ?? '' }}">
+                                                                                               <input type="text" class="form-control" id="condition_question_id" name="condition_question_id-{{ $count++ }}[]" value="{{ $qu_conditions->conditional_question_id ?? '' }}">
                                                                                           </div>
                                                                                      </div>
                                                                                      <div class="col-md-4">
                                                                                           <div class="form-group">
                                                                                                <label class="form-label" for="conditions">Condition</label>
                                                                                                <div class="form-control-wrap"> 
-                                                                                                    <select class="form-select js-select2" name="conditions-${num}[]" id="conditions">
+                                                                                                    <select class="form-select js-select2" name="conditions-{{ $count++ }}[]" id="conditions">
                                                                                                          <option value=""></option>
                                                                                                          @if(isset($qu_conditions->conditional_check) && $qu_conditions->conditional_check != null)
                                                                                                               @if($qu_conditions->conditional_check == '1')
@@ -259,7 +260,7 @@
                                                                                      <div class="col-md-4">
                                                                                           <div class="form-group">
                                                                                                <label class="form-label" for="condition_question_value">Question Value</label>
-                                                                                               <input type="text" class="form-control" id="condition_question_value" name="condition_question_value-${num}[]" value="{{ $qu_conditions->conditional_question_value ?? '' }}">
+                                                                                               <input type="text" class="form-control" id="condition_question_value" name="condition_question_value-{{ $count++ }}[]" value="{{ $qu_conditions->conditional_question_value ?? '' }}">
                                                                                           </div>
                                                                                      </div>
                                                                                 </div>
@@ -349,7 +350,7 @@
                     <div class="col md-4 right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <div class="col-md-12">
+                                   <!-- <div class="col-md-12">
                                         <div class="form-group">
                                              <p>Published</p>
                                              <div class="custom-control custom-switch">
@@ -357,7 +358,7 @@
                                                   <label class="custom-control-label" for="publish1"></label>
                                              </div>
                                         </div>
-                                   </div>
+                                   </div> -->
                                    <div class="col-md-12 mt-2">
                                         <div class="form-group">
                                              <label class="form-label" for="document_id">Select Document</label>  
@@ -366,7 +367,15 @@
                                                        <option value=""></option>
                                                        @if(isset($documents) && $documents != null)
                                                        @foreach($documents as $document)
-                                                            <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                            @if(isset($document_id) && $document_id != null)
+                                                                 @if($document->id == $document_id)
+                                                                      <option value="{{ $document->id ?? '' }}" selected>{{ $document->title ?? '' }}</option>
+                                                                 @else
+                                                                      <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                                 @endif
+                                                            @else
+                                                                 <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                            @endif
                                                        @endforeach
                                                        @endif
                                                   </select>
@@ -376,7 +385,11 @@
                                    <div class="d-flex justify-content-end mt-2">
                                         <div class="nk-block-head-content">
                                              <div class="up-btn mbsc-form-group">
+                                             @if(isset($documentRight) && $documentRight != null)
+                                                  <button class="btn btn-sm btn-primary" type="button" id="updateFormdata">Update</button>
+                                             @else
                                                   <button class="btn btn-sm btn-primary" type="button" id="saveFormdata">Save</button>
+                                             @endif
                                              </div>
                                         </div>
                                    </div> 
@@ -419,16 +432,16 @@
           let html = ``;
           if(name === 'content_heading'){
                heading_section_count++ ;
-               let value = name+'-'+heading_section_count;
-               let type =  $('#heading_type').val();
-               if(type){
-                    type += ',' + value;
-               }else{
-                    type = value;
-               }
-               $('#heading_type').val(type);
+               // let value = name+'-'+heading_section_count;
+               // let type =  $('#heading_type').val();
+               // if(type){
+               //      type += ',' + value;
+               // }else{
+               //      type = value;
+               // }
+               // $('#heading_type').val(type);
 
-               html = `<div class="append_content_heading" id="content_heading_${heading_section_count}">
+               html = `<div class="append_content_heading" id="content_heading${heading_section_count}" value="appended" data-is_new="true">
                     <hr>
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
@@ -448,6 +461,7 @@
                               <div class="col-md-12">
                                    <div class="form-group">
                                         <label class="form-label" for="content_heading_html${newUniqueId}">Content Html</label>
+                                        <label class="form-label" for="content_heading_html${newUniqueId}">Content Html</label>
                                         <input type="text" class="form-control" name="content_heading_html-${heading_section_count}" id="content_heading_html${newUniqueId}" value="">
                                    </div>
                               </div>
@@ -457,17 +471,17 @@
                
           }else if(name === 'content'){
                content_section_count++ ;
-               let value = name+'-'+content_section_count;
-               let type =  $('#content_type').val();
-               if(type){
-                    type += ',' + value;
-               }else{
-                    type = value;
-               }
+               // let value = name+'-'+content_section_count;
+               // let type =  $('#content_type').val();
+               // if(type){
+               //      type += ',' + value;
+               // }else{
+               //      type = value;
+               // }
 
-               $('#content_type').val(type);
+               // $('#content_type').val(type);
 
-               html = `<div class="append_content" id="content_${content_section_count}">
+               html = `<div class="append_content" id="content${content_section_count}" value="appended" data-is_new="true">
                     <hr>
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
@@ -577,69 +591,71 @@
 
           $('.add_contents').append(html);
 
-          conditionalOptions(newUniqueId);
+          // conditionalOptions(newUniqueId);
 
-          $('#add_condition'+newUniqueId).change(function(){
-               conditionalOptions(newUniqueId);
-          });
+          // $('#add_condition'+newUniqueId).change(function(){
+          //      conditionalOptions(newUniqueId);
+          // });
 
-          startNewSection(newUniqueId);
+          // startNewSection(newUniqueId);
 
-          $('#start_new_section'+newUniqueId).change(function(){
-               startNewSection(newUniqueId);
-          });
+          // $('#start_new_section'+newUniqueId).change(function(){
+          //      startNewSection(newUniqueId);
+          // });
 
-          $('#signature_field'+newUniqueId).change(function(){
-               var status = false;
-               if($('#signature_field'+newUniqueId).is(':checked')){
-                    status = $('#signature_field'+newUniqueId).is(':checked');
-                    $('#signature_field'+newUniqueId).val(1);
-               }else{
-                    status = $('#signature_field'+newUniqueId).is(':checked');
-                    $('#signature_field'+newUniqueId).val(0);
-               }
-          })
+          // $('#signature_field'+newUniqueId).change(function(){
+          //      var status = false;
+          //      if($('#signature_field'+newUniqueId).is(':checked')){
+          //           status = $('#signature_field'+newUniqueId).is(':checked');
+          //           $('#signature_field'+newUniqueId).val(1);
+          //      }else{
+          //           status = $('#signature_field'+newUniqueId).is(':checked');
+          //           $('#signature_field'+newUniqueId).val(0);
+          //      }
+          // })
 
-          $('#add_condition'+newUniqueId).change(function(){
-               var status = false;
-               if($('#add_condition'+newUniqueId).is(':checked')){
-                    status = $('#add_condition'+newUniqueId).is(':checked');
-                    $('#add_condition'+newUniqueId).val(1);
-               }else{
-                    status = $('#add_condition'+newUniqueId).is(':checked');
-                    $('#add_condition'+newUniqueId).val(0);
-               }
-          })
+          // $('#add_condition'+newUniqueId).change(function(){
+          //      var status = false;
+          //      if($('#add_condition'+newUniqueId).is(':checked')){
+          //           status = $('#add_condition'+newUniqueId).is(':checked');
+          //           $('#add_condition'+newUniqueId).val(1);
+          //      }else{
+          //           status = $('#add_condition'+newUniqueId).is(':checked');
+          //           $('#add_condition'+newUniqueId).val(0);
+          //      }
+          // })
 
-          $('#secure_blurr_content'+newUniqueId).change(function(){
-               var status = false;
-               if($('#secure_blurr_content'+newUniqueId).is(':checked')){
-                    status = $('#secure_blurr_content'+newUniqueId).is(':checked');
-                    $('#secure_blurr_content'+newUniqueId).val(1);
-               }else{
-                    status = $('#secure_blurr_content'+newUniqueId).is(':checked');
-                    $('#secure_blurr_content'+newUniqueId).val(0);
-               }
-          })
+          // $('#secure_blurr_content'+newUniqueId).change(function(){
+          //      var status = false;
+          //      if($('#secure_blurr_content'+newUniqueId).is(':checked')){
+          //           status = $('#secure_blurr_content'+newUniqueId).is(':checked');
+          //           $('#secure_blurr_content'+newUniqueId).val(1);
+          //      }else{
+          //           status = $('#secure_blurr_content'+newUniqueId).is(':checked');
+          //           $('#secure_blurr_content'+newUniqueId).val(0);
+          //      }
+          // })
 
-          $('#blurr_content'+newUniqueId).change(function(){
-               var status = false;
-               if($('#blurr_content'+newUniqueId).is(':checked')){
-                    status = $('#blurr_content'+newUniqueId).is(':checked');
-                    $('#blurr_content'+newUniqueId).val(1);
-               }else{
-                    status = $('#blurr_content'+newUniqueId).is(':checked');
-                    $('#blurr_content'+newUniqueId).val(0);
-               }
-          })
+          // $('#blurr_content'+newUniqueId).change(function(){
+          //      var status = false;
+          //      if($('#blurr_content'+newUniqueId).is(':checked')){
+          //           status = $('#blurr_content'+newUniqueId).is(':checked');
+          //           $('#blurr_content'+newUniqueId).val(1);
+          //      }else{
+          //           status = $('#blurr_content'+newUniqueId).is(':checked');
+          //           $('#blurr_content'+newUniqueId).val(0);
+          //      }
+          // })
      }
 
 
      function removeContent(e){
           if($(e).attr('data-field') === 'content_heading'){
                if($(e).attr('value') === 'appended'){
+                    console.log('yes');
                     $(e).closest('.append_content_heading').remove();
                }else{
+                    console.log('no');
                     var id = $(e).attr('data-id');
                     let deleteIds = $('#remove_content_heading').val();
                     if(deleteIds){
@@ -648,27 +664,27 @@
                          deleteIds = id;
                     }
                     $('#remove_content_heading').val(deleteIds);
-                    $('.append_content_heading'+id).hide();
+                    $('#content_heading'+id).hide();
                }
           }else if($(e).attr('data-field') === 'content'){
                if($(e).attr('value') === 'appended'){
                     $(e).closest('.append_content').remove();
                }else{
                     var id = $(e).attr('data-id');
-                    let deleteIds = $('#img_sec_ids').val();
+                    let deleteIds = $('#remove_content').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#img_sec_ids').val(deleteIds);
-                    $('.append_content'+id).hide();
+                    $('#remove_content').val(deleteIds);
+                    $('#content'+id).hide();
                }
           }
      }
 
      function addCondition(id,num){
-          const html = `<div class="condition-section">
+          const html = `<div class="condition-section" id="condition-section" value="appended">
                          <hr>
                          <div class="text-end">
                               <div class="form-group">
@@ -717,35 +733,91 @@
                $(e).closest('.condition-section').remove();
           }else{
                var id = $(e).attr('data-id');
-               let deleteIds = $('#img_sec_ids').val();
+               let deleteIds = $('#remove_condition').val();
                if(deleteIds){
                     deleteIds += ',' + id;
                }else{
                     deleteIds = id;
                }
-               $('#img_sec_ids').val(deleteIds);
-               $('.condition-section'+id).hide();
+               $('#remove_condition').val(deleteIds);
+               $('#condition-section'+id).hide();
           }
      }
 
-     function conditionalOptions(id){
-          if($('#add_condition'+id).is(':checked')){
-               $('.add_condition_section'+id).show();
-          }else{
-               $('.add_condition_section'+id).hide();
+     // function conditionalOptions(id){
+     //      if($('#add_condition'+id).is(':checked')){
+     //           $('.add_condition_section'+id).show();
+     //      }else{
+     //           $('.add_condition_section'+id).hide();
+     //      }
+     // }
+     
+     // function startNewSection(id){
+     //      let status = false;
+     //      if($('#start_new_section'+id).is(':checked')){
+     //           status = $('#start_new_section'+id).is(':checked');
+     //           $('#start_new_section'+id).val(1);
+     //           $('.start_append_section'+id).show();
+     //      }else{
+     //           status = $('#start_new_section'+id).is(':checked');
+     //           $('#start_new_section'+id).val(0);
+     //           $('.start_append_section'+id).hide();
+     //      }
+     // }
+
+
+     $(document).ready(function() {
+          $(document).on('change', '[id^="add_condition"]', function() {
+               const id = $(this).attr('id').replace('add_condition', '');
+               conditionalOptions(id);
+          });
+
+          $(document).on('change', '[id^="start_new_section"]', function() {
+               const id = $(this).attr('id').replace('start_new_section', '');
+               startNewSection(id);
+          });
+
+          $(document).on('change', '[id^="signature_field"]', function() {
+               const id = $(this).attr('id').replace('signature_field', '');
+               toggleCheckboxValue($(this), 'signature_field' + id);
+          });
+
+          $(document).on('change', '[id^="secure_blurr_content"]', function() {
+               const id = $(this).attr('id').replace('secure_blurr_content', '');
+               toggleCheckboxValue($(this), 'secure_blurr_content' + id);
+          });
+
+          $(document).on('change', '[id^="blurr_content"]', function() {
+               const id = $(this).attr('id').replace('blurr_content', '');
+               toggleCheckboxValue($(this), 'blurr_content' + id);
+          });
+     });
+
+     function conditionalOptions(id) {
+          if ($('#add_condition' + id).is(':checked')) {
+               $('.add_condition_section' + id).show();
+               $('#add_condition' + id).val(1);
+          } else {
+               $('.add_condition_section' + id).hide();
+               $('#add_condition' + id).val(0);
           }
      }
-     
-     function startNewSection(id){
-          let status = false;
-          if($('#start_new_section'+id).is(':checked')){
-               status = $('#start_new_section'+id).is(':checked');
-               $('#start_new_section'+id).val(1);
-               $('.start_append_section'+id).show();
-          }else{
-               status = $('#start_new_section'+id).is(':checked');
-               $('#start_new_section'+id).val(0);
-               $('.start_append_section'+id).hide();
+
+     function startNewSection(id) {
+          if ($('#start_new_section' + id).is(':checked')) {
+               $('.start_append_section' + id).show();
+               $('#start_new_section' + id).val(1);
+          } else {
+               $('.start_append_section' + id).hide();
+               $('#start_new_section' + id).val(0);
+          }
+     }
+
+     function toggleCheckboxValue(element, id) {
+          if (element.is(':checked')) {
+               $('#' + id).val(1);
+          } else {
+               $('#' + id).val(0);
           }
      }
 </script>
@@ -755,7 +827,8 @@
      function getAllContents() {
           var contents = [];
           var order = 1;
-          $('.add_contents .append_content_heading').each(function() {
+
+          $('.add_contents .append_content_heading').each(function(){
                // var contentHeadingId = $(this).attr('id');
                var headingInputValue = $(this).find('input[type="text"]').val();
                
@@ -765,8 +838,8 @@
                     order: order++
                });
           });
-
-          $('.add_contents .append_content').each(function() {
+         
+          $('.add_contents .append_content').each(function(){
                // var contentId = $(this).attr('id');
                var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
                var textAlign = $(this).find('select[name^="text_align"]').val();
@@ -806,7 +879,6 @@
                }
                contents.push(contentData);
           });
-
           console.log(contents);
           return contents;
      }
@@ -816,8 +888,15 @@
                var data = getAllContents();
                data = JSON.stringify(data);
                $('#formdata').val(data);
-               $('#contentForm').submit();
+               // $('#contentForm').submit();
           });
+
+          // $('#updateFormdata').click(function() {
+          //      var data = getAllContents();
+          //      data = JSON.stringify(data);
+          //      $('#formdata').val(data);
+          //      // $('#updatecontentForm').submit();
+          // });
 
           var switchStatus = false;
           $(".publish").on('change', function() {
@@ -833,5 +912,75 @@
 
 </script>
 
+<script>
+     function getAllDynamicContents(){
+          var update_contents = [];
+          var order = 1;
+
+          $('.add_contents .append_content_heading').each(function(){
+               // var contentHeadingId = $(this).attr('id');
+               var headingInputValue = $(this).find('input[type="text"]').val();
+               
+               update_contents.push({
+                    section: 'content_heading',
+                    heading_html: headingInputValue,
+                    order: order++
+               });
+          });
+         
+          $('.add_contents .append_content').each(function(){
+               // var contentId = $(this).attr('id');
+               var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
+               var textAlign = $(this).find('select[name^="text_align"]').val();
+               var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
+               var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
+               var contentClass = $(this).find('input[name^="content_class"]').val();
+               var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
+               var secureBlurrContent = $(this).find('input[name^="secure_blurr_content"]').is(':checked') ? 1 : 0;
+               var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
+
+               var contentData = {
+                    section: 'content',
+                    start_new_section: startNewSection,
+                    text_align: textAlign,
+                    signature_field: signatureField,
+                    content_html: contentHtml,
+                    content_class: contentClass,
+                    add_condition: addCondition,
+                    secure_blurr_content: secureBlurrContent,
+                    blurr_content: blurrContent,
+                    order: order++,
+                    conditions: []
+               };
+
+               if(addCondition){
+                    $(this).find('.append_condition .condition-section').each(function() {
+                         var condition = {
+                              question_id: $(this).find('input[name^="condition_question_id"]').val(),
+                              condition: $(this).find('select[name^="conditions"]').val(),
+                              question_value: $(this).find('input[name^="condition_question_value"]').val()
+                         };
+                    
+                         if(condition.question_id || condition.condition || condition.question_value){
+                              contentData.conditions.push(condition);
+                         }
+                    });
+               }
+               update_contents.push(contentData);
+          });
+          console.log(update_contents);
+          return update_contents;
+     }
+
+     $(document).ready(function() {
+          $('#updateFormdata').click(function() {
+               var data = getAllContents();
+               data = JSON.stringify(data);
+               $('#formdata').val(data);
+               // $('#updatecontentForm').submit();
+          });
+     });
+
+</script>
 
 @endsection

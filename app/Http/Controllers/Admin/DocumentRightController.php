@@ -95,13 +95,26 @@ class DocumentRightController extends Controller
     }
 
     public function editRightContent($id){
+        
         $documentRight = DocumentRightSection::where('document_id', $id)->with('conditions','document')->orderBy('order_id')->orderByRaw('order_id IS NULL')->get();
         // dd($documentRight);
         // $documentRight = DocumentRightSection::where('document_id', $id)->orderByRaw('ISNULL(order_id), order_id ASC')->get();
         // $documentRight = DocumentRightSection::where('document_id',$id)->with('conditions','document')->orderBy('order_id', 'asc')->get();
         $documents = Document::where('published',1)->get();
-        return view('admin.document_right_content.document_right_content',compact('documents','documentRight'));
+        $document_id = $id;
+        $document = Document::find($document_id);
+        $title = $document->title;
+        return view('admin.document_right_content.document_right_content',compact('documents','documentRight','title','document_id'));
     }
 
+    public function updateRightContent(Request $request){
+        return $request->all();
+        
+        try{
+
+        }catch(Exception $e){
+            
+        }
+    }
     
 }

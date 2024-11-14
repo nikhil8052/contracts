@@ -46,9 +46,7 @@
 							<div class="search">
 								<input type="text" class="searchTerm"
 									placeholder="{{ $data2['banner_placeholder'] ?? '¿Qué documento necesitas?' }}">
-								<button type="submit" class="searchButton">
-									{{ $data2['button_name'] ?? 'Empezar' }}
-								</button>
+								<button class="btn cta_dark"><i class="fa-solid fa-magnifying-glass"></i></button>
 							</div>
 						</div>
 					</div>
