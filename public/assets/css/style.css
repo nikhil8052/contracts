@@ -354,7 +354,7 @@ div#navbarSupportedContent {
     display: flex;
     border: 1px solid #E3E9ED;
     background-color: #fff;
-    padding: 4px 10px;
+    padding: 4px 7px;
     border-radius: 160px;
 }
 
@@ -1184,7 +1184,7 @@ footer .foot_li a:hover {
     font-weight: 400;
     padding-left: 0;
     gap: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 0px;
 }
 
 .cont_ul .selectDropdown {
@@ -1639,6 +1639,8 @@ footer .foot_li a:hover {
 
 .tab_sec_ot h5 {
     min-height: 50px;
+    font-size: 17px;
+    font-weight: 600;
 }
 
 
@@ -1819,7 +1821,7 @@ header.fun-header {
 
 .generate-sec.Comienza_sec {
     color: #012555;
-    background-color: #EDEEF1;
+    background-color: #F5F5F5;
 }
 
 
@@ -3054,6 +3056,7 @@ footer .foot_end_box .reserve_box {
     display: flex;
     justify-content: space-between;
     color: #002655;
+    margin-bottom: 15px;
 }
 
 .cont_content p {
@@ -3171,7 +3174,7 @@ footer .foot_end_box .reserve_box {
 }
 
 .faq-heading:not(:first-child) {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 .upload-box.mine_input {
@@ -3244,7 +3247,7 @@ footer .foot_end_box .reserve_box {
 
 .sharing_icons {
     display: flex;
-    gap: 8px;
+    gap: 2px;
 }
 .sharing_ul a svg {
     color: rgb(30, 44, 79);
@@ -3252,7 +3255,8 @@ footer .foot_end_box .reserve_box {
     font-weight: 400;
 }
 .sharing_ul {
-    line-height: 30px;
+    line-height: 0px;
+    transition: 0.2s ease-in-out;
 }
 .sec4_conrt_ot {
     padding-top:80px ;
@@ -3314,4 +3318,29 @@ footer .foot_end_box .reserve_box {
 .image-wrapper:hover img{
     filter: brightness(0) invert(1);
 
+}
+/* 15nov2024//////////////////////////////// */
+.sharing_ul:hover {
+    transform: translateY(-8px);
+}
+.sec4_conrt_ot .sec4_card_p h6 {
+    font-size: 17px;
+    font-weight: 600;
+}
+.tab_text h5 {
+    font-size: 17px;
+    font-weight: 600;
+}
+.contac_login_card .outer_aft_btn button {
+    background-color: #012555;
+    border: 1px solid #012555;
+}
+.contac_login_card .outer_aft_btn button:hover {
+    background-color: #FD5602;
+    border: 1px solid #FD5602;
+    color: #fff;
+}
+.faq-heading {
+    padding-bottom: 60px;
+    border-bottom: 1px solid #D3D3D3;
 }

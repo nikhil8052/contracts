@@ -287,7 +287,7 @@
                         <div class="col-lg-6 {{ $key == 0 ? 'b_right' : '' }}">
                             <div class="sec7_const_h">
                                 <div class="sec7_const_img">
-                                    <img src="{{ $key == 0 ? asset('assets/img/guide1.png') : asset('assets/img/guide2.png') }}" alt="">
+                                    <img src="{{ $key == 0 ? asset('assets/img/Groupguide.png') : asset('assets/img/Groupguide2.png') }}" alt="">
                                 </div>
 
                                 <div class="h_sec_const">
@@ -325,15 +325,18 @@
                 @foreach($document->relatedDocuments as $related)
                 <div class="col-lg-3 col-md-6 p-0 mb-2">
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">
-                        <a href="{{ url('document/'.$related->slug) }}" class="contract_link">
+                        <!-- <a href="{{ url('document/'.$related->slug) }}" class="contract_link"> -->
                             <div class="inside_box_tab">
+                                <a href="{{ url('document/'.$related->slug) }}" class="contract_link">
                                 <div class="img_tab_sec">
                                 <?php 
                                     $image_path = str_replace('public/', '', $related->document_file_path ?? null);
                                 ?>
                                     <img src="{{ asset('storage/'.$image_path) }}" alt="">
                                 </div>
+                                </a>
                                 <div class="cont_tab_ot">
+                                    <a href="{{ url('document/'.$related->slug) }}" class="contract_link">
                                     <div class="tab_ot_text">
 
                                         <div class="tab_text">
@@ -351,12 +354,13 @@
                                             ?>
                                         </div>
                                     </div>
+                                    </a>
                                 </div>
                                 <div class="tab_btn">
                                     <a href="{{ url('document/'.$related->slug) }}" class="cta_blue" tabindex="-1">Crear ahora</a>
                                 </div>
                             </div>
-                        </a>
+                        <!-- </a> -->
                     </div>
                 </div>
                 @endforeach

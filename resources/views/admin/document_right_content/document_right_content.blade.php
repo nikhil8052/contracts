@@ -4,11 +4,12 @@
 @php use Carbon\Carbon; @endphp
 <div class="nk-content">
      <div class="container-fluid">
-          @if(isset($documentRight) && $documentRight != null)
+          <!-- @if(isset($documentRight) && $documentRight != null)
           <form action="{{ url('/admin-dashboard/update-document-right-content') }}" id="updatecontentForm" method="post" enctype="multipart/form-data">
-          @else
-          <form action="{{ url('/admin-dashboard/add-document-right-content') }}" id="contentForm" method="post" enctype="multipart/form-data">
-          @endif     
+          @else -->
+          <!-- <form action="{{ url('/admin-dashboard/add-document-right-content') }}" id="contentForm" method="post" enctype="multipart/form-data"> -->
+          <!-- @endif      -->
+          <form action="{{ url('/admin-dashboard/update-document-right-content') }}" id="updatecontentForm" method="post" enctype="multipart/form-data">
                @csrf
                <input type="hidden" id="published" name="published" value="">
                <input type="hidden" id="remove_content_heading" name="remove_content_heading" value="">
@@ -37,7 +38,7 @@
                                         ?>
                                              @foreach($documentRight as $data)
                                                   @if($data->type == 'content_heading')
-                                                  <div class="append_content_heading" id="content_heading{{ $data->id ?? '' }}" data-id="{{ $data->id ?? '' }}" data-is_new=”false”>
+                                                  <div class="append_content_heading" id="content_heading{{ $data->id ?? '' }}" data-id="{{ $data->id ?? '' }}" data-is_new=false>
                                                        <hr>
                                                        <div class="card card-bordered card-preview">
                                                             <div class="card-inner">
@@ -64,7 +65,7 @@
                                                        </div>
                                                   </div>
                                                   @elseif($data->type == 'content')
-                                                  <div class="append_content" id="content{{ $data->id ?? '' }}" data-id="{{ $data->id ?? '' }}" data-is_new=”false”>
+                                                  <div class="append_content" id="content{{ $data->id ?? '' }}" data-id="{{ $data->id ?? '' }}" data-is_new=false>
                                                        <hr>
                                                        <div class="card card-bordered card-preview">
                                                             <div class="card-inner">
@@ -101,7 +102,8 @@
                                                                  @endif
                                                                  </div>
                                                                  <hr>
-                                                                 <div class="start_append_section{{ $data->id ?? '' }}">
+                                                                 @if(isset($data->start_new_section) && $data->start_new_section != null)
+                                                                 <div class="start_append_section{{ $data->id ?? '' }}" style="display:block">
                                                                       <div class="row">
                                                                            <div class="col-md-6">
                                                                                 <div class="form-group">
@@ -156,6 +158,33 @@
                                                                       </div>
                                                                       <hr>
                                                                  </div>
+                                                                 @else
+                                                                 <div class="start_append_section{{ $data->id ?? '' }}" style="display:none">
+                                                                      <div class="row">
+                                                                           <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="text_align">Text align</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="text_align-{{ $count++ }}" id="text_align">
+                                                                                               <option value=""></option>
+                                                                                               <option value="left">left</option>
+                                                                                               <option value="right">right</option>
+                                                                                               <option value="center">center</option>
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-6">
+                                                                                <p class="p_label">This is signature field</p>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                     <input type="checkbox" class="custom-control-input" id="signature_field" name="signature_field-{{ $count++ }}">
+                                                                                     <label class="custom-control-label" for="signature_field"></label>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <hr>
+                                                                 </div>
+                                                                 @endif
                                                                  <div class="col-md-12">
                                                                       <div class="form-group">
                                                                            <label class="form-label" for="content_content_html">Content Html</label>
@@ -198,7 +227,7 @@
                                                                       @if(isset($data->conditions) && $data->conditions != null)
                                                                       @foreach($data->conditions as $qu_conditions)
                                                                       @if($qu_conditions->condition_type == 'content_condition')
-                                                                           <div class="condition-section" id="condition-section{{ $qu_conditions->id ?? '' }}" data-id="{{ $qu_conditions->id ?? '' }}">
+                                                                           <div class="condition-section" id="condition-section{{ $qu_conditions->id ?? '' }}" data-id="{{ $qu_conditions->id ?? '' }}" data-is_new=false>
                                                                                 <hr>
                                                                                 <div class="text-end">
                                                                                      <div class="form-group">
@@ -314,7 +343,7 @@
                                                                            <div class="custom-control custom-checkbox">
                                                                            @if(isset($data->blur_content) && $data->blur_content != null)
                                                                                 @if($data->blur_content == '1')
-                                                                                <input type="checkbox" class="custom-control-input" id="blurr_content{{ $uniqueId ?? '' }}" name="blurr_content-{{ $count++ }}">
+                                                                                <input type="checkbox" class="custom-control-input" id="blurr_content{{ $uniqueId ?? '' }}" name="blurr_content-{{ $count++ }}" checked>
                                                                                 <label class="custom-control-label" for="blurr_content{{ $uniqueId ?? '' }}">Blurr Content</label>
                                                                                 @else
                                                                                 <input type="checkbox" class="custom-control-input" id="blurr_content{{ $uniqueId ?? '' }}" name="blurr_content-{{ $count++ }}">
@@ -441,7 +470,7 @@
                // }
                // $('#heading_type').val(type);
 
-               html = `<div class="append_content_heading" id="content_heading${heading_section_count}" value="appended" data-is_new="true">
+               html = `<div class="append_content_heading" id="content_heading${heading_section_count}" value="appended" data-is_new=true>
                     <hr>
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
@@ -481,7 +510,7 @@
 
                // $('#content_type').val(type);
 
-               html = `<div class="append_content" id="content${content_section_count}" value="appended" data-is_new="true">
+               html = `<div class="append_content" id="content${content_section_count}" value="appended" data-is_new=true>
                     <hr>
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
@@ -684,7 +713,7 @@
      }
 
      function addCondition(id,num){
-          const html = `<div class="condition-section" id="condition-section" value="appended">
+          const html = `<div class="condition-section" id="condition-section" value="appended" data-is_new=true>
                          <hr>
                          <div class="text-end">
                               <div class="form-group">
@@ -698,15 +727,15 @@
                          <div class="row">
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="condition_question_id">Question ID</label>
-                                        <input type="text" class="form-control" id="condition_question_id" name="condition_question_id-${num}[]" value="">
+                                        <label class="form-label" for="new_condition_question_id">Question ID</label>
+                                        <input type="text" class="form-control" id="new_condition_question_id" name="new_condition_question_id-${num}[]" value="">
                                    </div>
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="conditions">Condition</label>
+                                        <label class="form-label" for="new_conditions">Condition</label>
                                         <div class="form-control-wrap"> 
-                                             <select class="form-select js-select2" name="conditions-${num}[]" id="conditions">
+                                             <select class="form-select js-select2" name="new_conditions-${num}[]" id="new_conditions">
                                                   <option value=""></option>
                                                   <option value="is_equal_to">is equal to</option>
                                                   <option value="is_greater_than">is greater than</option>
@@ -718,8 +747,8 @@
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="condition_question_value">Question Value</label>
-                                        <input type="text" class="form-control" id="condition_question_value" name="condition_question_value-${num}[]" value="">
+                                        <label class="form-label" for="new_condition_question_value">Question Value</label>
+                                        <input type="text" class="form-control" id="new_condition_question_value" name="new_condition_question_value-${num}[]" value="">
                                    </div>
                               </div>
                          </div>
@@ -824,163 +853,116 @@
 
 <script>
 
-     function getAllContents() {
-          var contents = [];
-          var order = 1;
+function getAllContents() {
+     var contents = [];
 
-          $('.add_contents .append_content_heading').each(function(){
-               // var contentHeadingId = $(this).attr('id');
-               var headingInputValue = $(this).find('input[type="text"]').val();
-               
-               contents.push({
-                    section: 'content_heading',
-                    heading_html: headingInputValue,
-                    order: order++
-               });
-          });
-         
-          $('.add_contents .append_content').each(function(){
-               // var contentId = $(this).attr('id');
-               var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
-               var textAlign = $(this).find('select[name^="text_align"]').val();
-               var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
-               var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
-               var contentClass = $(this).find('input[name^="content_class"]').val();
-               var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
-               var secureBlurrContent = $(this).find('input[name^="secure_blurr_content"]').is(':checked') ? 1 : 0;
-               var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
+     $('.add_contents .append_content_heading').each(function(){
+          var is_new = $(this).data('is_new');
+          var id = $(this).data('id');
+          var headingInputValue = $(this).find('input[type="text"]').val();
 
-               var contentData = {
-                    section: 'content',
-                    start_new_section: startNewSection,
-                    text_align: textAlign,
-                    signature_field: signatureField,
-                    content_html: contentHtml,
-                    content_class: contentClass,
-                    add_condition: addCondition,
-                    secure_blurr_content: secureBlurrContent,
-                    blurr_content: blurrContent,
-                    order: order++,
-                    conditions: []
-               };
-
-               if(addCondition){
-                    $(this).find('.append_condition .condition-section').each(function() {
-                         var condition = {
-                              question_id: $(this).find('input[name^="condition_question_id"]').val(),
-                              condition: $(this).find('select[name^="conditions"]').val(),
-                              question_value: $(this).find('input[name^="condition_question_value"]').val()
-                         };
-                    
-                         if(condition.question_id || condition.condition || condition.question_value){
-                              contentData.conditions.push(condition);
-                         }
-                    });
-               }
-               contents.push(contentData);
-          });
-          console.log(contents);
-          return contents;
-     }
-
-     $(document).ready(function() {
-          $('#saveFormdata').click(function() {
-               var data = getAllContents();
-               data = JSON.stringify(data);
-               $('#formdata').val(data);
-               // $('#contentForm').submit();
-          });
-
-          // $('#updateFormdata').click(function() {
-          //      var data = getAllContents();
-          //      data = JSON.stringify(data);
-          //      $('#formdata').val(data);
-          //      // $('#updatecontentForm').submit();
-          // });
-
-          var switchStatus = false;
-          $(".publish").on('change', function() {
-               if($(this).is(':checked')) {
-                    switchStatus = $(this).is(':checked');
-                    $('#published').val(1);
-               }else{
-                    switchStatus = $(this).is(':checked');
-                    $('#published').val(0);
-               }
-          })
-     });
-
-</script>
-
-<script>
-     function getAllDynamicContents(){
-          var update_contents = [];
-          var order = 1;
-
-          $('.add_contents .append_content_heading').each(function(){
-               // var contentHeadingId = $(this).attr('id');
-               var headingInputValue = $(this).find('input[type="text"]').val();
-               
-               update_contents.push({
-                    section: 'content_heading',
-                    heading_html: headingInputValue,
-                    order: order++
-               });
-          });
-         
-          $('.add_contents .append_content').each(function(){
-               // var contentId = $(this).attr('id');
-               var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
-               var textAlign = $(this).find('select[name^="text_align"]').val();
-               var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
-               var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
-               var contentClass = $(this).find('input[name^="content_class"]').val();
-               var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
-               var secureBlurrContent = $(this).find('input[name^="secure_blurr_content"]').is(':checked') ? 1 : 0;
-               var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
-
-               var contentData = {
-                    section: 'content',
-                    start_new_section: startNewSection,
-                    text_align: textAlign,
-                    signature_field: signatureField,
-                    content_html: contentHtml,
-                    content_class: contentClass,
-                    add_condition: addCondition,
-                    secure_blurr_content: secureBlurrContent,
-                    blurr_content: blurrContent,
-                    order: order++,
-                    conditions: []
-               };
-
-               if(addCondition){
-                    $(this).find('.append_condition .condition-section').each(function() {
-                         var condition = {
-                              question_id: $(this).find('input[name^="condition_question_id"]').val(),
-                              condition: $(this).find('select[name^="conditions"]').val(),
-                              question_value: $(this).find('input[name^="condition_question_value"]').val()
-                         };
-                    
-                         if(condition.question_id || condition.condition || condition.question_value){
-                              contentData.conditions.push(condition);
-                         }
-                    });
-               }
-               update_contents.push(contentData);
-          });
-          console.log(update_contents);
-          return update_contents;
-     }
-
-     $(document).ready(function() {
-          $('#updateFormdata').click(function() {
-               var data = getAllContents();
-               data = JSON.stringify(data);
-               $('#formdata').val(data);
-               // $('#updatecontentForm').submit();
+          contents.push({
+               section: 'content_heading',
+               id: id,
+               is_new: is_new,
+               heading_html: headingInputValue,
           });
      });
 
+     $('.add_contents .append_content').each(function(){
+          var is_new = $(this).data('is_new');
+          var id = $(this).data('id');
+
+          var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
+          var textAlign = $(this).find('select[name^="text_align"]').val() || ''; 
+          var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
+          var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
+          var contentClass = $(this).find('input[name^="content_class"]').val() || '';
+          var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
+          var secureBlurrContent = $(this).find('input[name^="secure_blurr_content"]').is(':checked') ? 1 : 0;
+          var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
+
+          var contentData = {
+               section: 'content',
+               is_new: is_new,
+               id: id,
+               start_new_section: startNewSection,
+               text_align: textAlign,
+               signature_field: signatureField,
+               content_html: contentHtml,
+               content_class: contentClass,
+               add_condition: addCondition,
+               secure_blurr_content: secureBlurrContent,
+               blurr_content: blurrContent,
+               conditions: [],
+               new_conditions: [],
+          };
+
+          if(addCondition){
+               $(this).find('.append_condition .condition-section').each(function () {
+                    var status = $(this).data('is_new'); 
+                    var conditionId = $(this).data('id');
+
+                    if(status === true){
+                         var new_condition = {
+                              question_id: $(this).find('input[name^="new_condition_question_id"]').val() || '',
+                              condition: $(this).find('select[name^="new_conditions"]').val() || '',
+                              question_value: $(this).find('input[name^="new_condition_question_value"]').val() || '',
+                              status: status,
+                         };
+
+                         if(new_condition.question_id || new_condition.condition || new_condition.question_value) {
+                              contentData.new_conditions.push(new_condition);
+                         }
+                    }else if(status === false){
+                         var condition = {
+                              question_id: $(this).find('input[name^="condition_question_id"]').val() || '',
+                              condition: $(this).find('select[name^="conditions"]').val() || '',
+                              question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                              status: status,
+                              condition_id: conditionId
+                         };
+
+                         if(condition.question_id || condition.condition || condition.question_value) {
+                              contentData.conditions.push(condition);
+                         }
+                    }
+               });
+          }
+
+         contents.push(contentData);
+     });
+
+     console.log(contents);
+     return contents;
+}
+
+$(document).ready(function () {
+     // $('#saveFormdata').click(function () {
+     //      var data = getAllContents();
+     //      $('#formdata').val(JSON.stringify(data));
+     //      $('#contentForm').submit();
+     // });
+
+     $('#updateFormdata').click(function () {
+          var data = getAllContents();
+          $('#formdata').val(JSON.stringify(data));
+          $('#updatecontentForm').submit();
+     });
+
+     var switchStatus = false;
+     $(".publish").on('change', function() {
+          if($(this).is(':checked')) {
+               switchStatus = $(this).is(':checked');
+               $('#published').val(1);
+          }else{
+               switchStatus = $(this).is(':checked');
+               $('#published').val(0);
+          }
+     })
+});
+
 </script>
+
 
 @endsection

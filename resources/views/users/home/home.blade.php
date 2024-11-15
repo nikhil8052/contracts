@@ -69,15 +69,18 @@
 							@foreach($documents as $document)
 								@if($document->categories->contains('id', $catg->id))
 								<div class="inside_box_b">
-									<a href="{{ url('document/'.$document->slug) }}" class="contract_link">
+									<!-- <a href="{{ url('document/'.$document->slug) }}" class="contract_link"> -->
 										<div class="inside_box_tab">
+											<a href="{{ url('document/'.$document->slug) }}" class="contract_link">
 											<div class="img_tab_sec">
 												<?php 
 													$image_path = str_replace('public/', '', $document->document_file_path ?? null);
 												?>
 												<img src="{{ asset('storage/'.$image_path) }}" alt="">
 											</div>
+											</a>
 											<div class="cont_tab_ot">
+												<a href="{{ url('document/'.$document->slug) }}" class="contract_link">
 												<div class="tab_text">
 													<h5 class="size20">{{ $document->title ?? '' }}</h5>
 													<ul class="tab_ul">
@@ -90,12 +93,13 @@
 														print_r($short);
 													?>
 												</div>
+												</a>
 												<div class="tab_btn">
 													<a href="{{ url('document/'.$document->slug) }}" class="cta_org">{{ $data['most_popular_btn_text'] ?? '' }}</a>
 												</div>
 											</div>
 										</div>
-									</a>
+									<!-- </a> -->
 								</div>
 								@endif
 							@endforeach

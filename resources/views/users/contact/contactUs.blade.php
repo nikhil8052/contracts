@@ -32,7 +32,7 @@
           <div class="wt_ot">
                <div class="inside_contac_box">
                     <div class="h_contac_box" id="top">
-                         <h3 class="ponte_h">{{ $contact->main_title ?? '' }}</h3>
+                         <h2 class="ponte_h">{{ $contact->main_title ?? '' }}</h2>
                     </div>
                     <form action="{{ url('/contactusProcc') }}" id="contact-form" method="post" enctype="multipart/form-data">
                          @csrf

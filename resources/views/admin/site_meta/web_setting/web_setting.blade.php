@@ -24,7 +24,7 @@
                                     </span>
                                 </div>
                                 <div class="form-group">
-                                    <img src="{{ asset('storage/'.$data['header_logo'] ?? '' ) }}">
+                                    <img src="{{ asset('storage/'.$data['header_logo'] ?? '' ) }}" style="height:150px;width:150px">
                                 </div>
                             </div>
                         @endif
@@ -42,7 +42,7 @@
                                     </span>
                                 </div>
                                 <div class="form-group">
-                                    <img src="{{ asset('storage/'.$data['footer_logo'] ?? '' ) }}">
+                                    <img src="{{ asset('storage/'.$data['footer_logo'] ?? '' ) }}" style="height:150px;width:150px">
                                 </div>
                             </div>
                         @endif
