@@ -32,4 +32,12 @@ class Question extends Model
     {
         return $this->belongsTo(Question::class, 'next_question_id');
     }
+
+    public function getName()
+    {
+        return $this->id;
+    }
+
+
+
 }

@@ -123,7 +123,6 @@
 
       
 
-
           // To remove the steps 
           $('body').delegate('.remove_steps','click', function(){
                if($(this).attr('value') === 'appended'){

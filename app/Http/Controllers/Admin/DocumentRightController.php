@@ -8,6 +8,7 @@ use App\Models\Document;
 use App\Models\DocumentRightSection;
 use App\Models\RightSectionCondition;
 use App\Models\QuestionCondition;
+use App\Models\Question;
 use Illuminate\Support\Str;
 use App\Services\FileUploadService;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +19,14 @@ class DocumentRightController extends Controller
     public function allRightContent(){
         $documentRightContent = DocumentRightSection::with('document')->get();
         $documents = Document::where('published',1)->get();
-        
         return view('admin.document_right_content.all_document_right_content',compact('documents'));
     }
 
 
     public function documentRightContent(){
         $documents = Document::where('published',1)->get();
-        return view('admin.document_right_content.document_right_content',compact('documents'));
+        $questions = Question::all();
+        return view('admin.document_right_content.document_right_content',compact('documents','questions'));
     }
 
     public function addDocumentRightContent(Request $request){
@@ -38,7 +39,7 @@ class DocumentRightController extends Controller
                 foreach($formData as $data){
                     $document_right_section = new DocumentRightSection;
                     $document_right_section->type = $data->section;
-                    $document_right_section->title = $request->title;
+                    // $document_right_section->title = $request->title;
                     $document_right_section->document_id = $request->document_id;
                     $document_right_section->published = $request->published;
     
@@ -106,7 +107,8 @@ class DocumentRightController extends Controller
         $document_id = $id;
         $document = Document::find($document_id);
         $title = $document->title;
-        return view('admin.document_right_content.document_right_content',compact('documents','documentRight','title','document_id'));
+        $questions = Question::all();
+        return view('admin.document_right_content.document_right_content',compact('documents','documentRight','title','document_id','questions'));
     }
 
     public function updateRightContent(Request $request){
@@ -121,7 +123,7 @@ class DocumentRightController extends Controller
                             $document_right_section = new DocumentRightSection;
                             $document_right_section->content = $data->heading_html;
                             $document_right_section->type = $data->section;
-                            $document_right_section->title = $request->title;
+                            // $document_right_section->title = $request->title;
                             $document_right_section->document_id = $request->document_id;
                             $document_right_section->published = $request->published;
                             $document_right_section->save();
@@ -137,7 +139,7 @@ class DocumentRightController extends Controller
                         if($data->is_new == true){
                             $document_right_section = new DocumentRightSection;
                             $document_right_section->type = $data->section;
-                            $document_right_section->title = $request->title;
+                            // $document_right_section->title = $request->title;
                             $document_right_section->document_id = $request->document_id;
                             $document_right_section->published = $request->published;
                             $document_right_section->start_new_section = $data->start_new_section;
@@ -257,11 +259,10 @@ class DocumentRightController extends Controller
                         }
                     }
                 }
-
+                
+                DB::commit();
+                return redirect()->back()->with('success', 'Document Right Section Successfully Updated.');
             }
-
-            DB::commit();
-            return redirect()->back()->with('success', 'Document Right Section Successfully Updated.');
         }catch(Exception $e){
             DB::rollBack();
             saveLog("Error:", "DocumentRightController", $e->getMessage());

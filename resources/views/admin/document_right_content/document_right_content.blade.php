@@ -18,12 +18,12 @@
                <input type="hidden" id="formdata" name="formdata" value="">
                <div class="row main_section">
                     <div class="col md-8 left-content">
-                         <div class="col-md-12 doc-title mt-4 pb-4">
+                         <!-- <div class="col-md-12 doc-title mt-4 pb-4">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>@if(isset($documentRight) && $documentRight != null) Edit Right Content @else Add New Right Content @endif</h4></b></label>
                                    <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $title ?? '' }}">
                               </div>
-                         </div>
+                         </div> -->
                          <h5>Contract Right Content</h5>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
@@ -58,7 +58,7 @@
                                                                  <div class="col-md-12">
                                                                       <div class="form-group">
                                                                            <label class="form-label" for="content_heading_html{{ $uniqueId ?? '' }}">Content Html</label>
-                                                                           <input type="text" class="form-control" name="content_heading_html-{{ $count++ }}" id="content_heading_html{{ $uniqueId ?? '' }}" value="{{ $data->content ?? '' }}">
+                                                                           <input type="text" class="form-control content_heading_html" name="content_heading_html-{{ $count++ }}" id="content_heading_html{{ $uniqueId ?? '' }}" value="{{ $data->content ?? '' }}">
                                                                       </div>
                                                                  </div>
                                                             </div>
@@ -110,7 +110,7 @@
                                                                                      <label class="form-label" for="text_align">Text align</label>
                                                                                      <div class="form-control-wrap"> 
                                                                                           <select class="form-select js-select2" name="text_align-{{ $count++ }}" id="text_align">
-                                                                                               <option value=""></option>
+                                                                                               <option value="" selected disabled>Select</option>
                                                                                                @if(isset($data->text_align) && $data->text_align != null)
                                                                                                     @if($data->text_align == 'left')
                                                                                                     <option value="left" selected>left</option>
@@ -166,7 +166,7 @@
                                                                                      <label class="form-label" for="text_align">Text align</label>
                                                                                      <div class="form-control-wrap"> 
                                                                                           <select class="form-select js-select2" name="text_align-{{ $count++ }}" id="text_align">
-                                                                                               <option value=""></option>
+                                                                                               <option value="" selected disabled>Select</option>
                                                                                                <option value="left">left</option>
                                                                                                <option value="right">right</option>
                                                                                                <option value="center">center</option>
@@ -188,27 +188,27 @@
                                                                  <div class="col-md-12">
                                                                       <div class="form-group">
                                                                            <label class="form-label" for="content_content_html">Content Html</label>
-                                                                           <textarea class="form-control" name="content_content_html-{{ $count++ }}" id="content_content_html">{{ $data->content ?? '' }}</textarea>
+                                                                           <textarea class="form-control content_content_html" name="content_content_html-{{ $count++ }}" id="content_content_html">{{ $data->content ?? '' }}</textarea>
                                                                       </div>
                                                                  </div>
                                                                  <hr>
                                                                  <div class="row">
-                                                                      <div class="col-md-6">
+                                                                      <!-- <div class="col-md-6">
                                                                            <div class="form-group">
                                                                                 <label class="form-label" for="content_class">Content Class</label>
                                                                                 <input type="text" class="form-control" name="content_class-{{ $count++ }}" id="content_class" value="{{ $data->content_class ?? '' }}">
                                                                            </div>
-                                                                      </div>
+                                                                      </div> -->
                                                                       <div class="col-md-6">
                                                                            <p class="p_label">Add Condition</p>
                                                                            <div class="custom-control custom-checkbox">
                                                                            @if(isset($data->is_condition) && $data->is_condition != null)
                                                                                 @if($data->is_condition == '1')
-                                                                                <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}" checked>
-                                                                                <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
+                                                                                     <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}" checked>
+                                                                                     <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
                                                                                 @else
-                                                                                <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
-                                                                                <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
+                                                                                     <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
+                                                                                     <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
                                                                                 @endif
                                                                            @else
                                                                                 <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
@@ -241,8 +241,24 @@
                                                                                 <div class="row">
                                                                                      <div class="col-md-4">
                                                                                           <div class="form-group">
+                                                                                               <!-- <label class="form-label" for="condition_question_id">Question ID</label>
+                                                                                               <input type="text" class="form-control" id="condition_question_id" name="condition_question_id-{{ $count++ }}[]" value="{{ $qu_conditions->conditional_question_id ?? '' }}"> -->
                                                                                                <label class="form-label" for="condition_question_id">Question ID</label>
-                                                                                               <input type="text" class="form-control" id="condition_question_id" name="condition_question_id-{{ $count++ }}[]" value="{{ $qu_conditions->conditional_question_id ?? '' }}">
+                                                                                               <div class="form-control-wrap"> 
+                                                                                                    <select class="form-select js-select2" name="condition_question_id-{{ $count++ }}[]" id="condition_question_id">
+                                                                                                    <option value="" selected disabled>Select</option>
+                                                                                                    @if(isset($questions) && $questions != null)
+                                                                                                         @foreach($questions as $question)
+                                                                                                              <option 
+                                                                                                                   value="{{ $question->getName() }}" 
+                                                                                                                   {{ isset($qu_conditions->conditional_question_id) && $qu_conditions->conditional_question_id == $question->getName() ? 'selected' : '' }}
+                                                                                                              >
+                                                                                                                   {{ $question->getName() }}
+                                                                                                              </option>
+                                                                                                         @endforeach
+                                                                                                    @endif
+                                                                                                    </select>
+                                                                                               </div>
                                                                                           </div>
                                                                                      </div>
                                                                                      <div class="col-md-4">
@@ -250,7 +266,7 @@
                                                                                                <label class="form-label" for="conditions">Condition</label>
                                                                                                <div class="form-control-wrap"> 
                                                                                                     <select class="form-select js-select2" name="conditions-{{ $count++ }}[]" id="conditions">
-                                                                                                         <option value=""></option>
+                                                                                                         <option value="" selected disabled>Select</option>
                                                                                                          @if(isset($qu_conditions->conditional_check) && $qu_conditions->conditional_check != null)
                                                                                                               @if($qu_conditions->conditional_check == '1')
                                                                                                               <option value="is_equal_to" selected>is equal to</option>
@@ -392,8 +408,8 @@
                                         <div class="form-group">
                                              <label class="form-label" for="document_id">Select Document</label>  
                                              <div class="form-control-wrap"> 
-                                                  <select class="form-select js-select2" name="document_id" id="document_id">
-                                                       <option value=""></option>
+                                                  <select class="form-select js-select2 document_id" name="document_id" id="document_id">
+                                                       <option value="" selected disabled>Select</option>
                                                        @if(isset($documents) && $documents != null)
                                                        @foreach($documents as $document)
                                                             @if(isset($document_id) && $document_id != null)
@@ -490,8 +506,7 @@
                               <div class="col-md-12">
                                    <div class="form-group">
                                         <label class="form-label" for="content_heading_html${newUniqueId}">Content Html</label>
-                                        <label class="form-label" for="content_heading_html${newUniqueId}">Content Html</label>
-                                        <input type="text" class="form-control" name="content_heading_html-${heading_section_count}" id="content_heading_html${newUniqueId}" value="">
+                                        <input type="text" class="form-control new_heading_html" name="content_heading_html-${heading_section_count}" id="content_heading_html${newUniqueId}" value="">
                                    </div>
                               </div>
                          </div>
@@ -533,7 +548,7 @@
                                    </div>
                               </div>
                               <div class="custom-control custom-checkbox">
-                                   <input type="checkbox" class="custom-control-input" id="start_new_section${newUniqueId}" name="start_new_section-${content_section_count}">
+                                   <input type="checkbox" class="custom-control-input new_section" id="start_new_section${newUniqueId}" name="start_new_section-${content_section_count}">
                                    <label class="custom-control-label" for="start_new_section${newUniqueId}"></label>
                               </div>
                               <hr>
@@ -543,8 +558,8 @@
                                              <div class="form-group">
                                                   <label class="form-label" for="text_align">Text align</label>
                                                   <div class="form-control-wrap"> 
-                                                       <select class="form-select js-select2" name="text_align-${content_section_count}" id="text_align">
-                                                            <option value=""></option>
+                                                       <select class="form-select js-select2 text_align" name="text_align-${content_section_count}" id="text_align">
+                                                            <option value="" selected disabled>Select</option>
                                                             <option value="left">left</option>
                                                             <option value="right">right</option>
                                                             <option value="center">center</option>
@@ -565,21 +580,15 @@
                               <div class="col-md-12">
                                    <div class="form-group">
                                         <label class="form-label" for="content_content_html">Content Html</label>
-                                        <textarea class="form-control" name="content_content_html-${content_section_count}" id="content_content_html"></textarea>
+                                        <textarea class="form-control new_content_html" name="content_content_html-${content_section_count}" id="content_content_html"></textarea>
                                    </div>
                               </div>
                               <hr>
                               <div class="row">
                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                             <label class="form-label" for="content_class">Content Class</label>
-                                             <input type="text" class="form-control" name="content_class-${content_section_count}" id="content_class" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-6">
                                         <p class="p_label">Add Condition</p>
                                         <div class="custom-control custom-checkbox">
-                                             <input type="checkbox" class="custom-control-input" id="add_condition${newUniqueId}" name="add_condition-${content_section_count}">
+                                             <input type="checkbox" class="custom-control-input add_condition" id="add_condition${newUniqueId}" name="add_condition-${content_section_count}">
                                              <label class="custom-control-label" for="add_condition${newUniqueId}"></label>
                                         </div>
                                    </div>
@@ -727,16 +736,28 @@
                          <div class="row">
                               <div class="col-md-4">
                                    <div class="form-group">
+                                        <!-- <label class="form-label" for="new_condition_question_id">Question ID</label>
+                                        <input type="text" class="form-control" id="new_condition_question_id" name="new_condition_question_id-${num}[]" value=""> -->
+                                        
                                         <label class="form-label" for="new_condition_question_id">Question ID</label>
-                                        <input type="text" class="form-control" id="new_condition_question_id" name="new_condition_question_id-${num}[]" value="">
+                                        <div class="form-control-wrap"> 
+                                             <select class="form-select js-select2 new_condition_question_id" name="new_condition_question_id-${num}[]" id="new_condition_question_id">
+                                                  <option value="" selected disabled>Select</option>
+                                             @if(isset($questions) && $questions != null)
+                                             @foreach($questions as $question)
+                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                             @endforeach
+                                             @endif
+                                             </select>
+                                        </div>
                                    </div>
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
                                         <label class="form-label" for="new_conditions">Condition</label>
                                         <div class="form-control-wrap"> 
-                                             <select class="form-select js-select2" name="new_conditions-${num}[]" id="new_conditions">
-                                                  <option value=""></option>
+                                             <select class="form-select js-select2 new_conditions" name="new_conditions-${num}[]" id="new_conditions">
+                                                  <option value="" selected disabled>Select</option>
                                                   <option value="is_equal_to">is equal to</option>
                                                   <option value="is_greater_than">is greater than</option>
                                                   <option value="is_less_than">is less than</option>
@@ -748,7 +769,7 @@
                               <div class="col-md-4">
                                    <div class="form-group">
                                         <label class="form-label" for="new_condition_question_value">Question Value</label>
-                                        <input type="text" class="form-control" id="new_condition_question_value" name="new_condition_question_value-${num}[]" value="">
+                                        <input type="text" class="form-control new_condition_question_value" id="new_condition_question_value" name="new_condition_question_value-${num}[]" value="">
                                    </div>
                               </div>
                          </div>
@@ -905,25 +926,25 @@ function getAllContents() {
 
                     if(status === true){
                          var new_condition = {
-                              question_id: $(this).find('input[name^="new_condition_question_id"]').val() || '',
+                              question_id: $(this).find('select[name^="new_condition_question_id"]').val() || '',
                               condition: $(this).find('select[name^="new_conditions"]').val() || '',
                               question_value: $(this).find('input[name^="new_condition_question_value"]').val() || '',
                               status: status,
                          };
 
-                         if(new_condition.question_id || new_condition.condition || new_condition.question_value) {
+                         if(new_condition.question_id && new_condition.condition && new_condition.question_value) {
                               contentData.new_conditions.push(new_condition);
                          }
                     }else if(status === false){
                          var condition = {
-                              question_id: $(this).find('input[name^="condition_question_id"]').val() || '',
+                              question_id: $(this).find('select[name^="condition_question_id"]').val() || '',
                               condition: $(this).find('select[name^="conditions"]').val() || '',
                               question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
                               status: status,
                               condition_id: conditionId
                          };
 
-                         if(condition.question_id || condition.condition || condition.question_value) {
+                         if(condition.question_id && condition.condition && condition.question_value) {
                               contentData.conditions.push(condition);
                          }
                     }
@@ -938,16 +959,160 @@ function getAllContents() {
 }
 
 $(document).ready(function () {
-     // $('#saveFormdata').click(function () {
-     //      var data = getAllContents();
-     //      $('#formdata').val(JSON.stringify(data));
-     //      $('#contentForm').submit();
-     // });
-
-     $('#updateFormdata').click(function () {
+     $('#saveFormdata').click(function (e) {
           var data = getAllContents();
           $('#formdata').val(JSON.stringify(data));
-          $('#updatecontentForm').submit();
+
+          var documentName = $('#document_id').val();
+          let hasError = false;
+     
+          $(".new_section").each(function(){
+               var is_newSection = $(this).is(':checked');
+               if(is_newSection == true){
+                    $(".text_align").each(function(){
+                         var text_align = $(this).val();
+                         if(!text_align){
+                              NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+                              hasError = true;
+                         }
+                    })
+               }
+          })
+
+          $(".new_heading_html").each(function(index){
+               var content_heading_html = $(this).val();
+               if(!hasError && !content_heading_html){
+                    console.error(`Heading HTML field at index ${index} is empty.`);
+                    NioApp.Toast('Please fill the content html field', 'error', { position: 'top-right' });
+                    hasError = true;
+               }
+          });
+
+          $(".new_content_html").each(function(index){
+               var content_content_html = $(this).val();
+               if(!hasError && !content_content_html){
+                    console.error(`Content HTML field at index ${index} is empty.`);
+                    NioApp.Toast('Please fill the content html field', 'error', { position: 'top-right' });
+                    hasError = true;
+               }
+          });
+
+          // $('.add_condition').each(function () {
+          //      const uniqueId = $(this).attr('id').replace('add_condition', '');
+          //      const conditionSection = $('.add_condition_section' + uniqueId);
+     
+          //      if(!hasError && $(this).is(':checked')){
+          //           // Check all fields within this condition section
+          //           conditionSection.find('select, input').each(function () {
+          //                if ($(this).val() === '' || $(this).val() === null) {
+          //                     // $(this).addClass('is-invalid'); // Highlight invalid fields
+          //                     NioApp.Toast('Please fill in all required condition fields.', 'error', { position: 'top-right' });
+          //                } 
+          //                else {
+          //                     // $(this).removeClass('is-invalid'); // Remove highlight if valid
+          //                }
+          //           });
+          //      }
+          //      hasError = true;
+          // });
+ 
+          // $(".add_condition").each(function () {
+          //      var is_condition = $(this).is(':checked');
+          //      if(!hasError && is_condition == true){
+          //           var parent = $(this).closest(".append_condition");
+                   
+          //           // var hasLocalError = false;
+               
+          //           var question_id_field = parent.find('.condition-section');
+          //           console.log(question_id_field);
+                    // var question_id = question_id_field.val();
+                    // if(!hasError && !question_id){
+                    //      NioApp.Toast('Please fill id', 'error', { position: 'top-right' });
+                    //      hasLocalError = true;
+                    // }
+          
+                    // var question_condition_field = parent.find('.new_conditions');
+                    // var question_condition = question_condition_field.val();
+                    // if(!hasError && !question_condition){
+                    //      NioApp.Toast('Please fill condition', 'error', { position: 'top-right' });
+                    //      hasLocalError = true;
+                    // }
+          
+                    // var question_value_field = parent.find('.new_condition_question_value');
+                    // var question_value = question_value_field.val();
+                    // if(!hasError && !question_value){
+                    //      NioApp.Toast('Please fill value', 'error', { position: 'top-right' });
+                    //      hasLocalError = true;
+                         
+                    // } 
+          
+                    // if(hasLocalError){
+                    //      NioApp.Toast('Please fill in all required condition fields.', 'error', { position: 'top-right' });
+                    //      hasError = true; 
+                    // }
+                    // hasError = true;
+          //      }
+          // });
+
+          if(!hasError && (documentName === null || documentName === "")){
+               NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
+               hasError = true;
+          }
+
+          if(!hasError){
+               $('#updatecontentForm').submit();
+          }else{
+               e.preventDefault();
+          }
+          
+     });
+
+     $('#updateFormdata').click(function (e) {
+          var data = getAllContents();
+          $('#formdata').val(JSON.stringify(data));
+
+          var documentName = $('#document_id').val();
+          var new_section = $('.new_section').val();
+          var add_condition = $('.add_condition').val();
+          
+          let hasError = false;
+    
+          if(new_section == 1){
+               $(".new_section").each(function(){
+                    $(".text_align").each(function(){
+                         var text_align = $(this).val();
+                         if(!text_align){
+                              NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+                              hasError = true;
+                         }
+                    });
+               })  
+          }
+
+          $(".new_heading_html").each(function(index){
+               var content_heading_html = $(this).val();
+               if(!hasError && !content_heading_html){
+                    console.error(`Heading HTML field at index ${index} is empty.`);
+                    NioApp.Toast('Please fill the content html field', 'error', { position: 'top-right' });
+                    hasError = true;
+               }
+          });
+
+          $(".new_content_html").each(function(index){
+               var content_content_html = $(this).val();
+               if(!hasError && !content_content_html){
+                    console.error(`Content HTML field at index ${index} is empty.`);
+                    NioApp.Toast('Please fill the content html field', 'error', { position: 'top-right' });
+                    hasError = true;
+               }
+          });
+
+
+          if(!hasError){
+               $('#updatecontentForm').submit();
+          }else{
+               e.preventDefault();
+          }
      });
 
      var switchStatus = false;
