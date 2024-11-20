@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('document_right_sections', function (Blueprint $table) {
             $table->id();
-            $table->text('title')->nullable();
             $table->foreignId('document_id')->constrained('documents')->onDelete('cascade'); // Link to the documents table
             $table->string('type')->nullable();
             $table->boolean('start_new_section')->default(false);

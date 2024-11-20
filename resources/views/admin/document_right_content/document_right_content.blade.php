@@ -241,22 +241,17 @@
                                                                                 <div class="row">
                                                                                      <div class="col-md-4">
                                                                                           <div class="form-group">
-                                                                                               <!-- <label class="form-label" for="condition_question_id">Question ID</label>
-                                                                                               <input type="text" class="form-control" id="condition_question_id" name="condition_question_id-{{ $count++ }}[]" value="{{ $qu_conditions->conditional_question_id ?? '' }}"> -->
-                                                                                               <label class="form-label" for="condition_question_id">Question ID</label>
+                                                                                               <label class="form-label" for="condition_question_id-{{ $count++ }}">Question ID</label>
                                                                                                <div class="form-control-wrap"> 
-                                                                                                    <select class="form-select js-select2" name="condition_question_id-{{ $count++ }}[]" id="condition_question_id">
-                                                                                                    <option value="" selected disabled>Select</option>
-                                                                                                    @if(isset($questions) && $questions != null)
-                                                                                                         @foreach($questions as $question)
-                                                                                                              <option 
-                                                                                                                   value="{{ $question->getName() }}" 
-                                                                                                                   {{ isset($qu_conditions->conditional_question_id) && $qu_conditions->conditional_question_id == $question->getName() ? 'selected' : '' }}
-                                                                                                              >
-                                                                                                                   {{ $question->getName() }}
-                                                                                                              </option>
-                                                                                                         @endforeach
-                                                                                                    @endif
+                                                                                                    <select class="form-select js-select2" data-search="on" name="condition_question_id-{{ $count++ }}[]" id="condition_question_id-{{ $count++ }}">
+                                                                                                         @if(isset($questions) && $questions != null)
+                                                                                                              @foreach($questions as $question)
+                                                                                                                   <option value="{{ $question->getName() }}" 
+                                                                                                                        {{ isset($qu_conditions->conditional_question_id) && $qu_conditions->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                                                        {{ $question->getName() }}
+                                                                                                                   </option>
+                                                                                                              @endforeach
+                                                                                                         @endif
                                                                                                     </select>
                                                                                                </div>
                                                                                           </div>
@@ -447,6 +442,15 @@
 </div>
 
 <script>
+     $(document).ready(function() {
+          $('.js-select2').select2({
+               placeholder: 'Select a question',
+               allowClear: true
+          });
+     });
+</script>
+
+<script>
      function toggleDropdown() {
           const isClass = $('.question_dropdown-content').hasClass('show');
 
@@ -477,15 +481,6 @@
           let html = ``;
           if(name === 'content_heading'){
                heading_section_count++ ;
-               // let value = name+'-'+heading_section_count;
-               // let type =  $('#heading_type').val();
-               // if(type){
-               //      type += ',' + value;
-               // }else{
-               //      type = value;
-               // }
-               // $('#heading_type').val(type);
-
                html = `<div class="append_content_heading" id="content_heading${heading_section_count}" value="appended" data-is_new=true>
                     <hr>
                     <div class="card card-bordered card-preview">
@@ -736,18 +731,14 @@
                          <div class="row">
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <!-- <label class="form-label" for="new_condition_question_id">Question ID</label>
-                                        <input type="text" class="form-control" id="new_condition_question_id" name="new_condition_question_id-${num}[]" value=""> -->
-                                        
-                                        <label class="form-label" for="new_condition_question_id">Question ID</label>
+                                        <label class="form-label" for="new_condition_question_id-${num}">Question ID</label>
                                         <div class="form-control-wrap"> 
-                                             <select class="form-select js-select2 new_condition_question_id" name="new_condition_question_id-${num}[]" id="new_condition_question_id">
-                                                  <option value="" selected disabled>Select</option>
-                                             @if(isset($questions) && $questions != null)
-                                             @foreach($questions as $question)
-                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                             @endforeach
-                                             @endif
+                                             <select class="form-select js-select2 new_condition_question_id" data-search="on" name="new_condition_question_id-${num}[]" id="new_condition_question_id-${num}">
+                                                  @if(isset($questions) && $questions != null)
+                                                       @foreach($questions as $question)
+                                                            <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                       @endforeach
+                                                  @endif
                                              </select>
                                         </div>
                                    </div>
@@ -776,6 +767,15 @@
                          <br>
                     </div>`
           $('#append_condition'+id).append(html);
+       
+          // $('.js-select2').select2({
+          //      placeholder: 'Select a question',
+          //      allowClear: true
+          // });
+          $('.new_condition_question_id').select2({
+               placeholder: 'Select a question',
+               allowClear: true
+          });
      }
 
      function removeCondition(e){
@@ -967,102 +967,71 @@ $(document).ready(function () {
           let hasError = false;
      
           $(".new_section").each(function(){
-               var is_newSection = $(this).is(':checked');
-               if(is_newSection == true){
-                    $(".text_align").each(function(){
-                         var text_align = $(this).val();
-                         if(!text_align){
-                              NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
-                              hasError = true;
-                         }
-                    })
-               }
-          })
-
-          $(".new_heading_html").each(function(index){
-               var content_heading_html = $(this).val();
-               if(!hasError && !content_heading_html){
-                    console.error(`Heading HTML field at index ${index} is empty.`);
-                    NioApp.Toast('Please fill the content html field', 'error', { position: 'top-right' });
-                    hasError = true;
+               if($(this).is(':checked')) {
+                    const uniqueId = $(this).attr('id').replace('start_new_section', '');
+                    const section = $(`.start_append_section${uniqueId}`);
+                    const textAlign = section.find(".text_align").val();
+                    if(!textAlign){
+                         NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
                }
           });
-
-          $(".new_content_html").each(function(index){
-               var content_content_html = $(this).val();
-               if(!hasError && !content_content_html){
-                    console.error(`Content HTML field at index ${index} is empty.`);
-                    NioApp.Toast('Please fill the content html field', 'error', { position: 'top-right' });
-                    hasError = true;
-               }
-          });
-
-          // $('.add_condition').each(function () {
-          //      const uniqueId = $(this).attr('id').replace('add_condition', '');
-          //      const conditionSection = $('.add_condition_section' + uniqueId);
      
-          //      if(!hasError && $(this).is(':checked')){
-          //           // Check all fields within this condition section
-          //           conditionSection.find('select, input').each(function () {
-          //                if ($(this).val() === '' || $(this).val() === null) {
-          //                     // $(this).addClass('is-invalid'); // Highlight invalid fields
-          //                     NioApp.Toast('Please fill in all required condition fields.', 'error', { position: 'top-right' });
-          //                } 
-          //                else {
-          //                     // $(this).removeClass('is-invalid'); // Remove highlight if valid
-          //                }
-          //           });
-          //      }
-          //      hasError = true;
-          // });
- 
-          // $(".add_condition").each(function () {
-          //      var is_condition = $(this).is(':checked');
-          //      if(!hasError && is_condition == true){
-          //           var parent = $(this).closest(".append_condition");
-                   
-          //           // var hasLocalError = false;
-               
-          //           var question_id_field = parent.find('.condition-section');
-          //           console.log(question_id_field);
-                    // var question_id = question_id_field.val();
-                    // if(!hasError && !question_id){
-                    //      NioApp.Toast('Please fill id', 'error', { position: 'top-right' });
-                    //      hasLocalError = true;
-                    // }
-          
-                    // var question_condition_field = parent.find('.new_conditions');
-                    // var question_condition = question_condition_field.val();
-                    // if(!hasError && !question_condition){
-                    //      NioApp.Toast('Please fill condition', 'error', { position: 'top-right' });
-                    //      hasLocalError = true;
-                    // }
-          
-                    // var question_value_field = parent.find('.new_condition_question_value');
-                    // var question_value = question_value_field.val();
-                    // if(!hasError && !question_value){
-                    //      NioApp.Toast('Please fill value', 'error', { position: 'top-right' });
-                    //      hasLocalError = true;
-                         
-                    // } 
-          
-                    // if(hasLocalError){
-                    //      NioApp.Toast('Please fill in all required condition fields.', 'error', { position: 'top-right' });
-                    //      hasError = true; 
-                    // }
-                    // hasError = true;
-          //      }
-          // });
+          $(".new_heading_html").each(function(){
+               if (!hasError && !$(this).val()) {
+                    NioApp.Toast('Please fill the heading HTML field', 'error', { position: 'top-right' });
+                    hasError = true;
+                    return false;
+               }
+          });
+     
+          $(".new_content_html").each(function(){
+               if (!hasError && !$(this).val()) {
+                    NioApp.Toast('Please fill the content HTML field', 'error', { position: 'top-right' });
+                    hasError = true;
+                    return false;
+               }
+          });
+     
+          $('.add_condition').each(function () {
+               const uniqueId = $(this).attr('id').replace('add_condition', '');
+               const conditionSection = $('.add_condition_section' + uniqueId);
 
-          if(!hasError && (documentName === null || documentName === "")){
+               if(!hasError && $(this).is(':checked')){
+                    const appendSection = $('#append_condition' + uniqueId);
+                    const conditionSections = appendSection.find('.condition-section');
+
+                    if(conditionSections.length === 0){
+                         NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false; 
+                    }
+
+                    let conditionInvalid = false;
+                    conditionSection.find('select, input').each(function(){
+                         if(!$(this).val()){
+                              conditionInvalid = true;
+                              return false; 
+                         }
+                    });
+ 
+                    if(conditionInvalid){
+                         NioApp.Toast('Please fill in all required condition fields.', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               }
+          });
+     
+          if(!hasError && (!documentName || documentName.trim() === "")){
                NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
                hasError = true;
           }
-
+     
           if(!hasError){
                $('#updatecontentForm').submit();
-          }else{
-               e.preventDefault();
           }
           
      });
@@ -1077,41 +1046,72 @@ $(document).ready(function () {
           
           let hasError = false;
     
-          if(new_section == 1){
-               $(".new_section").each(function(){
-                    $(".text_align").each(function(){
-                         var text_align = $(this).val();
-                         if(!text_align){
-                              NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
-                              hasError = true;
+          $(".new_section").each(function(){
+               if($(this).is(':checked')) {
+                    const uniqueId = $(this).attr('id').replace('start_new_section', '');
+                    const section = $(`.start_append_section${uniqueId}`);
+                    const textAlign = section.find(".text_align").val();
+                    if (!textAlign) {
+                         NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               }
+          });
+     
+          $(".new_heading_html").each(function(){
+               if (!hasError && !$(this).val()) {
+                    NioApp.Toast('Please fill the heading HTML field', 'error', { position: 'top-right' });
+                    hasError = true;
+                    return false;
+               }
+          });
+     
+          $(".new_content_html").each(function(){
+               if (!hasError && !$(this).val()) {
+                    NioApp.Toast('Please fill the content HTML field', 'error', { position: 'top-right' });
+                    hasError = true;
+                    return false;
+               }
+          });
+     
+          $('.add_condition').each(function () {
+               const uniqueId = $(this).attr('id').replace('add_condition', '');
+               const conditionSection = $('.add_condition_section' + uniqueId);
+
+               if(!hasError && $(this).is(':checked')){
+                    const appendSection = $('#append_condition' + uniqueId);
+                    const conditionSections = appendSection.find('.condition-section');
+
+                    if(conditionSections.length === 0){
+                         NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false; 
+                    }
+
+                    let conditionInvalid = false;
+                    conditionSection.find('select, input').each(function(){
+                         if(!$(this).val()){
+                              conditionInvalid = true;
+                              return false; 
                          }
                     });
-               })  
+ 
+                    if(conditionInvalid){
+                         NioApp.Toast('Please fill in all required condition fields.', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               }
+          });
+     
+          if(!hasError && (!documentName || documentName.trim() === "")){
+               NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
+               hasError = true;
           }
-
-          $(".new_heading_html").each(function(index){
-               var content_heading_html = $(this).val();
-               if(!hasError && !content_heading_html){
-                    console.error(`Heading HTML field at index ${index} is empty.`);
-                    NioApp.Toast('Please fill the content html field', 'error', { position: 'top-right' });
-                    hasError = true;
-               }
-          });
-
-          $(".new_content_html").each(function(index){
-               var content_content_html = $(this).val();
-               if(!hasError && !content_content_html){
-                    console.error(`Content HTML field at index ${index} is empty.`);
-                    NioApp.Toast('Please fill the content html field', 'error', { position: 'top-right' });
-                    hasError = true;
-               }
-          });
-
-
+     
           if(!hasError){
                $('#updatecontentForm').submit();
-          }else{
-               e.preventDefault();
           }
      });
 
@@ -1129,5 +1129,27 @@ $(document).ready(function () {
 
 </script>
 
+<script>
+     // $(document).on('focusin', '.js-select2', function(){
+     //      if(!$(this).data('select2')){
+     //           $(this).select2({
+     //                placeholder: 'Select an option',
+     //                allowClear: true
+     //           });
+     //      }
+     // });
+   
+     // $(document).ready(function() {
+     //      $('.js-select2').select2({
+     //           placeholder: 'Select a question',
+     //           allowClear: true
+     //      });
+     // });
+
+     // $(document).on('change', '.js-select2', function() {
+     //      $(this).select2();
+     // });
+
+</script>
 
 @endsection

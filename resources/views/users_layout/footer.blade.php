@@ -8,7 +8,7 @@
 		<div class="container">
 			<div class="in1_foot">
 				<div class="row">
-					<div class="col-lg-3">
+					<div class="col-lg-2">
 						<div class="fot_logo">
 							<a href="{{ url('/') }}">
 								<img src="{{ asset('storage/'.$path) }}" alt="">
@@ -52,8 +52,8 @@
 								</h5>
 							</div>
 							<ul class="foot_ul">
-								<li class="foot_li"> <a href="{{ url('/how-it-works') }}">Así funciona </a></li>
 								<li class="foot_li"><a href="{{ url('/help-center') }}">Centro de Ayuda </a></li>
+								<li class="foot_li"> <a href="{{ url('/how-it-works') }}">Así funciona </a></li>
 								<li class="foot_li"><a href="{{ url('/faq') }}">Preguntas Frecuentes </a></li>
 							</ul>
 						</div>
@@ -76,7 +76,7 @@
 			</div>
 			<div class="foot_end_box">
 				<div class="reserve_box">
-					©2024 Legalio. Todos los derechos reservados.
+					Copyright © 2020-2024 Legalio. Todos los derechos reservados.
 				</div>
 				<div class="reserve_box">
 					<div class="select-menu active">

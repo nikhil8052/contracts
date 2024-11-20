@@ -112,6 +112,8 @@ class DocumentRightController extends Controller
     }
 
     public function updateRightContent(Request $request){
+        // return $request->all();
+        
         DB::beginTransaction(); 
         try{
             if(isset($request->formdata) && $request->formdata != null){

@@ -287,7 +287,7 @@
                         <div class="col-lg-6 {{ $key == 0 ? 'b_right' : '' }}">
                             <div class="sec7_const_h">
                                 <div class="sec7_const_img">
-                                    <img src="{{ $key == 0 ? asset('assets/img/Groupguide.png') : asset('assets/img/Groupguide2.png') }}" alt="">
+                                    <div class="sec7_const_num">{{ $key == 0 ? 1 : 2 }}</div>
                                 </div>
 
                                 <div class="h_sec_const">

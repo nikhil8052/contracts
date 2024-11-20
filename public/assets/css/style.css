@@ -423,7 +423,7 @@ div#navbarSupportedContent {
     line-height: 14.63px;
     color: #fff;
     border-radius: 130px;
-    padding: 18px 30px;
+    padding: 16px 30px;
     display: inline-block;
 }
 
@@ -644,6 +644,7 @@ div#navbarSupportedContent {
     align-items: center;
     gap: 10px;
     font-weight: 600;
+    font-size: 14px;
 }
 
 
@@ -849,7 +850,7 @@ footer .select-menu {
 footer .foot_li a {
     color: #fff;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 footer .foot_li a:hover {
@@ -1161,8 +1162,8 @@ footer .foot_li a:hover {
     list-style-type: none;
     gap: 4px;
     padding-left: 0;
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     line-height: 30px;
     margin-bottom: 5px;
 }
@@ -1185,6 +1186,8 @@ footer .foot_li a:hover {
     padding-left: 0;
     gap: 8px;
     margin-bottom: 0px;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .cont_ul .selectDropdown {
@@ -1486,7 +1489,7 @@ footer .foot_li a:hover {
 
 .sec7_cont_out .sec7_const_img {
     margin-bottom: 35px;
-    text-align: center;
+    text-align: -webkit-center;
 }
 
 .sec7_cont_out .sec7_const_h {
@@ -1495,7 +1498,7 @@ footer .foot_li a:hover {
 }
 
 .tab_ul img {
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 .sec9_outer_cont {
@@ -1566,7 +1569,7 @@ footer .foot_li a:hover {
 
 .inner-header .main_header button.btn {
     font-size: 20px;
-    padding: 10px 24px;
+    padding: 8px 24px;
 }
 
 .inner-header .main_header button.btn:hover {
@@ -1608,7 +1611,7 @@ footer .foot_li a:hover {
     flex-direction: column;
 } */
 
-.tab_sec_ot .inside_box_tab .cont_tab_ot {
+ .cont_tab_ot {
 
     padding: 20px 25px 25px 25px;
 }
@@ -3197,8 +3200,12 @@ footer .foot_end_box .reserve_box {
     width: 40px;
 }
 
-.cont_tab_ot {
+/* .cont_tab_ot {
     padding: 15px 10px 15px 10px;
+} */
+.tab_ul li img {
+    width: 80px;
+    height: 16px;
 }
 
 /* 11 nov 24 */
@@ -3343,4 +3350,20 @@ footer .foot_end_box .reserve_box {
 .faq-heading {
     padding-bottom: 60px;
     border-bottom: 1px solid #D3D3D3;
+}
+.sec7_const_num {
+    background-color: #c7cad4;
+    color:#012555;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    font-size: 24px;
+    font-weight: 600;
+}
+.sec7_const_num:hover {
+    background-color: #FD5602;
+    cursor: pointer;
 }
