@@ -36,9 +36,15 @@
                                     <li class="cont_li ">5.0 </li>
                                     <li class="drop_cont_li">
                                         <div class="select_ul">
-                                            <div class="stars_li" data-type="firstOption">
-                                                <span class="span_img"><img src="{{ asset('assets/img/stars.png') }}" alt=""> </span>
-                                            </div>           
+                                            <div class="tab_ul">
+                                                <div class="tab_star_li">
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                </div>
+                                            </div>         
                                         </div>
                                     </li>
                                     <li class="cont_li ">81 opiniones</li>
@@ -343,10 +349,16 @@
                                             <h5 class=" size20">
                                                 {{ $related->title ?? '' }}
                                             </h5>
-                                            <ul class="tab_ul">
-                                                <li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-                                                <li>4.6</li>
-                                            </ul>
+                                            <div class="tab_ul">
+                                                <div class="tab_star_li">
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                </div>
+                                                <div>4.6</div>
+                                            </div>
                                         </div>
                                         <div class="tab_2text light">
                                             <?php $short = Str::limit($related->short_description, 70, '...'); 

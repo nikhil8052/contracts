@@ -29,74 +29,6 @@ class DocumentRightController extends Controller
         return view('admin.document_right_content.document_right_content',compact('documents','questions'));
     }
 
-    public function addDocumentRightContent(Request $request){
-        // return $request->all();
-        DB::beginTransaction(); 
-        try{
-            if(isset($request->formdata) && $request->formdata != null){
-                $formData = json_decode($request->formdata);
-                $order = 1;
-                foreach($formData as $data){
-                    $document_right_section = new DocumentRightSection;
-                    $document_right_section->type = $data->section;
-                    // $document_right_section->title = $request->title;
-                    $document_right_section->document_id = $request->document_id;
-                    $document_right_section->published = $request->published;
-    
-                    if($data->section == 'content_heading'){
-                        $document_right_section->content = $data->heading_html;
-                        $document_right_section->order_id = $order++;
-                        $document_right_section->save();
-
-                    }elseif($data->section == 'content'){
-                        $document_right_section->start_new_section = $data->start_new_section;
-                        $document_right_section->content = $data->content_html;
-                        $document_right_section->text_align = $data->text_align;
-                        $document_right_section->signature_field = $data->signature_field;
-                        $document_right_section->content_class = $data->content_class ?? null;
-                        $document_right_section->is_condition = $data->add_condition;
-                        $document_right_section->save();
-
-                        if(!empty($data->new_conditions) && $data->add_condition){
-                            for($i=0; $i<count($data->new_conditions); $i++){
-                                $new_condition = $data->new_conditions[$i];
-                                if($new_condition->condition == 'is_equal_to'){
-                                    $condition_value = 1;
-                                }elseif($new_condition->condition == 'is_greater_than'){
-                                    $condition_value = 2;
-                                }elseif($new_condition->condition == 'is_less_than'){
-                                    $condition_value = 3;
-                                }elseif($new_condition->condition == 'not_equal_to') {
-                                    $condition_value = 4;
-                                }
-    
-                                $documentCondition = new QuestionCondition;
-                                $documentCondition->condition_type = 'content_condition';
-                                $documentCondition->document_right_content_id = $document_right_section->id;
-                                $documentCondition->conditional_question_id  = $new_condition->question_id;
-                                $documentCondition->conditional_check = $condition_value;
-                                $documentCondition->conditional_question_value = $new_condition->question_value;
-                                $documentCondition->save();
-                            }
-                        }
-
-                        $document_right_section->secure_blur_content = $data->secure_blurr_content;
-                        $document_right_section->blur_content = $data->blurr_content;
-                        $document_right_section->order_id = $order++;
-                        $document_right_section->save();
-                        
-                    }
-                }
-                DB::commit();
-                return redirect()->back()->with('success', 'Document Right Section successfully saved.');
-            }
-        }catch(Exception $e){
-            DB::rollBack();
-            saveLog("Error:", "DocumentRightController", $e->getMessage());
-            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
-        }
-    }
-
     public function editRightContent($id){
         
         $documentRight = DocumentRightSection::where('document_id', $id)->with('conditions','document')->orderBy('order_id')->orderByRaw('order_id IS NULL')->get();
@@ -212,26 +144,7 @@ class DocumentRightController extends Controller
                         }                        
                     }
                 }   
-                if($request->delete_work_ids != null){
-                    $deleteIds = explode(',', $request->delete_work_ids);
-                    foreach($deleteIds as $id){
-                        $work = Work::where('id',$id)->with('media')->first();
-                        if($work->media){
-                            $image_path = getFilePath($work->media->file_path);
-                            if(File::exists($image_path)) {
-                                $directory_path = dirname($image_path);
-                                unlink($image_path);
-                                if(is_dir($directory_path) && count(scandir($directory_path)) == 2){
-                                    rmdir($directory_path);
-                                }
-                            }
-                            Media::where('id',$work->media_id)->delete();
-    
-                            $work->delete();
-                        }
-                    }
-                }
-
+                
                 if($request->remove_content != null){
                     $deleteIds = explode(',', $request->remove_content);
                     foreach($deleteIds as $id){

@@ -4,11 +4,6 @@
 @php use Carbon\Carbon; @endphp
 <div class="nk-content">
      <div class="container-fluid">
-          <!-- @if(isset($documentRight) && $documentRight != null)
-          <form action="{{ url('/admin-dashboard/update-document-right-content') }}" id="updatecontentForm" method="post" enctype="multipart/form-data">
-          @else -->
-          <!-- <form action="{{ url('/admin-dashboard/add-document-right-content') }}" id="contentForm" method="post" enctype="multipart/form-data"> -->
-          <!-- @endif      -->
           <form action="{{ url('/admin-dashboard/update-document-right-content') }}" id="updatecontentForm" method="post" enctype="multipart/form-data">
                @csrf
                <input type="hidden" id="published" name="published" value="">
@@ -90,14 +85,14 @@
                                                                  <div class="custom-control custom-checkbox">
                                                                  @if(isset($data->start_new_section) && $data->start_new_section != null)
                                                                       @if($data->start_new_section == '1')
-                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}" checked>
+                                                                      <input type="checkbox" class="custom-control-input new_section" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}" checked>
                                                                       <label class="custom-control-label" for="start_new_section{{ $data->id ?? '' }}"></label>
                                                                       @else
-                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}">
+                                                                      <input type="checkbox" class="custom-control-input new_section" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}">
                                                                       <label class="custom-control-label" for="start_new_section{{ $data->id ?? '' }}"></label>
                                                                       @endif
                                                                  @else
-                                                                      <input type="checkbox" class="custom-control-input" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}">
+                                                                      <input type="checkbox" class="custom-control-input new_section" id="start_new_section{{ $data->id ?? '' }}" name="start_new_section-{{ $count++ }}">
                                                                       <label class="custom-control-label" for="start_new_section{{ $data->id ?? '' }}"></label>
                                                                  @endif
                                                                  </div>
@@ -109,7 +104,7 @@
                                                                                 <div class="form-group">
                                                                                      <label class="form-label" for="text_align">Text align</label>
                                                                                      <div class="form-control-wrap"> 
-                                                                                          <select class="form-select js-select2" name="text_align-{{ $count++ }}" id="text_align">
+                                                                                          <select class="form-select js-select2 text_align" name="text_align-{{ $count++ }}" id="text_align">
                                                                                                <option value="" selected disabled>Select</option>
                                                                                                @if(isset($data->text_align) && $data->text_align != null)
                                                                                                     @if($data->text_align == 'left')
@@ -165,7 +160,7 @@
                                                                                 <div class="form-group">
                                                                                      <label class="form-label" for="text_align">Text align</label>
                                                                                      <div class="form-control-wrap"> 
-                                                                                          <select class="form-select js-select2" name="text_align-{{ $count++ }}" id="text_align">
+                                                                                          <select class="form-select js-select2 text_align" name="text_align-{{ $count++ }}" id="text_align">
                                                                                                <option value="" selected disabled>Select</option>
                                                                                                <option value="left">left</option>
                                                                                                <option value="right">right</option>
@@ -204,14 +199,14 @@
                                                                            <div class="custom-control custom-checkbox">
                                                                            @if(isset($data->is_condition) && $data->is_condition != null)
                                                                                 @if($data->is_condition == '1')
-                                                                                     <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}" checked>
+                                                                                     <input type="checkbox" class="custom-control-input add_condition" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}" checked>
                                                                                      <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
                                                                                 @else
-                                                                                     <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
+                                                                                     <input type="checkbox" class="custom-control-input add_condition" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
                                                                                      <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
                                                                                 @endif
                                                                            @else
-                                                                                <input type="checkbox" class="custom-control-input" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
+                                                                                <input type="checkbox" class="custom-control-input add_condition" id="add_condition{{ $data->id ?? '' }}" name="add_condition-{{ $count++ }}">
                                                                                 <label class="custom-control-label" for="add_condition{{ $data->id ?? '' }}"></label>
                                                                            @endif
                                                                            </div>
@@ -258,9 +253,9 @@
                                                                                      </div>
                                                                                      <div class="col-md-4">
                                                                                           <div class="form-group">
-                                                                                               <label class="form-label" for="conditions">Condition</label>
+                                                                                               <label class="form-label" for="conditions-{{ $count++ }}">Condition</label>
                                                                                                <div class="form-control-wrap"> 
-                                                                                                    <select class="form-select js-select2" name="conditions-{{ $count++ }}[]" id="conditions">
+                                                                                                    <select class="form-select js-select2" name="conditions-{{ $count++ }}[]" id="conditions-{{ $count++ }}">
                                                                                                          <option value="" selected disabled>Select</option>
                                                                                                          @if(isset($qu_conditions->conditional_check) && $qu_conditions->conditional_check != null)
                                                                                                               @if($qu_conditions->conditional_check == '1')
@@ -299,8 +294,8 @@
                                                                                      </div>
                                                                                      <div class="col-md-4">
                                                                                           <div class="form-group">
-                                                                                               <label class="form-label" for="condition_question_value">Question Value</label>
-                                                                                               <input type="text" class="form-control" id="condition_question_value" name="condition_question_value-{{ $count++ }}[]" value="{{ $qu_conditions->conditional_question_value ?? '' }}">
+                                                                                               <label class="form-label" for="condition_question_value-{{ $count++ }}">Question Value</label>
+                                                                                               <input type="text" class="form-control" id="condition_question_value-{{ $count++ }}" name="condition_question_value-{{ $count++ }}[]" value="{{ $qu_conditions->conditional_question_value ?? '' }}">
                                                                                           </div>
                                                                                      </div>
                                                                                 </div>
@@ -312,7 +307,7 @@
                                                                       </div>
                                                                       <div class="text-end">
                                                                            <div class="form-group">
-                                                                                <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $data->id ?? '' }}','{{ $count++ }}')">Add Condition</button>
+                                                                                <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $data->id ?? '' }}')">Add Condition</button>
                                                                            </div>
                                                                       </div>
                                                                       <hr>
@@ -325,7 +320,7 @@
                                                                       <div class="append_condition" id="append_condition{{ $data->id ?? '' }}"></div>
                                                                       <div class="text-end">
                                                                            <div class="form-group">
-                                                                                <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $data->id ?? '' }}','{{ $count++ }}')">Add Condition</button>
+                                                                                <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $data->id ?? '' }}')">Add Condition</button>
                                                                            </div>
                                                                       </div>
                                                                       <hr>
@@ -403,7 +398,7 @@
                                         <div class="form-group">
                                              <label class="form-label" for="document_id">Select Document</label>  
                                              <div class="form-control-wrap"> 
-                                                  <select class="form-select js-select2 document_id" name="document_id" id="document_id">
+                                                  <select class="form-select js-select2 document_id"  data-search="on" name="document_id" id="document_id">
                                                        <option value="" selected disabled>Select</option>
                                                        @if(isset($documents) && $documents != null)
                                                        @foreach($documents as $document)
@@ -459,7 +454,6 @@
           }else{
                $('.question_dropdown-content').removeClass('show');
           }
-          
      }
 
      window.onclick = function(event) {
@@ -510,15 +504,6 @@
                
           }else if(name === 'content'){
                content_section_count++ ;
-               // let value = name+'-'+content_section_count;
-               // let type =  $('#content_type').val();
-               // if(type){
-               //      type += ',' + value;
-               // }else{
-               //      type = value;
-               // }
-
-               // $('#content_type').val(type);
 
                html = `<div class="append_content" id="content${content_section_count}" value="appended" data-is_new=true>
                     <hr>
@@ -596,7 +581,7 @@
                                    <div class="append_condition" id="append_condition${newUniqueId}"></div>
                                    <div class="text-end">
                                         <div class="form-group">
-                                             <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}','${content_section_count}')">Add Condition</button>
+                                             <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                         </div>
                                    </div>
                                    <hr>
@@ -623,62 +608,6 @@
           }
 
           $('.add_contents').append(html);
-
-          // conditionalOptions(newUniqueId);
-
-          // $('#add_condition'+newUniqueId).change(function(){
-          //      conditionalOptions(newUniqueId);
-          // });
-
-          // startNewSection(newUniqueId);
-
-          // $('#start_new_section'+newUniqueId).change(function(){
-          //      startNewSection(newUniqueId);
-          // });
-
-          // $('#signature_field'+newUniqueId).change(function(){
-          //      var status = false;
-          //      if($('#signature_field'+newUniqueId).is(':checked')){
-          //           status = $('#signature_field'+newUniqueId).is(':checked');
-          //           $('#signature_field'+newUniqueId).val(1);
-          //      }else{
-          //           status = $('#signature_field'+newUniqueId).is(':checked');
-          //           $('#signature_field'+newUniqueId).val(0);
-          //      }
-          // })
-
-          // $('#add_condition'+newUniqueId).change(function(){
-          //      var status = false;
-          //      if($('#add_condition'+newUniqueId).is(':checked')){
-          //           status = $('#add_condition'+newUniqueId).is(':checked');
-          //           $('#add_condition'+newUniqueId).val(1);
-          //      }else{
-          //           status = $('#add_condition'+newUniqueId).is(':checked');
-          //           $('#add_condition'+newUniqueId).val(0);
-          //      }
-          // })
-
-          // $('#secure_blurr_content'+newUniqueId).change(function(){
-          //      var status = false;
-          //      if($('#secure_blurr_content'+newUniqueId).is(':checked')){
-          //           status = $('#secure_blurr_content'+newUniqueId).is(':checked');
-          //           $('#secure_blurr_content'+newUniqueId).val(1);
-          //      }else{
-          //           status = $('#secure_blurr_content'+newUniqueId).is(':checked');
-          //           $('#secure_blurr_content'+newUniqueId).val(0);
-          //      }
-          // })
-
-          // $('#blurr_content'+newUniqueId).change(function(){
-          //      var status = false;
-          //      if($('#blurr_content'+newUniqueId).is(':checked')){
-          //           status = $('#blurr_content'+newUniqueId).is(':checked');
-          //           $('#blurr_content'+newUniqueId).val(1);
-          //      }else{
-          //           status = $('#blurr_content'+newUniqueId).is(':checked');
-          //           $('#blurr_content'+newUniqueId).val(0);
-          //      }
-          // })
      }
 
 
@@ -716,7 +645,10 @@
           }
      }
 
-     function addCondition(id,num){
+     let condition_count = 0;
+     function addCondition(id){
+          condition_count++ ; 
+
           const html = `<div class="condition-section" id="condition-section" value="appended" data-is_new=true>
                          <hr>
                          <div class="text-end">
@@ -731,9 +663,9 @@
                          <div class="row">
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="new_condition_question_id-${num}">Question ID</label>
-                                        <div class="form-control-wrap"> 
-                                             <select class="form-select js-select2 new_condition_question_id" data-search="on" name="new_condition_question_id-${num}[]" id="new_condition_question_id-${num}">
+                                        <label class="form-label" for="new_condition_question_id-${condition_count}">Question ID</label>
+                                        <div class="form-control-wrap question"> 
+                                             <select class="form-select js-select2 new_condition_question_id" data-search="on" name="new_condition_question_id-${condition_count}[]" id="new_condition_question_id-${condition_count}">
                                                   @if(isset($questions) && $questions != null)
                                                        @foreach($questions as $question)
                                                             <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -745,9 +677,9 @@
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="new_conditions">Condition</label>
+                                        <label class="form-label" for="new_conditions-${condition_count}">Condition</label>
                                         <div class="form-control-wrap"> 
-                                             <select class="form-select js-select2 new_conditions" name="new_conditions-${num}[]" id="new_conditions">
+                                             <select class="form-select js-select2 new_conditions" name="new_conditions-${condition_count}[]" id="new_conditions-${condition_count}">
                                                   <option value="" selected disabled>Select</option>
                                                   <option value="is_equal_to">is equal to</option>
                                                   <option value="is_greater_than">is greater than</option>
@@ -759,23 +691,16 @@
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="new_condition_question_value">Question Value</label>
-                                        <input type="text" class="form-control new_condition_question_value" id="new_condition_question_value" name="new_condition_question_value-${num}[]" value="">
+                                        <label class="form-label" for="new_condition_question_value-${condition_count}">Question Value</label>
+                                        <input type="text" class="form-control new_condition_question_value" id="new_condition_question_value-${condition_count}" name="new_condition_question_value-${condition_count}[]" value="">
                                    </div>
                               </div>
                          </div>
                          <br>
                     </div>`
           $('#append_condition'+id).append(html);
-       
-          // $('.js-select2').select2({
-          //      placeholder: 'Select a question',
-          //      allowClear: true
-          // });
-          $('.new_condition_question_id').select2({
-               placeholder: 'Select a question',
-               allowClear: true
-          });
+
+          $('.js-select2').select2();
      }
 
      function removeCondition(e){
@@ -793,28 +718,6 @@
                $('#condition-section'+id).hide();
           }
      }
-
-     // function conditionalOptions(id){
-     //      if($('#add_condition'+id).is(':checked')){
-     //           $('.add_condition_section'+id).show();
-     //      }else{
-     //           $('.add_condition_section'+id).hide();
-     //      }
-     // }
-     
-     // function startNewSection(id){
-     //      let status = false;
-     //      if($('#start_new_section'+id).is(':checked')){
-     //           status = $('#start_new_section'+id).is(':checked');
-     //           $('#start_new_section'+id).val(1);
-     //           $('.start_append_section'+id).show();
-     //      }else{
-     //           status = $('#start_new_section'+id).is(':checked');
-     //           $('#start_new_section'+id).val(0);
-     //           $('.start_append_section'+id).hide();
-     //      }
-     // }
-
 
      $(document).ready(function() {
           $(document).on('change', '[id^="add_condition"]', function() {
@@ -1051,7 +954,8 @@ $(document).ready(function () {
                     const uniqueId = $(this).attr('id').replace('start_new_section', '');
                     const section = $(`.start_append_section${uniqueId}`);
                     const textAlign = section.find(".text_align").val();
-                    if (!textAlign) {
+
+                    if(!textAlign){
                          NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
                          hasError = true;
                          return false;
@@ -1060,7 +964,7 @@ $(document).ready(function () {
           });
      
           $(".new_heading_html").each(function(){
-               if (!hasError && !$(this).val()) {
+               if(!hasError && !$(this).val()){
                     NioApp.Toast('Please fill the heading HTML field', 'error', { position: 'top-right' });
                     hasError = true;
                     return false;
@@ -1075,7 +979,7 @@ $(document).ready(function () {
                }
           });
      
-          $('.add_condition').each(function () {
+          $('.add_condition').each(function (){
                const uniqueId = $(this).attr('id').replace('add_condition', '');
                const conditionSection = $('.add_condition_section' + uniqueId);
 
@@ -1129,27 +1033,5 @@ $(document).ready(function () {
 
 </script>
 
-<script>
-     // $(document).on('focusin', '.js-select2', function(){
-     //      if(!$(this).data('select2')){
-     //           $(this).select2({
-     //                placeholder: 'Select an option',
-     //                allowClear: true
-     //           });
-     //      }
-     // });
-   
-     // $(document).ready(function() {
-     //      $('.js-select2').select2({
-     //           placeholder: 'Select a question',
-     //           allowClear: true
-     //      });
-     // });
-
-     // $(document).on('change', '.js-select2', function() {
-     //      $(this).select2();
-     // });
-
-</script>
 
 @endsection

@@ -3,28 +3,29 @@
 
 <div class="nk-content">
      <div class="container-fluid">
-          <form action="{{ url('/admin-dashboard/add/document-questions') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ url('/admin-dashboard/add/document-questions') }}" id="questionForm" method="post" enctype="multipart/form-data">
           @csrf
+          <input type="hidden" id="formdata" name="formdata" value="">
           <div class="row main_section">
                <div class="col md-8 left-content">
-                    <div class="col-md-12 doc-title mt-4 pb-4">
+                    <!-- <div class="col-md-12 doc-title mt-4 pb-4">
                          <div class="form-group">
                               <label class="form-label" for="title"><b><h4>Add New Question</h4></b></label>
                               <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="">
                          </div>
-                    </div>
+                    </div> -->
                     <h5>Contract Questions</h5>
                     <div class="steps_section" id="steps_section${step_count}">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
                                         <div class="col-md-6">
-                                             <h6>Add Question  </h6>
+                                             <h6>Add Question</h6>
                                         </div>
                                    </div>
                                    <hr>
                     
-                                   <div id ="add_qu_sec"></div>
+                                   <div class="add_qu_sec"></div>
                                    <div class="text-end">
                                         <button type="button" class="btn btn-sm btn-primary question_dropbtn"
                                              onclick="toggleDropdown('testing')">Select Type </button>
@@ -53,7 +54,7 @@
                <div class="col md-4 right-content">
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
-                              <div class="col-md-12">
+                              <!-- <div class="col-md-12">
                                    <div class="form-group">
                                         <p>Published</p>
                                         <div class="custom-control custom-switch">
@@ -61,13 +62,13 @@
                                              <label class="custom-control-label" for="publish1"></label>
                                         </div>
                                    </div>
-                              </div>
+                              </div> -->
                               <div class="col-md-12 mt-2">
                                    <div class="form-group">
                                         <label class="form-label" for="document_id">Select Document</label>  
                                         <div class="form-control-wrap"> 
-                                             <select class="form-select js-select2" name="document_id" id="document_id">
-                                                  <option value=""></option>
+                                             <select class="form-select js-select2" data-search="on" name="document_id" id="document_id">
+                                                  <option value="" selected disabled>Select</option>
                                                   @if(isset($documents) && $documents != null)
                                                   @foreach($documents as $document)
                                                        <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
@@ -121,8 +122,6 @@
 <script>
      $(document).ready(function(){
 
-      
-
           // To remove the steps 
           $('body').delegate('.remove_steps','click', function(){
                if($(this).attr('value') === 'appended'){
@@ -140,7 +139,6 @@
                }
           })
 
-
           // $(document).on('keyup', 'input', (e) => {
           //      const input = $(e.target); // Select the current input field
           //      const value = input.val(); // Get the current value of the input
@@ -149,7 +147,6 @@
           // });
 
 
-          
           // To remove the questions 
           $('body').delegate('.remove_questions','click', function(){
                if($(this).attr('value') === 'appended'){
@@ -163,14 +160,16 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_textbox'+id).hide();
+                    $('#append_textbox'+id).hide();
                }
           })
      });
 
      // To add the  Label 
+     let label_count = 0;
      function addLabel(id){
-          const html = `<div class="label-condition">
+          label_count++ ;
+          const html = `<div class="label-condition" id="label-condition" value="appended" data-is_new=true>
                          <hr>
                          <div class="text-end">
                               <div class="form-group">
@@ -184,26 +183,35 @@
                          <div class="row">
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="condition_question_label">Label</label>
-                                        <input type="text" class="form-control" id="condition_question_label" name="condition_question_label" value="">
+                                        <label class="form-label" for="condition_question_label-${label_count}">Label</label>
+                                        <input type="text" class="form-control" id="condition_question_label-${label_count}" name="condition_question_label-${label_count}[]" value="">
                                    </div>
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="label_qu_id">Question ID</label>
-                                        <input type="text" class="form-control" id="label_qu_id" name="label_qu_id" value="">
+                                        <label class="form-label" for="label_qu_id-${label_count}">Question ID</label>
+                                        <div class="form-control-wrap question"> 
+                                             <select class="form-select js-select2 new_label_question_id" data-search="on" name="label_qu_id-${label_count}[]" id="label_qu_id-${label_count}">
+                                                  @if(isset($questions) && $questions != null)
+                                                       @foreach($questions as $question)
+                                                            <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                       @endforeach
+                                                  @endif
+                                             </select>
+                                        </div>
                                    </div>
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="condition_question_value">Value</label>
-                                        <input type="text" class="form-control" id="condition_question_value" name="condition_question_value" value="">
+                                        <label class="form-label" for="condition_question_value-${label_count}">Value</label>
+                                        <input type="text" class="form-control" id="condition_question_value-${label_count}" name="condition_question_value-${label_count}[]" value="">
                                    </div>
                               </div>
                          </div>
                          <br>
                     </div>`
           $('#append_label_condition'+id).append(html);
+          $('.js-select2').select2();
      }
 
      // To remove  the label 
@@ -224,8 +232,10 @@
      }
 
      // Add the condition 
+     let condition_count = 0;
      function addCondition(id){
-          const html = `<div class="sec-condition">
+          condition_count++ ;
+          const html = `<div class="sec-condition" id="sec-condition" value="appended" data-is_new=true>
                          <hr>
                          <div class="text-end">
                               <div class="form-group">
@@ -239,15 +249,24 @@
                          <div class="row">
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="page_Setting_qu_id">Question ID</label>
-                                        <input type="text" class="form-control" id="page_Setting_qu_id" name="page_Setting_qu_id" value="">
+                                        <label class="form-label" for="page_Setting_qu_id-${condition_count}">Question ID</label>
+                                        <div class="form-control-wrap question"> 
+                                             <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-${condition_count}[]" id="page_Setting_qu_id-${condition_count}">
+                                                  @if(isset($questions) && $questions != null)
+                                                       @foreach($questions as $question)
+                                                            <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                       @endforeach
+                                                  @endif
+                                             </select>
+                                        </div>
                                    </div>
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="page_Setting_conditions">Condition</label>
+                                        <label class="form-label" for="page_Setting_conditions-${condition_count}">Condition</label>
                                         <div class="form-control-wrap"> 
-                                             <select class="form-select js-select2" name="page_Setting_conditions" id="page_Setting_conditions">
+                                             <select class="form-select js-select2" name="page_Setting_conditions-${condition_count}[]" id="page_Setting_conditions-${condition_count}">
+                                                  <option value="" selected disabled>Select</option>
                                                   <option value="is equal to">is equal to</option>
                                                   <option value="is greater than">is greater than</option>
                                                   <option value="is less than">is less than</option>
@@ -258,14 +277,15 @@
                               </div>
                               <div class="col-md-4">
                                    <div class="form-group">
-                                        <label class="form-label" for="page_Setting_qu_val">Value</label>
-                                        <input type="text" class="form-control" id="page_Setting_qu_val" name="page_Setting_qu_val" value="">
+                                        <label class="form-label" for="page_Setting_qu_val-${condition_count}">Value</label>
+                                        <input type="text" class="form-control" id="page_Setting_qu_val-${condition_count}" name="page_Setting_qu_val-${condition_count}[]" value="">
                                    </div>
                               </div>
                          </div>
                          <br>
                     </div>`
           $('#append_page_condition'+id).append(html);
+          $('.js-select2').select2();
      }
 
      // Remove the condition 
@@ -281,15 +301,16 @@
                     deleteIds = id;
                }
                $('#img_sec_ids').val(deleteIds);
-               $('.sec-condition'+id).hide();
+               $('#sec-condition'+id).hide();
           }
      }
 
      // Add the options inside the dropdown 
      function addOptions(value,id){
+          let uID = Date.now();
           let html = ``;
           if(value === 'dropdown'){
-               html = `<div class="dropdown-option">
+               html = `<div class="dropdown-option" id="dropdown-option${uID}" value="appended" data-is_new=true>
                     <hr>
                     <div class="text-end">
                          <div class="form-group">
@@ -303,27 +324,27 @@
                     <div class="row">
                          <div class="col-md-4">
                               <div class="form-group">
-                                   <label class="form-label" for="dropdown_option_label">Label</label>
-                                   <input type="text" class="form-control" id="dropdown_option_label" name="dropdown_option_label" value="">
+                                   <label class="form-label" for="dropdown_option_label-${uID}">Label</label>
+                                   <input type="text" class="form-control" id="dropdown_option_label-${uID}" name="dropdown_option_label-${uID}[]" value="">
                               </div>
                          </div>
                          <div class="col-md-4">
                               <div class="form-group">
-                                   <label class="form-label" for="dropdown_option_value">Value</label>
-                                   <input type="text" class="form-control" id="dropdown_option_value" name="dropdown_option_value" value="">
+                                   <label class="form-label" for="dropdown_option_value-${uID}">Value</label>
+                                   <input type="text" class="form-control" id="dropdown_option_value-${uID}" name="dropdown_option_value-${uID}[]" value="">
                               </div>
                          </div>
                          <div class="col-md-4">
                               <div class="form-group">
-                                   <label class="form-label" for="dropdown_go_to_step">Go to Step</label>
-                                   <input type="text" class="form-control" id="dropdown_go_to_step" name="dropdown_go_to_step" value="">
+                                   <label class="form-label" for="dropdown_go_to_step-${uID}">Go to Step</label>
+                                   <input type="text" class="form-control" id="dropdown_go_to_step-${uID}" name="dropdown_go_to_step-${uID}[]" value="">
                               </div>
                          </div>
                     </div>
                     <br>
                </div>`;
           }else if(value === 'radio-button'){
-               html = `<div class="radio-option">
+               html = `<div class="radio-option" id="radio-option${uID}" value="appended" data-is_new=true>
                     <hr>
                     <div class="text-end">
                          <div class="form-group">
@@ -337,20 +358,20 @@
                     <div class="row">
                          <div class="col-md-4">
                               <div class="form-group">
-                                   <label class="form-label" for="radio_option_label">Label</label>
-                                   <input type="text" class="form-control" id="radio_option_label" name="radio_option_label" value="">
+                                   <label class="form-label" for="radio_option_label-${uID}">Label</label>
+                                   <input type="text" class="form-control" id="radio_option_label-${uID}" name="radio_option_label-${uID}[]" value="">
                               </div>
                          </div>
                          <div class="col-md-4">
                               <div class="form-group">
-                                   <label class="form-label" for="radio_option_value">Value</label>
-                                   <input type="text" class="form-control" id="radio_option_value" name="radio_option_value" value="">
+                                   <label class="form-label" for="radio_option_value-${uID}">Value</label>
+                                   <input type="text" class="form-control" id="radio_option_value-${uID}" name="radio_option_value-${uID}[]" value="">
                               </div>
                          </div>
                          <div class="col-md-4">
                               <div class="form-group">
-                                   <label class="form-label" for="radio_go_to_step">Go to Step</label>
-                                   <input type="text" class="form-control" id="radio_go_to_step" name="radio_go_to_step" value="">
+                                   <label class="form-label" for="radio_go_to_step-${uID}">Go to Step</label>
+                                   <input type="text" class="form-control" id="radio_go_to_step-${uID}" name="radio_go_to_step-${uID}[]" value="">
                               </div>
                          </div>
                     </div>
@@ -393,13 +414,14 @@
           }
      }
 
-     function addContractRow(){
-          const html = `<div class="dropdown-option">
+     function addContractRow(id){
+          const newUniqueId = Date.now();
+          const html = `<div class="contract-option" id="contract-option" value="appended" data-is_new=true>
                               <hr>
                               <div class="text-end">
                                    <div class="form-group">
                                         <div>
-                                             <span class="remove_dropdown_option" value="appended">
+                                             <span onclick="removeContract(this)" value="appended">
                                                   <i class="fa fa-times"></i>
                                              </span>
                                         </div>
@@ -408,29 +430,48 @@
                               <div class="row">
                                    <div class="col-md-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="dropdown_link_label">Label</label>
-                                             <input type="text" class="form-control" id="dropdown_link_label" name="dropdown_link_label" value="">
+                                             <label class="form-label" for="dropdown_link_label${newUniqueId}">Label</label>
+                                             <input type="text" class="form-control" id="dropdown_link_label${newUniqueId}" name="dropdown_link_label${newUniqueId}[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-4">
                                         <div class="form-group">
-                                             <label class="form-label" for="contract_link">Contract Link</label>
-                                             <input type="text" class="form-control" id="contract_link" name="contract_link" value="">
+                                             <label class="form-label" for="contract_link${newUniqueId}">Contract Link</label>
+                                             <input type="text" class="form-control" id="contract_link${newUniqueId}" name="contract_link${newUniqueId}[]" value="">
                                         </div>
                                    </div>
                                    <div class="col-md-6">
                                         <div class="form-group">
                                              <label class="form-label" for="">Contract send to next step</label>
                                              <div class="custom-control custom-checkbox checked">
-                                                  <input type="checkbox" class="custom-control-input" id="contract_send_next_step" name="contract_send_next_step">
-                                                  <label class="custom-control-label" for="contract_send_next_step"></label>
+                                                  <input type="checkbox" class="custom-control-input" id="contract_send_next_step${newUniqueId}" name="contract_send_next_step${newUniqueId}[]">
+                                                  <label class="custom-control-label" for="contract_send_next_step${newUniqueId}"></label>
                                              </div>  
                                         </div>
                                    </div>
                               </div>
                               <br>
                          </div>`;
-          $('.add_cont_rw').append(html);
+          $('#add_cont_rw'+id).append(html);
+     }
+
+     function removeContract(e){
+          console.log('hello')
+          if($(e).attr('value') === 'appended'){
+               console.log('append');
+               $(e).closest('.contract-option').remove();
+          }else{
+               console.log('other');
+               var id = $(e).data('id');
+               let deleteIds = $('#img_sec_ids').val();
+               if(deleteIds){
+                    deleteIds += ',' + id;
+               }else{
+                    deleteIds = id;
+               }
+               $('#img_sec_ids').val(deleteIds);
+               $('.contract-option'+id).hide();
+          }
      }
 
      function conditionalQuestions(id){
@@ -443,12 +484,26 @@
           }
      }
 
-
      function conditionalPageSetting(id){
           if($('#condition_go_to'+id).is(':checked')){
                $('.cond_div'+ id).show();
           }else{
                $('.cond_div'+id).hide();
+          }
+     }
+
+     $(document).ready(function(){
+          $(document).on('change', '[id^="contract_link"]', function() {
+               const id = $(this).attr('id').replace('contract_link', '');
+               toggleCheckboxValue($(this), 'contract_link' + id);
+          });
+     })
+
+     function toggleCheckboxValue(element, id) {
+          if(element.is(':checked')){
+               $('#' + id).val(1);
+          }else{
+               $('#' + id).val(0);
           }
      }
 
@@ -460,7 +515,7 @@
           step_count++ ;
           const html = `<div class="steps_section" id="steps_section${step_count}">
                <div class="card card-bordered card-preview">
-                    <div class="card-inner main_question_div">
+                    <div class="card-inner">
                          <div class="row add_step">
                               <div class="col-md-6">
                                    <h6>Add Steps </h6>  
@@ -510,12 +565,23 @@
 
 
      // This is the question field 
+     let textbox_count = 0;
+     let textarea_count = 0;
+     let dropdown_count = 0;
+     let radio_count = 0;
+     let datefield_count = 0;
+     let pricebox_count = 0;
+     let numberfield_count = 0;
+     let percentage_count = 0;
+     let droplink_count = 0;
+
      function addQuestionfields(name,id){
           // console.log(name,id);
           const newUniqueId = Date.now();
           let html = ``;
           if(name === 'textbox'){
-               html = `<div class="append_textbox">
+               textbox_count++ ;
+               html = `<div class="append_textbox" id="append_textbox${textbox_count}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner main_question_div">
                                    <div class="row add_step">
@@ -537,7 +603,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
+                                        <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
@@ -557,36 +623,36 @@
                                    </div>
                                    <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                             <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_id">Text Box ID</label>
-                                             <input type="text" class="form-control" id="text_id" name="text_id">
+                                             <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
+                                             <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Text Box Placeholder</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                             <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
+                                             <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Placeholder text</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                             <label class="form-label" for="placeholder_text-${newUniqueId}">Placeholder text</label>
+                                             <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_go_to_step">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step" name="text_go_to_step">
+                                             <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
+                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}">
                                         </div>
                                    </div>
                                    <hr>
@@ -596,7 +662,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -617,10 +683,9 @@
                          </div>
                          <br>
                     </div>`;
-               // $('.add_qu_sec').append(html);
           }else if(name === 'textarea'){
-               // console.log(name);
-               html =`<div class="append_textarea">
+               textarea_count++ ;
+               html =`<div class="append_textarea" id="append_textarea${textarea_count}" value="appended" data-is_new=true>
                               <div class="card card-bordered card-preview">
                                    <div class="card-inner">
                                         <div class="row add_step">
@@ -642,7 +707,7 @@
                                              </div>
                                         </div>
                                         <div class="custom-control custom-checkbox">
-                                             <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
+                                             <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
                                              <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                         </div>
                                         <hr>
@@ -662,36 +727,36 @@
                                         </div>
                                         <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                              <div class="form-group">
-                                                  <label class="form-label" for="text_qu_label">Question Label</label>
-                                                  <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                                  <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                                  <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}">
                                              </div>
                                              <hr>
                                         </div>
                                         <div class="col-md-12">
                                              <div class="form-group">
-                                                  <label class="form-label" for="text_id">Text Box ID</label>
-                                                  <input type="text" class="form-control" id="text_id" name="text_id">
+                                                  <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
+                                                  <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}">
                                              </div>
                                         </div>
                                         <hr>
                                         <div class="col-md-12">
                                              <div class="form-group">
-                                                  <label class="form-label" for="text_placeholder">Text Box Placeholder</label>
-                                                  <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                                  <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
+                                                  <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}">
                                              </div>
                                         </div>
                                         <hr>
                                         <div class="col-md-12">
                                              <div class="form-group">
-                                                  <label class="form-label" for="text_placeholder">Placeholder text</label>
-                                                  <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                                  <label class="form-label" for="placeholder_text-${newUniqueId}">Placeholder text</label>
+                                                  <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}">
                                              </div>
                                         </div>
                                         <hr>
                                         <div class="col-md-12">
                                              <div class="form-group">
-                                                  <label class="form-label" for="text_go_to_step">Go to step</label>
-                                                  <input type="text" class="form-control" id="text_go_to_step" name="text_go_to_step">
+                                                  <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
+                                                  <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}">
                                              </div>
                                         </div>
                                         <hr>
@@ -701,7 +766,7 @@
                                              </div>
                                         </div>
                                         <div class="custom-control custom-checkbox checked">
-                                             <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                             <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                              <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                         </div>
                                         <hr>
@@ -722,9 +787,9 @@
                               </div>
                               <br>
                          </div>`;
-               // $('.add_qu_sec').append(html);
           }else if(name === 'dropdown'){
-               html = `<div class="append_dropdown">
+               dropdown_count++ ;
+               html = `<div class="append_dropdown" id="append_dropdown${dropdown_count}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -746,7 +811,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
+                                        <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
@@ -766,15 +831,15 @@
                                    </div>
                                    <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                             <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_id">Question ID</label>
-                                             <input type="text" class="form-control" id="text_qu_id" name="text_qu_id">
+                                             <label class="form-label" for="text_qu_id-${newUniqueId}">Question ID</label>
+                                             <input type="text" class="form-control" id="text_qu_id-${newUniqueId}" name="text_qu_id-${newUniqueId}">
                                         </div>
                                    </div>
                                    <hr>
@@ -795,7 +860,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -816,9 +881,9 @@
                          </div>
                          <br>
                     </div>`;
-               // $('.add_qu_sec').append(html);
           }else if(name === 'radio-button'){
-               html = `<div class="append_radio">
+               radio_count++ ;
+               html = `<div class="append_radio" id="append_radio${radio_count}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -840,7 +905,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
+                                        <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
@@ -867,8 +932,8 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_id">Question ID</label>
-                                             <input type="text" class="form-control" id="text_qu_id" name="text_qu_id">
+                                             <label class="form-label" for="text_qu_id-${newUniqueId}">Question ID</label>
+                                             <input type="text" class="form-control" id="text_qu_id-${newUniqueId}" name="text_qu_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -889,7 +954,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -910,9 +975,9 @@
                          </div>
                          <br>
                     </div>`;
-               // $('.add_qu_sec').append(html);
           }else if(name === 'date-field'){
-               html = `<div class="append_dateField">
+               datefield_count++ ;
+               html = `<div class="append_dateField" id="append_dateField${datefield_count}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -934,14 +999,14 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
+                                        <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                             <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -961,24 +1026,25 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="date_field_id">Date field ID</label>
-                                             <input type="text" class="form-control" id="date_field_id" name="date_field_id">
+                                             <label class="form-label" for="date_field_id-${newUniqueId}">Date field ID</label>
+                                             <input type="text" class="form-control" id="date_field_id-${newUniqueId}" name="date_field_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="date_go_to_step">Go to step</label>
-                                             <input type="text" class="form-control" id="date_go_to_step" name="date_go_to_step">
+                                             <label class="form-label" for="date_go_to_step-${newUniqueId}">Go to step</label>
+                                             <input type="text" class="form-control" id="date_go_to_step-${newUniqueId}" name="date_go_to_step-${newUniqueId}" value="">
                                         </div>
                                    </div>
+                                   <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="">Conditional Go to step Settings</label>
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -999,9 +1065,9 @@
                          </div>
                          <br>
                     </div>`;
-               // $('.add_qu_sec').append(html);    
           }else if(name === 'pricebox'){
-               html = `<div class="append_priceBox">
+               pricebox_count++ ;
+               html = `<div class="append_priceBox" id="append_priceBox${pricebox_count}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -1023,7 +1089,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
+                                        <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
@@ -1043,36 +1109,36 @@
                                    </div>
                                    <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                             <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_id">Text Box ID</label>
-                                             <input type="text" class="form-control" id="text_id" name="text_id">
+                                             <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
+                                             <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Text Box Placeholder</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                             <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
+                                             <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Placeholder text</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                             <label class="form-label" for="placeholder_text-${newUniqueId}">Placeholder text</label>
+                                             <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_go_to_step">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step" name="text_go_to_step">
+                                             <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
+                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1082,7 +1148,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -1103,9 +1169,9 @@
                          </div>
                          <br>
                     </div>`;
-               // $('.add_qu_sec').append(html);
           }else if(name === 'number-field'){
-               html = `<div class="append_numberField">
+               numberfield_count++ ; 
+               html = `<div class="append_numberField" id="append_numberField${numberfield_count}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -1127,7 +1193,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
+                                        <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
@@ -1147,36 +1213,36 @@
                                    </div>
                                    <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                             <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_id">Number field ID</label>
-                                             <input type="text" class="form-control" id="text_id" name="text_id">
+                                             <label class="form-label" for="text_id-${newUniqueId}">Number field ID</label>
+                                             <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Number field Placeholder</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                             <label class="form-label" for="text_placeholder-${newUniqueId}">Number field Placeholder</label>
+                                             <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Placeholder text</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                             <label class="form-label" for="placeholder_text-${newUniqueId}">Placeholder text</label>
+                                             <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_go_to_step">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step" name="text_go_to_step">
+                                             <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
+                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1186,7 +1252,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to-${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -1207,10 +1273,9 @@
                          </div>
                          <br>
                     </div>`;
-               // $('.add_qu_sec').append(html);
           }else if(name === 'percentage-box'){
-               // console.log(name);
-               html = `<div class="appendPercentageBox">
+               percentage_count++ ;
+               html = `<div class="appendPercentageBox" id="appendPercentageBox${percentage_count}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -1232,7 +1297,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="condition_qu_label${newUniqueId}" name="condition_qu_label">
+                                        <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
                                         <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
                                    </div>
                                    <hr>
@@ -1252,36 +1317,36 @@
                                    </div>
                                    <div class="col-md-12" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                             <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_id">Text Box ID</label>
-                                             <input type="text" class="form-control" id="text_id" name="text_id">
+                                             <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
+                                             <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Text Box Placeholder</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                             <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
+                                             <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Placeholder text</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
+                                             <label class="form-label" for="placeholder_text"-${newUniqueId}>Placeholder text</label>
+                                             <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_go_to_step">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step" name="text_go_to_step">
+                                             <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
+                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1291,7 +1356,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="condition_go_to${newUniqueId}" name="condition_go_to">
+                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -1312,10 +1377,9 @@
                          </div>
                          <br>
                     </div>`;
-               // $('.add_qu_sec').append(html);
           }else if(name === 'dropdown-link'){
-               // console.log(name);
-               html = `<div class="append_dropdownLink">
+               droplink_count++ ;
+               html = `<div class="append_dropdownLink" id="append_dropdownLink${droplink_count}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -1333,15 +1397,15 @@
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                             <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="same_contract_link">Same Contract Link Label</label>
-                                             <input type="text" class="form-control" id="same_contrct_link" name="same_contrct_link">
+                                             <label class="form-label" for="same_contract_link-${newUniqueId}">Same Contract Link Label</label>
+                                             <input type="text" class="form-control" id="same_contrct_link-${newUniqueId}" name="same_contrct_link-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1351,33 +1415,25 @@
                                         </div>
                                    </div>
                                    <br>
-                                   <div class="add_cont_rw"></div>
+                                   <div class="add_cont_rw" id="add_cont_rw${newUniqueId}"></div>
                                    <div class="text-end">
                                         <div class="form-group">
-                                             <button type="button" class="btn btn-sm btn-primary" id="add_contract_row" onclick="addContractRow()">Add Row</button>
+                                             <button type="button" class="btn btn-sm btn-primary" id="add_contract_row" onclick="addContractRow('${newUniqueId}')">Add Row</button>
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_placeholder">Placeholder text</label>
-                                             <input type="text" class="form-control" id="text_placeholder" name="text_placeholder">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="text_go_to_step">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step" name="text_go_to_step">
+                                             <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
+                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}">
                                         </div>
                                    </div>
                               </div>
                          </div>
                          <br>
                     </div>`;
-               // $('.add_qu_sec').append(html);
           }
-          $('#add_qu_sec').append(html);
+          $('.add_qu_sec').append(html);
 
           conditionalQuestions(newUniqueId);
 
@@ -1405,7 +1461,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_textbox'+id).hide();
+                    $('#append_textbox'+id).hide();
                }    
           }else if($(e).attr('data-field') === 'textarea'){
                if($(e).attr('value') === 'appended'){
@@ -1419,7 +1475,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_textarea'+id).hide();
+                    $('#append_textarea'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'dropdown'){
                if($(e).attr('value') === 'appended'){
@@ -1433,7 +1489,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_dropdown'+id).hide();
+                    $('#append_dropdown'+id).hide();
                }   
 
           }else if($(e).attr('data-field') === 'radio-button'){
@@ -1448,7 +1504,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_radio'+id).hide();
+                    $('#append_radio'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'date-field'){
                if($(e).attr('value') === 'appended'){
@@ -1462,7 +1518,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_dateField'+id).hide();
+                    $('#append_dateField'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'pricebox'){
                if($(e).attr('value') === 'appended'){
@@ -1476,7 +1532,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_priceBox'+id).hide();
+                    $('#append_priceBox'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'number-field'){
                if($(e).attr('value') === 'appended'){
@@ -1490,7 +1546,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_numberField'+id).hide();
+                    $('#append_numberField'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'percentBox'){
                if($(e).attr('value') === 'appended'){
@@ -1504,7 +1560,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.appendPercentageBox'+id).hide();
+                    $('#appendPercentageBox'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'dropdown-link'){
                if($(e).attr('value') === 'appended'){
@@ -1518,7 +1574,7 @@
                          deleteIds = id;
                     }
                     $('#img_sec_ids').val(deleteIds);
-                    $('.append_dropdownLink'+id).hide();
+                    $('#append_dropdownLink'+id).hide();
                }   
           }
      }
@@ -1530,37 +1586,677 @@
           var questions = [];
 
           $('.add_qu_sec .append_textbox').each(function(){
-               
-          })
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
+               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               var textboxData = {
+                    type: 'textbox',
+                    is_new: is_new,
+                    id: id,
+                    conditional_question: conditionalQuestion,
+                    question_label: questionLabel,
+                    text_box_id: textBoxId,
+                    text_box_placeholder: textBoxPlaceholder,
+                    placeholder_text: placeholderText,
+                    go_to_step: goToStep,
+                    conditional_step: conditionalStep,
+                    conditional_question_labels: [],
+                    conditions: [],
+               };
+
+               if(conditionalQuestion){
+                    $(this).find('.append_label_condition .label-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   textboxData.conditional_question_labels.push(question_label);
+                              }
+                         }
+                    });
+               }
+
+               if(conditionalStep){
+                    $(this).find('.append_page_condition .sec-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   textboxData.conditions.push(condition);
+                              }
+                         }
+                    });
+               }
+
+               questions.push(textboxData);
+          });
+
+          $('.add_qu_sec .append_textarea').each(function(){
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
+               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               var textareaData = {
+                    type: 'textarea',
+                    is_new: is_new,
+                    id: id,
+                    conditional_question: conditionalQuestion,
+                    question_label: questionLabel,
+                    text_box_id: textBoxId,
+                    text_box_placeholder: textBoxPlaceholder,
+                    placeholder_text: placeholderText,
+                    go_to_step: goToStep,
+                    conditional_step: conditionalStep,
+                    conditional_question_labels: [],
+                    conditions: [],
+               };
+
+               if(conditionalQuestion){
+                    $(this).find('.append_label_condition .label-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   textareaData.conditional_question_labels.push(question_label);
+                              }
+                         }
+                    });
+               }
+
+               if(conditionalStep){
+                    $(this).find('.append_page_condition .sec-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   textareaData.conditions.push(condition);
+                              }
+                         }
+                    });
+               }
+
+               questions.push(textareaData);
+          });
+
+          $('.add_qu_sec .append_dropdown').each(function(){
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var questionId = $(this).find('input[name^="text_qu_id"]').val() || '';
+               var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               var dropdownData = {
+                    type: 'dropdown',
+                    is_new: is_new,
+                    id: id,
+                    conditional_question: conditionalQuestion,
+                    question_label: questionLabel,
+                    question_id: questionId,
+                    conditional_step: conditionalStep,
+                    conditional_question_labels: [],
+                    conditions: [],
+                    add_options: [],
+               };
+
+               if($(this).find('.append_options .dropdown-option') !== 0){
+                    $(this).find('.append_options .dropdown-option').each(function(){
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var option = {
+                                   option_label: $(this).find('input[name^=dropdown_option_label]').val() || '',
+                                   option_value: $(this).find('input[name^=dropdown_option_value]').val() || '',
+                                   option_go_to_step: $(this).find('input[name^=dropdown_go_to_step]').val() || '',
+                                   status: status,
+                              };
+
+                              if(option.option_label && option.option_value && option.option_go_to_step){
+                                   dropdownData.add_options.push(option);
+                              }
+                         }
+                    })
+               }
+
+               if(conditionalQuestion){
+                    $(this).find('.append_label_condition .label-condition').each(function(){
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   dropdownData.conditional_question_labels.push(question_label);
+                              }
+                         }
+                    });
+               }
+
+               if(conditionalStep){
+                    $(this).find('.append_page_condition .sec-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   dropdownData.conditions.push(condition);
+                              }
+                         }
+                    });
+               }
+
+               questions.push(dropdownData);
+          });
+
+          $('.add_qu_sec .append_radio').each(function(){
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var questionId = $(this).find('input[name^="text_qu_id"]').val() || '';
+               var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               var radioData = {
+                    type: 'radio',
+                    is_new: is_new,
+                    id: id,
+                    conditional_question: conditionalQuestion,
+                    question_label: questionLabel,
+                    question_id: questionId,
+                    conditional_step: conditionalStep,
+                    conditional_question_labels: [],
+                    conditions: [],
+                    add_options: [],
+               };
+
+               if($(this).find('.append_options .radio-option') !== 0){
+                    $(this).find('.append_options .radio-option').each(function(){
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var option = {
+                                   option_label: $(this).find('input[name^=radio_option_label]').val() || '',
+                                   option_value: $(this).find('input[name^=radio_option_value]').val() || '',
+                                   option_go_to_step: $(this).find('input[name^=radio_go_to_step]').val() || '',
+                                   status: status,
+                              };
+
+                              if(option.option_label && option.option_value && option.option_go_to_step){
+                                   radioData.add_options.push(option);
+                              }
+                         }
+                    })
+               }
+
+               if(conditionalQuestion){
+                    $(this).find('.append_label_condition .label-condition').each(function(){
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   radioData.conditional_question_labels.push(question_label);
+                              }
+                         }
+                    });
+               }
+
+               if(conditionalStep){
+                    $(this).find('.append_page_condition .sec-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   radioData.conditions.push(condition);
+                              }
+                         }
+                    });
+               }
+
+               questions.push(radioData);
+          });
+
+          $('.add_qu_sec .append_dateField').each(function(){
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var dateFieldId = $(this).find('input[name^="date_field_id"]').val() || '';
+               var goToStep = $(this).find('input[name^="date_go_to_step"]').val() || '';
+               var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               var datefieldData = {
+                    type: 'datefield',
+                    is_new: is_new,
+                    id: id,
+                    conditional_question: conditionalQuestion,
+                    question_label: questionLabel,
+                    date_field_Id: dateFieldId,
+                    go_to_step: goToStep,
+                    conditional_step: conditionalStep,
+                    conditional_question_labels: [],
+                    conditions: [],
+               };
+
+               if(conditionalQuestion){
+                    $(this).find('.append_label_condition .label-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   datefieldData.conditional_question_labels.push(question_label);
+                              }
+                         }
+                    });
+               }
+
+               if(conditionalStep){
+                    $(this).find('.append_page_condition .sec-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   datefieldData.conditions.push(condition);
+                              }
+                         }
+                    });
+               }
+
+               questions.push(datefieldData);
+          });
+
+          $('.add_qu_sec .append_priceBox').each(function(){
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
+               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               var priceBoxData = {
+                    type: 'pricebox',
+                    is_new: is_new,
+                    id: id,
+                    conditional_question: conditionalQuestion,
+                    question_label: questionLabel,
+                    text_box_id: textBoxId,
+                    text_box_placeholder: textBoxPlaceholder,
+                    placeholder_text: placeholderText,
+                    go_to_step: goToStep,
+                    conditional_step: conditionalStep,
+                    conditional_question_labels: [],
+                    conditions: [],
+               };
+
+               if(conditionalQuestion){
+                    $(this).find('.append_label_condition .label-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   priceBoxData.conditional_question_labels.push(question_label);
+                              }
+                         }
+                    });
+               }
+
+               if(conditionalStep){
+                    $(this).find('.append_page_condition .sec-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   priceBoxData.conditions.push(condition);
+                              }
+                         }
+                    });
+               }
+
+               questions.push(priceBoxData);
+          });
+
+          $('.add_qu_sec .append_numberField').each(function(){
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
+               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               var numberfieldData = {
+                    type: 'numberfield',
+                    is_new: is_new,
+                    id: id,
+                    conditional_question: conditionalQuestion,
+                    question_label: questionLabel,
+                    text_box_id: textBoxId,
+                    text_box_placeholder: textBoxPlaceholder,
+                    placeholder_text: placeholderText,
+                    go_to_step: goToStep,
+                    conditional_step: conditionalStep,
+                    conditional_question_labels: [],
+                    conditions: [],
+               };
+
+               if(conditionalQuestion){
+                    $(this).find('.append_label_condition .label-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   numberfieldData.conditional_question_labels.push(question_label);
+                              }
+                         }
+                    });
+               }
+
+               if(conditionalStep){
+                    $(this).find('.append_page_condition .sec-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   numberfieldData.conditions.push(condition);
+                              }
+                         }
+                    });
+               }
+
+               questions.push(numberfieldData);
+          });
+
+          $('.add_qu_sec .appendPercentageBox').each(function(){
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
+               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               var percentageBoxData = {
+                    type: 'percentagebox',
+                    is_new: is_new,
+                    id: id,
+                    conditional_question: conditionalQuestion,
+                    question_label: questionLabel,
+                    text_box_id: textBoxId,
+                    text_box_placeholder: textBoxPlaceholder,
+                    placeholder_text: placeholderText,
+                    go_to_step: goToStep,
+                    conditional_step: conditionalStep,
+                    conditional_question_labels: [],
+                    conditions: [],
+               };
+
+               if(conditionalQuestion){
+                    $(this).find('.append_label_condition .label-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   percentageBoxData.conditional_question_labels.push(question_label);
+                              }
+                         }
+                    });
+               }
+
+               if(conditionalStep){
+                    $(this).find('.append_page_condition .sec-condition').each(function() {
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   percentageBoxData.conditions.push(condition);
+                              }
+                         }
+                    });
+               }
+
+               questions.push(percentageBoxData);
+          });
+
+          $('.add_qu_sec .append_dropdownLink').each(function(){
+               var is_new = $(this).data('is_new');
+               var id = $(this).data('id');
+
+               var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
+               var sameContractlink = $(this).find('input[name^="same_contrct_link"]').val() || '';
+               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+
+               var dropdownLinkData = {
+                    type: 'dropdownlink',
+                    is_new: is_new,
+                    id: id,
+                    question_label: questionLabel,
+                    same_contract_link: sameContractlink,
+                    go_to_step: goToStep,
+                    add_rows: [],
+               };
+
+               if($(this).find('.add_cont_rw .contract-option') !== 0){
+                    $(this).find('.add_cont_rw .contract-option').each(function(){
+                         var status = $(this).data('is_new'); 
+                         var conditionId = $(this).data('id');
+
+                         if(status === true){
+                              var row = {
+                                   label: $(this).find('input[name^=dropdown_link_label]').val() || '',
+                                   contract_link: $(this).find('input[name^=contract_link]').val() || '',
+                                   next_step: $(this).find('input[name^=contract_send_next_step]').is(':checked') ? 1 : 0,
+                                   status: status,
+                              };
+
+                              if(row.label && row.contract_link && row.next_step){
+                                   dropdownLinkData.add_rows.push(row);
+                              }
+                         }
+                    })
+               }
+
+               questions.push(dropdownLinkData);
+          });
+          return questions;
      }
 
      $(document).ready(function(){
           $('#saveQuestiondata1').click(function(){
+               var data = getAllSteps();
+               // console.log(data);
+               $('#formdata').val(JSON.stringify(data));
+               var documentName = $('#document_id').val();
+               let hasError = false;
 
 
 
-               var mainDiv=  $('.main_question_div');
-               var isLableCondition = mainDiv.find('input[name="condition_qu_label"]:checked').val(); // Get the value of checked checkbox
-               var text_qu_label = mainDiv.find('input[id="text_qu_label"]').val(); // Get the value of checked checkbox
-               var textId = mainDiv.find('input[id="text_id"]').val();
-               var textPlaceholder = mainDiv.find('input[id="text_placeholder"]').val();
-               var textGoToStep = mainDiv.find('input[id="text_go_to_step"]').val();
-               
-               
-               if( isLableCondition !=undefined  && isLableCondition=="on"){
-                    var labelConditions = mainDiv.find('.append_label_condition');
-
-                    console.log( labelConditions , " YThis sis the div whihc we need to use to get all the conditons " )
+               if(!hasError && (!documentName || documentName.trim() === "")){
+                    NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
+                    hasError = true;
                }
+     
+               if(!hasError){
+                    $('#questionForm').submit();
+               }
+               
+              
 
-               console.log(isLableCondition , ' isLableCondition ' );
-               console.log(text_qu_label , ' text_qu_label ' );
+               // var mainDiv=  $('.main_question_div');
+               // var isLableCondition = mainDiv.find('input[name="condition_qu_label"]:checked').val(); // Get the value of checked checkbox
+               // var text_qu_label = mainDiv.find('input[id="text_qu_label"]').val(); // Get the value of checked checkbox
+               // var textId = mainDiv.find('input[id="text_id"]').val();
+               // var textPlaceholder = mainDiv.find('input[id="text_placeholder"]').val();
+               // var textGoToStep = mainDiv.find('input[id="text_go_to_step"]').val();
+               
+               
+               // if( isLableCondition !=undefined  && isLableCondition=="on"){
+               //      var labelConditions = mainDiv.find('.append_label_condition');
 
-               console.log(textId, ' textId ');
+               //      console.log( labelConditions , " YThis is the div which we need to use to get all the conditons " )
+               // }
 
-               console.log(textPlaceholder, ' textPlaceholder ');
+               // console.log(isLableCondition , ' isLableCondition ' );
+               // console.log(text_qu_label , ' text_qu_label ' );
 
-               console.log(textGoToStep, ' textGoToStep ');
+               // console.log(textId, ' textId ');
+
+               // console.log(textPlaceholder, ' textPlaceholder ');
+
+               // console.log(textGoToStep, ' textGoToStep ');
 
            
 

@@ -193,7 +193,7 @@ header {
 }
 
 .main_header {
-    padding-bottom: 30px;
+    padding-bottom: 20px;
 }
 
 .banner_sec {
@@ -354,7 +354,7 @@ div#navbarSupportedContent {
     display: flex;
     border: 1px solid #E3E9ED;
     background-color: #fff;
-    padding: 4px 7px;
+    padding: 5px 7px;
     border-radius: 160px;
 }
 
@@ -1586,7 +1586,7 @@ footer .foot_li a:hover {
     background: transparent;
     width: 100%;
     font-size: 14px;
-    padding: 12px 14px;
+    padding: 7px 14px;
 }
 
 .inner-header .main_header .hedaer_bnt {
@@ -1956,7 +1956,7 @@ header.fun-header {
 }
 
 .faq_sec .accordion {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: auto;
     margin-top: 42px;
 }
@@ -2853,7 +2853,9 @@ td {
 }
 
 .rating-color {
+    font-size: 14px;
     color: #fbc634 !important;
+    font-weight: 600;
 }
 
 .container.banner-col-width .col-md-6.banner-col {
@@ -3327,9 +3329,7 @@ footer .foot_end_box .reserve_box {
 
 }
 /* 15nov2024//////////////////////////////// */
-.sharing_ul:hover {
-    transform: translateY(-8px);
-}
+
 .sec4_conrt_ot .sec4_card_p h6 {
     font-size: 17px;
     font-weight: 600;
@@ -3352,7 +3352,7 @@ footer .foot_end_box .reserve_box {
     border-bottom: 1px solid #D3D3D3;
 }
 .sec7_const_num {
-    background-color: #c7cad4;
+    background-color: #FD5602;
     color:#012555;
     width: 45px;
     height: 45px;
@@ -3366,4 +3366,9 @@ footer .foot_end_box .reserve_box {
 .sec7_const_num:hover {
     background-color: #FD5602;
     cursor: pointer;
+}
+/* 21nov2024/////////////////////// */
+
+.sharing_ul:hover .svg  svg path {
+    fill: #FD5602;
 }

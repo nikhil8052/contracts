@@ -15,6 +15,7 @@ use App\Models\Review;
 use App\Models\DocumentAgreement;
 use App\Models\DocumentWithCategory;
 use App\Models\Media;
+use App\Models\Question;
 use App\Models\QuestionType;
 use App\Models\DocumentRightSection;
 use App\Models\RightSectionCondition;
@@ -723,7 +724,8 @@ class DocumentController extends Controller
     public function documentQuestion(){
         $documents = Document::where('published',1)->get();
         $types = QuestionType::all();
-        return view('admin.documents.document_questions',compact('documents','types'));
+        $questions = Question::all();
+        return view('admin.documents.document_questions',compact('documents','types','questions'));
     }
 
     public function allquestionType(){
