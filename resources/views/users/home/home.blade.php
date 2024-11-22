@@ -85,11 +85,16 @@
 													<h5 class="size20">{{ $document->title ?? '' }}</h5>
 													<div class="tab_ul">
 														<div class="tab_star_li">
+															<span class="rating-on rate-1" data-rating="1"></span>
+															<span class="rating-on rate-2" data-rating="2"></span>
+															<span class="rating-on rate-3" data-rating="3"></span>
+															<span class="rating-on rate-4" data-rating="4"></span>
+															<span class="rating-on rate-5" data-rating="5"></span>
+															<!-- <span><i class="fa-solid fa-star rating-color"></i></span>
 															<span><i class="fa-solid fa-star rating-color"></i></span>
 															<span><i class="fa-solid fa-star rating-color"></i></span>
 															<span><i class="fa-solid fa-star rating-color"></i></span>
-															<span><i class="fa-solid fa-star rating-color"></i></span>
-															<span><i class="fa-solid fa-star rating-color"></i></span>
+															<span><i class="fa-solid fa-star rating-color"></i></span> -->
 														</div>
 														<div>4.6</div>
 													</div>
@@ -263,77 +268,18 @@
 							</div>
 							@endif
 						</div>
-						@if(isset($review->rating) && $review->rating != null)
-						<div id="full-stars-example-two">
-							<div class="ratings">
-							@if($review->rating == 1)
-								<label for="rating1">
-									<i rate="1" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-							@elseif($review->rating == 2)
-								<label for="rating1">
-									<i rate="1" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-								<label for="rating2">
-									<i rate="2" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
-							@elseif($review->rating == 3)
-								<label for="rating1">
-									<i rate="1" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-								<label for="rating2">
-									<i rate="2" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
-								<label for="rating3">
-									<i rate="3" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
-							@elseif($review->rating == 4)
-								<label for="rating1">
-									<i rate="1" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-								<label for="rating2">
-									<i rate="2" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
-								<label for="rating3">
-									<i rate="3" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
-								<label for="rating4">
-									<i rate="4" class="star fa fa-star rating-color"></i>
-								</label>
-							@elseif($review->rating == 5)
-								<label for="rating1">
-									<i rate="1" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating1" class="chkbox" style="display:none;" value="1">
-								<label for="rating2">
-									<i rate="2" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating2" class="chkbox" style="display:none;" value="2">
-								<label for="rating3">
-									<i rate="3" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating3" class="chkbox" style="display:none;" value="3">
-								<label for="rating4">
-									<i rate="4" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating4" class="chkbox" style="display:none;" value="4">
-								<label for="rating5">
-									<i rate="5" class="star fa fa-star rating-color"></i>
-								</label>
-								<input name="rating" id="rating5" class="chkbox" style="display:none;" value="5" checked>
-							@endif
-							</div>
-                        </div>
-						@endif
+						<div class="tab_star_li">
+							<span class="rating-on rate-1" data-rating="1"></span>
+							<span class="rating-on rate-2" data-rating="2"></span>
+							<span class="rating-on rate-3" data-rating="3"></span>
+							<span class="rating-on rate-4" data-rating="4"></span>
+							<span class="rating-on rate-5" data-rating="5"></span>
+							<!-- <span><i class="fa-solid fa-star rating-color"></i></span>
+							<span><i class="fa-solid fa-star rating-color"></i></span>
+							<span><i class="fa-solid fa-star rating-color"></i></span>
+							<span><i class="fa-solid fa-star rating-color"></i></span>
+							<span><i class="fa-solid fa-star rating-color"></i></span> -->
+						</div>
 						<p>“{{ $review->description ?? '' }}”</p>
 						<span>{{ $review->date ? \Carbon\Carbon::parse($review->date)->diffForHumans() : '' }}</span>
 					</div>

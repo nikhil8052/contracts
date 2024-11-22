@@ -509,6 +509,7 @@ div#navbarSupportedContent {
 }
 
 .control_box p {
+    padding-top: 10px;
     font-size: 20px;
     font-weight: 400;
     line-height: 30px;
@@ -642,8 +643,8 @@ div#navbarSupportedContent {
     padding-left: 0;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 600;
+    gap: 5px;
+    font-weight: 400;
     font-size: 14px;
 }
 
@@ -1621,6 +1622,7 @@ footer .foot_li a:hover {
 }
 
 .tab_2text {
+    padding-top: 5px;
     color: #012555;
 }
 
@@ -3033,8 +3035,8 @@ footer .foot_end_box .reserve_box {
 /*//////////////////////////////////////// 24oct2024 ///////////////////////*/
 
 .inside_ul_pdf img {
-    width: 26px;
-    height: 18px;
+    width: 18px;
+    height: 15px;
     margin-bottom: 4px;
 }
 
@@ -3337,6 +3339,8 @@ footer .foot_end_box .reserve_box {
 .tab_text h5 {
     font-size: 17px;
     font-weight: 600;
+    line-height: 20px;
+    margin-bottom: 5px;
 }
 .contac_login_card .outer_aft_btn button {
     background-color: #012555;
@@ -3353,7 +3357,7 @@ footer .foot_end_box .reserve_box {
 }
 .sec7_const_num {
     background-color: #FD5602;
-    color:#012555;
+    color:#fff;
     width: 45px;
     height: 45px;
     display: flex;
@@ -3369,6 +3373,50 @@ footer .foot_end_box .reserve_box {
 }
 /* 21nov2024/////////////////////// */
 
-.sharing_ul:hover .svg  svg path {
+.sharing_ul:hover .svg svg  {
     fill: #FD5602;
+    background-color: #FD5602;
 }
+/* 22nov2024 ///////////////////////////////*/
+.tab_star_li {
+    display: flex;
+    gap: 1px;
+}
+.ratings {
+    display: flex;
+    gap: 1px;
+    font-size: 14px;
+}
+.tab-faq_sec .nav-pills .nav-link:hover {
+    background-color: #FD5602;
+    color: #fff;
+}
+footer .logo-text {
+    font-size: 14px;
+    font-weight: 400;
+    padding-top: 15px;
+}
+.fot_logo img {
+    width: 80%;
+}
+/* Basic styles for the star rating */
+.tab_star_li {
+    display: flex;
+    font-family: 'Dashicons'; 
+  }
+  
+  .rating-on {
+    display: inline-block;
+    color: #ddd; 
+    position: relative;
+    cursor: pointer;
+  }
+  
+ 
+  .rating-on::before {
+    font-size: 14px;
+    font-weight: 400;
+    content: "\f155"; 
+    color: #FBBC04;
+  }
+  

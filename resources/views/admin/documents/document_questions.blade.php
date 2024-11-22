@@ -7,7 +7,7 @@
           @csrf
           <input type="hidden" id="formdata" name="formdata" value="">
           <div class="row main_section">
-               <div class="col md-8 left-content">
+               <div class="col col-md-8 left-content">
                     <!-- <div class="col-md-12 doc-title mt-4 pb-4">
                          <div class="form-group">
                               <label class="form-label" for="title"><b><h4>Add New Question</h4></b></label>
@@ -24,8 +24,9 @@
                                         </div>
                                    </div>
                                    <hr>
-                    
+
                                    <div class="add_qu_sec"></div>
+                                   <br>
                                    <div class="text-end">
                                         <button type="button" class="btn btn-sm btn-primary question_dropbtn"
                                              onclick="toggleDropdown('testing')">Select Type </button>
@@ -51,7 +52,7 @@
                          </div>
                     </div>
                </div>
-               <div class="col md-4 right-content">
+               <div class="col col-md-4 right-content">
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
                               <!-- <div class="col-md-12">
@@ -83,7 +84,6 @@
                                         <div class="up-btn mbsc-form-group">
                                              <!-- <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata">Save</button> -->
                                              <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata1">Save</button>
-
                                         </div>
                                    </div>
                               </div> 
@@ -310,7 +310,7 @@
           let uID = Date.now();
           let html = ``;
           if(value === 'dropdown'){
-               html = `<div class="dropdown-option" id="dropdown-option${uID}" value="appended" data-is_new=true>
+               html = `<div class="dropdown-option" id="dropdown-option" value="appended" data-is_new=true>
                     <hr>
                     <div class="text-end">
                          <div class="form-group">
@@ -337,14 +337,22 @@
                          <div class="col-md-4">
                               <div class="form-group">
                                    <label class="form-label" for="dropdown_go_to_step-${uID}">Go to Step</label>
-                                   <input type="text" class="form-control" id="dropdown_go_to_step-${uID}" name="dropdown_go_to_step-${uID}[]" value="">
+                                   <div class="form-control-wrap"> 
+                                        <select class="form-select js-select2 new_label_question_id" data-search="on" name="dropdown_go_to_step-${uID}[]" id="dropdown_go_to_step-${uID}">
+                                             @if(isset($questions) && $questions != null)
+                                                  @foreach($questions as $question)
+                                                       <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                  @endforeach
+                                             @endif
+                                        </select>
+                                   </div>
                               </div>
                          </div>
                     </div>
                     <br>
                </div>`;
           }else if(value === 'radio-button'){
-               html = `<div class="radio-option" id="radio-option${uID}" value="appended" data-is_new=true>
+               html = `<div class="radio-option" id="radio-option" value="appended" data-is_new=true>
                     <hr>
                     <div class="text-end">
                          <div class="form-group">
@@ -371,14 +379,23 @@
                          <div class="col-md-4">
                               <div class="form-group">
                                    <label class="form-label" for="radio_go_to_step-${uID}">Go to Step</label>
-                                   <input type="text" class="form-control" id="radio_go_to_step-${uID}" name="radio_go_to_step-${uID}[]" value="">
+                                   <div class="form-control-wrap"> 
+                                        <select class="form-select js-select2 new_label_question_id" data-search="on" name="radio_go_to_step-${uID}[]" id="radio_go_to_step-${uID}">
+                                             @if(isset($questions) && $questions != null)
+                                                  @foreach($questions as $question)
+                                                       <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                  @endforeach
+                                             @endif
+                                        </select>
+                                   </div>
                               </div>
                          </div>
                     </div>
                     <br>
                </div>`;
           }
-          $('#append_options_'+id).append(html);
+          $('#append_options'+id).append(html);
+          $('.js-select2').select2();
      }
 
      // Remove the options 
@@ -621,24 +638,24 @@
                                         </div>
                                         <hr>
                                    </div>
-                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
+                                   <div class="col-md-12 hide_question_label" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
+                                             <input type="text" class="form-control question_labl" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
-                                             <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
+                                             <input type="text" class="form-control text_box_id" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
-                                             <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
+                                             <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -652,7 +669,15 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}">
+                                             <div class="form-control-wrap"> 
+                                                  <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       @if(isset($questions) && $questions != null)
+                                                            @foreach($questions as $question)
+                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                            @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div
                                         </div>
                                    </div>
                                    <hr>
@@ -662,7 +687,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
+                                        <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -725,24 +750,24 @@
                                              </div>
                                              <hr>
                                         </div>
-                                        <div class="col-md-12" id="hide_question_label${newUniqueId}">
+                                        <div class="col-md-12 hide_question_label" id="hide_question_label${newUniqueId}">
                                              <div class="form-group">
                                                   <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
-                                                  <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}">
+                                                  <input type="text" class="form-control question_labl" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}">
                                              </div>
                                              <hr>
                                         </div>
                                         <div class="col-md-12">
                                              <div class="form-group">
                                                   <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
-                                                  <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}">
+                                                  <input type="text" class="form-control text_box_id" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}">
                                              </div>
                                         </div>
                                         <hr>
                                         <div class="col-md-12">
                                              <div class="form-group">
                                                   <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
-                                                  <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}">
+                                                  <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}">
                                              </div>
                                         </div>
                                         <hr>
@@ -756,7 +781,15 @@
                                         <div class="col-md-12">
                                              <div class="form-group">
                                                   <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
-                                                  <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}">
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div
                                              </div>
                                         </div>
                                         <hr>
@@ -766,7 +799,7 @@
                                              </div>
                                         </div>
                                         <div class="custom-control custom-checkbox checked">
-                                             <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
+                                             <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                              <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                         </div>
                                         <hr>
@@ -829,17 +862,25 @@
                                         </div>
                                         <hr>
                                    </div>
-                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
+                                   <div class="col-md-12 hide_question_label" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}">
+                                             <input type="text" class="form-control question_labl" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_id-${newUniqueId}">Question ID</label>
-                                             <input type="text" class="form-control" id="text_qu_id-${newUniqueId}" name="text_qu_id-${newUniqueId}">
+                                             <div class="form-control-wrap question"> 
+                                                  <select class="form-select js-select2" data-search="on" name="text_qu_id-${newUniqueId}" id="text_qu_id-${newUniqueId}">
+                                                       @if(isset($questions) && $questions != null)
+                                                            @foreach($questions as $question)
+                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                            @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div>
                                         </div>
                                    </div>
                                    <hr>
@@ -848,7 +889,7 @@
                                              <label class="form-label" for="">Add Dropdown Option</label>
                                         </div>
                                    </div>
-                                   <div class="append_options" id="append_options_${newUniqueId}"></div>
+                                   <div class="append_options" id="append_options${newUniqueId}"></div>
                                    <div class="text-end">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" onclick="addOptions('${name}','${newUniqueId}')">Add Option</button>
@@ -860,7 +901,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
+                                        <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -911,8 +952,8 @@
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_label">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label" name="text_qu_label">
+                                             <label class="form-label" for="text_qu_label${newUniqueId}">Question Label</label>
+                                             <input type="text" class="form-control radio_ques" id="text_qu_label${newUniqueId}" name="text_qu_label${newUniqueId}">
                                         </div>
                                    </div>
                                    <hr>
@@ -933,7 +974,15 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_id-${newUniqueId}">Question ID</label>
-                                             <input type="text" class="form-control" id="text_qu_id-${newUniqueId}" name="text_qu_id-${newUniqueId}" value="">
+                                             <div class="form-control-wrap question"> 
+                                                  <select class="form-select js-select2" data-search="on" name="text_qu_id-${newUniqueId}" id="text_qu_id-${newUniqueId}">
+                                                       @if(isset($questions) && $questions != null)
+                                                            @foreach($questions as $question)
+                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                            @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div>
                                         </div>
                                    </div>
                                    <hr>
@@ -942,7 +991,7 @@
                                              <label class="form-label" for="">Add Radio Option</label>
                                         </div>
                                    </div>
-                                   <div class="append_options" id="append_options_${newUniqueId}"></div>
+                                   <div class="append_options" id="append_options${newUniqueId}"></div>
                                    <div class="text-end">
                                         <div class="form-group">
                                              <button type="button" class="btn btn-sm btn-primary" onclick="addOptions('${name}','${newUniqueId}')">Add Option</button>
@@ -954,7 +1003,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
+                                        <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -1006,7 +1055,7 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
+                                             <input type="text" class="form-control date_ques" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1027,14 +1076,22 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="date_field_id-${newUniqueId}">Date field ID</label>
-                                             <input type="text" class="form-control" id="date_field_id-${newUniqueId}" name="date_field_id-${newUniqueId}" value="">
+                                             <input type="text" class="form-control date_field" id="date_field_id-${newUniqueId}" name="date_field_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="date_go_to_step-${newUniqueId}">Go to step</label>
-                                             <input type="text" class="form-control" id="date_go_to_step-${newUniqueId}" name="date_go_to_step-${newUniqueId}" value="">
+                                             <div class="form-control-wrap"> 
+                                                  <select class="form-select js-select2 new_label_question_id" data-search="on" name="date_go_to_step-${newUniqueId}" id="date_go_to_step-${newUniqueId}">
+                                                       @if(isset($questions) && $questions != null)
+                                                            @foreach($questions as $question)
+                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                            @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div>
                                         </div>
                                    </div>
                                    <hr>
@@ -1044,7 +1101,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
+                                        <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -1107,24 +1164,24 @@
                                         </div>
                                         <hr>
                                    </div>
-                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
+                                   <div class="col-md-12 hide_question_label" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
+                                             <input type="text" class="form-control question_labl" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
-                                             <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
+                                             <input type="text" class="form-control text_box_id" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
-                                             <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
+                                             <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1138,7 +1195,15 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}" value="">
+                                             <div class="form-control-wrap"> 
+                                                  <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       @if(isset($questions) && $questions != null)
+                                                            @foreach($questions as $question)
+                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                            @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div>
                                         </div>
                                    </div>
                                    <hr>
@@ -1148,7 +1213,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
+                                        <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -1211,24 +1276,24 @@
                                         </div>
                                         <hr>
                                    </div>
-                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
+                                   <div class="col-md-12 hide_question_label" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
+                                             <input type="text" class="form-control question_labl" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_id-${newUniqueId}">Number field ID</label>
-                                             <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
+                                             <input type="text" class="form-control number_field" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_placeholder-${newUniqueId}">Number field Placeholder</label>
-                                             <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
+                                             <input type="text" class="form-control number_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1242,7 +1307,15 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}" value="">
+                                             <div class="form-control-wrap"> 
+                                                  <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       @if(isset($questions) && $questions != null)
+                                                            @foreach($questions as $question)
+                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                            @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div>
                                         </div>
                                    </div>
                                    <hr>
@@ -1252,7 +1325,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to-${newUniqueId}">
+                                        <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to-${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -1315,24 +1388,24 @@
                                         </div>
                                         <hr>
                                    </div>
-                                   <div class="col-md-12" id="hide_question_label${newUniqueId}">
+                                   <div class="col-md-12 hide_question_label" id="hide_question_label${newUniqueId}">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
+                                             <input type="text" class="form-control question_labl" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                         <hr>
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
-                                             <input type="text" class="form-control" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
+                                             <input type="text" class="form-control text_box_id" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
-                                             <input type="text" class="form-control" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
+                                             <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1346,7 +1419,15 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}" value="">
+                                             <div class="form-control-wrap"> 
+                                                  <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       @if(isset($questions) && $questions != null)
+                                                            @foreach($questions as $question)
+                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                            @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div>
                                         </div>
                                    </div>
                                    <hr>
@@ -1356,7 +1437,7 @@
                                         </div>
                                    </div>
                                    <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input add_conditions" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
+                                        <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
                                         <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
                                    </div>
                                    <hr>
@@ -1398,14 +1479,14 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
-                                             <input type="text" class="form-control" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
+                                             <input type="text" class="form-control dropdown_ques" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="same_contract_link-${newUniqueId}">Same Contract Link Label</label>
-                                             <input type="text" class="form-control" id="same_contrct_link-${newUniqueId}" name="same_contrct_link-${newUniqueId}" value="">
+                                             <input type="text" class="form-control same_contract" id="same_contrct_link-${newUniqueId}" name="same_contrct_link-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1425,7 +1506,15 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
-                                             <input type="text" class="form-control" id="text_go_to_step-${newUniqueId}" name="text_go_to_step-${newUniqueId}">
+                                             <div class="form-control-wrap"> 
+                                                  <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       @if(isset($questions) && $questions != null)
+                                                            @foreach($questions as $question)
+                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                            @endforeach
+                                                       @endif
+                                                  </select>
+                                             </div>
                                         </div>
                                    </div>
                               </div>
@@ -1434,6 +1523,7 @@
                     </div>`;
           }
           $('.add_qu_sec').append(html);
+          $('.js-select2').select2();
 
           conditionalQuestions(newUniqueId);
 
@@ -2222,7 +2312,223 @@
                var documentName = $('#document_id').val();
                let hasError = false;
 
+               $('.add_conditional_label').each(function () {
+                    const uniqueId = $(this).attr('id').replace('condition_qu_label', '');
+                    const conditionSection = $('.cond_ques_div' + uniqueId);
 
+                    if($(this).is(':checked')){
+                         const appendSection = $('#append_label_condition' + uniqueId);
+                         const conditionSections = appendSection.find('.label-condition');
+
+                         if(conditionSections.length === 0){
+                              NioApp.Toast('Please add label.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false; 
+                         }
+
+                         let conditionInvalid = false;
+                         conditionSection.find('select, input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+     
+                         if(conditionInvalid){
+                              NioApp.Toast('Please fill in all required labels.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false;
+                         }
+                    }
+               });
+               
+               $(".hide_question_label").each(function(){
+                    const uniqueId = $(this).attr('id').replace('hide_question_label', '');
+                    const questionSection = $('#hide_question_label'+uniqueId);
+                    const displayStyle = questionSection.css('display'); 
+
+                    if(displayStyle === 'block'){
+                         $(".question_labl").each(function(){
+                              if(!hasError && !$(this).val()){
+                                   NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+                                   hasError = true;
+                                   return false;
+                              }
+                         });
+                    }
+               })
+
+               $(".radio_ques").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $(".date_ques").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $(".dropdown_ques").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               }); 
+               
+               $(".same_contract").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Same Contract Link Label', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               }); 
+
+               $(".text_box_id").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Text Box ID', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+          
+               $(".text_box_placeholder").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Text Box Placeholder', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $(".date_field").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Date field ID', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+               
+               $(".number_field").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Number field ID', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $(".number_placeholder").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Number field Placeholder', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $('.add_cont_rw').each(function(){
+                    const uniqueId = $(this).attr('id').replace('add_cont_rw', '');
+                    const appendSection = $('#add_cont_rw' + uniqueId);
+                    const contractSections = appendSection.find('.contract-option');
+                    let conditionInvalid = false;
+
+                    if(!hasError && contractSections.length !== 0){ 
+                         contractSections.find('input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+                    }
+
+                    if(!hasError && conditionInvalid){
+                         NioApp.Toast('Please fill in all required rows fields.', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               })
+
+               $(".go_to_step").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Go to step', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $(".question_ID").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Question Id', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $('.append_options').each(function(){
+                    const uniqueId = $(this).attr('id').replace('append_options', '');
+                    const appendSection = $('#append_options' + uniqueId);
+                    const dropdownOptionSections = appendSection.find('.dropdown-option');
+                    const radioOptionSections = appendSection.find('.radio-option');
+                    let conditionInvalid = false;
+
+                    if(!hasError && dropdownOptionSections.length !== 0){ 
+                         dropdownOptionSections.find('input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+                    }
+
+                    if(!hasError && radioOptionSections.length !== 0){
+                         radioOptionSections.find('input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+                    }
+
+                    if(!hasError && conditionInvalid){
+                         NioApp.Toast('Please fill in all required options.', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               })
+
+               $('.enable_conditional').each(function () {
+                    const uniqueId = $(this).attr('id').replace('condition_go_to', '');
+                    const conditionSection = $('.cond_div' + uniqueId);
+
+                    if($(this).is(':checked')){
+                         const appendSection = $('#append_page_condition' + uniqueId);
+                         const conditionSections = appendSection.find('.sec-condition');
+
+                         if(!hasError && conditionSections.length === 0){
+                              NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false; 
+                         }
+
+                         let conditionInvalid = false;
+                         conditionSection.find('select, input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+     
+                         if(!hasError && conditionInvalid){
+                              NioApp.Toast('Please fill in all required conditions fields.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false;
+                         }
+                    }
+               });
 
                if(!hasError && (!documentName || documentName.trim() === "")){
                     NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
@@ -2233,34 +2539,6 @@
                     $('#questionForm').submit();
                }
                
-              
-
-               // var mainDiv=  $('.main_question_div');
-               // var isLableCondition = mainDiv.find('input[name="condition_qu_label"]:checked').val(); // Get the value of checked checkbox
-               // var text_qu_label = mainDiv.find('input[id="text_qu_label"]').val(); // Get the value of checked checkbox
-               // var textId = mainDiv.find('input[id="text_id"]').val();
-               // var textPlaceholder = mainDiv.find('input[id="text_placeholder"]').val();
-               // var textGoToStep = mainDiv.find('input[id="text_go_to_step"]').val();
-               
-               
-               // if( isLableCondition !=undefined  && isLableCondition=="on"){
-               //      var labelConditions = mainDiv.find('.append_label_condition');
-
-               //      console.log( labelConditions , " YThis is the div which we need to use to get all the conditons " )
-               // }
-
-               // console.log(isLableCondition , ' isLableCondition ' );
-               // console.log(text_qu_label , ' text_qu_label ' );
-
-               // console.log(textId, ' textId ');
-
-               // console.log(textPlaceholder, ' textPlaceholder ');
-
-               // console.log(textGoToStep, ' textGoToStep ');
-
-           
-
-
           })
      })
      

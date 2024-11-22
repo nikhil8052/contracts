@@ -12,7 +12,7 @@
                <input type="hidden" id="remove_condition" name="remove_condition" value="">
                <input type="hidden" id="formdata" name="formdata" value="">
                <div class="row main_section">
-                    <div class="col md-8 left-content">
+                    <div class="col col-md-8 left-content">
                          <!-- <div class="col-md-12 doc-title mt-4 pb-4">
                               <div class="form-group">
                                    <label class="form-label" for="title"><b><h4>@if(isset($documentRight) && $documentRight != null) Edit Right Content @else Add New Right Content @endif</h4></b></label>
@@ -382,7 +382,7 @@
                               </div>
                          </div>
                     </div>
-                    <div class="col md-4 right-content">
+                    <div class="col col-md-4 right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <!-- <div class="col-md-12">

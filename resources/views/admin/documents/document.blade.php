@@ -22,10 +22,10 @@
                          <div class="tab">
                               @if(isset($document) && $document != null)
                               <a href="{{ url('admin-dashboard/edit-document/'.$document->slug) }}" class="btn tab_btn active">Frontpage</a>
-                              @endif
-                              <button type="button" class="btn tab_btn">Document generator</button>
-                              <button type="button" class="btn tab_btn">Document questions</button>
-                              <button type="button" class="btn tab_btn">Document Text</button>
+                              @endif 
+                              <a class="btn tab_btn" target="_blank">Document generator</a>
+                              <a href="{{ url('admin-dashboard/all-document-questions') }}" class="btn tab_btn" target="_blank">Document questions</a>
+                              <a href="{{ url('admin-dashboard/all-document-right-content') }}" class="btn tab_btn" target="_blank">Document Text</a>
                          </div>
                     </div>
                </div>

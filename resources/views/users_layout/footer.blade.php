@@ -8,11 +8,12 @@
 		<div class="container">
 			<div class="in1_foot">
 				<div class="row">
-					<div class="col-lg-2">
+					<div class="col-lg-3">
 						<div class="fot_logo">
 							<a href="{{ url('/') }}">
 								<img src="{{ asset('storage/'.$path) }}" alt="">
 							</a>
+							<p class="logo-text">Líder en documentos legales por más de 5 años</p>
 						</div>
 					</div>
 					<div class="col-lg-2">
@@ -38,7 +39,7 @@
 								</h5>
 							</div>
 							<ul class="foot_ul">
-								<li class="foot_li"> <a href="{{ url('/who-we-are') }}">Quiénes Somos</a></li>
+								<li class="foot_li"><a href="{{ url('/who-we-are') }}">Quiénes Somos</a></li>
 								<li class="foot_li"><a href="{{ url('/prices') }}">Precios </a></li>
 								<li class="foot_li"><a href="{{ url('/contact-us') }}">Contacto </a></li>
 							</ul>

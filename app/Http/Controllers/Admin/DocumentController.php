@@ -20,6 +20,8 @@ use App\Models\QuestionType;
 use App\Models\DocumentRightSection;
 use App\Models\RightSectionCondition;
 use App\Models\QuestionCondition;
+use App\Models\QuestionData;
+use App\Models\MultipleChoiceQuestionOption;
 use Illuminate\Support\Str;
 use App\Services\FileUploadService;
 use Illuminate\Support\Facades\DB;
@@ -775,6 +777,18 @@ class DocumentController extends Controller
 
     public function addDocumentQuestion(Request $request){
         return $request->all();
+        // DB::beginTransaction(); 
+        // try{
+        //     if(isset($request->formdata) && $request->formdata != null){
+        //         $formData = json_decode($request->formdata);
+        //         foreach($formData as $data){                  
+
+        //         }
+        //     }
+        // }catch(Exception $e){
+        //     saveLog("Error:", "DocumentController", $e->getMessage());
+        //     return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        // }
     }
 
 }

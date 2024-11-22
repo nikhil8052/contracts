@@ -38,11 +38,16 @@
                                         <div class="select_ul">
                                             <div class="tab_ul">
                                                 <div class="tab_star_li">
+                                                    <!-- <span><i class="fa-solid fa-star rating-color"></i></span>
                                                     <span><i class="fa-solid fa-star rating-color"></i></span>
                                                     <span><i class="fa-solid fa-star rating-color"></i></span>
                                                     <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span> -->
+                                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                                    <span class="rating-on rate-5" data-rating="5"></span>
                                                 </div>
                                             </div>         
                                         </div>
@@ -351,11 +356,16 @@
                                             </h5>
                                             <div class="tab_ul">
                                                 <div class="tab_star_li">
+                                                    <span class="rating-on rate-1" data-rating="1"></span>
+                                                    <span class="rating-on rate-2" data-rating="2"></span>
+                                                    <span class="rating-on rate-3" data-rating="3"></span>
+                                                    <span class="rating-on rate-4" data-rating="4"></span>
+                                                    <span class="rating-on rate-5" data-rating="5"></span>
+                                                    <!-- <span><i class="fa-solid fa-star rating-color"></i></span>
                                                     <span><i class="fa-solid fa-star rating-color"></i></span>
                                                     <span><i class="fa-solid fa-star rating-color"></i></span>
                                                     <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
+                                                    <span><i class="fa-solid fa-star rating-color"></i></span> -->
                                                 </div>
                                                 <div>4.6</div>
                                             </div>
@@ -514,8 +524,12 @@
                                     <span>México </span>
                                 </div>
                             </div>
-                            <div class="star_img">
-                                <img src="{{ asset('assets/img/star.png') }}" alt="">
+                            <div class="tab_star_li">
+                                <span class="rating-on rate-1" data-rating="1"></span>
+                                <span class="rating-on rate-2" data-rating="2"></span>
+                                <span class="rating-on rate-3" data-rating="3"></span>
+                                <span class="rating-on rate-4" data-rating="4"></span>
+                                <span class="rating-on rate-5" data-rating="5"></span>
                             </div>
                             <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
                             <span>Hace 7 meses</span>
@@ -530,8 +544,12 @@
                                     <span>México </span>
                                 </div>
                             </div>
-                            <div class="star_img">
-                                <img src="{{ asset('assets/img/star.png') }}" alt="">
+                            <div class="tab_star_li">
+                                <span class="rating-on rate-1" data-rating="1"></span>
+                                <span class="rating-on rate-2" data-rating="2"></span>
+                                <span class="rating-on rate-3" data-rating="3"></span>
+                                <span class="rating-on rate-4" data-rating="4"></span>
+                                <span class="rating-on rate-5" data-rating="5"></span>
                             </div>
                             <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
                             <span>Hace 7 meses</span>
@@ -546,8 +564,12 @@
                                     <span>Ciudad de México </span>
                                 </div>
                             </div>
-                            <div class="star_img">
-                                <img src="{{ asset('assets/img/star.png') }}" alt="">
+                            <div class="tab_star_li">
+                                <span class="rating-on rate-1" data-rating="1"></span>
+                                <span class="rating-on rate-2" data-rating="2"></span>
+                                <span class="rating-on rate-3" data-rating="3"></span>
+                                <span class="rating-on rate-4" data-rating="4"></span>
+                                <span class="rating-on rate-5" data-rating="5"></span>
                             </div>
                             <p>“Rápido fácil y completo” </p>
                             <span>Hace 7 meses</span>
@@ -562,8 +584,12 @@
                                     <span>México </span>
                                 </div>
                             </div>
-                            <div class="star_img">
-                                <img src="{{ asset('assets/img/star.png') }}" alt="">
+                            <div class="tab_star_li">
+                                <span class="rating-on rate-1" data-rating="1"></span>
+                                <span class="rating-on rate-2" data-rating="2"></span>
+                                <span class="rating-on rate-3" data-rating="3"></span>
+                                <span class="rating-on rate-4" data-rating="4"></span>
+                                <span class="rating-on rate-5" data-rating="5"></span>
                             </div>
                             <p>“Un excelente documento, bien estructurado, fácil y práctico de llenar”</p>
                             <span>Hace 7 meses</span>

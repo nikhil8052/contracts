@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('question_datas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade'); // Foreign key to questions table
-            $table->string('question_label'); // Label of the question
+            $table->text('question_label')->nullable(); // Label of the question
             $table->unsignedBigInteger('textbox_id')->nullable(); // Optional textbox ID
             $table->unsignedBigInteger('next_question_id')->nullable(); // Optional next question ID
             $table->foreign('next_question_id')->references('id')->on('questions')->onDelete('set null');

@@ -12,6 +12,7 @@
     <!-- Page Title  -->
     <title>Docx | Admin Dashboard</title>
     <!-- StyleSheets  -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css?ver=3.1.2?kkkk') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('admin-theme/assets/css/theme.css?ver=3.1.2') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -85,7 +86,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nk-menu-item has-sub">
+                                <!-- <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
                                         <span class="nk-menu-text">Document Questions</span>
@@ -98,8 +99,8 @@
                                             <a href="{{ url('/admin-dashboard/all-question-type') }}" class="nk-menu-link"><span class="nk-menu-text">Question Type</span></a>
                                         </li>
                                     </ul>
-                                </li>
-                                <li class="nk-menu-item has-sub">
+                                </li> -->
+                                <!-- <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-file"></em></span>
                                         <span class="nk-menu-text">Document Right Content</span>
@@ -109,7 +110,7 @@
                                             <a href="{{ url('/admin-dashboard/all-document-right-content') }}" class="nk-menu-link"><span class="nk-menu-text">Document Right Content</span></a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-files"></em></span>
