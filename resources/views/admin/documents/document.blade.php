@@ -30,495 +30,499 @@
                     </div>
                </div>
                <div class="row main_section_div">
-                    <div class="col md-8 doc-left-content">
+                    <div class="col col-md-8 doc-left-content">
                          <div class="doc-top-butns2 mt-0">
                               <div class="form-group">
                                    <button type="button" class="btn btn-light">AI Autofill</button>
                               </div>
                          </div>
-                         @if(isset($document) && $document != null)
-                         <div class="col-md-12 doc-title mt-5 pb-5">
-                              <div class="form-group">
-                                   <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
-                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
-                              </div>
-                         </div>
-                         @else
-                         <div class="col-md-12 doc-title mt-4 pb-4">
-                              <div class="form-group">
-                                   <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
-                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
-                                   @error('title')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                                   <span class="text-danger validation_error"></span>
-                              </div>
-                         </div>
-                         @endif 
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="document_image">Image</label>
-                                   <input type="file" class="form-control" id="document_image" name="document_image" value="">
-                                   @error('document_image')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                              </div>
-                              <div class="form-group">
-                              @if(isset($document->document_image) && $document->document_image != null)
-                              <?php 
-                                   $image_path = str_replace('public/', '', $document->document_file_path ?? null);
-                              ?>
-                                   <img src="{{ asset('storage/'.$image_path) }}" alt="{{ asset('storage/'.$image_path) }}" height="200px" width="200px">
-                              @endif
-                              </div>
-                         </div>
-                         <h5 class="mt-2">Document Short Description</h5>  
-                         <hr>
-                         <div class="row gy-12 mt-2">
-                              <div class="col-md-12 doc-short-des">
-                                   <div class="form-group">
-                                        <label class="form-label" for="short_description">Short Description</label>
-                                        <textarea class="form-control" id="short_description" name="short_description">{{ $document->short_description ?? '' }}</textarea>
-                                        @error('short_description')
-                                             <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                   </div>
-                              </div>
-                         </div>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="document_button_text">Create Document Button Text</label>
-                                   <input type="text" class="form-control" id="document_button_text" name="document_button_text" value="{{ $document->btn_text ?? '' }}">
-                                   @error('document_button_text')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                                   <span class="text-danger validation_error"></span>
-                              </div>
-                         </div>
-                         <h5 class="mt-4">Agreement Section</h5>
-                         <hr>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="long_description">Long Description</label>
-                                   <textarea class="form-control" id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
-                                   @error('long_description')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                              </div>
-                         </div>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="">Agreement Steps</label>
-                              </div>
-                         </div> 
-                         <br> 
-                         @if(isset($document->documentAgreement) && $document->documentAgreement != null)
-                         @foreach($document->documentAgreement as $agrmnt)
-                         <?php 
-                         $path = str_replace('public/', '', $agrmnt->media->file_path ?? null); ?>
-                         <div class="faq-append-sec{{ $agrmnt->id ?? '' }}">
-                              <div class="row gy-12">
-                                   <div class="col-md-2">
+                         <div class="card card-bordered card-preview mt-4">
+                              <div class="card-inner">
+                                   @if(isset($document) && $document != null)
+                                   <div class="col-md-12 doc-title">
                                         <div class="form-group">
-                                             <button class="btn-sm update_agreement_img" type="button" data-id="{{ $agrmnt->id ?? '' }}">Add New</button>
-                                             <input type="file" name="agreement_up_img" class="update_img" data-id="{{ $agrmnt->id ?? '' }}" id="agreement_up_img{{ $agrmnt->id ?? '' }}" style="display:none;">
+                                             <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
+                                             <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
                                         </div>
-                                        <div class="img_div" id="img_div{{ $agrmnt->id ?? '' }}">
-                                             <!-- <div class="text-end">
-                                                  <span class="remove_img" data-id="{{ $agrmnt->id ?? '' }}">
-                                                       <i class="fa fa-times"></i>
-                                                  </span>
-                                             </div> -->
+                                   </div>
+                                   @else
+                                   <div class="col-md-12 doc-title mt-4 pb-4">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
+                                             <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
+                                             @error('title')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                             <span class="text-danger validation_error"></span>
+                                        </div>
+                                   </div>
+                                   @endif 
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="document_image">Image</label>
+                                             <input type="file" class="form-control" id="document_image" name="document_image" value="">
+                                             @error('document_image')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                        <div class="form-group">
+                                        @if(isset($document->document_image) && $document->document_image != null)
+                                        <?php 
+                                             $image_path = str_replace('public/', '', $document->document_file_path ?? null);
+                                        ?>
+                                             <img src="{{ asset('storage/'.$image_path) }}" alt="{{ asset('storage/'.$image_path) }}" height="200px" width="200px">
+                                        @endif
+                                        </div>
+                                   </div>
+                                   <h5 class="mt-2">Document Short Description</h5>  
+                                   <hr>
+                                   <div class="row gy-12 mt-2">
+                                        <div class="col-md-12 doc-short-des">
                                              <div class="form-group">
-                                                  <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="{{ asset('storage/'.$path ?? '' ) }}">
+                                                  <label class="form-label" for="short_description">Short Description</label>
+                                                  <textarea class="form-control" id="short_description" name="short_description">{{ $document->short_description ?? '' }}</textarea>
+                                                  @error('short_description')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
                                              </div>
                                         </div>
                                    </div>
-                                   <div class="col-md-5">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="agreement_heading">Heading</label>
-                                             <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[{{ $agrmnt->id ?? '' }}]" value="{{ $agrmnt->heading ?? '' }}">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-5">
-                                        <div class="form-group">
-                                             <label class="form-label" for="agreement_description">Description</label>
-                                             <textarea class="form-control" id="agreement_description" name="agreement_description[{{ $agrmnt->id ?? '' }}]">{{ $agrmnt->description ?? '' }}</textarea>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
-                         @endforeach
-                         @else
-                         @php $num=4; @endphp
-                         @for($i=1; $i<=$num; $i++)
-                         <div class="faq-append-sec{{ $i ?? '' }}">
-                              <div class="row gy-12">
-                                   <div class="col-md-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="agreement_image">Image</label>
-                                             <input type="file" class="form-control" name="agreement_image[]">
-                                             @error('agreement_image.*')
+                                             <label class="form-label" for="document_button_text">Create Document Button Text</label>
+                                             <input type="text" class="form-control" id="document_button_text" name="document_button_text" value="{{ $document->btn_text ?? '' }}">
+                                             @error('document_button_text')
                                                   <span class="text-danger">{{ $message }}</span>
                                              @enderror
+                                             <span class="text-danger validation_error"></span>
                                         </div>
                                    </div>
-                                   <div class="col-md-5">
-                                        <div class="form-group">
-                                             <label class="form-label" for="agreement_heading">Heading</label>
-                                             <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[]" value="">
-                                             @error('agreement_heading.*')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
-                                        </div>
-                                   </div>
-                                   <div class="col-md-5">
-                                        <div class="form-group">
-                                             <label class="form-label" for="agreement_description">Description</label>
-                                             <textarea class="form-control" id="agreement_description" name="agreement_description[]"></textarea>
-                                             @error('agreement_description.*')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
-                         @endfor
-                         @endif
-                         <br>
-                         <h5>Documents Field</h5> 
-                         <hr>
-                         <h6>Image and text</h6>
-                         @if(isset($document->documentField) && $document->documentField != null)
-                              @foreach($document->documentField as $index=>$field)
-                              <?php 
-                                   $path = str_replace('public/', '', $field->media->file_path ?? null);
-                              ?>
-                              <div class="img-txt-section{{ $field->id ?? '' }}">
+                                   <h5 class="mt-4">Agreement Section</h5>
                                    <hr>
-                                   <!-- <div class="text-end">
+                                   <div class="col-md-12 mt-2">
                                         <div class="form-group">
-                                             <div><span class="remove-second-sec" data-id="{{ $field->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                             <label class="form-label" for="long_description">Long Description</label>
+                                             <textarea class="form-control" id="long_description" name="long_description">{{ $document->long_description ?? '' }}</textarea>
+                                             @error('long_description')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Agreement Steps</label>
+                                        </div>
+                                   </div> 
+                                   <br> 
+                                   @if(isset($document->documentAgreement) && $document->documentAgreement != null)
+                                   @foreach($document->documentAgreement as $agrmnt)
+                                   <?php 
+                                   $path = str_replace('public/', '', $agrmnt->media->file_path ?? null); ?>
+                                   <div class="faq-append-sec{{ $agrmnt->id ?? '' }}">
+                                        <div class="row gy-12">
+                                             <div class="col-md-2">
+                                                  <div class="form-group">
+                                                       <button class="btn-sm update_agreement_img" type="button" data-id="{{ $agrmnt->id ?? '' }}">Add New</button>
+                                                       <input type="file" name="agreement_up_img" class="update_img" data-id="{{ $agrmnt->id ?? '' }}" id="agreement_up_img{{ $agrmnt->id ?? '' }}" style="display:none;">
+                                                  </div>
+                                                  <div class="img_div" id="img_div{{ $agrmnt->id ?? '' }}">
+                                                       <!-- <div class="text-end">
+                                                            <span class="remove_img" data-id="{{ $agrmnt->id ?? '' }}">
+                                                                 <i class="fa fa-times"></i>
+                                                            </span>
+                                                       </div> -->
+                                                       <div class="form-group">
+                                                            <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="{{ asset('storage/'.$path ?? '' ) }}">
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-5">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="agreement_heading">Heading</label>
+                                                       <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[{{ $agrmnt->id ?? '' }}]" value="{{ $agrmnt->heading ?? '' }}">
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-5">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="agreement_description">Description</label>
+                                                       <textarea class="form-control" id="agreement_description" name="agreement_description[{{ $agrmnt->id ?? '' }}]">{{ $agrmnt->description ?? '' }}</textarea>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   @endforeach
+                                   @else
+                                   @php $num=4; @endphp
+                                   @for($i=1; $i<=$num; $i++)
+                                   <div class="faq-append-sec{{ $i ?? '' }}">
+                                        <div class="row gy-12">
+                                             <div class="col-md-2">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="agreement_image">Image</label>
+                                                       <input type="file" class="form-control" name="agreement_image[]">
+                                                       @error('agreement_image.*')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                       @enderror
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-5">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="agreement_heading">Heading</label>
+                                                       <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[]" value="">
+                                                       @error('agreement_heading.*')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                       @enderror
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-5">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="agreement_description">Description</label>
+                                                       <textarea class="form-control" id="agreement_description" name="agreement_description[]"></textarea>
+                                                       @error('agreement_description.*')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                       @enderror
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   @endfor
+                                   @endif
+                                   <br>
+                                   <h5>Documents Field</h5> 
+                                   <hr>
+                                   <h6>Image and text</h6>
+                                   @if(isset($document->documentField) && $document->documentField != null)
+                                        @foreach($document->documentField as $index=>$field)
+                                        <?php 
+                                             $path = str_replace('public/', '', $field->media->file_path ?? null);
+                                        ?>
+                                        <div class="img-txt-section{{ $field->id ?? '' }}">
+                                             <hr>
+                                             <!-- <div class="text-end">
+                                                  <div class="form-group">
+                                                       <div><span class="remove-second-sec" data-id="{{ $field->id ?? '' }}"><i class="fa fa-times"></i></span></div>
+                                                  </div>
+                                             </div> -->
+                                             <div class="col-md-12 mt-2">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="img_heading">Heading</label>
+                                                       <input type="text" class="form-control" id="img_heading" name="img_heading[{{ $field->id ?? '' }}]" value="{{ $field->heading ?? '' }}">
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-12 mt-2">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="img_description">Description Here</label>
+                                                       <textarea class="form-control" id="img_description{{ $index ?? '' }}" name="img_description[{{ $field->id ?? '' }}]">{{ $field->description ?? '' }}</textarea>
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-12 mt-2">
+                                                  <div class="form-group">
+                                                       <button class="btn-sm update_field_img" type="button" data-id="{{ $field->id ?? '' }}">Add New</button>
+                                                       <input type="file" name="field_up_img" class="up_img" data-id="{{ $field->id ?? '' }}" id="field_up_img{{ $field->id ?? '' }}" style="display:none;">
+                                                  </div>
+                                                  <div class="field_img_div" id="field_img_div{{ $field->id ?? '' }}">
+                                                       <!-- <div class="text-end">
+                                                            <span class="remove_field_img" data-id="{{ $field->id ?? '' }}">
+                                                                 <i class="fa fa-times"></i>
+                                                            </span>
+                                                       </div> -->
+                                                       <div class="form-group">
+                                                            <img src="{{ asset('storage/'.$path) }}" alt="{{ asset('storage/'.$path) }}">
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-12 mt-2">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="img_description_second">Description Here</label>
+                                                       <textarea class="form-control" id="img_description_second{{ $index ?? '' }}" name="img_description_second[{{ $field->id ?? '' }}]">{{ $field->description2 ?? '' }}</textarea>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <script>
+                                             ClassicEditor.create(document.querySelector('#img_description{{ $index }}'),{
+                                             toolbar: {
+                                                  items: [
+                                                       'heading', 
+                                                       'bold', 
+                                                       'bulletedList', 
+                                                       'numberedList', 
+                                                  ]
+                                             },
+                                             heading: {
+                                                  options: [
+                                                       { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                                                       { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                                                       { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+                                                  ]
+                                             },
+                                             removePlugins: [
+                                                  'Table','MediaEmbed', 'BlockQuote',
+                                             ]
+                                        })
+                                        .catch( error => {
+                                             console.error( error );
+                                        });
+
+                                        ClassicEditor.create(document.querySelector('#img_description_second{{ $index }}'),{
+                                             toolbar: {
+                                                  items: [
+                                                       'heading', 
+                                                       'bold', 
+                                                       'bulletedList', 
+                                                       'numberedList', 
+                                                  ]
+                                             },
+                                             heading: {
+                                                  options: [
+                                                       { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                                                       { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                                                       { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+                                                  ]
+                                             },
+                                             removePlugins: [
+                                                  'Table','MediaEmbed', 'BlockQuote',
+                                             ]
+                                        })
+                                        .catch( error => {
+                                             console.error( error );
+                                        });
+
+                                        </script>
+                                        @endforeach
+                                   @else
+                                   <div class="img-txt-section">
+                                        <hr>
+                                        <div class="col-md-12 mt-2">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="img_heading">Heading</label>
+                                                  <input type="text" class="form-control" id="img_heading" name="img_heading[]" value="">
+                                                  @error('img_heading.*')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
+                                                  <span class="text-danger validation_error"></span>
+                                             </div>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="img_description">Description Here</label>
+                                                  <textarea class="form-control" id="img_description" name="img_description[]"></textarea>
+                                                  @error('img_description.*')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
+                                             </div>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="field_image">Image</label>
+                                                  <input type="file" class="form-control" id="field_image" name="field_image[]">
+                                                  @error('field_image.*')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
+                                             </div>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="img_description_second">Description Here</label>
+                                                  <textarea class="form-control" id="img_description_second" name="img_description_second[]"></textarea>
+                                                  @error('img_description_second.*')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                  @enderror
+                                             </div>
+                                        </div>
+                                   </div>
+                                   @endif
+                                   <div id="document_field_container"></div>
+                                   <br>
+                                   <div class="text-end">
+                                        <div class="form-group">
+                                             <button type="button" class="btn btn-sm btn-primary" id="second-section-add">Add Row</button>
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <h6 class="mt-2">Guide Section</h6>
+                                   <hr>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="guide_heading">Guide Section Main Heading</label>
+                                             <input type="text" class="form-control form-control" id="guide_heading" name="guide_heading" value="{{ $document->guide_main_heading ?? '' }}">
+                                             @error('guide_heading')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label">Guide Section Steps</label>
+                                        </div>
+                                   </div>
+                                   @if(isset($document->documentGuide) && $document->documentGuide != null)
+                                        @foreach($document->documentGuide as $guide)
+                                             <div class="guide-append-sec{{ $guide->id ?? '' }}">
+                                                  <hr>
+                                                  <div class="row gy-12">
+                                                       <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="step_title">Step Title</label>
+                                                                 <input type="text" class="form-control form-control" id="step_title" name="step_title[{{ $guide->id ?? '' }}]" value="{{ $guide->step_title ?? '' }}">
+                                                            </div>
+                                                       </div>
+                                                       <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="step_description">Step Description</label>
+                                                                 <textarea class="form-control" id="step_description" name="step_description[{{ $guide->id ?? '' }}]">{{ $guide->step_description ?? '' }}</textarea>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        @endforeach
+                                        @else
+                                        @php $count=2; @endphp
+                                        @for($i=1; $i<=$count; $i++)
+                                        <div class="guide-append-sec{{ $i ?? '' }}">
+                                             <hr>
+                                             <div class="row gy-12">
+                                                  <div class="col-md-6">
+                                                       <div class="form-group">
+                                                            <label class="form-label" for="step_title">Step Title</label>
+                                                            <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="">
+                                                            @error('step_title.*')
+                                                                 <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                       </div>
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                       <div class="form-group">
+                                                            <label class="form-label" for="step_description">Step Description</label>
+                                                            <textarea class="form-control" id="step_description" name="step_description[]"></textarea>
+                                                            @error('step_description.*')
+                                                                 <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        @endfor
+                                   @endif
+                                   <div id="guide-sec-steps"></div>
+                                   <br>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="guide_button">Guide Button</label>
+                                             <input type="text" class="form-control form-control" id="guide_button" name="guide_button" value="{{ $document->guide_button ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <!-- <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="guide_button_link">Guide Section Button Link</label>
+                                             <input type="text" class="form-control form-control" id="guide_button_link" name="guide_button_link" value="{{ $document->guide_button_link ?? '' }}">
                                         </div>
                                    </div> -->
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="img_heading">Heading</label>
-                                             <input type="text" class="form-control" id="img_heading" name="img_heading[{{ $field->id ?? '' }}]" value="{{ $field->heading ?? '' }}">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="img_description">Description Here</label>
-                                             <textarea class="form-control" id="img_description{{ $index ?? '' }}" name="img_description[{{ $field->id ?? '' }}]">{{ $field->description ?? '' }}</textarea>
-                                        </div>
-                                   </div>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <button class="btn-sm update_field_img" type="button" data-id="{{ $field->id ?? '' }}">Add New</button>
-                                             <input type="file" name="field_up_img" class="up_img" data-id="{{ $field->id ?? '' }}" id="field_up_img{{ $field->id ?? '' }}" style="display:none;">
-                                        </div>
-                                        <div class="field_img_div" id="field_img_div{{ $field->id ?? '' }}">
-                                             <!-- <div class="text-end">
-                                                  <span class="remove_field_img" data-id="{{ $field->id ?? '' }}">
-                                                       <i class="fa fa-times"></i>
-                                                  </span>
-                                             </div> -->
-                                             <div class="form-group">
-                                                  <img src="{{ asset('storage/'.$path) }}" alt="{{ asset('storage/'.$path) }}">
-                                             </div>
-                                        </div>
-                                   </div>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="img_description_second">Description Here</label>
-                                             <textarea class="form-control" id="img_description_second{{ $index ?? '' }}" name="img_description_second[{{ $field->id ?? '' }}]">{{ $field->description2 ?? '' }}</textarea>
-                                        </div>
-                                   </div>
-                              </div>
-                              <script>
-                                   ClassicEditor.create(document.querySelector('#img_description{{ $index }}'),{
-                                   toolbar: {
-                                        items: [
-                                             'heading', 
-                                             'bold', 
-                                             'bulletedList', 
-                                             'numberedList', 
-                                        ]
-                                   },
-                                   heading: {
-                                        options: [
-                                             { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                                             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                                             { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
-                                        ]
-                                   },
-                                   removePlugins: [
-                                        'Table','MediaEmbed', 'BlockQuote',
-                                   ]
-                              })
-                              .catch( error => {
-                                   console.error( error );
-                              });
-
-                              ClassicEditor.create(document.querySelector('#img_description_second{{ $index }}'),{
-                                   toolbar: {
-                                        items: [
-                                             'heading', 
-                                             'bold', 
-                                             'bulletedList', 
-                                             'numberedList', 
-                                        ]
-                                   },
-                                   heading: {
-                                        options: [
-                                             { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                                             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                                             { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
-                                        ]
-                                   },
-                                   removePlugins: [
-                                        'Table','MediaEmbed', 'BlockQuote',
-                                   ]
-                              })
-                              .catch( error => {
-                                   console.error( error );
-                              });
-
-                              </script>
-                              @endforeach
-                         @else
-                         <div class="img-txt-section">
-                              <hr>
-                              <div class="col-md-12 mt-2">
-                                   <div class="form-group">
-                                        <label class="form-label" for="img_heading">Heading</label>
-                                        <input type="text" class="form-control" id="img_heading" name="img_heading[]" value="">
-                                        @error('img_heading.*')
-                                             <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                        <span class="text-danger validation_error"></span>
-                                   </div>
-                              </div>
-                              <div class="col-md-12 mt-2">
-                                   <div class="form-group">
-                                        <label class="form-label" for="img_description">Description Here</label>
-                                        <textarea class="form-control" id="img_description" name="img_description[]"></textarea>
-                                        @error('img_description.*')
-                                             <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                   </div>
-                              </div>
-                              <div class="col-md-12 mt-2">
-                                   <div class="form-group">
-                                        <label class="form-label" for="field_image">Image</label>
-                                        <input type="file" class="form-control" id="field_image" name="field_image[]">
-                                        @error('field_image.*')
-                                             <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                   </div>
-                              </div>
-                              <div class="col-md-12 mt-2">
-                                   <div class="form-group">
-                                        <label class="form-label" for="img_description_second">Description Here</label>
-                                        <textarea class="form-control" id="img_description_second" name="img_description_second[]"></textarea>
-                                        @error('img_description_second.*')
-                                             <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                   </div>
-                              </div>
-                         </div>
-                         @endif
-                         <div id="document_field_container"></div>
-                         <br>
-                         <div class="text-end">
-                              <div class="form-group">
-                                   <button type="button" class="btn btn-sm btn-primary" id="second-section-add">Add Row</button>
-                              </div>
-                         </div>
-                         <hr>
-                         <h6 class="mt-2">Guide Section</h6>
-                         <hr>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="guide_heading">Guide Section Main Heading</label>
-                                   <input type="text" class="form-control form-control" id="guide_heading" name="guide_heading" value="{{ $document->guide_main_heading ?? '' }}">
-                                   @error('guide_heading')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                              </div>
-                         </div>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label">Guide Section Steps</label>
-                              </div>
-                         </div>
-                         @if(isset($document->documentGuide) && $document->documentGuide != null)
-                              @foreach($document->documentGuide as $guide)
-                                   <div class="guide-append-sec{{ $guide->id ?? '' }}">
-                                        <hr>
-                                        <div class="row gy-12">
-                                             <div class="col-md-6">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="step_title">Step Title</label>
-                                                       <input type="text" class="form-control form-control" id="step_title" name="step_title[{{ $guide->id ?? '' }}]" value="{{ $guide->step_title ?? '' }}">
-                                                  </div>
-                                             </div>
-                                             <div class="col-md-6">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="step_description">Step Description</label>
-                                                       <textarea class="form-control" id="step_description" name="step_description[{{ $guide->id ?? '' }}]">{{ $guide->step_description ?? '' }}</textarea>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                              @endforeach
-                              @else
-                              @php $count=2; @endphp
-                              @for($i=1; $i<=$count; $i++)
-                              <div class="guide-append-sec{{ $i ?? '' }}">
                                    <hr>
-                                   <div class="row gy-12">
-                                        <div class="col-md-6">
-                                             <div class="form-group">
-                                                  <label class="form-label" for="step_title">Step Title</label>
-                                                  <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="">
-                                                  @error('step_title.*')
-                                                       <span class="text-danger">{{ $message }}</span>
-                                                  @enderror
-                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                             <div class="form-group">
-                                                  <label class="form-label" for="step_description">Step Description</label>
-                                                  <textarea class="form-control" id="step_description" name="step_description[]"></textarea>
-                                                  @error('step_description.*')
-                                                       <span class="text-danger">{{ $message }}</span>
-                                                  @enderror
-                                             </div>
+                                   <h6 class="mt-4">Legal Document</h6>
+                                   <hr>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="legal_heading">Heading</label>
+                                             <input type="text" class="form-control form-control" id="legal_heading" name="legal_heading" value="{{ $document->legal_heading ?? '' }}">
+                                             @error('legal_heading')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
                                         </div>
                                    </div>
-                              </div>
-                              @endfor
-                         @endif
-                         <div id="guide-sec-steps"></div>
-                         <br>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="guide_button">Guide Button</label>
-                                   <input type="text" class="form-control form-control" id="guide_button" name="guide_button" value="{{ $document->guide_button ?? '' }}">
-                              </div>
-                         </div>
-                         <!-- <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="guide_button_link">Guide Section Button Link</label>
-                                   <input type="text" class="form-control form-control" id="guide_button_link" name="guide_button_link" value="{{ $document->guide_button_link ?? '' }}">
-                              </div>
-                         </div> -->
-                         <hr>
-                         <h6 class="mt-4">Legal Document</h6>
-                         <hr>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="legal_heading">Heading</label>
-                                   <input type="text" class="form-control form-control" id="legal_heading" name="legal_heading" value="{{ $document->legal_heading ?? '' }}">
-                                   @error('legal_heading')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                              </div>
-                         </div>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="legal_description">Description</label>
-                                   <textarea class="form-control" id="legal_description" name="legal_description">{{ $document->legal_description ?? '' }}</textarea>
-                                   @error('legal_description')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                              </div>
-                         </div>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="legal_btn_text">Button Label</label>
-                                   <input type="text" class="form-control" id="legal_btn_text" name="legal_btn_text" value="{{ $document->legal_btn_text ?? '' }}">
-                                   @error('legal_btn_text')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                              </div>
-                         </div>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="legal_doc_image">Document Image</label>
-                                   <input type="file" class="form-control" id="legal_doc_image" name="legal_doc_image" value="">
-                              </div>
-                         </div>
-                         @if(isset($document->legal_doc_image) && $document->legal_doc_image != null)
-                         <?php 
-                              $image = str_replace('public/', '', $document->file_path ?? null)
-                         ?>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <img src="{{ asset('storage/'.$image ) }}" width="200px" height="200px">
-                              </div>
-                         </div>
-                         @endif
-                         <hr>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="valid_in">Valid in</label>
-                                   <input type="text" class="form-control form-control" id="valid_in" name="valid_in" value="{{ $document->valid_in ?? '' }}">
-                              </div>
-                         </div>
-                         <hr>
-                         <h6 class="mt-4">Related Document Section</h6>
-                         <hr>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="related_heading">Related Document Heading</label>
-                                   <input type="text" class="form-control" id="related_heading" name="related_heading" value="{{ $document->related_heading ?? '' }}">
-                                   @error('related_heading')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                              </div>
-                         </div>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="related_description">Related Document Short Description</label>
-                                   <textarea class="form-control" id="related_description" name="related_description">{{ $document->related_description ?? '' }}</textarea>
-                                   @error('related_description')
-                                        <span class="text-danger">{{ $message }}</span>
-                                   @enderror
-                              </div>
-                         </div>
-                         <div class="col-md-12 mt-2">
-                              <div class="form-group">
-                                   <label class="form-label" for="select_related_doc">Select Related Documents</label>               
-                                   <div class="form-control-wrap">
-                                        <select class="form-select js-select2" multiple="multiple" id="select_related_doc" name="select_related_doc[]" value="">
-                                             <option value="">Select</option>
-                                             @if(isset($related_documents) && $related_documents != null)
-                                                  @foreach($related_documents as $related)
-                                                       @if(isset($document) && $document != null)
-                                                            @if($related->id != $document->id)
-                                                                 @php
-                                                                      $isSelected = isset($document->relatedDocuments) && $document->relatedDocuments->contains('id', $related->id);
-                                                                 @endphp
-                                                                 <option value="{{ $related->id ?? '' }}" {{ $isSelected ? 'selected' : '' }}>
-                                                                      {{ $related->title ?? '' }}
-                                                                 </option>
-                                                            @endif
-                                                       @else
-                                                            <option value="{{ $related->id ?? '' }}">
-                                                                 {{ $related->title ?? '' }}
-                                                            </option>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="legal_description">Description</label>
+                                             <textarea class="form-control" id="legal_description" name="legal_description">{{ $document->legal_description ?? '' }}</textarea>
+                                             @error('legal_description')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="legal_btn_text">Button Label</label>
+                                             <input type="text" class="form-control" id="legal_btn_text" name="legal_btn_text" value="{{ $document->legal_btn_text ?? '' }}">
+                                             @error('legal_btn_text')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="legal_doc_image">Document Image</label>
+                                             <input type="file" class="form-control" id="legal_doc_image" name="legal_doc_image" value="">
+                                        </div>
+                                   </div>
+                                   @if(isset($document->legal_doc_image) && $document->legal_doc_image != null)
+                                   <?php 
+                                        $image = str_replace('public/', '', $document->file_path ?? null)
+                                   ?>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <img src="{{ asset('storage/'.$image ) }}" width="200px" height="200px">
+                                        </div>
+                                   </div>
+                                   @endif
+                                   <hr>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="valid_in">Valid in</label>
+                                             <input type="text" class="form-control form-control" id="valid_in" name="valid_in" value="{{ $document->valid_in ?? '' }}">
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <h6 class="mt-4">Related Document Section</h6>
+                                   <hr>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="related_heading">Related Document Heading</label>
+                                             <input type="text" class="form-control" id="related_heading" name="related_heading" value="{{ $document->related_heading ?? '' }}">
+                                             @error('related_heading')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="related_description">Related Document Short Description</label>
+                                             <textarea class="form-control" id="related_description" name="related_description">{{ $document->related_description ?? '' }}</textarea>
+                                             @error('related_description')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="select_related_doc">Select Related Documents</label>               
+                                             <div class="form-control-wrap">
+                                                  <select class="form-select js-select2" multiple="multiple" id="select_related_doc" name="select_related_doc[]" value="">
+                                                       <option value="">Select</option>
+                                                       @if(isset($related_documents) && $related_documents != null)
+                                                            @foreach($related_documents as $related)
+                                                                 @if(isset($document) && $document != null)
+                                                                      @if($related->id != $document->id)
+                                                                           @php
+                                                                                $isSelected = isset($document->relatedDocuments) && $document->relatedDocuments->contains('id', $related->id);
+                                                                           @endphp
+                                                                           <option value="{{ $related->id ?? '' }}" {{ $isSelected ? 'selected' : '' }}>
+                                                                                {{ $related->title ?? '' }}
+                                                                           </option>
+                                                                      @endif
+                                                                 @else
+                                                                      <option value="{{ $related->id ?? '' }}">
+                                                                           {{ $related->title ?? '' }}
+                                                                      </option>
+                                                                 @endif
+                                                            @endforeach
                                                        @endif
-                                                  @endforeach
-                                             @endif
-                                        </select>
+                                                  </select>
+                                             </div>
+                                        </div>
                                    </div>
                               </div>
                          </div>
                     </div>
-                    <div class="col-md-4 doc-right-content">
+                    <div class="col col-md-4 doc-right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="d-flex justify-content-end">

@@ -33,7 +33,7 @@
                         <div class="share_icon">
                             <div class="review">
                                 <ul class="cont_ul">
-                                    <li class="cont_li ">5.0 </li>
+                                    
                                     <li class="drop_cont_li">
                                         <div class="select_ul">
                                             <div class="tab_ul">
@@ -52,7 +52,8 @@
                                             </div>         
                                         </div>
                                     </li>
-                                    <li class="cont_li ">81 opiniones</li>
+                                    <li class="cont_li ">5.0</li>|
+                                    <li class="cont_li review_opinion">81 opiniones</li>
                                 </ul>
                             </div>
                             <!-- <div> -->

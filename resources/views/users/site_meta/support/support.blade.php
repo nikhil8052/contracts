@@ -62,39 +62,6 @@
         </div>
     </section>
 
-    <section class="faq_sec p_120 pt-0">
-        <div class="container">
-            <h2 class="b-dark">
-                {{ $data['faq_heading'] ?? 'Frequently Asked Questions' }}
-            </h2>
-            <p>{{ $data['faq_description'] ?? '' }}</p>
-            <div class="accordion  accordion-flush" id="accordionExample">
-            @if(isset($faqs) && $faqs != null)
-            @foreach($faqs as $faq)
-            <div class="accordion-item">
-                <h6 class="accordion-header" id="heading{{ $loop->iteration ?? '' }}">
-                    <button class="{{ $loop->first ? 'accordion-button':'accordion-button collapsed' }}" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapse{{ $loop->iteration ?? '' }}" aria-expanded="{{ $loop->first ? 'true':'false' }}" aria-controls="collapse{{ $loop->iteration ?? '' }}">
-                        {{ $faq->question ?? '' }}
-                    </button>
-                </h6>
-                <div id="collapse{{ $loop->iteration ?? '' }}" class="{{ $loop->first ? 'accordion-collapse collapse show':'accordion-collapse collapse' }}" aria-labelledby="heading{{ $loop->iteration ?? '' }}"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <?php
-                            $answer = strip_tags($faq->answer);
-                            print_r($answer);
-                        ?>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-            @endif
-            </div>
-        </div>
-    </section>
-
-
     <section class="generate-sec p_100 Comienza_sec">
         <div class="container">
             <div class="row">
@@ -121,5 +88,46 @@
             </div>
         </div>
     </section>
+
+    <section class="faq_sec p_120">
+        <div class="help_last_sec">
+            <div class="container">
+                <div class="help_main_faq">
+                    <div class="help_faq">
+                        <h2 class="b-dark">
+                            {{ $data['faq_heading'] ?? 'Frequently Asked Questions' }}
+                        </h2>
+                        <p>{{ $data['faq_description'] ?? '' }}</p>
+                    </div>
+                    <div class="accordion  accordion-flush" id="accordionExample">
+                        @if(isset($faqs) && $faqs != null)
+                        @foreach($faqs as $faq)
+                        <div class="accordion-item">
+                            <h6 class="accordion-header" id="heading{{ $loop->iteration ?? '' }}">
+                                <button class="{{ $loop->first ? 'accordion-button':'accordion-button collapsed' }}" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ $loop->iteration ?? '' }}" aria-expanded="{{ $loop->first ? 'true':'false' }}" aria-controls="collapse{{ $loop->iteration ?? '' }}">
+                                    {{ $faq->question ?? '' }}
+                                </button>
+                            </h6>
+                            <div id="collapse{{ $loop->iteration ?? '' }}" class="{{ $loop->first ? 'accordion-collapse collapse show':'accordion-collapse collapse' }}" aria-labelledby="heading{{ $loop->iteration ?? '' }}"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <?php
+                                        $answer = strip_tags($faq->answer);
+                                        print_r($answer);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+  
 
 @endsection

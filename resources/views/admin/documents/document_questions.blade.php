@@ -6,6 +6,7 @@
           <form action="{{ url('/admin-dashboard/add/document-questions') }}" id="questionForm" method="post" enctype="multipart/form-data">
           @csrf
           <input type="hidden" id="formdata" name="formdata" value="">
+          <input type="hidden" id="is_end" name="is_end" value="">
           <div class="row main_section">
                <div class="col col-md-8 left-content">
                     <!-- <div class="col-md-12 doc-title mt-4 pb-4">
@@ -121,6 +122,13 @@
 
 <script>
      $(document).ready(function(){
+          $('#last_step').on('change',function(){
+               if($(this).is(':checked')){
+                   $('#is_end').val(1);
+               }else{
+                    $('#is_end').val(0);
+               }
+          });
 
           // To remove the steps 
           $('body').delegate('.remove_steps','click', function(){
@@ -381,6 +389,7 @@
                                    <label class="form-label" for="radio_go_to_step-${uID}">Go to Step</label>
                                    <div class="form-control-wrap"> 
                                         <select class="form-select js-select2 new_label_question_id" data-search="on" name="radio_go_to_step-${uID}[]" id="radio_go_to_step-${uID}">
+                                             <option value="" selected disabled>Select</option>
                                              @if(isset($questions) && $questions != null)
                                                   @foreach($questions as $question)
                                                        <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -445,7 +454,7 @@
                                    </div>
                               </div>
                               <div class="row">
-                                   <div class="col-md-2">
+                                   <div class="col-md-4">
                                         <div class="form-group">
                                              <label class="form-label" for="dropdown_link_label${newUniqueId}">Label</label>
                                              <input type="text" class="form-control" id="dropdown_link_label${newUniqueId}" name="dropdown_link_label${newUniqueId}[]" value="">
@@ -457,7 +466,7 @@
                                              <input type="text" class="form-control" id="contract_link${newUniqueId}" name="contract_link${newUniqueId}[]" value="">
                                         </div>
                                    </div>
-                                   <div class="col-md-6">
+                                   <div class="col-md-4">
                                         <div class="form-group">
                                              <label class="form-label" for="">Contract send to next step</label>
                                              <div class="custom-control custom-checkbox checked">
@@ -473,7 +482,6 @@
      }
 
      function removeContract(e){
-          console.log('hello')
           if($(e).attr('value') === 'appended'){
                console.log('append');
                $(e).closest('.contract-option').remove();
@@ -506,21 +514,6 @@
                $('.cond_div'+ id).show();
           }else{
                $('.cond_div'+id).hide();
-          }
-     }
-
-     $(document).ready(function(){
-          $(document).on('change', '[id^="contract_link"]', function() {
-               const id = $(this).attr('id').replace('contract_link', '');
-               toggleCheckboxValue($(this), 'contract_link' + id);
-          });
-     })
-
-     function toggleCheckboxValue(element, id) {
-          if(element.is(':checked')){
-               $('#' + id).val(1);
-          }else{
-               $('#' + id).val(0);
           }
      }
 
@@ -1486,7 +1479,7 @@
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="same_contract_link-${newUniqueId}">Same Contract Link Label</label>
-                                             <input type="text" class="form-control same_contract" id="same_contrct_link-${newUniqueId}" name="same_contrct_link-${newUniqueId}" value="">
+                                             <input type="text" class="form-control same_contract" id="same_contract_link-${newUniqueId}" name="same_contract_link-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1499,7 +1492,7 @@
                                    <div class="add_cont_rw" id="add_cont_rw${newUniqueId}"></div>
                                    <div class="text-end">
                                         <div class="form-group">
-                                             <button type="button" class="btn btn-sm btn-primary" id="add_contract_row" onclick="addContractRow('${newUniqueId}')">Add Row</button>
+                                             <button type="button" class="btn btn-sm btn-primary" onclick="addContractRow('${newUniqueId}')">Add Row</button>
                                         </div>
                                    </div>
                                    <hr>
@@ -1536,9 +1529,12 @@
           $('#condition_go_to'+newUniqueId).change(function(){
                conditionalPageSetting(newUniqueId);
           })
+
+          $('.question_dropbtn').hide();
      }
 
      function removeFields(e){
+          $('.question_dropbtn').show();
           if($(e).attr('data-field') === 'textbox'){
                if($(e).attr('value') === 'appended'){
                     $(e).closest('.append_textbox').remove();
@@ -1684,20 +1680,20 @@
                var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
                var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
-               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var textboxData = {
                     type: 'textbox',
                     is_new: is_new,
                     id: id,
-                    conditional_question: conditionalQuestion,
+                    is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
                     text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
                     placeholder_text: placeholderText,
                     go_to_step: goToStep,
-                    conditional_step: conditionalStep,
+                    is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
                };
@@ -1754,20 +1750,20 @@
                var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
                var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
-               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var textareaData = {
                     type: 'textarea',
                     is_new: is_new,
                     id: id,
-                    conditional_question: conditionalQuestion,
+                    is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
                     text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
                     placeholder_text: placeholderText,
                     go_to_step: goToStep,
-                    conditional_step: conditionalStep,
+                    is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
                };
@@ -1821,17 +1817,17 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var questionId = $(this).find('input[name^="text_qu_id"]').val() || '';
+               var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var dropdownData = {
                     type: 'dropdown',
                     is_new: is_new,
                     id: id,
-                    conditional_question: conditionalQuestion,
+                    is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
                     question_id: questionId,
-                    conditional_step: conditionalStep,
+                    is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
                     add_options: [],
@@ -1846,7 +1842,7 @@
                               var option = {
                                    option_label: $(this).find('input[name^=dropdown_option_label]').val() || '',
                                    option_value: $(this).find('input[name^=dropdown_option_value]').val() || '',
-                                   option_go_to_step: $(this).find('input[name^=dropdown_go_to_step]').val() || '',
+                                   option_go_to_step: $(this).find('select[name^=dropdown_go_to_step]').val() || '',
                                    status: status,
                               };
 
@@ -1906,17 +1902,17 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var questionId = $(this).find('input[name^="text_qu_id"]').val() || '';
+               var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var radioData = {
                     type: 'radio',
                     is_new: is_new,
                     id: id,
-                    conditional_question: conditionalQuestion,
+                    is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
                     question_id: questionId,
-                    conditional_step: conditionalStep,
+                    is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
                     add_options: [],
@@ -1931,7 +1927,7 @@
                               var option = {
                                    option_label: $(this).find('input[name^=radio_option_label]').val() || '',
                                    option_value: $(this).find('input[name^=radio_option_value]').val() || '',
-                                   option_go_to_step: $(this).find('input[name^=radio_go_to_step]').val() || '',
+                                   option_go_to_step: $(this).find('select[name^=radio_go_to_step]').val() || '',
                                    status: status,
                               };
 
@@ -1992,18 +1988,18 @@
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
                var dateFieldId = $(this).find('input[name^="date_field_id"]').val() || '';
-               var goToStep = $(this).find('input[name^="date_go_to_step"]').val() || '';
+               var goToStep = $(this).find('select[name^="date_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var datefieldData = {
                     type: 'datefield',
                     is_new: is_new,
                     id: id,
-                    conditional_question: conditionalQuestion,
+                    is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
                     date_field_Id: dateFieldId,
                     go_to_step: goToStep,
-                    conditional_step: conditionalStep,
+                    is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
                };
@@ -2060,20 +2056,20 @@
                var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
                var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
-               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var priceBoxData = {
                     type: 'pricebox',
                     is_new: is_new,
                     id: id,
-                    conditional_question: conditionalQuestion,
+                    is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
                     text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
                     placeholder_text: placeholderText,
                     go_to_step: goToStep,
-                    conditional_step: conditionalStep,
+                    is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
                };
@@ -2130,20 +2126,20 @@
                var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
                var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
-               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var numberfieldData = {
                     type: 'numberfield',
                     is_new: is_new,
                     id: id,
-                    conditional_question: conditionalQuestion,
+                    is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
                     text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
                     placeholder_text: placeholderText,
                     go_to_step: goToStep,
-                    conditional_step: conditionalStep,
+                    is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
                };
@@ -2200,20 +2196,20 @@
                var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
                var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
-               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var percentageBoxData = {
                     type: 'percentagebox',
                     is_new: is_new,
                     id: id,
-                    conditional_question: conditionalQuestion,
+                    is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
                     text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
                     placeholder_text: placeholderText,
                     go_to_step: goToStep,
-                    conditional_step: conditionalStep,
+                    is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
                };
@@ -2266,8 +2262,8 @@
                var id = $(this).data('id');
 
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var sameContractlink = $(this).find('input[name^="same_contrct_link"]').val() || '';
-               var goToStep = $(this).find('input[name^="text_go_to_step"]').val() || '';
+               var sameContractlink = $(this).find('input[name^="same_contract_link"]').val() || '';
+               var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
 
                var dropdownLinkData = {
                     type: 'dropdownlink',
@@ -2291,7 +2287,7 @@
                                    next_step: $(this).find('input[name^=contract_send_next_step]').is(':checked') ? 1 : 0,
                                    status: status,
                               };
-
+                              
                               if(row.label && row.contract_link && row.next_step){
                                    dropdownLinkData.add_rows.push(row);
                               }

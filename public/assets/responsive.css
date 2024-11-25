@@ -7,6 +7,12 @@
     padding: 0px 0px 0px 0px;
   }
 
+  .tab_2text {
+
+    padding-top: 10px;
+
+  }
+
 }
 
 @media only screen and (min-width: 1700px) {
@@ -33,16 +39,15 @@
   } */
 }
 
-@media only screen and (min-width: 1599){
-  h3{
-    line-height: 1.4;
+@media only screen and (min-width: 1599px) {
+  h3 {
+    line-height: 1.4 !important;
   }
 }
+
 @media only screen and (max-width: 1599px) {
 
-  .cont_tab_ot {
-    padding: 15px 10px 15px 10px;
-  }
+
 
   header .container-fluid {
     padding: 0px 20px;
@@ -65,16 +70,14 @@
   }
 
   .p_120 {
-    padding: 100px 0px;
+    padding: 80px 0px;
   }
 
   .tab_text {
     padding: 0;
   }
 
-  .tab_text h5.size20 {
-    font-size: 18px;
-  }
+
 
   .tab_sec_ot .slick-track {
     display: flex !IMPORTANT;
@@ -108,9 +111,9 @@
     /* color: #002655; */
   }
 
-  .card_sec_out .othr_platform a {
+  /* .card_sec_out .othr_platform a {
     padding: 16px 20px;
-  }
+  } */
 
   .control_box {
     padding: 30px;
@@ -257,9 +260,10 @@
     padding-right: 30px;
   }
 
-  section.tab_sec_ot {
+
+  /* section.tab_sec_ot {
     padding-top: 160px;
-  }
+  } */
 }
 
 @media only screen and (max-width: 1440px) {
@@ -422,9 +426,9 @@
     padding-left: 40px;
   }
 
-  section.tab_sec_ot {
+  /* section.tab_sec_ot {
     padding-top: 140px;
-  }
+  } */
 
   /* 22oct2024 ////////////////////// */
 
@@ -443,6 +447,7 @@
   h2 {
     line-height: 40px;
   }
+
   .pdf_head h1::after {
     top: 76%;
     left: 45%;
@@ -590,15 +595,15 @@
     padding: 0;
   }
 
-  section.tab_sec_ot {
+  /* section.tab_sec_ot {
     padding-top: 140px;
-  }
+  } */
 
-  
+
 }
 
 @media only screen and (max-width: 991px) {
-  h1{
+  h1 {
     font-size: 34px;
   }
 
@@ -1096,7 +1101,7 @@
   }
 
   section.tab_sec_ot {
-    padding-top: 120px;
+    padding-top: 40px;
   }
 
   .in_sec4_card_box .row {
@@ -1371,7 +1376,7 @@
   .pdf_head h1::after {
     top: 74%;
     left: 38%;
-}
+  }
 }
 
 
@@ -1908,7 +1913,7 @@
   .pdf_head h1::after {
     top: 85%;
     left: 85%;
-}
+  }
 
 }
 

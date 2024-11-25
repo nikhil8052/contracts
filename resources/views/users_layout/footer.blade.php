@@ -13,7 +13,7 @@
 							<a href="{{ url('/') }}">
 								<img src="{{ asset('storage/'.$path) }}" alt="">
 							</a>
-							<p class="logo-text">Líder en documentos legales por más de 5 años</p>
+							<p class="logo-text">Líder en documentos legales <br> por más de 5 años</p>
 						</div>
 					</div>
 					<div class="col-lg-2">

@@ -180,6 +180,7 @@
                                    <input type="text" class="form-control" id="category_main_title" name="category_main_title" value="{{ $data['category_title'] ?? '' }}">
                               </div>
                          </div>
+                         <br>
                          <div class="col-md-12">
                               <div class="form-group">
                                    <label class="form-label" for="">Categories</label>
@@ -224,9 +225,9 @@
                                    </div>
                                    <div class="col-md-2">
                                         <div class="form-group">
-                                             <label class="form-label" for="category">Category</label>
+                                             <label class="form-label" for="category{{ $value->id ?? '' }}">Category</label>
                                              <div class="form-control-wrap">
-                                                  <select class="form-select js-select2" name="category[{{ $value->id ?? '' }}]" id="category">
+                                                  <select class="form-select js-select2" name="category[{{ $value->id ?? '' }}]" id="category{{ $value->id ?? '' }}">
                                                        <option value="" selected disabled>Select</option>
                                                        @if(isset($document_category) && count($document_category) > 0)
                                                             @foreach($document_category as $catg)
@@ -243,7 +244,6 @@
                                                   </select>
                                              </div>
                                         </div>
-
                                    </div>
                                    <div class="col-md-2">
                                         <div class="form-group">
@@ -370,6 +370,8 @@
 
 <script>
 $(document).ready(function(){
+     $('.js-select2').select2();
+
      $('.update_category_img').click(function(){
           var id = $(this).data('id');
           $('#category_up_img' + id).trigger('click');
@@ -454,8 +456,6 @@ $(document).ready(function(){
 
 <script>
      $(document).ready(function(){
-          $('.js-select2').select2();
-
           $('#addnewrow').click(function(){
                var html = `<div class="append-sec">
                               <hr>
@@ -581,6 +581,7 @@ $(document).ready(function(){
                     </div>`;
                
                $('#catg_sec').append(html);
+               $('.js-select2').select2();
           });
 
           $('body').delegate('.remove_category', 'click', function(){

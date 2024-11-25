@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('option_label'); // Label of the option
             $table->string('option_value'); // Value of the option
             $table->unsignedBigInteger('next_question_id')->nullable(); // Optional next question ID
+            $table->text('contract_link')->nullable();
+            $table->boolean('contract_send_to_next_step')->default(false);
             $table->string('type'); // Type of question
             $table->integer('order_id'); // Order ID for ordering options
             $table->timestamps();

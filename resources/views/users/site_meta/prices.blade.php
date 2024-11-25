@@ -32,7 +32,7 @@
                <thead>
                     <tr>
                          <th class="docom">{{ $data['document_heading'] ?? 'Documento' }}</th>
-                         <th>{{ $data['description_heading'] ?? 'Descripción' }}</th>
+                         <!-- <th>{{ $data['description_heading'] ?? 'Descripción' }}</th> -->
                          <th class="prec">{{ $data['price_heading'] ?? 'Precio' }}</th>
                     </tr>
                </thead>
@@ -45,10 +45,10 @@
                              
                               <div class="tab_btn">
                                    <!-- <a href="" class="cta_blue" tabindex="-1">{{ $content->button_text ?? '' }}</a> -->
-                                    <a href="">{{ $content->documentname->title ?? '' }}</a>
+                                   <a href="">{{ $content->documentname->title ?? '' }}</a>
                               </div>
                          </td>
-                         <td class="tb_dt2">{{ $content->description ?? '' }} </td>
+                         <!-- <td class="tb_dt2">{{ $content->description ?? '' }} </td> -->
                          <td class="tb_dt3 "> <a href="" class="span1"> ${{ $content->price ?? '' }}</a></td>
                     </tr>
                @endforeach

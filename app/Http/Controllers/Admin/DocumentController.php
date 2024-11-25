@@ -776,19 +776,140 @@ class DocumentController extends Controller
     }
 
     public function addDocumentQuestion(Request $request){
-        return $request->all();
-        // DB::beginTransaction(); 
-        // try{
-        //     if(isset($request->formdata) && $request->formdata != null){
-        //         $formData = json_decode($request->formdata);
-        //         foreach($formData as $data){                  
+        // return $request->all();
+        // die();
 
-        //         }
-        //     }
-        // }catch(Exception $e){
-        //     saveLog("Error:", "DocumentController", $e->getMessage());
-        //     return redirect()->back()->with('error', 'Something went wrong. Please try again.');
-        // }
+        DB::beginTransaction(); 
+        try{
+            if(isset($request->formdata) && $request->formdata != null){
+                $formData = json_decode($request->formdata);
+                foreach($formData as $data){                  
+                    if($data->is_new == true){
+                        $questions = new Question;
+                        $questions->type = $data->type;
+
+                        if(isset($data->is_conditional_question) && $data->is_conditional_question != null || isset($data->is_conditional_question) && $data->is_conditional_question != null){
+                            if($data->is_conditional_question == 1){
+                                $is_condition = 1;
+                                $condition_type = 1;
+                            }elseif($data->is_conditional_step == 1){
+                                $is_condition = 1;
+                                $condition_type = 2;
+                            }elseif($data->is_conditional_question == 1 && $data->is_conditional_step == 1){
+                                $is_condition = 1;
+                                $condition_type = 3;
+                            }
+                        }else{
+                            $is_condition = 0;
+                            $condition_type = null;
+                        }
+                        
+                        $questions->is_condition = $is_condition;
+                        $questions->condition_type = $condition_type;
+                        // $questions->save();
+
+                        $question_data = new QuestionData;
+                        $question_data->question_id = $questions->id;
+                        $question_data->question_label = $data->question_label;
+
+                        if(isset($data->text_box_id) && $data->text_box_id != null){
+                            if($data->type == "dropdown" && $data->type == "radio"){
+                                $question_data->textbox_id = $data->question_id;
+                            }elseif($data->type == "datefield"){
+                                $question_data->textbox_id = $data->date_field_Id;
+                            }elseif($data->type == "dropdownlink"){
+                                $question_data->textbox_id = null;
+                            }else{
+                                $question_data->textbox_id = $data->text_box_id;
+                            }
+                        }
+
+                        if(isset($data->text_box_placeholder) && $data->text_box_placeholder != null){
+                            $question_data->text_box_placeholder = $data->text_box_placeholder;
+                        }
+                        
+                        if($data->type == "dropdownlink"){
+                            $question_data->same_contract_link_label = $data->same_contract_link;
+                        }
+                       
+                        if(isset($data->go_to_step) && $data->go_to_step != null){
+                            $question_data->next_question_id = $data->go_to_step;
+                        }
+                        
+                        $question_data->is_end = $request->is_end;
+                        
+                        $question_conditions = new QuestionCondition;
+                        
+                        if($condition_type == 1){
+                            $question_condition_type = "question_label_condition";
+                            $conditional_question_labels = $data->conditional_question_labels;
+                            foreach($conditional_question_labels as $conditional){
+                                $question_conditions->question_id = $questions->id;
+                                $question_conditions->condition_type = $question_condition_type;
+                                $question_conditions->question_label = $conditional->label;
+                                $question_conditions->conditional_question_id = $conditional->questionID;
+                                $question_conditions->conditional_question_value = $conditional->question_value;
+                                // $question_conditions->save();
+                            }
+                        }elseif($condition_type == 2){
+                            $question_condition_type = "go_to_step_condition";
+                            $step_conditions = $data->conditions;
+
+                            foreach($step_conditions as $step){
+                                $question_conditions->question_id = $step->id;
+                                $question_conditions->condition_type = $question_condition_type;
+
+                                if(isset($step->question_condition) && $step->question_condition != null){
+                                    if($step->question_condition == "is equal to"){
+                                        $conditionCheck = 1;
+                                    }elseif($step->question_condition == "is greater than"){
+                                        $conditionCheck = 2;
+                                    }elseif($step->question_condition == "is less than"){
+                                        $conditionCheck = 3;
+                                    }elseif($step->question_condition == "not equal to"){
+                                        $conditionCheck = 4;
+                                    }
+                                }
+
+                                $question_conditions->conditional_check = $conditionCheck;
+                                $question_conditions->conditional_question_id = $step->questionID;
+                                $question_conditions->conditional_question_value = $step->question_value;
+                                // $question_conditions->save();
+                            }
+                        }
+
+                        if(isset($data->add_options) && $data->add_options != null){
+                            $multiple_options = new MultipleChoiceQuestionOption;
+                            foreach($data->add_options as $option){
+                                $multiple_options->question_id = $questions->id;
+                                $multiple_options->option_label = $option->option_label;
+                                $multiple_options->option_value = $option->option_value;
+                                $multiple_options->next_question_id = $option->option_go_to_step;
+                                // $multiple_options->save();
+                            }                        
+                        }
+
+                        if(isset($data->add_rows) && $data->add_rows != null){
+                            $multiple_options = new MultipleChoiceQuestionOption;
+                            foreach($data->add_rows as $row){
+                                $multiple_options->question_id = $questions->id;
+                                $multiple_options->option_label = $row->label;
+                                $multiple_options->contract_link = $row->contract_link;
+                                $multiple_options->contract_send_to_next_step = $row->next_step;
+                                // $multiple_options->save();
+                            }
+                        }
+                        // $question_data->save();
+                    }
+                }
+                DB::commit(); 
+                return redirect()->back()->with('success', 'Document Questions added successfully.');
+            }
+        }catch(Exception $e){
+            DB::rollBack();
+            saveLog("Error:", "DocumentController", $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
     }
 
 }

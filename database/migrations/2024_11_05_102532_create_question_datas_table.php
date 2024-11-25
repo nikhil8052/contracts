@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('question_label')->nullable(); // Label of the question
             $table->unsignedBigInteger('textbox_id')->nullable(); // Optional textbox ID
             $table->unsignedBigInteger('next_question_id')->nullable(); // Optional next question ID
+            $table->text('same_contract_link_label')->nullable();
             $table->foreign('next_question_id')->references('id')->on('questions')->onDelete('set null');
             $table->boolean('is_end')->default(false); // Indicates if this is the last question
             $table->string('text_box_placeholder')->nullable(); // Placeholder text for textbox questions

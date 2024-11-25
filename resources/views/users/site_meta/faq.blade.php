@@ -7,7 +7,9 @@
         <div class="row align-items-center">
             <div class="col-md-6 banner-col">
                 <div class="banner_content pre-heading">
-                    <h1>{{ $data['banner_title'] ?? 'Preguntas Frecuentes' }}</h1>
+                    <div class="banner_main_title">
+                        <h1>{{ $data['banner_title'] ?? 'Preguntas Frecuentes' }}</h1>
+                    </div>
                     <p>{{ $data['banner_description'] ?? 'Lorem Ipsum es simplemente un texto de relleno de la industria de la impresión y la
                         tipografía. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde el siglo
                         XVI.' }}

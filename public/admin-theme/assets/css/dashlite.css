@@ -41653,6 +41653,7 @@ body.dark-mode.nk-body.ui-softy, body.dark-mode.nk-body.ui-shady {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
+  cursor: pointer;
   min-width: 160px;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -41682,4 +41683,5 @@ p.p_label {
   font-weight: 500;
   color: #344357;
 }
+
 

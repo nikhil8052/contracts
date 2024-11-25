@@ -337,7 +337,7 @@ div#navbarSupportedContent {
 }
 
 .right_menu ul a:hover {
-    color: #F9633B;
+    color: #FD5602;
 }
 
 
@@ -696,10 +696,6 @@ div#navbarSupportedContent {
 
 
 
-.outer_foot_bg {
-    background-color: rgba(1, 37, 85, 1);
-    padding: 100px 0px 0px 0px;
-}
 
 footer .foot_ul {
     list-style-type: none;
@@ -1945,7 +1941,7 @@ header.fun-header {
 /* ********(FAQ_sec)*********** */
 
 .faq_sec h2.b-dark {
-    text-align: center;
+    text-align: left;
     font-weight: 600;
     line-height: 64.55px;
 }
@@ -1953,15 +1949,16 @@ header.fun-header {
 .faq_sec p {
     max-width: 820px;
     margin: auto;
-    text-align: center;
+    text-align: left;
 
 }
 
-.faq_sec .accordion {
-    /* max-width: 1200px; */
+/* .faq_sec .accordion {
+     max-width: 1200px; 
     margin: auto;
-    margin-top: 42px;
-}
+    margin-top: 43px;
+  
+} */
 
 .faq_sec .accordion .accordion-item {
     margin-bottom: 30px;
@@ -3059,7 +3056,7 @@ footer .foot_end_box .reserve_box {
 /* 29oct2024  */
 
 .share_icon {
-    align-items: center;
+    align-items: end;
     display: flex;
     justify-content: space-between;
     color: #002655;
@@ -3373,9 +3370,12 @@ footer .foot_end_box .reserve_box {
 }
 /* 21nov2024/////////////////////// */
 
-.sharing_ul:hover .svg svg  {
-    fill: #FD5602;
-    background-color: #FD5602;
+.sharing_ul:hover .svg svg path  {
+    fill: #fff;
+}
+.sharing_ul:hover .svg svg{
+    background-color: #002655;
+
 }
 /* 22nov2024 ///////////////////////////////*/
 .tab_star_li {
@@ -3419,4 +3419,57 @@ footer .logo-text {
     content: "\f155"; 
     color: #FBBC04;
   }
-  
+/* 25nov2024////////////////////////////////////////// */
+
+.outer_foot_bg {
+    background-color: rgba(1, 37, 85, 1);
+    padding: 100px 0px 0px 0px;
+    background-position: right 0% top 50%;
+    background-repeat: no-repeat;
+    background-size: 230px;
+    position: relative;
+}
+.outer_foot_bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    background-image: url(https://sagmetic.site/2023/laravel/contracts/public/assets/img/contracts_logo_icon.svg);
+    background-position: right -6% top 20%;
+    background-repeat: no-repeat;
+    background-size: 870px;
+    opacity: 3%;
+    pointer-events: none;
+}
+.help_last_sec .help_main_faq {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+ 
+.help_last_sec .help_main_faq .help_faq {
+    width: 28%;
+}
+.help_last_sec .help_faq h2{
+    line-height: normal;
+}
+.help_last_sec .accordion {
+    width: 70%;
+    margin-top: 0;
+
+}
+
+.table-container tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Example background color for odd rows */
+}
+.table-container .tb_dt3 a {
+    color: rgba(1, 37, 85, 1);
+}
+.review_opinion {
+    text-decoration: underline !important;
+}
+.banner_main_title h1 {
+    font-size: 42px;
+}
