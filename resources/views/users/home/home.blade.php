@@ -46,7 +46,7 @@
 			<div class="tab">
 			@if(isset($document_category) && $document_category != null)
 				@foreach($document_category as $category)
-					<div class="btn  home_tab_btns {{ $loop->first ? 'tab_btn1 active' : 'tab_btn' . $loop->iteration }}" >
+					<div class="btn home_tab_btns {{ $loop->first ? 'tab_btn1 active' : 'tab_btn' . $loop->iteration }}" >
 						{{ $category->name ?? '' }}
 					</div>
 				@endforeach
@@ -338,7 +338,58 @@
 		});
 	})
 
+	$(function () {
+		// vars
+		var slider,
+		btn,
+		tabC,
+		prevIndex,
+		objTab = {};
 
+
+		btn = $(".home_tab_btns");
+		tabC = $(".tabContent");
+
+		prevIndex = 0;
+
+		btn.on("click", function (e) {
+			var th, thIndex;
+			// Current button and the index of the current button 
+			th = $(this);
+			thIndex = th.index();
+			if(!th.hasClass("active")) {
+				if(prevIndex != thIndex && prevIndex !== "undefined"){
+				btn.eq(prevIndex).removeClass("active");
+				tabC.eq(prevIndex).removeClass("show");
+				}
+				btn.eq(thIndex).addClass("active");
+				tabC.eq(thIndex).addClass("show");
+				prevIndex = thIndex;
+				tabC.eq(thIndex).find(".slider").slick("setPosition");
+			}
+		});
+		slider = $(".slider");
+		slider.slick({
+			dots: true,
+			arrows: false,
+			slidesToShow: 4,
+			slidesToScroll: 1,
+			responsive: [
+				{
+				breakpoint: 991,
+				settings: {
+					slidesToShow: 3,
+				},
+				},
+				{
+				breakpoint: 767,
+				settings: {
+					slidesToShow: 1,
+				},
+				},
+			],
+		});
+	});
 </script>
 
 @endsection

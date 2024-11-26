@@ -25,7 +25,116 @@
                                         </div>
                                    </div>
                                    <hr>
-
+                                   @if(isset($document_questions) && $document_questions != null)
+                                   @foreach($document_questions as $docQues)
+                                   @if($docQues->type == 'textbox')
+                                   <div class="append_textbox" id="append_textbox{{ $docQues->id ?? '' }}" data-id="{{ $docQues->id ?? '' }}" data-is_new=false>
+                                        <div class="card card-bordered card-preview">
+                                             <div class="card-inner main_question_div">
+                                                  <div class="row add_step">
+                                                       <div class="col-md-6">
+                                                            <h6>Textbox</h6>  
+                                                       </div> 
+                                                       <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                 <span class="col-md-2 offset-md-10">
+                                                                      <span onclick="removeFields(this)" value="appended" data-field="textbox"><i class="fa-solid fa-minus"></i></span>
+                                                                 </span>  
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                                  <hr>
+                                                  <div class="col-md-12">
+                                                       <div class="form-group">
+                                                            <label class="form-label" for="">Conditional questions label</label>
+                                                       </div>
+                                                  </div>
+                                                  <div class="custom-control custom-checkbox">
+                                                       <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label${newUniqueId}" name="condition_qu_label${newUniqueId}">
+                                                       <label class="custom-control-label" for="condition_qu_label${newUniqueId}">Conditional questions label</label>
+                                                  </div>
+                                                  <hr>
+                                                  <div class="cond_ques_div${newUniqueId}" style="display:none;">
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Add conditional questions label</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="append_label_condition" id="append_label_condition${newUniqueId}"></div>
+                                                       <div class="text-end">
+                                                            <div class="form-group">
+                                                                 <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('${newUniqueId}')">Add Label</button>
+                                                            </div>
+                                                       </div>
+                                                       <hr>
+                                                  </div>
+                                                  <div class="col-md-12 hide_question_label" id="hide_question_label${newUniqueId}">
+                                                       <div class="form-group">
+                                                            <label class="form-label" for="text_qu_label-${newUniqueId}">Question Label</label>
+                                                            <input type="text" class="form-control question_labl" id="text_qu_label-${newUniqueId}" name="text_qu_label-${newUniqueId}" value="{{ $docQues->questionData->question_label ?? '' }}">
+                                                       </div>
+                                                       <hr>
+                                                  </div>
+                                                  <div class="col-md-12">
+                                                       <div class="form-group">
+                                                            <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
+                                                            <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="{{ $docQues->questionData->text_box_placeholder ?? '' }}">
+                                                       </div>
+                                                  </div>
+                                                  <hr>
+                                                  <div class="col-md-12">
+                                                       <div class="form-group">
+                                                            <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
+                                                            <div class="form-control-wrap"> 
+                                                                 <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                                      @if(isset($questions) && $questions != null)
+                                                                           @foreach($questions as $question)
+                                                                           @if(isset($docQues->questionData->next_question_id) && $docQues->questionData->next_question_id != null)
+                                                                                @if($docQues->questionData->next_question_id == $question->getName())
+                                                                                <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
+                                                                                @else
+                                                                                <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                @endif
+                                                                           @else
+                                                                           <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                           @endif
+                                                                           @endforeach
+                                                                      @endif
+                                                                 </select>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                                  <hr>
+                                                  <div class="col-md-12">
+                                                       <div class="form-group">
+                                                            <label class="form-label" for="">Conditional Go to step Settings</label>
+                                                       </div>
+                                                  </div>
+                                                  <div class="custom-control custom-checkbox checked">
+                                                       <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to${newUniqueId}" name="condition_go_to${newUniqueId}">
+                                                       <label class="custom-control-label" for="condition_go_to${newUniqueId}">Enable Conditional Go To Step Settings</label>
+                                                  </div>
+                                                  <hr>
+                                                  <div class="cond_div${newUniqueId}" style="display:none">
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Add Conditions</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="append_page_condition" id="append_page_condition${newUniqueId}"></div>
+                                                       <div class="text-end">
+                                                            <div class="form-group">
+                                                                 <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   @endif
+                                   @endforeach
+                                   @endif
                                    <div class="add_qu_sec"></div>
                                    <br>
                                    <div class="text-end">
@@ -73,7 +182,15 @@
                                                   <option value="" selected disabled>Select</option>
                                                   @if(isset($documents) && $documents != null)
                                                   @foreach($documents as $document)
+                                                       @if(isset($_GET['id']) && $_GET['id'] != null)
+                                                            @if($_GET['id'] == $document->id)
+                                                            <option value="{{ $document->id ?? '' }}" selected>{{ $document->title ?? '' }}</option>
+                                                            @else
+                                                            <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                            @endif
+                                                       @else
                                                        <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                       @endif
                                                   @endforeach
                                                   @endif
                                              </select>
@@ -82,9 +199,17 @@
                               </div>
                               <div class="d-flex justify-content-end mt-2">
                                    <div class="nk-block-head-content">
-                                        <div class="up-btn mbsc-form-group">
-                                             <!-- <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata">Save</button> -->
-                                             <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata1">Save</button>
+                                        <div class="row">
+                                             <div class="col-md-8">
+                                                  <div class="up-btn form-group">
+                                                       <button class="btn btn-sm btn-primary" type="button" id="saveAndNew">Save & New</button>
+                                                  </div>
+                                             </div>
+                                             <div class="col-md-4">
+                                                  <div class="up-btn form-group">
+                                                       <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata1">Save</button>
+                                                  </div>
+                                             </div>
                                         </div>
                                    </div>
                               </div> 
@@ -640,22 +765,8 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
-                                             <input type="text" class="form-control text_box_id" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
                                              <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
                                              <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="placeholder_text-${newUniqueId}">Placeholder text</label>
-                                             <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -752,22 +863,8 @@
                                         </div>
                                         <div class="col-md-12">
                                              <div class="form-group">
-                                                  <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
-                                                  <input type="text" class="form-control text_box_id" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}">
-                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="col-md-12">
-                                             <div class="form-group">
                                                   <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
                                                   <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}">
-                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="col-md-12">
-                                             <div class="form-group">
-                                                  <label class="form-label" for="placeholder_text-${newUniqueId}">Placeholder text</label>
-                                                  <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}">
                                              </div>
                                         </div>
                                         <hr>
@@ -864,21 +961,6 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_id-${newUniqueId}">Question ID</label>
-                                             <div class="form-control-wrap question"> 
-                                                  <select class="form-select js-select2" data-search="on" name="text_qu_id-${newUniqueId}" id="text_qu_id-${newUniqueId}">
-                                                       @if(isset($questions) && $questions != null)
-                                                            @foreach($questions as $question)
-                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                            @endforeach
-                                                       @endif
-                                                  </select>
-                                             </div>
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
                                              <label class="form-label" for="">Add Dropdown Option</label>
                                         </div>
                                    </div>
@@ -966,21 +1048,6 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_qu_id-${newUniqueId}">Question ID</label>
-                                             <div class="form-control-wrap question"> 
-                                                  <select class="form-select js-select2" data-search="on" name="text_qu_id-${newUniqueId}" id="text_qu_id-${newUniqueId}">
-                                                       @if(isset($questions) && $questions != null)
-                                                            @foreach($questions as $question)
-                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                            @endforeach
-                                                       @endif
-                                                  </select>
-                                             </div>
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
                                              <label class="form-label" for="">Add Radio Option</label>
                                         </div>
                                    </div>
@@ -1066,13 +1133,6 @@
                                         </div>
                                         <hr>
                                    </div>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="date_field_id-${newUniqueId}">Date field ID</label>
-                                             <input type="text" class="form-control date_field" id="date_field_id-${newUniqueId}" name="date_field_id-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
                                    <div class="col-md-12">
                                         <div class="form-group">
                                              <label class="form-label" for="date_go_to_step-${newUniqueId}">Go to step</label>
@@ -1166,22 +1226,8 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
-                                             <input type="text" class="form-control text_box_id" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
                                              <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
                                              <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="placeholder_text-${newUniqueId}">Placeholder text</label>
-                                             <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1278,22 +1324,8 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_id-${newUniqueId}">Number field ID</label>
-                                             <input type="text" class="form-control number_field" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
                                              <label class="form-label" for="text_placeholder-${newUniqueId}">Number field Placeholder</label>
                                              <input type="text" class="form-control number_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="placeholder_text-${newUniqueId}">Placeholder text</label>
-                                             <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1390,22 +1422,8 @@
                                    </div>
                                    <div class="col-md-12">
                                         <div class="form-group">
-                                             <label class="form-label" for="text_id-${newUniqueId}">Text Box ID</label>
-                                             <input type="text" class="form-control text_box_id" id="text_id-${newUniqueId}" name="text_id-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
                                              <label class="form-label" for="text_placeholder-${newUniqueId}">Text Box Placeholder</label>
                                              <input type="text" class="form-control text_box_placeholder" id="text_placeholder-${newUniqueId}" name="text_placeholder-${newUniqueId}" value="">
-                                        </div>
-                                   </div>
-                                   <hr>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="placeholder_text"-${newUniqueId}>Placeholder text</label>
-                                             <input type="text" class="form-control" id="placeholder_text-${newUniqueId}" name="placeholder_text-${newUniqueId}" value="">
                                         </div>
                                    </div>
                                    <hr>
@@ -1677,9 +1695,9 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               // var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
-               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
@@ -1689,9 +1707,9 @@
                     id: id,
                     is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
-                    text_box_id: textBoxId,
+                    // text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
-                    placeholder_text: placeholderText,
+                    // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
@@ -1747,9 +1765,9 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               // var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
-               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
@@ -1759,9 +1777,9 @@
                     id: id,
                     is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
-                    text_box_id: textBoxId,
+                    // text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
-                    placeholder_text: placeholderText,
+                    // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
@@ -1817,7 +1835,7 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
+               // var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var dropdownData = {
@@ -1826,7 +1844,7 @@
                     id: id,
                     is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
-                    question_id: questionId,
+                    // question_id: questionId,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
@@ -1902,7 +1920,7 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
+               // var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
                var radioData = {
@@ -1911,7 +1929,7 @@
                     id: id,
                     is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
-                    question_id: questionId,
+                    // question_id: questionId,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
                     conditions: [],
@@ -1987,7 +2005,7 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var dateFieldId = $(this).find('input[name^="date_field_id"]').val() || '';
+               // var dateFieldId = $(this).find('input[name^="date_field_id"]').val() || '';
                var goToStep = $(this).find('select[name^="date_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
@@ -1997,7 +2015,7 @@
                     id: id,
                     is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
-                    date_field_Id: dateFieldId,
+                    // date_field_Id: dateFieldId,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
@@ -2053,9 +2071,9 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               // var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
-               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
@@ -2065,9 +2083,9 @@
                     id: id,
                     is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
-                    text_box_id: textBoxId,
+                    // text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
-                    placeholder_text: placeholderText,
+                    // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
@@ -2123,9 +2141,9 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               // var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
-               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
@@ -2135,9 +2153,9 @@
                     id: id,
                     is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
-                    text_box_id: textBoxId,
+                    // text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
-                    placeholder_text: placeholderText,
+                    // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
@@ -2193,9 +2211,9 @@
 
                var conditionalQuestion = $(this).find('input[name^="condition_qu_labe"]').is(':checked') ? 1 : 0;
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
-               var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
+               // var textBoxId = $(this).find('input[name^="text_id"]').val() || '';
                var textBoxPlaceholder = $(this).find('input[name^="text_placeholder"]').val() || '';
-               var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
+               // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
@@ -2205,9 +2223,9 @@
                     id: id,
                     is_conditional_question: conditionalQuestion,
                     question_label: questionLabel,
-                    text_box_id: textBoxId,
+                    // text_box_id: textBoxId,
                     text_box_placeholder: textBoxPlaceholder,
-                    placeholder_text: placeholderText,
+                    // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
@@ -2386,13 +2404,13 @@
                     }
                }); 
 
-               $(".text_box_id").each(function(){
-                    if(!hasError && !$(this).val()){
-                         NioApp.Toast('Please fill the Text Box ID', 'error', { position: 'top-right' });
-                         hasError = true;
-                         return false;
-                    }
-               });
+               // $(".text_box_id").each(function(){
+               //      if(!hasError && !$(this).val()){
+               //           NioApp.Toast('Please fill the Text Box ID', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // });
           
                $(".text_box_placeholder").each(function(){
                     if(!hasError && !$(this).val()){
@@ -2402,21 +2420,21 @@
                     }
                });
 
-               $(".date_field").each(function(){
-                    if(!hasError && !$(this).val()){
-                         NioApp.Toast('Please fill the Date field ID', 'error', { position: 'top-right' });
-                         hasError = true;
-                         return false;
-                    }
-               });
+               // $(".date_field").each(function(){
+               //      if(!hasError && !$(this).val()){
+               //           NioApp.Toast('Please fill the Date field ID', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // });
                
-               $(".number_field").each(function(){
-                    if(!hasError && !$(this).val()){
-                         NioApp.Toast('Please fill the Number field ID', 'error', { position: 'top-right' });
-                         hasError = true;
-                         return false;
-                    }
-               });
+               // $(".number_field").each(function(){
+               //      if(!hasError && !$(this).val()){
+               //           NioApp.Toast('Please fill the Number field ID', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // });
 
                $(".number_placeholder").each(function(){
                     if(!hasError && !$(this).val()){
@@ -2456,13 +2474,13 @@
                     }
                });
 
-               $(".question_ID").each(function(){
-                    if(!hasError && !$(this).val()){
-                         NioApp.Toast('Please fill the Question Id', 'error', { position: 'top-right' });
-                         hasError = true;
-                         return false;
-                    }
-               });
+               // $(".question_ID").each(function(){
+               //      if(!hasError && !$(this).val()){
+               //           NioApp.Toast('Please fill the Question Id', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // });
 
                $('.append_options').each(function(){
                     const uniqueId = $(this).attr('id').replace('append_options', '');
@@ -2536,6 +2554,7 @@
                }
                
           })
+
      })
      
 </script>

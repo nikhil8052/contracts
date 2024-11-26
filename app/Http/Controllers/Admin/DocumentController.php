@@ -727,7 +727,11 @@ class DocumentController extends Controller
         $documents = Document::where('published',1)->get();
         $types = QuestionType::all();
         $questions = Question::all();
-        return view('admin.documents.document_questions',compact('documents','types','questions'));
+        if(isset($_GET['id']) && $_GET['id'] != null){
+            $document_questions = Question::where('document_id',$_GET['id'])->with('questionData','conditions','options','nextQuestion')->get();
+        }
+      
+        return view('admin.documents.document_questions',compact('documents','types','questions','document_questions'));
     }
 
     public function allquestionType(){
@@ -786,6 +790,7 @@ class DocumentController extends Controller
                 foreach($formData as $data){                  
                     if($data->is_new == true){
                         $questions = new Question;
+                        $questions->document_id = $request->document_id;
                         $questions->type = $data->type;
 
                         if(isset($data->is_conditional_question) && $data->is_conditional_question != null || isset($data->is_conditional_question) && $data->is_conditional_question != null){
@@ -806,23 +811,23 @@ class DocumentController extends Controller
                         
                         $questions->is_condition = $is_condition;
                         $questions->condition_type = $condition_type;
-                        // $questions->save();
+                        $questions->save();
 
                         $question_data = new QuestionData;
                         $question_data->question_id = $questions->id;
                         $question_data->question_label = $data->question_label;
 
-                        if(isset($data->text_box_id) && $data->text_box_id != null){
-                            if($data->type == "dropdown" && $data->type == "radio"){
-                                $question_data->textbox_id = $data->question_id;
-                            }elseif($data->type == "datefield"){
-                                $question_data->textbox_id = $data->date_field_Id;
-                            }elseif($data->type == "dropdownlink"){
-                                $question_data->textbox_id = null;
-                            }else{
-                                $question_data->textbox_id = $data->text_box_id;
-                            }
-                        }
+                        // if(isset($data->text_box_id) && $data->text_box_id != null){
+                        //     if($data->type == "dropdown" && $data->type == "radio"){
+                        //         $question_data->textbox_id = $data->question_id;
+                        //     }elseif($data->type == "datefield"){
+                        //         $question_data->textbox_id = $data->date_field_Id;
+                        //     }elseif($data->type == "dropdownlink"){
+                        //         $question_data->textbox_id = null;
+                        //     }else{
+                        //         $question_data->textbox_id = $data->text_box_id;
+                        //     }
+                        // }
 
                         if(isset($data->text_box_placeholder) && $data->text_box_placeholder != null){
                             $question_data->text_box_placeholder = $data->text_box_placeholder;
@@ -836,7 +841,11 @@ class DocumentController extends Controller
                             $question_data->next_question_id = $data->go_to_step;
                         }
                         
-                        $question_data->is_end = $request->is_end;
+                        if(isset($request->is_end) && $request->is_end != null){
+                            $question_data->is_end = $request->is_end;
+                        }else{
+                            $question_data->is_end = 0;
+                        }
                         
                         $question_conditions = new QuestionCondition;
                         
@@ -849,7 +858,7 @@ class DocumentController extends Controller
                                 $question_conditions->question_label = $conditional->label;
                                 $question_conditions->conditional_question_id = $conditional->questionID;
                                 $question_conditions->conditional_question_value = $conditional->question_value;
-                                // $question_conditions->save();
+                                $question_conditions->save();
                             }
                         }elseif($condition_type == 2){
                             $question_condition_type = "go_to_step_condition";
@@ -874,7 +883,7 @@ class DocumentController extends Controller
                                 $question_conditions->conditional_check = $conditionCheck;
                                 $question_conditions->conditional_question_id = $step->questionID;
                                 $question_conditions->conditional_question_value = $step->question_value;
-                                // $question_conditions->save();
+                                $question_conditions->save();
                             }
                         }
 
@@ -885,7 +894,7 @@ class DocumentController extends Controller
                                 $multiple_options->option_label = $option->option_label;
                                 $multiple_options->option_value = $option->option_value;
                                 $multiple_options->next_question_id = $option->option_go_to_step;
-                                // $multiple_options->save();
+                                $multiple_options->save();
                             }                        
                         }
 
@@ -896,10 +905,10 @@ class DocumentController extends Controller
                                 $multiple_options->option_label = $row->label;
                                 $multiple_options->contract_link = $row->contract_link;
                                 $multiple_options->contract_send_to_next_step = $row->next_step;
-                                // $multiple_options->save();
+                                $multiple_options->save();
                             }
                         }
-                        // $question_data->save();
+                        $question_data->save();
                     }
                 }
                 DB::commit(); 

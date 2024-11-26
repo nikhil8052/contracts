@@ -34,7 +34,7 @@ use App\Http\Controllers\Users\ContractController;
 Route::group(['middleware' => ['front']], function() {
      Route::get('/',[HomeController::class,'home']);
      Route::get('/document/{slug}',[HomeController::class,'getDocument']);
-     Route::get('/contact-us',[ContactUsController::class,'index']);
+     Route::get('/contacto',[ContactUsController::class,'index']);
      Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
      Route::get('/register',[AuthController::class,'register'])->name('register');
      Route::get('/login',[AuthController::class,'loginUser'])->name('login.user');
@@ -56,14 +56,14 @@ Route::group(['middleware' => ['front']], function() {
      // end login with google route
 
      // ****************** SitePagesController Start**********************//
-     Route::get('/how-it-works',[SitePagesController::class,'howItWork']);
-     Route::get('/faq',[SitePagesController::class,'Faq']);
-     Route::get('/terms-and-conditions',[SitePagesController::class,'termsAndConditions']);
+     Route::get('/asi-funciona',[SitePagesController::class,'howItWork']);
+     Route::get('/preguntas-frecuentes',[SitePagesController::class,'Faq']);
+     Route::get('/terminus-y-condiciones',[SitePagesController::class,'termsAndConditions']);
      Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
-     Route::get('/prices',[SitePagesController::class,'prices']);
+     Route::get('/precios',[SitePagesController::class,'prices']);
      Route::post('/ckeditor/upload',[SitePagesController::class,'upload'])->name('ckeditor.upload');
-     Route::get('/help-center',[SitePagesController::class,'HelpCenter'])->name('help.center');
-     Route::get('/who-we-are',[SitePagesController::class,'whoWeAre']);
+     Route::get('/centro-de-ayuda',[SitePagesController::class,'HelpCenter'])->name('help.center');
+     Route::get('/sobre-nosotros',[SitePagesController::class,'whoWeAre']);
      // ****************** SitePagesController End **********************//
 });
 

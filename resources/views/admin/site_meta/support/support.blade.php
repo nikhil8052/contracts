@@ -79,6 +79,12 @@
                                    <input type="text" class="form-control" id="main_title" name="main_title" value="{{ $data['main_title'] ?? '' }}">
                               </div>
                          </div>
+                         <div class="col-md-12">
+                              <div class="form-group">
+                                   <label class="form-label" for="sub_title">Sub Title</label>
+                                   <textarea class="form-control" id="sub_title" name="sub_title">{{ $data['sub_title'] ?? '' }}</textarea>
+                              </div>
+                         </div>
                          @if(isset($help_you) && $help_you != null)
                          @foreach($help_you as $help)
                          <?php 

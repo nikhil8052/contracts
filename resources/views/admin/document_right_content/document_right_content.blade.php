@@ -400,7 +400,7 @@
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 document_id"  data-search="on" name="document_id" id="document_id">
                                                        <option value="" selected disabled>Select</option>
-                                                       @if(isset($documents) && $documents != null)
+                                                       <!-- @if(isset($documents) && $documents != null)
                                                        @foreach($documents as $document)
                                                             @if(isset($document_id) && $document_id != null)
                                                                  @if($document->id == $document_id)
@@ -412,7 +412,21 @@
                                                                  <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
                                                             @endif
                                                        @endforeach
+                                                       @endif -->
+
+                                                  @if(isset($documents) && $documents != null)
+                                                  @foreach($documents as $document)
+                                                       @if(isset($_GET['id']) && $_GET['id'] != null)
+                                                            @if($_GET['id'] == $document->id)
+                                                            <option value="{{ $document->id ?? '' }}" selected>{{ $document->title ?? '' }}</option>
+                                                            @else
+                                                            <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
+                                                            @endif
+                                                       @else
+                                                       <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
                                                        @endif
+                                                  @endforeach
+                                                  @endif
                                                   </select>
                                              </div>
                                         </div>

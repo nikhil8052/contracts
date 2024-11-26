@@ -24,8 +24,16 @@
                               <a href="{{ url('admin-dashboard/edit-document/'.$document->slug) }}" class="btn tab_btn active">Frontpage</a>
                               @endif 
                               <a class="btn tab_btn" target="_blank">Document generator</a>
-                              <a href="{{ url('admin-dashboard/all-document-questions') }}" class="btn tab_btn" target="_blank">Document questions</a>
-                              <a href="{{ url('admin-dashboard/all-document-right-content') }}" class="btn tab_btn" target="_blank">Document Text</a>
+                              @if(isset($document) && $document != null)
+                              <a href="{{ url('admin-dashboard/document-questions/?id='.$document->id) }}" class="btn tab_btn" target="_blank">Document questions</a>
+                              @else
+                              <a href="{{ url('admin-dashboard/document-questions/') }}" class="btn tab_btn" target="_blank">Document questions</a>
+                              @endif
+                              @if(isset($document) && $document != null)
+                              <a href="{{ url('admin-dashboard/document-right-content/?id='.$document->id) }}" class="btn tab_btn" target="_blank">Document Text</a>
+                              @else
+                              <a href="{{ url('admin-dashboard/document-right-content/') }}" class="btn tab_btn" target="_blank">Document Text</a>
+                              @endif
                          </div>
                     </div>
                </div>

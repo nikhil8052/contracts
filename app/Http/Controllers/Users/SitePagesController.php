@@ -185,6 +185,7 @@ class SitePagesController extends Controller
             'banner_placeholder',
             'banner_image',
             'main_title',
+            'sub_title',
             'faq_heading',
             'faq_description',
             'bottom_banner_image',
@@ -201,6 +202,7 @@ class SitePagesController extends Controller
             'banner_placeholder' => $results['banner_placeholder']->value ?? null,
             'banner_image' =>  str_replace('public/', '', $results['banner_image']->file_path ?? null),
             'main_title' => $results['main_title']->value ?? null,
+            'sub_title' => $results['sub_title']->value ?? null,
             'faq_heading' => $results['faq_heading']->value ?? null,
             'faq_description' => $results['faq_description']->value ?? null,
             'bottom_banner_image' =>  str_replace('public/', '', $results['bottom_banner_image']->file_path ?? null),
@@ -210,7 +212,7 @@ class SitePagesController extends Controller
         ];
 
         $faqs = HelpCenter::where('key','faq')->get();
-        $help_you = HelpYou::with('media')->get();
+        $help_you = HelpYou::limit(3)->with('media')->get();
 
         return view('users.site_meta.support.support',compact('data','faqs','help_you'));
     }
@@ -261,7 +263,7 @@ class SitePagesController extends Controller
         ];
 
         $visions = OurVision::with('media')->get();
-        $offers = WhoWeAre::where('key','offer')->get();
+        $offers = WhoWeAre::limit(2)->where('key','offer')->get();
         $reviews = Review::where('status',1)->with('media')->get();
 
         return view('users.site_meta.who_we_are',compact('data','visions','offers','reviews','data2'));

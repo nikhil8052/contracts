@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('multiple_choice_question_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade'); // Foreign key to questions table
-            $table->string('option_label'); // Label of the option
-            $table->string('option_value'); // Value of the option
+            $table->string('option_label')->nullable(); // Label of the option
+            $table->string('option_value')->nullable(); // Value of the option
             $table->unsignedBigInteger('next_question_id')->nullable(); // Optional next question ID
             $table->text('contract_link')->nullable();
             $table->boolean('contract_send_to_next_step')->default(false);
-            $table->string('type'); // Type of question
-            $table->integer('order_id'); // Order ID for ordering options
+            $table->string('type')->nullable();; // Type of question
+            $table->integer('order_id')->nullable();; // Order ID for ordering options
             $table->timestamps();
 
             // Foreign key for next_question_id

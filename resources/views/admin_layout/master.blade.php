@@ -37,8 +37,8 @@
                     <div class="nk-sidebar-brand">
                         <a href="{{ url('admin-dashboard') }}" class="logo-link nk-sidebar-logo">
                             <!-- <h3>Legalio</h3> -->
-                            <img class="logo-light logo-img" src="{{ asset('assets/img/logo-legalio-mx-new.svg') }}" srcset="{{ asset('assets/img/logo-legalio-mx-new.svg') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('assets/img/logo-legalio-mx-new.svg') }}" srcset="{{ asset('assets/img/logo-legalio-mx-new.svg') }}" alt="logo-dark">
+                            <img class="logo-light logo-img" src="{{ asset('assets/img/logo.svg') }}" srcset="{{ asset('assets/img/logo.svg') }}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('assets/img/logo.svg') }}" srcset="{{ asset('assets/img/logo.svg') }}" alt="logo-dark">
                         </a>
                     </div>
                 </div><!-- .nk-sidebar-element -->

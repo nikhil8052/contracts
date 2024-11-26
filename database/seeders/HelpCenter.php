@@ -39,6 +39,10 @@ class HelpCenter extends Seeder
                 'value' => null,
             ],
             [
+                'key' => 'sub_title',
+                'value' => null,
+            ]
+            [
                 'key' => 'faq_heading',
                 'value' => null,
             ],

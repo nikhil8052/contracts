@@ -39,6 +39,7 @@
     <section class="como_sec p_120">
         <div class="container">
             <h2 class="b-dark" style="text-align: center;">{{ $data['main_title'] ?? 'Cómo podemos ayudarte!' }}</h2>
+            <p>{{ $data['sub_title'] ?? '' }}</p>
             <div class="row">
             @if(isset($help_you) && $help_you)
             @foreach($help_you as $help)
@@ -99,7 +100,7 @@
                         </h2>
                         <p>{{ $data['faq_description'] ?? '' }}</p>
                     </div>
-                    <div class="accordion  accordion-flush" id="accordionExample">
+                    <div class="accordion accordion-flush" id="accordionExample">
                         @if(isset($faqs) && $faqs != null)
                         @foreach($faqs as $faq)
                         <div class="accordion-item">
@@ -121,6 +122,9 @@
                         </div>
                         @endforeach
                         @endif
+                        <div class="faq-view-more">
+                            <a href="{{ url('/preguntas-frecuentes') }}" class="cta_org">Ver más</a>
+                        </div>
                     </div>
                 </div>
             </div>

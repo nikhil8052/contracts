@@ -13,22 +13,27 @@
      <div class="container">
           <div class="wrapper">
                <div class="tab">
+                    <!-- Button to show Todos tab -->
                     <div class="btn active" onclick="showTab('todos')">Todos</div>
+                    
+                    <!-- Loop through categories and create buttons for each category -->
                     @if(isset($document_category) && $document_category != null)
                          @foreach($document_category as $index => $doc_catg)
-                              <div class="btn {{ $index == 0 }}" onclick="showTab('tab{{ $index + 1 }}')">
-                                   {{ $doc_catg->name ?? '' }}
+                              <div class="btn {{ $index == 0 ? 'active' : '' }}" onclick="showTab('tab{{ $index + 1 }}')">
+                              {{ $doc_catg->name ?? '' }}
                               </div>
                          @endforeach
                     @endif
                </div>
+               
                <div class="tabContentWrap">
+                    <!-- Todos Tab Content -->
                     <div class="tab_box_sec tabContent show" id="todos">
                          <div class="container">
                               <div class="row">
-                                   @if(isset($alldocuments) && $alldocuments != null)
-                                        @foreach($alldocuments as $document)
-                                             <div class="col-lg-3 col-md-6 col-sm-6">
+                              @if(isset($alldocuments) && $alldocuments != null)
+                                   @foreach($alldocuments as $document)
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
                                              <div class="inside_box_tab">
                                                   <div class="img_tab_sec">
                                                        <?php 
@@ -55,18 +60,20 @@
                                                        <a href="{{ url('document/'.$document->slug) }}" class="cta_org">Crear ahora</a>
                                                   </div>
                                              </div>
-                                             </div>
-                                        @endforeach
-                                   @endif
+                                        </div>
+                                   @endforeach
+                              @endif
                               </div>
                          </div>
                     </div>
+
+                    <!-- Category Tabs Content -->
                     @if(isset($document_category) && $document_category != null)
                          @foreach($document_category as $index => $catg)
                               <div class="tab_box_sec tabContent {{ $index == 0 ? 'show' : '' }}" id="tab{{ $index + 1 }}">
-                                   <div class="container">
-                                        <div class="row">
-                                             @foreach($alldocuments as $catg_document)
+                              <div class="container">
+                                   <div class="row">
+                                        @foreach($alldocuments as $catg_document)
                                              @if($catg_document->categories->contains('id', $catg->id))
                                                   <div class="col-lg-3 col-md-6 col-sm-6">
                                                        <div class="inside_box_tab">
@@ -78,15 +85,15 @@
                                                             </div>
                                                             <div class="cont_tab_ot">
                                                                  <div class="tab_text">
-                                                                 <h5 class="size20">{{ $catg_document->title ?? '' }}</h5>
-                                                                 <ul class="tab_ul">
-                                                                      <li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
-                                                                      <li>4.8</li>
-                                                                 </ul>
+                                                                      <h5 class="size20">{{ $catg_document->title ?? '' }}</h5>
+                                                                      <ul class="tab_ul">
+                                                                           <li><img src="{{ asset('assets/img/stars.png') }}" alt=""></li>
+                                                                           <li>4.8</li>
+                                                                      </ul>
                                                                  </div>
                                                                  <div class="tab_2text light">
-                                                                 <?php $short = Str::limit($catg_document->short_description, 70, '...'); 
-                                                                 print_r($short); ?>
+                                                                      <?php $short = Str::limit($catg_document->short_description, 70, '...'); 
+                                                                      print_r($short); ?>
                                                                  </div>
                                                             </div>
                                                             <div class="tab_btn">
@@ -95,34 +102,34 @@
                                                        </div>
                                                   </div>
                                              @endif
-                                             @endforeach
-                                        </div>
+                                        @endforeach
                                    </div>
+                              </div>
                               </div>
                          @endforeach
                     @endif
-
-               <!-- Pagination//////////////////////////////////////////////// -->
-               <!-- <nav class="pagination_nav" aria-label="Page navigation example">
-                    <div class="container">
-                         <ul class="pagination justify-content-center">
-                              <li class="page-item disabled">
-                                   <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i
-                                        class="fa-solid fa-arrow-left"></i></a>
-                              </li>
-                              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item"><a class="page-link" href="#">2</a></li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item active">
-                                   <a class="page-link" href="#"><i class="fa-solid fa-arrow-right"></i></a>
-                              </li>
-                         </ul>
-                    </div>
-               </nav> -->
+                    <!-- Pagination//////////////////////////////////////////////// -->
+                    <!-- <nav class="pagination_nav" aria-label="Page navigation example">
+                         <div class="container">
+                              <ul class="pagination justify-content-center">
+                                   <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i
+                                             class="fa-solid fa-arrow-left"></i></a>
+                                   </li>
+                                   <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                   <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                   <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                   <li class="page-item active">
+                                        <a class="page-link" href="#"><i class="fa-solid fa-arrow-right"></i></a>
+                                   </li>
+                              </ul>
+                         </div>
+                    </nav> -->
                </div>
           </div>
      </div>
 </section>
+
 
 <script>
      function showTab(tabId) {
@@ -131,6 +138,10 @@
           document.getElementById(tabId).classList.add('show');
           document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
      }
+
+     document.addEventListener('DOMContentLoaded', function() {
+          showTab('todos');
+     });
 </script>
 
 @endsection

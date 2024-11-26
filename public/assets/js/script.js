@@ -32,6 +32,8 @@ document.addEventListener("click", (event) => {
   }
 });
 
+
+
 // ===================================
 // contact page
 let index = 1;
@@ -149,58 +151,58 @@ $('.tc-item a').click(function(event){
 // Nikhil Code 
 
 // Home Page Tabs 
-$(function () {
-  // vars
-  var slider,
-    btn,
-    tabC,
-    prevIndex,
-    objTab = {};
+// $(function () {
+//   // vars
+//   var slider,
+//     btn,
+//     tabC,
+//     prevIndex,
+//     objTab = {};
 
 
-  btn = $(".home_tab_btns");
-  tabC = $(".tabContent");
+//   btn = $(".home_tab_btns");
+//   tabC = $(".tabContent");
 
-  prevIndex = 0;
+//   prevIndex = 0;
 
-  btn.on("click", function (e) {
-    var th, thIndex;
-    // Current button and the index of the current button 
-    th = $(this);
-    thIndex = th.index();
-    if(!th.hasClass("active")) {
-      if(prevIndex != thIndex && prevIndex !== "undefined"){
-        btn.eq(prevIndex).removeClass("active");
-        tabC.eq(prevIndex).removeClass("show");
-      }
-      btn.eq(thIndex).addClass("active");
-      tabC.eq(thIndex).addClass("show");
-      prevIndex = thIndex;
-      tabC.eq(thIndex).find(".slider").slick("setPosition");
-    }
-  });
-  slider = $(".slider");
-  slider.slick({
-    dots: true,
-    arrows: false,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
-  });
-});
+//   btn.on("click", function (e) {
+//     var th, thIndex;
+//     // Current button and the index of the current button 
+//     th = $(this);
+//     thIndex = th.index();
+//     if(!th.hasClass("active")) {
+//       if(prevIndex != thIndex && prevIndex !== "undefined"){
+//         btn.eq(prevIndex).removeClass("active");
+//         tabC.eq(prevIndex).removeClass("show");
+//       }
+//       btn.eq(thIndex).addClass("active");
+//       tabC.eq(thIndex).addClass("show");
+//       prevIndex = thIndex;
+//       tabC.eq(thIndex).find(".slider").slick("setPosition");
+//     }
+//   });
+//   slider = $(".slider");
+//   slider.slick({
+//     dots: true,
+//     arrows: false,
+//     slidesToShow: 4,
+//     slidesToScroll: 1,
+//     responsive: [
+//       {
+//         breakpoint: 991,
+//         settings: {
+//           slidesToShow: 3,
+//         },
+//       },
+//       {
+//         breakpoint: 767,
+//         settings: {
+//           slidesToShow: 1,
+//         },
+//       },
+//     ],
+//   });
+// });
 
 // End code 
 
@@ -235,6 +237,37 @@ $(document).ready(function() {
   $(window).on('scroll', checkScroll);
 });
 
+// Header dropdown 
+$(document).ready(function () {
+  function handleMenuClick() {
+    // Handle click event on menu items
+    $('.menu-item > a').off('click').on('click', function (e) {
+      e.preventDefault(); // Prevent default link behavior
 
+      const $dropdownMenu = $(this).siblings('.dropdown_menu');
+      $dropdownMenu.slideToggle(200); // Slide toggle the dropdown
+
+      $(this).parent('.menu-item').toggleClass('active');
+
+      $(this).toggleClass('clicked');
+
+      // Close other dropdowns
+      $('.menu-item')
+        .not($(this).parent('.menu-item'))
+        .removeClass('active')
+        .find('.dropdown_menu')
+        .slideUp(200);
+      $('.menu-item > a')
+        .not($(this))
+        .removeClass('clicked'); // Remove class 'clicked' from other items
+    });
+  }
+
+  handleMenuClick(); // Apply menu functionality
+
+  $(window).resize(function () {
+    handleMenuClick(); // Reapply in case of dynamic DOM changes
+  });
+});
 
 
