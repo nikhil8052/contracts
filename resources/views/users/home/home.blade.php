@@ -179,10 +179,9 @@
 							<p class="in_cate_para">
 								{{ $category->category_description ?? '' }}
 							</p>
-
 						</div>
 						<div class="cata_btn">
-							<a href="" class="cta_org">{{ $category->btn_text ?? '' }}  <i class="fa-solid fa-arrow-right-long"></i></a>
+							<a href="{{ url('category_detail/'.$category->category->slug) }}" class="cta_org">{{ $category->btn_text ?? '' }}  <i class="fa-solid fa-arrow-right-long"></i></a>
 						</div>
 					</div>
 				</div>

@@ -725,13 +725,18 @@ class DocumentController extends Controller
 
     public function documentQuestion(){
         $documents = Document::where('published',1)->get();
+
         $types = QuestionType::all();
         $questions = Question::all();
         if(isset($_GET['id']) && $_GET['id'] != null){
+            $document = Document::find($_GET['id']);
             $document_questions = Question::where('document_id',$_GET['id'])->with('questionData','conditions','options','nextQuestion')->get();
+        }else{
+            $document = '';
+            $document_questions = '';
         }
       
-        return view('admin.documents.document_questions',compact('documents','types','questions','document_questions'));
+        return view('admin.documents.document_questions',compact('documents','types','questions','document_questions','document'));
     }
 
     public function allquestionType(){
@@ -852,7 +857,9 @@ class DocumentController extends Controller
                         if($condition_type == 1){
                             $question_condition_type = "question_label_condition";
                             $conditional_question_labels = $data->conditional_question_labels;
-                            foreach($conditional_question_labels as $conditional){
+                            for($i=0; $i<count($conditional_question_labels); $i++){
+                                $conditional = $conditional_question_labels[$i];
+
                                 $question_conditions->question_id = $questions->id;
                                 $question_conditions->condition_type = $question_condition_type;
                                 $question_conditions->question_label = $conditional->label;
@@ -863,8 +870,9 @@ class DocumentController extends Controller
                         }elseif($condition_type == 2){
                             $question_condition_type = "go_to_step_condition";
                             $step_conditions = $data->conditions;
+                            for($i=0; $i<count($step_conditions); $i++){
+                                $step = $step_conditions[$i];
 
-                            foreach($step_conditions as $step){
                                 $question_conditions->question_id = $step->id;
                                 $question_conditions->condition_type = $question_condition_type;
 
@@ -888,23 +896,29 @@ class DocumentController extends Controller
                         }
 
                         if(isset($data->add_options) && $data->add_options != null){
+                            $order = 1;
                             $multiple_options = new MultipleChoiceQuestionOption;
-                            foreach($data->add_options as $option){
+                            for($i=0; $i<count($data->add_options); $i++){
+                                $option = $data->add_options[$i];
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $option->option_label;
                                 $multiple_options->option_value = $option->option_value;
                                 $multiple_options->next_question_id = $option->option_go_to_step;
+                                $multiple_options->order_id = $order++;
                                 $multiple_options->save();
                             }                        
                         }
 
                         if(isset($data->add_rows) && $data->add_rows != null){
+                            $order = 1;
                             $multiple_options = new MultipleChoiceQuestionOption;
-                            foreach($data->add_rows as $row){
+                            for($i=0; $i<count($data->add_rows); $i++){
+                                $row = $data->add_rows[$i];
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $row->label;
                                 $multiple_options->contract_link = $row->contract_link;
                                 $multiple_options->contract_send_to_next_step = $row->next_step;
+                                $multiple_options->order_id = $order++;
                                 $multiple_options->save();
                             }
                         }

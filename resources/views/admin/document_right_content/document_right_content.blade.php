@@ -11,14 +11,48 @@
                <input type="hidden" id="remove_content" name="remove_content" value="">
                <input type="hidden" id="remove_condition" name="remove_condition" value="">
                <input type="hidden" id="formdata" name="formdata" value="">
+               <input type="hidden" id="document_id" name="document_id" value="{{ $_GET['id'] ?? '' }}">
+               @if(isset($document) && $document != null)
+               <div class="col-md-12 doc-title mt-4 pb-4">
+                    <div class="form-group">
+                         <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
+                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
+                    </div>
+               </div>
+               @else
+               <div class="col-md-12 doc-title mt-4 pb-4">
+                    <div class="form-group">
+                         <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
+                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="">
+                         @error('title')
+                              <span class="text-danger">{{ $message }}</span>
+                         @enderror
+                         <span class="text-danger validation_error"></span>
+                    </div>
+               </div>
+               @endif
+               <div class="nk-block-head doc-outer-div">
+                    <div class="nk-block-head-content wrapper">
+                         <div class="tab">
+                              @if(isset($document) && $document != null)
+                              <a href="{{ url('admin-dashboard/edit-document/'.$document->slug) }}" class="btn tab_btn">Frontpage</a>
+                              @endif
+                              <a class="btn tab_btn" target="_blank">Document generator</a>
+                              @if(isset($_GET['id']) && $_GET['id'] != null)
+                              <a href="{{ url('admin-dashboard/document-questions/?id='.$_GET['id']) }}" class="btn tab_btn" target="_blank">Document questions</a>
+                              @else
+                              <a href="{{ url('admin-dashboard/document-questions/') }}" class="btn tab_btn" target="_blank">Document questions</a>
+                              @endif
+                              @if(isset($_GET['id']) && $_GET['id'] != null)
+                              <a href="{{ url('admin-dashboard/document-right-content/?id='.$_GET['id']) }}" class="btn tab_btn active">Document Text</a>
+                              @else
+                              <a href="{{ url('admin-dashboard/document-right-content/') }}" class="btn tab_btn active">Document Text</a>
+                              @endif
+                         </div>
+                    </div>
+               </div>
                <div class="row main_section">
                     <div class="col col-md-8 left-content">
-                         <!-- <div class="col-md-12 doc-title mt-4 pb-4">
-                              <div class="form-group">
-                                   <label class="form-label" for="title"><b><h4>@if(isset($documentRight) && $documentRight != null) Edit Right Content @else Add New Right Content @endif</h4></b></label>
-                                   <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $title ?? '' }}">
-                              </div>
-                         </div> -->
                          <h5>Contract Right Content</h5>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
@@ -188,12 +222,6 @@
                                                                  </div>
                                                                  <hr>
                                                                  <div class="row">
-                                                                      <!-- <div class="col-md-6">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="content_class">Content Class</label>
-                                                                                <input type="text" class="form-control" name="content_class-{{ $count++ }}" id="content_class" value="{{ $data->content_class ?? '' }}">
-                                                                           </div>
-                                                                      </div> -->
                                                                       <div class="col-md-6">
                                                                            <p class="p_label">Add Condition</p>
                                                                            <div class="custom-control custom-checkbox">
@@ -385,63 +413,28 @@
                     <div class="col col-md-4 right-content">
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
-                                   <!-- <div class="col-md-12">
-                                        <div class="form-group">
-                                             <p>Published</p>
-                                             <div class="custom-control custom-switch">
-                                                  <input type="checkbox" class="custom-control-input publish" id="publish1">
-                                                  <label class="custom-control-label" for="publish1"></label>
-                                             </div>
-                                        </div>
-                                   </div> -->
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="document_id">Select Document</label>  
-                                             <div class="form-control-wrap"> 
-                                                  <select class="form-select js-select2 document_id"  data-search="on" name="document_id" id="document_id">
-                                                       <option value="" selected disabled>Select</option>
-                                                       <!-- @if(isset($documents) && $documents != null)
-                                                       @foreach($documents as $document)
-                                                            @if(isset($document_id) && $document_id != null)
-                                                                 @if($document->id == $document_id)
-                                                                      <option value="{{ $document->id ?? '' }}" selected>{{ $document->title ?? '' }}</option>
-                                                                 @else
-                                                                      <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
-                                                                 @endif
-                                                            @else
-                                                                 <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
-                                                            @endif
-                                                       @endforeach
-                                                       @endif -->
-
-                                                  @if(isset($documents) && $documents != null)
-                                                  @foreach($documents as $document)
-                                                       @if(isset($_GET['id']) && $_GET['id'] != null)
-                                                            @if($_GET['id'] == $document->id)
-                                                            <option value="{{ $document->id ?? '' }}" selected>{{ $document->title ?? '' }}</option>
-                                                            @else
-                                                            <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
-                                                            @endif
-                                                       @else
-                                                       <option value="{{ $document->id ?? '' }}">{{ $document->title ?? '' }}</option>
-                                                       @endif
-                                                  @endforeach
+                                   <div class="d-flex justify-content-end">
+                                        <div class="nk-block-head-content">
+                                             <div class="up-btn mbsc-form-group">
+                                                  @if(isset($_GET['id']) && $_GET['id'] != null)
+                                                  <button class="btn btn-sm btn-primary" type="button" id="updateFormdata">Update</button>
+                                                  @else
+                                                  <button class="btn btn-sm btn-primary" type="button" id="saveFormdata">Save</button>
                                                   @endif
-                                                  </select>
                                              </div>
                                         </div>
                                    </div>
-                                   <div class="d-flex justify-content-end mt-2">
-                                        <div class="nk-block-head-content">
-                                             <div class="up-btn mbsc-form-group">
-                                             @if(isset($documentRight) && $documentRight != null)
-                                                  <button class="btn btn-sm btn-primary" type="button" id="updateFormdata">Update</button>
-                                             @else
-                                                  <button class="btn btn-sm btn-primary" type="button" id="saveFormdata">Save</button>
-                                             @endif
+                                   <div class="d-flex justify-content-end">
+                                        <div class="nk-block-head-content butn-cls">
+                                             <div class="mbsc-form-group view_btn mt-3">
+                                                  @if(isset($_GET['id']) && $_GET['id'] != null)
+                                                  <a href="" target="_blank" class="view_page">View Page</a>
+                                                  @else
+                                                  <a class="view_page" disabled>View Page</a>
+                                                  @endif
                                              </div>
                                         </div>
-                                   </div> 
+                                   </div>
                               </div> 
                          </div>
                     </div>
@@ -927,7 +920,7 @@ $(document).ready(function () {
                     }
 
                     let conditionInvalid = false;
-                    conditionSection.find('select, input').each(function(){
+                    conditionSection.find('select').each(function(){
                          if(!$(this).val()){
                               conditionInvalid = true;
                               return false; 
@@ -1008,7 +1001,7 @@ $(document).ready(function () {
                     }
 
                     let conditionInvalid = false;
-                    conditionSection.find('select, input').each(function(){
+                    conditionSection.find('select').each(function(){
                          if(!$(this).val()){
                               conditionInvalid = true;
                               return false; 

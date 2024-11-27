@@ -127,10 +127,24 @@ class SitePagesController extends Controller
     }
 
     public function privacyNotice(){
-        
-        $policys = PrivacyPolicy::all();
+        $keys = [
+            'title',
+            'main_heading',
+            'sub_heading',
+            'description',
+        ];
+
+        $results = PrivacyPolicy::whereIn('key',$keys)->get()->keyBy('key');
+        $data = [
+            'title' => $results['title']->value ?? null,
+            'main_heading' => $results['main_heading']->value ?? null,
+            'sub_heading' => $results['sub_heading']->value ?? null,
+            'description' => $results['description']->value ?? null,
+            
+        ];
+        $policys = PrivacyPolicy::where('key','privacy_policie')->get();
     
-        return view('users.site_meta.privacy_policy',compact('policys'));
+        return view('users.site_meta.privacy_policy',compact('policys','data'));
     }
 
     public function upload(Request $request){

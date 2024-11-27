@@ -20,4 +20,8 @@ class HomeCategories extends Model
     public function media(){
         return $this->hasOne(Media::class,'id','media_id');
     }
+
+    public function category(){
+        return $this->hasOne(DocumentCategory::class,'id','category_id');
+    }
 }

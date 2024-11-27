@@ -24,23 +24,17 @@ class DocumentRightController extends Controller
 
 
     public function documentRightContent(){
-        $documents = Document::where('published',1)->get();
+        $documentRight = DocumentRightSection::where('document_id', $_GET['id'])->with('conditions','document')->orderBy('order_id')->orderByRaw('order_id IS NULL')->get();
         $questions = Question::all();
-        return view('admin.document_right_content.document_right_content',compact('documents','questions'));
-    }
-
-    public function editRightContent($id){
-        
-        $documentRight = DocumentRightSection::where('document_id', $id)->with('conditions','document')->orderBy('order_id')->orderByRaw('order_id IS NULL')->get();
-        // dd($documentRight);
-        // $documentRight = DocumentRightSection::where('document_id', $id)->orderByRaw('ISNULL(order_id), order_id ASC')->get();
-        // $documentRight = DocumentRightSection::where('document_id',$id)->with('conditions','document')->orderBy('order_id', 'asc')->get();
-        $documents = Document::where('published',1)->get();
-        $document_id = $id;
-        $document = Document::find($document_id);
+        if(isset($_GET['id']) && $_GET['id'] != null){
+            $document = Document::find($_GET['id']);
+        }else{
+            $document = '';
+        }
         $title = $document->title;
-        $questions = Question::all();
-        return view('admin.document_right_content.document_right_content',compact('documents','documentRight','title','document_id','questions'));
+
+        return view('admin.document_right_content.document_right_content',compact('document','documentRight','title','questions'));
+
     }
 
     public function updateRightContent(Request $request){

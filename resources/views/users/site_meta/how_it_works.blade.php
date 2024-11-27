@@ -52,16 +52,20 @@
 </section>
 <section class="generate-sec p_100 Comienza_sec" style="background: #F5F5F5;">
     <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-6">
                 <img src="{{ asset('storage/'.$data['second_banner_img'] ?? '' ) }}" alt="image here">
             </div>
             <div class="col-md-6">
-                <h2 class="b-dark">{{ $data['second_banner_heading'] ?? '' }}</h2>
-                <p class="">
-                    {{ $data['second_banner_sub_heading'] ?? '' }}
-                </p>
-                <a href="#" class="cta_org">{{ $data['button_label'] ?? '' }}<i class="fa-solid fa-arrow-right"></i></a>
+                <div class="asi-right">
+                    <h2 class="b-dark">{{ $data['second_banner_heading'] ?? '' }}</h2>
+                    <p class="">
+                        {{ $data['second_banner_sub_heading'] ?? '' }}
+                    </p>
+                    <div class="asi_btn">
+                        <a href="#" class="cta_org">{{ $data['button_label'] ?? '' }}<i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
 

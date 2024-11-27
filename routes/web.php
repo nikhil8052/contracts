@@ -46,6 +46,8 @@ Route::group(['middleware' => ['front']], function() {
      Route::post('/get-contract',[ContractController::class,'getContract']);
 
      Route::get('/legal-document',[ContractController::class,'legalDocument']);
+     // Route::get('/category_detail',[ContractController::class,'categoryDetail']);
+     Route::get('/category_detail/{slug}',[ContractController::class,'categoryDetail']);
 
      Route::post('/registerProcc',[AuthController::class,'registerProcc']);
      Route::get('logout',[AuthController::class,'logout'])->name('logout');
@@ -58,8 +60,8 @@ Route::group(['middleware' => ['front']], function() {
      // ****************** SitePagesController Start**********************//
      Route::get('/asi-funciona',[SitePagesController::class,'howItWork']);
      Route::get('/preguntas-frecuentes',[SitePagesController::class,'Faq']);
-     Route::get('/terminus-y-condiciones',[SitePagesController::class,'termsAndConditions']);
-     Route::get('/privacy-notice',[SitePagesController::class,'privacyNotice']);
+     Route::get('/terminos-y-condiciones',[SitePagesController::class,'termsAndConditions']);
+     Route::get('/aviso-de-privacidad',[SitePagesController::class,'privacyNotice']);
      Route::get('/precios',[SitePagesController::class,'prices']);
      Route::post('/ckeditor/upload',[SitePagesController::class,'upload'])->name('ckeditor.upload');
      Route::get('/centro-de-ayuda',[SitePagesController::class,'HelpCenter'])->name('help.center');

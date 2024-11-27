@@ -67,7 +67,7 @@ class HomeController extends Controller
             'review_right_arrow' => str_replace('public/', '', $results['review_right_arrow']->file_path ?? null),
         ];
 
-        $home_category = HomeCategories::with('media')->get();
+        $home_category = HomeCategories::with('media','category')->get();
         $document_category = DocumentCategory::limit(4)->get();
         $alldocuments = Document::where('published',1)->get();
         $reviews = Review::where('status',1)->with('media')->get();

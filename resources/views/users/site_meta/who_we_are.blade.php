@@ -85,19 +85,18 @@
                          <h2 class="b-dark">
                               {{ $data['offer_heading'] ?? 'Lo que ofrecemos' }}
                          </h2>
-                         <p class=" mb-0">{{ $data['offer_description'] ?? 'En documentos legales simplificamos el mundo legal para que usted pueda
+                         <p class=" mb-2">{{ $data['offer_description'] ?? 'En documentos legales simplificamos el mundo legal para que usted pueda
                               concentrarse en el éxito. Únase a nosotros hoy y experimente una nueva era de creación de
                               documentos legales.' }}
                          </p>
-                         <ul class="ofrs">
+                         <div class="ofrs">
                          @if(isset($offers) && $offers != null)
                          @foreach($offers as $offer)
-                              <li class=""><span>{{ $offer->offer_section_heading ?? '' }}</span>
-                              {{ $offer->offer_section_description ?? '' }}
-                              </li>
+                              <p>{{ $offer->offer_section_heading ?? '' }}
+                              {{ $offer->offer_section_description ?? '' }}</p>
                          @endforeach
                          @endif
-                         </ul>
+                         </div>
                     </div>
                </div>
                <div class="col-lg-6">

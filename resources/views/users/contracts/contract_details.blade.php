@@ -38,11 +38,6 @@
                                         <div class="select_ul">
                                             <div class="tab_ul">
                                                 <div class="tab_star_li">
-                                                    <!-- <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span> -->
                                                     <span class="rating-on rate-1" data-rating="1"></span>
                                                     <span class="rating-on rate-2" data-rating="2"></span>
                                                     <span class="rating-on rate-3" data-rating="3"></span>
@@ -338,53 +333,46 @@
                 @foreach($document->relatedDocuments as $related)
                 <div class="col-lg-3 col-md-6 p-0 mb-2">
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">
-                        <!-- <a href="{{ url('document/'.$related->slug) }}" class="contract_link"> -->
-                            <div class="inside_box_tab">
+                        <div class="inside_box_tab">
+                            <a href="{{ url('document/'.$related->slug) }}" class="contract_link">
+                            <div class="img_tab_sec">
+                            <?php 
+                                $image_path = str_replace('public/', '', $related->document_file_path ?? null);
+                            ?>
+                                <img src="{{ asset('storage/'.$image_path) }}" alt="">
+                            </div>
+                            </a>
+                            <div class="cont_tab_ot">
                                 <a href="{{ url('document/'.$related->slug) }}" class="contract_link">
-                                <div class="img_tab_sec">
-                                <?php 
-                                    $image_path = str_replace('public/', '', $related->document_file_path ?? null);
-                                ?>
-                                    <img src="{{ asset('storage/'.$image_path) }}" alt="">
-                                </div>
-                                </a>
-                                <div class="cont_tab_ot">
-                                    <a href="{{ url('document/'.$related->slug) }}" class="contract_link">
-                                    <div class="tab_ot_text">
+                                <div class="tab_ot_text">
 
-                                        <div class="tab_text">
-                                            <h5 class=" size20">
-                                                {{ $related->title ?? '' }}
-                                            </h5>
-                                            <div class="tab_ul">
-                                                <div class="tab_star_li">
-                                                    <span class="rating-on rate-1" data-rating="1"></span>
-                                                    <span class="rating-on rate-2" data-rating="2"></span>
-                                                    <span class="rating-on rate-3" data-rating="3"></span>
-                                                    <span class="rating-on rate-4" data-rating="4"></span>
-                                                    <span class="rating-on rate-5" data-rating="5"></span>
-                                                    <!-- <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span>
-                                                    <span><i class="fa-solid fa-star rating-color"></i></span> -->
-                                                </div>
-                                                <div>4.6</div>
+                                    <div class="tab_text">
+                                        <h5 class=" size20">
+                                            {{ $related->title ?? '' }}
+                                        </h5>
+                                        <div class="tab_ul">
+                                            <div class="tab_star_li">
+                                                <span class="rating-on rate-1" data-rating="1"></span>
+                                                <span class="rating-on rate-2" data-rating="2"></span>
+                                                <span class="rating-on rate-3" data-rating="3"></span>
+                                                <span class="rating-on rate-4" data-rating="4"></span>
+                                                <span class="rating-on rate-5" data-rating="5"></span>
                                             </div>
-                                        </div>
-                                        <div class="tab_2text light">
-                                            <?php $short = Str::limit($related->short_description, 70, '...'); 
-                                                print_r($short);
-                                            ?>
+                                            <div>4.6</div>
                                         </div>
                                     </div>
-                                    </a>
+                                    <div class="tab_2text light">
+                                        <?php $short = Str::limit($related->short_description, 70, '...'); 
+                                            print_r($short);
+                                        ?>
+                                    </div>
                                 </div>
-                                <div class="tab_btn">
-                                    <a href="{{ url('document/'.$related->slug) }}" class="cta_blue" tabindex="-1">Crear ahora</a>
-                                </div>
+                                </a>
                             </div>
-                        <!-- </a> -->
+                            <div class="tab_btn">
+                                <a href="{{ url('document/'.$related->slug) }}" class="cta_blue" tabindex="-1">Crear ahora</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 @endforeach

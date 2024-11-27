@@ -77,4 +77,15 @@ class ContractController extends Controller
         $alldocuments = Document::where('published',1)->paginate(12);
         return view('users.contracts.legal_document',compact('legal','document_category','alldocuments'));
     }
+
+    public function categoryDetail($slug){
+        $category = DocumentCategory::where('slug',$slug)->first();
+        $document_category = DocumentCategory::limit(4)->get();
+        $alldocuments = Document::where('published',1)->paginate(12);
+        return view('users.contracts.category_detail',compact('category','document_category','alldocuments'));
+    }
+
+    // public function categoryDetailPage($slug){
+    //     print_r($slug);
+    // }
 }

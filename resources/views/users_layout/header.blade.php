@@ -1,5 +1,5 @@
 @php 
-										$keys = [
+											$keys = [
 		'header_logo',
 		'header_btn_1',
 		'header_btn_2'
@@ -32,7 +32,7 @@
 
 <header class="inner-header fun-header">
 	<div class="main_header">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="srch-hdr">
 				<div class="hedaer_logo mobile-hide">
 					<a href="{{ url('/') }}">
@@ -94,8 +94,8 @@
 									<div class="row">
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>WEBSITES <span class="dropdown_submenu"><i
-															class="fa-solid fa-chevron-down"></i></span></h6>
+												<!-- <h6>WEBSITES <span class="dropdown_submenu"><i
+															class="fa-solid fa-chevron-down"></i></span></h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -113,8 +113,8 @@
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
 
-												<h6>HOSTING <span class="dropdown_submenu"><i
-															class="fa-solid fa-chevron-down"></i></span></h6>
+												<!-- <h6>HOSTING <span class="dropdown_submenu"><i
+															class="fa-solid fa-chevron-down"></i></span></h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -131,8 +131,8 @@
 										</div>
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>GODADDY PRO <span class="dropdown_submenu"><i
-															class="fa-solid fa-chevron-down"></i></span>
+												<!-- <h6>GODADDY PRO <span class="dropdown_submenu"><i
+															class="fa-solid fa-chevron-down"></i></span> -->
 												</h6>
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
@@ -156,7 +156,7 @@
 															<input type="text" placeholder="Nombre del documento">
 														</div>
 														<div class="drop_serach_btn">
-														<i class="fa-solid fa-magnifying-glass"></i>
+															<i class="fa-solid fa-magnifying-glass"></i>
 														</div>
 													</div>
 												</div>
@@ -176,8 +176,8 @@
 									<div class="row">
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>WEBSITES <span class="dropdown_submenu"><i
-															class="fa-solid fa-chevron-down"></i></span></h6>
+												<!-- <h6>WEBSITES <span class="dropdown_submenu"><i
+															class="fa-solid fa-chevron-down"></i></span></h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -194,9 +194,9 @@
 										</div>
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>HOSTING <span class="dropdown_submenu"><i
+												<!-- <h6>HOSTING <span class="dropdown_submenu"><i
 															class="fa-solid fa-chevron-down"></i></span>
-												</h6>
+												</h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -213,9 +213,9 @@
 										</div>
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>GODADDY PRO <span class="dropdown_submenu"><i
+												<!-- <h6>GODADDY PRO <span class="dropdown_submenu"><i
 															class="fa-solid fa-chevron-down"></i></span>
-												</h6>
+												</h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -231,14 +231,14 @@
 											</div>
 										</div>
 										<div class="col-md-3 col-width">
-										<div class="dropdown_content">
+											<div class="dropdown_content">
 												<div class="inside_dropdown_cont">
 													<div class="header_drop_inpt">
 														<div class="inside_text">
 															<input type="text" placeholder="Nombre del documento">
 														</div>
 														<div class="drop_serach_btn">
-														<i class="fa-solid fa-magnifying-glass"></i>
+															<i class="fa-solid fa-magnifying-glass"></i>
 														</div>
 													</div>
 												</div>
@@ -257,8 +257,8 @@
 									<div class="row">
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>WEBSITES <span class="dropdown_submenu"><i
-															class="fa-solid fa-chevron-down"></i></span></h6>
+												<!-- <h6>WEBSITES <span class="dropdown_submenu"><i
+															class="fa-solid fa-chevron-down"></i></span></h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -275,9 +275,9 @@
 										</div>
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>HOSTING <span class="dropdown_submenu"><i
+												<!-- <h6>HOSTING <span class="dropdown_submenu"><i
 															class="fa-solid fa-chevron-down"></i></span>
-												</h6>
+												</h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -294,9 +294,9 @@
 										</div>
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>GODADDY PRO <span class="dropdown_submenu"><i
+												<!-- <h6>GODADDY PRO <span class="dropdown_submenu"><i
 															class="fa-solid fa-chevron-down"></i></span>
-												</h6>
+												</h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -312,14 +312,14 @@
 											</div>
 										</div>
 										<div class="col-md-3 col-width">
-										<div class="dropdown_content">
+											<div class="dropdown_content">
 												<div class="inside_dropdown_cont">
 													<div class="header_drop_inpt">
 														<div class="inside_text">
 															<input type="text" placeholder="Nombre del documento">
 														</div>
 														<div class="drop_serach_btn">
-														<i class="fa-solid fa-magnifying-glass"></i>
+															<i class="fa-solid fa-magnifying-glass"></i>
 														</div>
 													</div>
 												</div>
@@ -338,8 +338,8 @@
 									<div class="row">
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>WEBSITES <span class="dropdown_submenu"><i
-															class="fa-solid fa-chevron-down"></i></span></h6>
+												<!-- <h6>WEBSITES <span class="dropdown_submenu"><i
+															class="fa-solid fa-chevron-down"></i></span></h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -356,9 +356,9 @@
 										</div>
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>HOSTING <span class="dropdown_submenu"><i
+												<!-- <h6>HOSTING <span class="dropdown_submenu"><i
 															class="fa-solid fa-chevron-down"></i></span>
-												</h6>
+												</h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -375,9 +375,9 @@
 										</div>
 										<div class="col-md-3 col-width">
 											<div class="dropdown_content">
-												<h6>GODADDY PRO <span class="dropdown_submenu"><i
+												<!-- <h6>GODADDY PRO <span class="dropdown_submenu"><i
 															class="fa-solid fa-chevron-down"></i></span>
-												</h6>
+												</h6> -->
 												<ul>
 													<li> <a href=""><img src="{{ asset('assets/img/doc_Icon.svg') }}"
 																class="header_img"></img>Item1</a></li>
@@ -393,14 +393,14 @@
 											</div>
 										</div>
 										<div class="col-md-3 col-width">
-										<div class="dropdown_content">
+											<div class="dropdown_content">
 												<div class="inside_dropdown_cont">
 													<div class="header_drop_inpt">
 														<div class="inside_text">
 															<input type="text" placeholder="Nombre del documento">
 														</div>
 														<div class="drop_serach_btn">
-														<i class="fa-solid fa-magnifying-glass"></i>
+															<i class="fa-solid fa-magnifying-glass"></i>
 														</div>
 													</div>
 												</div>
