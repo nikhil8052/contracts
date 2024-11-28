@@ -59,7 +59,7 @@
 				@endif
 
 				<div class="hedaer_bnt">
-					<a href="{{ url('legal-document') }}"
+					<a href="{{ url('/documentos-legales') }}"
 						class="cta_dark">{{ $data['button1'] ?? 'Crear documento' }}</a>
 					@if(auth()->user())
 						<a href="{{ route('logout') }}" class="cta_light">Cerrar sesión</a>

@@ -52,7 +52,7 @@
 								<li class="foot_li"> <a href="{{ url('category_detail/negocios-y-comercio') }}">Negocios y Comercio</a></li>
 								<li class="foot_li"><a href="{{ url('category_detail/vida-personal') }}">Vida Personal </a></li>
 								<li class="foot_li"><a href="{{ url('category_detail/laboral-y-cumplimiento') }}">Laboral y Cumplimiento </a></li>
-								<li class="foot_li"><a href="{{ url('category_detail/tecnologa-y-consumo') }}">Tecnología y Consumo</a></li>
+								<li class="foot_li"><a href="{{ url('category_detail/tecnologia-y-consumo') }}">Tecnología y Consumo</a></li>
 							</ul>
 						</div>
 					</div>

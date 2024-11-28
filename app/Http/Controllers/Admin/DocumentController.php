@@ -792,13 +792,13 @@ class DocumentController extends Controller
         try{
             if(isset($request->formdata) && $request->formdata != null){
                 $formData = json_decode($request->formdata);
-                foreach($formData as $data){                  
+                foreach($formData as $data){    
                     if($data->is_new == true){
                         $questions = new Question;
                         $questions->document_id = $request->document_id;
                         $questions->type = $data->type;
 
-                        if(isset($data->is_conditional_question) && $data->is_conditional_question != null || isset($data->is_conditional_question) && $data->is_conditional_question != null){
+                        if(isset($data->is_conditional_question) && $data->is_conditional_question != null || isset($data->is_conditional_step) && $data->is_conditional_step != null){
                             if($data->is_conditional_question == 1){
                                 $is_condition = 1;
                                 $condition_type = 1;
@@ -852,14 +852,13 @@ class DocumentController extends Controller
                             $question_data->is_end = 0;
                         }
                         
-                        $question_conditions = new QuestionCondition;
-                        
                         if($condition_type == 1){
                             $question_condition_type = "question_label_condition";
                             $conditional_question_labels = $data->conditional_question_labels;
                             for($i=0; $i<count($conditional_question_labels); $i++){
                                 $conditional = $conditional_question_labels[$i];
 
+                                $question_conditions = new QuestionCondition;
                                 $question_conditions->question_id = $questions->id;
                                 $question_conditions->condition_type = $question_condition_type;
                                 $question_conditions->question_label = $conditional->label;
@@ -872,7 +871,8 @@ class DocumentController extends Controller
                             $step_conditions = $data->conditions;
                             for($i=0; $i<count($step_conditions); $i++){
                                 $step = $step_conditions[$i];
-
+                                
+                                $question_conditions = new QuestionCondition;
                                 $question_conditions->question_id = $step->id;
                                 $question_conditions->condition_type = $question_condition_type;
 
@@ -897,9 +897,9 @@ class DocumentController extends Controller
 
                         if(isset($data->add_options) && $data->add_options != null){
                             $order = 1;
-                            $multiple_options = new MultipleChoiceQuestionOption;
                             for($i=0; $i<count($data->add_options); $i++){
                                 $option = $data->add_options[$i];
+                                $multiple_options = new MultipleChoiceQuestionOption;
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $option->option_label;
                                 $multiple_options->option_value = $option->option_value;
@@ -911,9 +911,9 @@ class DocumentController extends Controller
 
                         if(isset($data->add_rows) && $data->add_rows != null){
                             $order = 1;
-                            $multiple_options = new MultipleChoiceQuestionOption;
                             for($i=0; $i<count($data->add_rows); $i++){
                                 $row = $data->add_rows[$i];
+                                $multiple_options = new MultipleChoiceQuestionOption;
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $row->label;
                                 $multiple_options->contract_link = $row->contract_link;
@@ -934,7 +934,6 @@ class DocumentController extends Controller
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
     }
-
 }
 
 

@@ -24,16 +24,16 @@ class DocumentRightController extends Controller
 
 
     public function documentRightContent(){
-        $documentRight = DocumentRightSection::where('document_id', $_GET['id'])->with('conditions','document')->orderBy('order_id')->orderByRaw('order_id IS NULL')->get();
         $questions = Question::all();
         if(isset($_GET['id']) && $_GET['id'] != null){
             $document = Document::find($_GET['id']);
+            $documentRight = DocumentRightSection::where('document_id', $_GET['id'])->with('conditions','document')->orderBy('order_id')->orderByRaw('order_id IS NULL')->get();
         }else{
             $document = '';
+            $documentRight = '';
         }
-        $title = $document->title;
-
-        return view('admin.document_right_content.document_right_content',compact('document','documentRight','title','questions'));
+        
+        return view('admin.document_right_content.document_right_content',compact('document','documentRight','questions'));
 
     }
 
@@ -70,26 +70,26 @@ class DocumentRightController extends Controller
                             // $document_right_section->title = $request->title;
                             $document_right_section->document_id = $request->document_id;
                             $document_right_section->published = $request->published;
-                            $document_right_section->start_new_section = $data->start_new_section;
+                            // $document_right_section->start_new_section = $data->start_new_section;
                             $document_right_section->content = $data->content_html;
-                            $document_right_section->text_align = $data->text_align;
-                            $document_right_section->signature_field = $data->signature_field;
+                            $document_right_section->text_alignment = $data->text_align;
+                            // $document_right_section->signature_field = $data->signature_field;
                             $document_right_section->content_class = $data->content_class;
                             $document_right_section->is_condition = $data->add_condition;
                             $document_right_section->secure_blur_content = $data->secure_blurr_content;
-                            $document_right_section->blur_content = $data->blurr_content;
+                            // $document_right_section->blur_content = $data->blurr_content;
                             $document_right_section->save();
 
                         }elseif($data->is_new == false){
                             $document_right_section = DocumentRightSection::where([['id',$data->id],['type',$data->section]])->first();
-                            $document_right_section->start_new_section = $data->start_new_section;
+                            // $document_right_section->start_new_section = $data->start_new_section;
                             $document_right_section->content = $data->content_html;
-                            $document_right_section->text_align = $data->text_align;
-                            $document_right_section->signature_field = $data->signature_field;
+                            $document_right_section->text_alignment = $data->text_align;
+                            // $document_right_section->signature_field = $data->signature_field;
                             $document_right_section->content_class = $data->content_class;
                             $document_right_section->is_condition = $data->add_condition;
                             $document_right_section->secure_blur_content = $data->secure_blurr_content;
-                            $document_right_section->blur_content = $data->blurr_content;
+                            // $document_right_section->blur_content = $data->blurr_content;
                             $document_right_section->update();
                         }
                         

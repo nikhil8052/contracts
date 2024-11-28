@@ -1,6 +1,23 @@
 @extends('users_layout.master')
 @section('content')
 
+<section class="ot_cate_hed">
+    <div class="cate_hed">
+        <div class="container">
+            <div class="row">
+                <div class="cate_pg_hd">
+                    <h1 class="cate_heding">
+                        {{ $category->name ?? '' }}
+                    </h1>
+                    <p class="cate_para">
+                        Elige el documento legal que necesitas
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="out_cate_sec">
     <div class="container">
         <div class="row">
@@ -31,37 +48,6 @@
     </div>
 </section>
 
-<section class="ot_cate_hed">
-    <div class="cate_hed">
-
-        <div class="container">
-            <div class="row">
-                <div class="cate_pg_hd">
-                    <h1 class="cate_heding">
-                        {{ $category->name ?? '' }}
-                    </h1>
-                    <p class="cate_para">
-                        Elige el documento legal que necesitas
-                    </p>
-                </div>
-
-                <div class="cate_inpt">
-                    <div class="cate_flex_int">
-                        <div class="ot_inpt_cate">
-                            <input type="text" placeholder="Buscar contrato o documento">
-                        </div>
-                        <div class="ot_inpt_btn">
-                            <button class="insd_cate_btn">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="cate_cont_box">
     <div class="inside_cont_box">
         <div class="container">
@@ -72,7 +58,7 @@
                 <div class="col-lg-3">
                     <div class="inside_box_b" style="width: 100%; display: inline-block;">
                         <div class="inside_box_tab">
-                            <a href=""
+                            <a href="{{ url('document/'.$document->slug) }}"
                                 class="contract_link" tabindex="0">
                                 <div class="img_tab_sec">
                                     <?php 
@@ -82,7 +68,7 @@
                                 </div>
                             </a>
                             <div class="cont_tab_ot">
-                                <a href=""
+                                <a href="{{ url('document/'.$document->slug) }}"
                                     class="contract_link" tabindex="0">
                                     <div class="tab_text">
                                         <h5 class="size20">{{ $document->title ?? '' }}</h5>

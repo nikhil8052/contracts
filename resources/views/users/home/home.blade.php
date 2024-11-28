@@ -166,20 +166,24 @@
 			<div class="row">
 			@if(isset($home_category) && $home_category != null)
 			@foreach($home_category as $category)
-			<?php 
-				$path = str_replace('public/', '', $category->media->file_path ?? null);
-			?>
+				<?php 
+					$path = str_replace('public/', '', $category->media->file_path ?? null);
+				?>
 				<div class="col-lg-3">
 					<div class="in_box_cate">
-						<div class="in_img_cate">
-							<img src="{{ asset('storage/'.$path ?? '' ) }}" alt="">
-						</div>
-						<div class="in_cate_content">
-							<h3>{{ $category->heading ?? '' }}</h3>
-							<p class="in_cate_para">
-								{{ $category->category_description ?? '' }}
-							</p>
-						</div>
+						<a href="{{ url('category_detail/'.$category->category->slug) }}">
+							<div class="in_img_cate">
+								<img src="{{ asset('storage/'.$path ?? '' ) }}" alt="">
+							</div>
+						</a>
+						<a href="{{ url('category_detail/'.$category->category->slug) }}">
+							<div class="in_cate_content">
+								<h3>{{ $category->heading ?? '' }}</h3>
+								<p class="in_cate_para">
+									{{ $category->category_description ?? '' }}
+								</p>
+							</div>
+						</a>
 						<div class="cata_btn">
 							<a href="{{ url('category_detail/'.$category->category->slug) }}" class="cta_org">{{ $category->btn_text ?? '' }}  <i class="fa-solid fa-arrow-right-long"></i></a>
 						</div>

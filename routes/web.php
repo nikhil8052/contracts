@@ -45,7 +45,7 @@ Route::group(['middleware' => ['front']], function() {
      Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
      Route::post('/get-contract',[ContractController::class,'getContract']);
 
-     Route::get('/legal-document',[ContractController::class,'legalDocument']);
+     Route::get('/documentos-legales',[ContractController::class,'legalDocument']);
      // Route::get('/category_detail',[ContractController::class,'categoryDetail']);
      Route::get('/category_detail/{slug}',[ContractController::class,'categoryDetail']);
 

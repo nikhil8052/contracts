@@ -55,11 +55,11 @@
   .banner_sec .searchButton {
     padding: 10px 33px;
   }
-
+/* 
   .banner_sec {
     padding-top: 250px;
     padding-bottom: 160px;
-  }
+  } */
 
   .right_menu ul {
     gap: 40px;
@@ -149,10 +149,10 @@
     padding: 5px;
   }
 
-  .banner_sec {
+  /* .banner_sec {
     padding-top: 200px;
     padding-bottom: 150px;
-  }
+  } */
 
   .tab_sec_ot .btn {
     padding: 8px 16px;

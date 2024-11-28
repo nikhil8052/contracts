@@ -245,7 +245,7 @@ $(document).ready(function () {
       e.preventDefault(); // Prevent default link behavior
 
       const $dropdownMenu = $(this).siblings('.dropdown_menu');
-      $dropdownMenu.slideToggle(200); // Slide toggle the dropdown
+      $dropdownMenu.slideToggle(0); // Slide toggle the dropdown
 
       $(this).parent('.menu-item').toggleClass('active');
 
@@ -256,7 +256,7 @@ $(document).ready(function () {
         .not($(this).parent('.menu-item'))
         .removeClass('active')
         .find('.dropdown_menu')
-        .slideUp(200);
+        .slideUp(0);
       $('.menu-item > a')
         .not($(this))
         .removeClass('clicked'); // Remove class 'clicked' from other items

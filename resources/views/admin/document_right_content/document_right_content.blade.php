@@ -12,17 +12,19 @@
                <input type="hidden" id="remove_condition" name="remove_condition" value="">
                <input type="hidden" id="formdata" name="formdata" value="">
                <input type="hidden" id="document_id" name="document_id" value="{{ $_GET['id'] ?? '' }}">
+
                @if(isset($document) && $document != null)
                <div class="col-md-12 doc-title mt-4 pb-4">
-                    <div class="form-group">
-                         <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
-                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
-                    </div>
+                    <h3>{{ $document->title ?? '' }}</h3>
+                    <!-- <div class="form-group">
+                         <label class="form-label" for="title"><b><h3>Document Title</h3></b></label>
+                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}" readonly>
+                    </div> -->
                </div>
                @else
                <div class="col-md-12 doc-title mt-4 pb-4">
                     <div class="form-group">
-                         <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
+                         <label class="form-label" for="title"><b><h3>Document Title</h3></b></label>
                          <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="">
                          @error('title')
                               <span class="text-danger">{{ $message }}</span>
@@ -51,7 +53,7 @@
                          </div>
                     </div>
                </div>
-               <div class="row main_section">
+               <div class="row main_section mt-4">
                     <div class="col col-md-8 left-content">
                          <h5>Contract Right Content</h5>
                          <div class="card card-bordered card-preview">
@@ -111,7 +113,7 @@
                                                                       </div>
                                                                  </div> 
                                                                  <hr>
-                                                                 <div class="col-md-12">
+                                                                 <!-- <div class="col-md-12">
                                                                       <div class="form-group">
                                                                            <label class="form-label" for="">Start New Section</label>
                                                                       </div>
@@ -130,30 +132,30 @@
                                                                       <label class="custom-control-label" for="start_new_section{{ $data->id ?? '' }}"></label>
                                                                  @endif
                                                                  </div>
-                                                                 <hr>
-                                                                 @if(isset($data->start_new_section) && $data->start_new_section != null)
+                                                                 <hr> -->
+                                                                 @if(isset($data->text_alignment) && $data->text_alignment != null)
                                                                  <div class="start_append_section{{ $data->id ?? '' }}" style="display:block">
                                                                       <div class="row">
                                                                            <div class="col-md-6">
                                                                                 <div class="form-group">
                                                                                      <label class="form-label" for="text_align">Text align</label>
                                                                                      <div class="form-control-wrap"> 
-                                                                                          <select class="form-select js-select2 text_align" name="text_align-{{ $count++ }}" id="text_align">
+                                                                                          <select class="form-select js-select2" name="text_align-{{ $count++ }}" id="text_align">
                                                                                                <option value="" selected disabled>Select</option>
-                                                                                               @if(isset($data->text_align) && $data->text_align != null)
-                                                                                                    @if($data->text_align == 'left')
+                                                                                               @if(isset($data->text_alignment) && $data->text_alignment != null)
+                                                                                                    @if($data->text_alignment == 'left')
                                                                                                     <option value="left" selected>left</option>
                                                                                                     @else
                                                                                                     <option value="left">left</option>
                                                                                                     @endif
 
-                                                                                                    @if($data->text_align == 'right')
+                                                                                                    @if($data->text_alignment == 'right')
                                                                                                     <option value="right" selected>right</option>
                                                                                                     @else
                                                                                                     <option value="right">right</option>
                                                                                                     @endif
 
-                                                                                                    @if($data->text_align == 'center')
+                                                                                                    @if($data->text_alignment == 'center')
                                                                                                     <option value="center" selected>center</option>
                                                                                                     @else
                                                                                                     <option value="center">center</option>
@@ -167,7 +169,7 @@
                                                                                      </div>
                                                                                 </div>
                                                                            </div>
-                                                                           <div class="col-md-6">
+                                                                           <!-- <div class="col-md-6">
                                                                                 <p class="p_label">This is signature field</p>
                                                                                 <div class="custom-control custom-checkbox">
                                                                                 @if(isset($data->signature_field) && $data->signature_field != null)
@@ -183,12 +185,12 @@
                                                                                      <label class="custom-control-label" for="signature_field{{ $data->id ?? '' }}"></label>
                                                                                 @endif
                                                                                 </div>
-                                                                           </div>
+                                                                           </div> -->
                                                                       </div>
                                                                       <hr>
                                                                  </div>
                                                                  @else
-                                                                 <div class="start_append_section{{ $data->id ?? '' }}" style="display:none">
+                                                                 <div class="start_append_section{{ $data->id ?? '' }}">
                                                                       <div class="row">
                                                                            <div class="col-md-6">
                                                                                 <div class="form-group">
@@ -203,13 +205,13 @@
                                                                                      </div>
                                                                                 </div>
                                                                            </div>
-                                                                           <div class="col-md-6">
+                                                                           <!-- <div class="col-md-6">
                                                                                 <p class="p_label">This is signature field</p>
                                                                                 <div class="custom-control custom-checkbox">
                                                                                      <input type="checkbox" class="custom-control-input" id="signature_field" name="signature_field-{{ $count++ }}">
                                                                                      <label class="custom-control-label" for="signature_field"></label>
                                                                                 </div>
-                                                                           </div>
+                                                                           </div> -->
                                                                       </div>
                                                                       <hr>
                                                                  </div>
@@ -372,7 +374,7 @@
                                                                            @endif
                                                                            </div>
                                                                       </div>
-                                                                      <div class="col-md-6">
+                                                                      <!-- <div class="col-md-6">
                                                                            <p class="p_label">Blurr Content</p>
                                                                            <div class="custom-control custom-checkbox">
                                                                            @if(isset($data->blur_content) && $data->blur_content != null)
@@ -388,7 +390,7 @@
                                                                                 <label class="custom-control-label" for="blurr_content{{ $uniqueId ?? '' }}">Blurr Content</label>
                                                                            @endif
                                                                            </div>
-                                                                      </div>
+                                                                      </div> -->
                                                                  </div>
                                                             </div>
                                                        </div>
@@ -529,7 +531,7 @@
                                    </div>
                               </div> 
                               <hr>
-                              <div class="col-md-12">
+                              <!-- <div class="col-md-12">
                                    <div class="form-group">
                                         <label class="form-label" for="">Start New Section</label>
                                    </div>
@@ -538,8 +540,8 @@
                                    <input type="checkbox" class="custom-control-input new_section" id="start_new_section${newUniqueId}" name="start_new_section-${content_section_count}">
                                    <label class="custom-control-label" for="start_new_section${newUniqueId}"></label>
                               </div>
-                              <hr>
-                              <div class="start_append_section${newUniqueId}" style="display:none;">
+                              <hr> -->
+                              <div class="start_append_section${newUniqueId} text-section">
                                    <div class="row">
                                         <div class="col-md-6">
                                              <div class="form-group">
@@ -554,13 +556,13 @@
                                                   </div>
                                              </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                              <p class="p_label">This is signature field</p>
                                              <div class="custom-control custom-checkbox">
                                                   <input type="checkbox" class="custom-control-input" id="signature_field${newUniqueId}" name="signature_field-${content_section_count}">
                                                   <label class="custom-control-label" for="signature_field${newUniqueId}"></label>
                                              </div>
-                                        </div>
+                                        </div> -->
                                    </div>
                                    <hr>
                               </div>
@@ -601,13 +603,13 @@
                                              <label class="custom-control-label" for="secure_blurr_content${newUniqueId}">Secure Blurr Content</label>
                                         </div>
                                    </div>
-                                   <div class="col-md-6">
+                                   <!-- <div class="col-md-6">
                                         <p class="p_label">Blurr Content</p>
                                         <div class="custom-control custom-checkbox">
                                              <input type="checkbox" class="custom-control-input" id="blurr_content${newUniqueId}" name="blurr_content-${content_section_count}">
                                              <label class="custom-control-label" for="blurr_content${newUniqueId}">Blurr Content</label>
                                         </div>
-                                   </div>
+                                   </div> -->
                               </div>
                          </div>
                     </div>
@@ -763,15 +765,15 @@
           }
      }
 
-     function startNewSection(id) {
-          if ($('#start_new_section' + id).is(':checked')) {
-               $('.start_append_section' + id).show();
-               $('#start_new_section' + id).val(1);
-          } else {
-               $('.start_append_section' + id).hide();
-               $('#start_new_section' + id).val(0);
-          }
-     }
+     // function startNewSection(id) {
+     //      if ($('#start_new_section' + id).is(':checked')) {
+     //           $('.start_append_section' + id).show();
+     //           $('#start_new_section' + id).val(1);
+     //      } else {
+     //           $('.start_append_section' + id).hide();
+     //           $('#start_new_section' + id).val(0);
+     //      }
+     // }
 
      function toggleCheckboxValue(element, id) {
           if (element.is(':checked')) {
@@ -804,27 +806,27 @@ function getAllContents() {
           var is_new = $(this).data('is_new');
           var id = $(this).data('id');
 
-          var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
+          // var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
           var textAlign = $(this).find('select[name^="text_align"]').val() || ''; 
-          var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
+          // var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
           var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
           var contentClass = $(this).find('input[name^="content_class"]').val() || '';
           var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
           var secureBlurrContent = $(this).find('input[name^="secure_blurr_content"]').is(':checked') ? 1 : 0;
-          var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
+          // var blurrContent = $(this).find('input[name^="blurr_content"]').is(':checked') ? 1 : 0;
 
           var contentData = {
                section: 'content',
                is_new: is_new,
                id: id,
-               start_new_section: startNewSection,
+               // start_new_section: startNewSection,
                text_align: textAlign,
-               signature_field: signatureField,
+               // signature_field: signatureField,
                content_html: contentHtml,
                content_class: contentClass,
                add_condition: addCondition,
                secure_blurr_content: secureBlurrContent,
-               blurr_content: blurrContent,
+               // blurr_content: blurrContent,
                conditions: [],
                new_conditions: [],
           };
@@ -876,19 +878,27 @@ $(document).ready(function () {
           var documentName = $('#document_id').val();
           let hasError = false;
      
-          $(".new_section").each(function(){
-               if($(this).is(':checked')) {
-                    const uniqueId = $(this).attr('id').replace('start_new_section', '');
-                    const section = $(`.start_append_section${uniqueId}`);
-                    const textAlign = section.find(".text_align").val();
-                    if(!textAlign){
-                         NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
-                         hasError = true;
-                         return false;
-                    }
+          // $(".new_section").each(function(){
+          //      if($(this).is(':checked')) {
+          //           const uniqueId = $(this).attr('id').replace('start_new_section', '');
+          //           const section = $(`.start_append_section${uniqueId}`);
+          //           const textAlign = section.find(".text_align").val();
+          //           if(!textAlign){
+          //                NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+          //                hasError = true;
+          //                return false;
+          //           }
+          //      }
+          // });
+
+          $(".text_align").each(function(){
+               if(!$(this).val()){
+                    NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+                    hasError = true;
+                    return false;
                }
-          });
-     
+          })
+
           $(".new_heading_html").each(function(){
                if (!hasError && !$(this).val()) {
                     NioApp.Toast('Please fill the heading HTML field', 'error', { position: 'top-right' });
@@ -956,20 +966,28 @@ $(document).ready(function () {
           
           let hasError = false;
     
-          $(".new_section").each(function(){
-               if($(this).is(':checked')) {
-                    const uniqueId = $(this).attr('id').replace('start_new_section', '');
-                    const section = $(`.start_append_section${uniqueId}`);
-                    const textAlign = section.find(".text_align").val();
+          // $(".new_section").each(function(){
+          //      if($(this).is(':checked')) {
+          //           const uniqueId = $(this).attr('id').replace('start_new_section', '');
+          //           const section = $(`.start_append_section${uniqueId}`);
+          //           const textAlign = section.find(".text_align").val();
 
-                    if(!textAlign){
-                         NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
-                         hasError = true;
-                         return false;
-                    }
+          //           if(!textAlign){
+          //                NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+          //                hasError = true;
+          //                return false;
+          //           }
+          //      }
+          // });
+
+          $(".text_align").each(function(){
+               if(!$(this).val()){
+                    NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+                    hasError = true;
+                    return false;
                }
-          });
-     
+          })
+
           $(".new_heading_html").each(function(){
                if(!hasError && !$(this).val()){
                     NioApp.Toast('Please fill the heading HTML field', 'error', { position: 'top-right' });

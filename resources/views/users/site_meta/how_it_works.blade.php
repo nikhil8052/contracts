@@ -54,7 +54,9 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <img src="{{ asset('storage/'.$data['second_banner_img'] ?? '' ) }}" alt="image here">
+                <div class="asi_img_div">
+                    <img src="{{ asset('storage/'.$data['second_banner_img'] ?? '' ) }}" alt="image here">
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="asi-right">

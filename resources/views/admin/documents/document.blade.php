@@ -16,18 +16,20 @@
                <input type="hidden" name="field_img_id" id="field_img_id" value="">
                <input type="hidden" name="ag_img_id" id="ag_img_id" value="">
                <input type="hidden" name="editor_value" id="editor_value" value="">
+
                @if(isset($document) && $document != null)
                <div class="col-md-12 doc-title mt-4 pb-4">
-                    <div class="form-group">
-                         <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
-                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
-                    </div>
+                    <h3>{{ $document->title ?? '' }}</h3>
+                    <!-- <div class="form-group">
+                         <label class="form-label" for="title"><b><h3>Document Title</h3></b></label>
+                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}" readonly>
+                    </div> -->
                </div>
                @else
                <div class="col-md-12 doc-title mt-4 pb-4">
                     <div class="form-group">
-                         <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
-                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
+                         <label class="form-label" for="title"><b><h3>Document Title</h3></b></label>
+                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="">
                          @error('title')
                               <span class="text-danger">{{ $message }}</span>
                          @enderror
@@ -62,27 +64,9 @@
                                    <button type="button" class="btn btn-light">AI Autofill</button>
                               </div>
                          </div>
+                         
                          <div class="card card-bordered card-preview mt-4">
                               <div class="card-inner">
-                                   <!-- @if(isset($document) && $document != null)
-                                   <div class="col-md-12 doc-title">
-                                        <div class="form-group">
-                                             <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
-                                             <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
-                                        </div>
-                                   </div>
-                                   @else
-                                   <div class="col-md-12 doc-title mt-4 pb-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
-                                             <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
-                                             @error('title')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
-                                             <span class="text-danger validation_error"></span>
-                                        </div>
-                                   </div>
-                                   @endif  -->
                                    <div class="col-md-12 mt-2">
                                         <div class="form-group">
                                              <label class="form-label" for="document_image">Image</label>

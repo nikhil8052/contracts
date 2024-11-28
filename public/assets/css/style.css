@@ -197,7 +197,7 @@ header {
 }
 
 .banner_sec {
-    padding-top: 270px;
+    padding-top: 220px;
     padding-bottom: 200px;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -268,14 +268,17 @@ header .menu .dropdown_menu {
     border-radius: 0;
     padding: 25px 50px;
     z-index: 999;
+    transition: 0s !important;
 
 }
-
-span.dropdown_tittle {
+.dropdown_tittle {
     font-size: 14px;
     font-weight: 600;
     line-height: 14.63px;
     color: #fff;
+}
+.menu-item:hover a span{
+    color: #FD5602;
 }
 
 header .dropdown_menu li a {
@@ -440,8 +443,8 @@ div#navbarSupportedContent {
 }
 
 .main_header .cta_dark:hover {
-    background: #fff;
-    color: #FD5602;
+    background: #FD5602;
+    color: #fff !important;
 }
 
 .Comienza_bg {
@@ -641,6 +644,7 @@ div#navbarSupportedContent {
 }
 
 .tab_ul {
+    margin: 5px 0px;
     list-style-type: none;
     padding-left: 0;
     display: flex;
@@ -826,7 +830,7 @@ div#navbarSupportedContent {
 
 .tab_sec_ot .tab {
     position: relative;
-    max-width: 1036px;
+    max-width: 1060px;
     margin: auto;
     margin-bottom: 40px;
     overflow: hidden;
@@ -2559,8 +2563,12 @@ header.fun-header {
 
 }
 
-.table_ot_precio th,
-td {
+
+.tb_dt3  {
+    padding: 15px;
+    text-align: left;
+}
+.tb_dt1{
     padding: 15px;
     text-align: left;
 }
@@ -2569,8 +2577,7 @@ td {
     font-size: 18px;
 }
 
-.table_ot_precio td {
-    border-bottom: 1px solid rgba(1, 37, 85, 0.1);
+.table_ot_precio .tb_dt1 {
     font-size: 16px;
     font-weight: 400;
     vertical-align: top;
@@ -2610,6 +2617,7 @@ td {
 
 .table_ot_precio .docom {
     border-top-left-radius: 25px;
+    padding:15px;
 
 }
 
@@ -3361,7 +3369,7 @@ footer .logo-text {
 
 }
 
-.table-container tbody tr:nth-child(odd) {
+.table-container tbody .price_lk:nth-child(odd) {
     background-color: #f2f2f2;
     /* Example background color for odd rows */
 }
@@ -3603,11 +3611,18 @@ footer .foot_li a:hover {
     outline: 0;
 }
 
-.table-container tbody tr:hover {
+.table-container tbody .price_lk:hover {
     background-color: #012555;
 }
+.price_lk {
+    display: flex;
+    border-bottom: 1px solid rgba(1, 37, 85, 0.1);
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
 
-.table-container tbody tr:hover a {
+.table-container tbody .price_lk:hover a {
     color: #fff;
 }
 
@@ -3670,7 +3685,7 @@ footer .foot_li a:hover {
     background-color: #FD5602;
     padding: 12px 62px !important;
     width: 100%;
-    display: inline;
+    /* display: inline; */
     text-align: center;
     border-radius: 100px;
     color: #fff;
@@ -3752,20 +3767,30 @@ footer .social_foot .soc_icon_fot .soc_icon_li a svg {
 .privacy-sec h2 {
     line-height: 40px;
 }
-.out_cate_sec {
-    padding: 200px 0px 0px 0px;
-}
+
 .out_cate_sec .cate_li_list .cate_li_a {
     color: #000;
+   
+    padding: 14px 22px;
+    border-radius: 60px;
 }
+.out_cate_sec .cate_li_list .cate_li_a:hover{
+    background-color: #FD5602;
+    color: #fff;
+} 
 .out_cate_sec .cate_ul_list {
     list-style-type: none;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     padding-left: 0;
+    border: 2px solid #0125554D;
+    padding: 20px 10px;
+    border-radius: 50px;
+    margin: 70px 0px;
 }
 .cate_hed {
-    padding-top: 100px;
+    padding-top: 180px;
     text-align: center;
 }
 .ot_cate_hed .cate_flex_int {
@@ -3801,45 +3826,30 @@ footer .social_foot .soc_icon_fot .soc_icon_li a svg {
 .cate_cont_box .inside_box_b {
     padding-bottom: 40px;
 }
-.cate_hed .cate_pg_hd {
+.out_cate_sec .cate_pg_hd {
     margin-bottom: 50px;
     color:#012555;
 }
 .ot_cate_hed .cate_flex_int .ot_inpt_btn .insd_cate_btn:hover {
     background-color: #FD5602;
 }
-.cate_li_a{
-    position: relative;
-    padding: 0 5px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-}
-.cate_li_a::after{
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background: #002655;
-    width: 0;
-    height: 3px;
-    transition: .3s linear;
-}
-.cate_li_a:hover::after{
-    width: 100%;
-}
+/* 28nov2024/////////////////////////// */
 
 .stay_cate{
-    position: relative;
+    background-color: #FD5602;
+    color: #fff !important;
 }
-.stay_cate::after{
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background: #002655;
-    width: 0;
-    height: 3px;
-    transition: .3s linear;
-    width: 100%;
+.cate_a_list {
+    max-width: 990px;
+    margin: auto;
+}
+.cate_hed .cate_pg_hd{
+    color:#012555;
+}
+.generate-sec .asi_img_div {
+    padding: 0px 30px;
+}
+
+footer .select-menu .select-btn:hover {
+    color: #FD5602;
 }

@@ -39,18 +39,20 @@
                <tbody>
                @if(isset($document_price_description) && $document_price_description != null)
                @foreach($document_price_description as $content)
-                    <tr>
-                         <td class="tb_dt1" style="text-align: center; vertical-align: middle;">
-                              <!-- <h6 class="table_in_h">{{ $content->documentname->title ?? '' }}</h6><br> -->
-                             
-                              <div class="tab_btn">
-                                   <!-- <a href="" class="cta_blue" tabindex="-1">{{ $content->button_text ?? '' }}</a> -->
-                                   <a href="">{{ $content->documentname->title ?? '' }}</a>
-                              </div>
-                         </td>
-                         <!-- <td class="tb_dt2">{{ $content->description ?? '' }} </td> -->
-                         <td class="tb_dt3 "> <a href="" class="span1"> ${{ $content->price ?? '' }}</a></td>
-                    </tr>
+                    <!-- <a class="price_lk"> -->
+                         <tr>
+                              <td class="tb_dt1" style="text-align: center; vertical-align: middle;">
+                                   <!-- <h6 class="table_in_h">{{ $content->documentname->title ?? '' }}</h6><br> -->
+                              
+                                   <div class="tab_btn">
+                                        <!-- <a href="" class="cta_blue" tabindex="-1">{{ $content->button_text ?? '' }}</a> -->
+                                        <a href="">{{ $content->documentname->title ?? '' }}</a>
+                                   </div>
+                              </td>
+                              <!-- <td class="tb_dt2">{{ $content->description ?? '' }} </td> -->
+                              <td class="tb_dt3 "> <a href="" class="span1"> ${{ $content->price ?? '' }}</a></td>
+                         </tr>
+                    <!-- </a> -->
                @endforeach
                @endif
                </tbody>
