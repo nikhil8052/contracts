@@ -16,9 +16,12 @@
                     <div class="btn active" onclick="showTab('todos')">Todos</div>
                     @if(isset($document_category) && $document_category != null)
                          @foreach($document_category as $index => $doc_catg)
-                              <div class="btn {{ $index == 0 ? 'active' : '' }}" onclick="showTab('tab{{ $index + 1 }}')">
+                              <!-- <div class="btn {{ $index == 0 ? 'active' : '' }}" onclick="showTab('tab{{ $index + 1 }}')">
                               {{ $doc_catg->name ?? '' }}
-                              </div>
+                              </div> -->
+                              <a href="{{ url('category_detail/'.$doc_catg->slug ?? '' ) }}" class="btn">
+                                   {{ $doc_catg->name ?? '' }}
+                              </a>
                          @endforeach
                     @endif
                </div>
@@ -77,7 +80,7 @@
                     </div>
 
                     <!-- Category Tabs Content -->
-                    @if(isset($document_category) && $document_category != null)
+                    <!-- @if(isset($document_category) && $document_category != null)
                          @foreach($document_category as $index => $catg)
                               <div class="tab_box_sec tabContent {{ $index == 0 ? 'show' : '' }}" id="tab{{ $index + 1 }}">
                               <div class="container">
@@ -128,7 +131,7 @@
                               </div>
                               </div>
                          @endforeach
-                    @endif
+                    @endif -->
                     <!-- Pagination//////////////////////////////////////////////// -->
                     <!-- <nav class="pagination_nav" aria-label="Page navigation example">
                          <div class="container">
