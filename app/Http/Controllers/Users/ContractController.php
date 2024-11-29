@@ -85,7 +85,4 @@ class ContractController extends Controller
         return view('users.contracts.category_detail',compact('category','document_category','alldocuments'));
     }
 
-    // public function categoryDetailPage($slug){
-    //     print_r($slug);
-    // }
 }

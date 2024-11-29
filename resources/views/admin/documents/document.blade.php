@@ -20,21 +20,6 @@
                @if(isset($document) && $document != null)
                <div class="col-md-12 doc-title mt-4 pb-4">
                     <h3>{{ $document->title ?? '' }}</h3>
-                    <!-- <div class="form-group">
-                         <label class="form-label" for="title"><b><h3>Document Title</h3></b></label>
-                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}" readonly>
-                    </div> -->
-               </div>
-               @else
-               <div class="col-md-12 doc-title mt-4 pb-4">
-                    <div class="form-group">
-                         <label class="form-label" for="title"><b><h3>Document Title</h3></b></label>
-                         <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="">
-                         @error('title')
-                              <span class="text-danger">{{ $message }}</span>
-                         @enderror
-                         <span class="text-danger validation_error"></span>
-                    </div>
                </div>
                @endif 
                <div class="nk-block-head doc-outer-div">
@@ -64,9 +49,26 @@
                                    <button type="button" class="btn btn-light">AI Autofill</button>
                               </div>
                          </div>
-                         
                          <div class="card card-bordered card-preview mt-4">
                               <div class="card-inner">
+                                   @if(isset($document) && $document != null)
+                                   <div class="col-md-12 doc-title">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title"><b><h4>Document Title</h4></b></label>
+                                             <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="{{ $document->title ?? '' }}">
+                                        </div>
+                                   </div>
+                                   @else
+                                   <div class="col-md-12 doc-title">
+                                        <div class="form-group">
+                                             <label class="form-label" for="title"><b><h3>Document Title</h3></b></label>
+                                             <input type="text" class="form-control form-control-lg" id="title" name="title" placeholder="Add title" value="">
+                                             @error('title')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
+                                   @endif
                                    <div class="col-md-12 mt-2">
                                         <div class="form-group">
                                              <label class="form-label" for="document_image">Image</label>
@@ -118,85 +120,6 @@
                                              @enderror
                                         </div>
                                    </div>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="">Agreement Steps</label>
-                                        </div>
-                                   </div> 
-                                   <br> 
-                                   @if(isset($document->documentAgreement) && $document->documentAgreement != null)
-                                   @foreach($document->documentAgreement as $agrmnt)
-                                   <?php 
-                                   $path = str_replace('public/', '', $agrmnt->media->file_path ?? null); ?>
-                                   <div class="faq-append-sec{{ $agrmnt->id ?? '' }}">
-                                        <div class="row gy-12">
-                                             <div class="col-md-2">
-                                                  <div class="form-group">
-                                                       <button class="btn-sm update_agreement_img" type="button" data-id="{{ $agrmnt->id ?? '' }}">Add New</button>
-                                                       <input type="file" name="agreement_up_img" class="update_img" data-id="{{ $agrmnt->id ?? '' }}" id="agreement_up_img{{ $agrmnt->id ?? '' }}" style="display:none;">
-                                                  </div>
-                                                  <div class="img_div" id="img_div{{ $agrmnt->id ?? '' }}">
-                                                       <!-- <div class="text-end">
-                                                            <span class="remove_img" data-id="{{ $agrmnt->id ?? '' }}">
-                                                                 <i class="fa fa-times"></i>
-                                                            </span>
-                                                       </div> -->
-                                                       <div class="form-group">
-                                                            <img src="{{ asset('storage/'.$path ?? '' ) }}" alt="{{ asset('storage/'.$path ?? '' ) }}">
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="col-md-5">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="agreement_heading">Heading</label>
-                                                       <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[{{ $agrmnt->id ?? '' }}]" value="{{ $agrmnt->heading ?? '' }}">
-                                                  </div>
-                                             </div>
-                                             <div class="col-md-5">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="agreement_description">Description</label>
-                                                       <textarea class="form-control" id="agreement_description" name="agreement_description[{{ $agrmnt->id ?? '' }}]">{{ $agrmnt->description ?? '' }}</textarea>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                                   @endforeach
-                                   @else
-                                   @php $num=4; @endphp
-                                   @for($i=1; $i<=$num; $i++)
-                                   <div class="faq-append-sec{{ $i ?? '' }}">
-                                        <div class="row gy-12">
-                                             <div class="col-md-2">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="agreement_image">Image</label>
-                                                       <input type="file" class="form-control" name="agreement_image[]">
-                                                       @error('agreement_image.*')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                       @enderror
-                                                  </div>
-                                             </div>
-                                             <div class="col-md-5">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="agreement_heading">Heading</label>
-                                                       <input type="text" class="form-control" id="agreement_heading" name="agreement_heading[]" value="">
-                                                       @error('agreement_heading.*')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                       @enderror
-                                                  </div>
-                                             </div>
-                                             <div class="col-md-5">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="agreement_description">Description</label>
-                                                       <textarea class="form-control" id="agreement_description" name="agreement_description[]"></textarea>
-                                                       @error('agreement_description.*')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                       @enderror
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                                   @endfor
-                                   @endif
                                    <br>
                                    <h5>Documents Field</h5> 
                                    <hr>
@@ -349,78 +272,6 @@
                                         </div>
                                    </div>
                                    <hr>
-                                   <h6 class="mt-2">Guide Section</h6>
-                                   <hr>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="guide_heading">Guide Section Main Heading</label>
-                                             <input type="text" class="form-control form-control" id="guide_heading" name="guide_heading" value="{{ $document->guide_main_heading ?? '' }}">
-                                             @error('guide_heading')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
-                                        </div>
-                                   </div>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label">Guide Section Steps</label>
-                                        </div>
-                                   </div>
-                                   @if(isset($document->documentGuide) && $document->documentGuide != null)
-                                        @foreach($document->documentGuide as $guide)
-                                             <div class="guide-append-sec{{ $guide->id ?? '' }}">
-                                                  <hr>
-                                                  <div class="row gy-12">
-                                                       <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                 <label class="form-label" for="step_title">Step Title</label>
-                                                                 <input type="text" class="form-control form-control" id="step_title" name="step_title[{{ $guide->id ?? '' }}]" value="{{ $guide->step_title ?? '' }}">
-                                                            </div>
-                                                       </div>
-                                                       <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                 <label class="form-label" for="step_description">Step Description</label>
-                                                                 <textarea class="form-control" id="step_description" name="step_description[{{ $guide->id ?? '' }}]">{{ $guide->step_description ?? '' }}</textarea>
-                                                            </div>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                        @endforeach
-                                        @else
-                                        @php $count=2; @endphp
-                                        @for($i=1; $i<=$count; $i++)
-                                        <div class="guide-append-sec{{ $i ?? '' }}">
-                                             <hr>
-                                             <div class="row gy-12">
-                                                  <div class="col-md-6">
-                                                       <div class="form-group">
-                                                            <label class="form-label" for="step_title">Step Title</label>
-                                                            <input type="text" class="form-control form-control" id="step_title" name="step_title[]" value="">
-                                                            @error('step_title.*')
-                                                                 <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
-                                                       </div>
-                                                  </div>
-                                                  <div class="col-md-6">
-                                                       <div class="form-group">
-                                                            <label class="form-label" for="step_description">Step Description</label>
-                                                            <textarea class="form-control" id="step_description" name="step_description[]"></textarea>
-                                                            @error('step_description.*')
-                                                                 <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                        @endfor
-                                   @endif
-                                   <div id="guide-sec-steps"></div>
-                                   <br>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="guide_button">Guide Button</label>
-                                             <input type="text" class="form-control form-control" id="guide_button" name="guide_button" value="{{ $document->guide_button ?? '' }}">
-                                        </div>
-                                   </div>
                                    <!-- <div class="col-md-12 mt-2">
                                         <div class="form-group">
                                              <label class="form-label" for="guide_button_link">Guide Section Button Link</label>
@@ -474,33 +325,8 @@
                                    </div>
                                    @endif
                                    <hr>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="valid_in">Valid in</label>
-                                             <input type="text" class="form-control form-control" id="valid_in" name="valid_in" value="{{ $document->valid_in ?? '' }}">
-                                        </div>
-                                   </div>
-                                   <hr>
                                    <h6 class="mt-4">Related Document Section</h6>
                                    <hr>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="related_heading">Related Document Heading</label>
-                                             <input type="text" class="form-control" id="related_heading" name="related_heading" value="{{ $document->related_heading ?? '' }}">
-                                             @error('related_heading')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
-                                        </div>
-                                   </div>
-                                   <div class="col-md-12 mt-2">
-                                        <div class="form-group">
-                                             <label class="form-label" for="related_description">Related Document Short Description</label>
-                                             <textarea class="form-control" id="related_description" name="related_description">{{ $document->related_description ?? '' }}</textarea>
-                                             @error('related_description')
-                                                  <span class="text-danger">{{ $message }}</span>
-                                             @enderror
-                                        </div>
-                                   </div>
                                    <div class="col-md-12 mt-2">
                                         <div class="form-group">
                                              <label class="form-label" for="select_related_doc">Select Related Documents</label>               
@@ -818,57 +644,6 @@
                $('#field_img_div'+id).hide();
           })
 
-
-          // Update Agreement Image //
-          $('.update_agreement_img').click(function(){
-               var id = $(this).data('id');
-               $('#agreement_up_img' + id).trigger('click');
-          });
-
-          $('.update_img').change(function() {
-               var id = $(this).data('id');
-               var file = this.files[0]; 
-               var formData = new FormData(); 
-               formData.append('image', file);
-               formData.append('_token', "{{ csrf_token() }}");
-               formData.append('id', id);
-
-               $.ajax({
-                    url: "{{ url('/update/agreement/image') }}", 
-                    type: 'POST',
-                    data: formData,
-                    processData: false,  
-                    contentType: false, 
-                    dataType: "json",
-                    success: function(response){
-                         console.log(response);
-                         NioApp.Toast('New image is updated', 'info', {position: 'top-right'});
-                         setTimeout(() => {
-                              location.reload();
-                         },1000);
-                    },
-                    error: function(response) {
-                         console.log(response.responseText); 
-                         alert('Error uploading image');
-                    }
-               });
-          });
-
-          // Delete Agreement Image //
-          $('.remove_img').click(function(){
-               id = $(this).data('id');
-               let removeIds = $('#ag_img_id').val();
-               
-               if(removeIds) {
-                    removeIds += ',' + id;
-               }else{
-                    removeIds = id;
-               }
-               $('#ag_img_id').val(removeIds);
-
-               $('#img_div'+id).hide();
-          })
-
      });
 
 </script>
@@ -969,85 +744,6 @@
                     $('.img-txt-section'+id).hide();
                }
           });
-
-          // Append Guide section //
-          $('#add-guide-sec').click(function(){
-               var html = `<div class="guide-append-sec">
-                              <div class="text-end">
-                                   <div class="form-group">
-                                        <div><span class="remove-guide" value="appended"><i class="fa fa-times"></i></span></div>
-                                   </div>
-                              </div>
-                              <div class="row gy-12">
-                                   <div class="col-md-6">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_step_title">Step Title</label>
-                                             <input type="text" class="form-control" name="new_step_title[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-6">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_step_description">Step Description</label>
-                                             <textarea class="form-control" name="new_step_description[]"></textarea>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>`;
-
-               $('#guide-sec-steps').append(html);
-          });
-
-          // Remove guide section //
-          $('body').delegate('.remove-guide', 'click', function () {
-               if ($(this).attr('value') === 'appended') {
-                    $(this).closest('.guide-append-sec').remove();
-               } else {
-                    var id = $(this).data('id');
-                    let deleteIds = $('#guide_sec_ids').val();
-                    if (deleteIds) {
-                         deleteIds += ',' + id;
-                    } else {
-                         deleteIds = id;
-                    }
-                    $('#guide_sec_ids').val(deleteIds);
-                    $(this).closest('.guide-append-sec').hide();
-               }
-          });
-
-          // Add Faq Section //
-          $('#add-sec').click(function(){
-               var html = `<div class="faq-append-sec">
-                              <div class="text-end">
-                                   <div class="form-group">
-                                        <div><span class="remove-faq" value="appended"><i class="fa fa-times"></i></span></div>
-                                   </div>
-                              </div>
-                              <div class="row gy-8">
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_agreement_image">Image</label>
-                                             <input type="file" class="form-control" name="new_agreement_image[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_agreement_heading">Heading</label>
-                                             <input type="text" class="form-control" name="new_agreement_heading[]" value="">
-                                        </div>
-                                   </div>
-                                   <div class="col-md-4">
-                                        <div class="form-group">
-                                             <label class="form-label" for="new_agreement_description">Description</label>
-                                             <textarea class="form-control" name="new_agreement_description[]"></textarea>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>`;
-
-               $('#steps').append(html);
-          });
-
-     // Remove Faq section //
 
      });
 

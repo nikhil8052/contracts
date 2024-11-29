@@ -23,6 +23,11 @@
         <div class="row">
             <div class="cate_a_list">
                 <ul class="cate_ul_list">
+                    <li class="cate_li_list">
+                        <a href="{{ url('/documentos-legales') }}" class="cate_li_a">
+                            Todos
+                        </a>
+                    </li>
                 @if(isset($document_category) && $document_category != null)
                     @foreach($document_category as $catg)
                         @if(isset($category) && $category != null)

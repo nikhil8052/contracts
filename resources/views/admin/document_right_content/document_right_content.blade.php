@@ -491,6 +491,13 @@
                               <div class="row add_content_heading">
                                    <div class="col-md-6">
                                         <h6>Content Heading</h6>  
+                                        <div class="form-group">
+                                             <select class="form-select js-select2 type_question" name="question_type${newUniqueId}" id="question_type${newUniqueId}">
+                                                  ${types.map(type => `
+                                                  <option value="${type.slug}" ${name === type.slug ? 'selected' : ''}>${type.name}</option>
+                                                  `).join('')}
+                                             </select>
+                                        </div>
                                    </div> 
                                    <div class="col-md-6">
                                         <div class="form-group">

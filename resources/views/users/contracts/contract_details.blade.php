@@ -27,7 +27,7 @@
                         <div class="ul_st">
                             <ul class="inside_ul_pdf">
                                 <li><img src="{{ asset('assets/img/org_tick.svg') }}" alt=""></li>
-                                <li>{{ $document->valid_in ?? '' }}</li>
+                                <li>{{ $data2['valid_in'] ?? '' }}</li>
                             </ul>
                         </div>
                         <div class="share_icon">
@@ -174,8 +174,8 @@
     <div class="in_sec4_card_box p_120 pt-0">
         <div class="container">
             <div class="row">
-            @if(isset($document->documentAgreement) && $document->documentAgreement != null)
-            @foreach($document->documentAgreement as $agreement)
+            @if(isset($agreements) && $agreements != null)
+            @foreach($agreements as $agreement)
             <?php 
                 $ag_path = str_replace('public/', '', $agreement->media->file_path ?? null); 
             ?>
@@ -285,13 +285,14 @@
         <div class="const_bg_sec7">
             <div class="const_hed_sec7">
                 <h2>
-                    {{ $document->guide_main_heading ?? '' }}
+                    {{ $data2['guide_heading'] ?? '' }}
                 </h2>
             </div>
             <div class="sec7_const_content">
                 <div class="container">
                     <div class="row">
-                    @foreach($document->documentGuide as $key => $guide)
+                    @if(isset($guides) && $guides != null)
+                        @foreach($guides as $key=>$guide)
                         <div class="col-lg-6 {{ $key == 0 ? 'b_right' : '' }}">
                             <div class="sec7_const_h">
                                 <div class="sec7_const_img">
@@ -299,19 +300,20 @@
                                 </div>
 
                                 <div class="h_sec_const">
-                                    <h3>{{ $guide->step_title }}</h3>
+                                    <h3>{{ $guide->heading ?? '' }}</h3>
                                     <p>
-                                        {!! $guide->step_description !!}
+                                        {!! $guide->description !!}
                                     </p>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                     </div>
                 </div>
             </div>
             <div class="con_btn_div h_sec_btn">
-                <a href="{{ $document->guide_button_link ?? '' }}" class="cta_light_cont ">{{ $document->guide_button ?? '' }}</a>
+                <a href="" class="cta_light_cont ">{{ $data2['guide_button'] ?? '' }}</a>
             </div>
         </div>
 
@@ -326,8 +328,8 @@
         <div class="container">
             <div class="row">
                 <div class="heading_sec_tabs">
-                    <h2 class="doc_h">{{ $document->related_heading ?? '' }}</h2>
-                    <p class="doc_sub_heading">{{ $document->related_description ?? '' }}</p>
+                    <h2 class="doc_h">{{ $data2['related_heading'] ?? '' }}</h2>
+                    <p class="doc_sub_heading">{{ $data2['related_description'] ?? '' }}</p>
                 </div>
                 @if(isset($document->relatedDocuments) && $document->relatedDocuments != null)
                 @foreach($document->relatedDocuments as $related)

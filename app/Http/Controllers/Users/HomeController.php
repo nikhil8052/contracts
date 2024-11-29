@@ -11,6 +11,7 @@ use App\Models\DocumentCategory;
 use App\Models\Review;
 use App\Models\Question;
 use App\Models\DocumentRightSection;
+use App\Models\GeneralSection;
 
 class HomeController extends Controller
 {
@@ -78,6 +79,7 @@ class HomeController extends Controller
     public function getDocument($slug){
         $document = Document::where('slug',$slug)->with(['documentAgreement.media','documentField.media','documentGuide','relatedDocuments'])->first();
         $reviews = Document::with('reviews')->get();
+
         $keys = [
             'reviews_heading',
             'reviews_sub_heading',
@@ -88,9 +90,28 @@ class HomeController extends Controller
             'reviews_heading' => $results['reviews_heading']->value ?? null, 
             'reviews_sub_heading' => $results['reviews_sub_heading']->value ?? null, 
         ];
-        // dd($document->relatedDocuments);
+        
+        $keys2 = [
+            'guide_heading',
+            'guide_button',
+            'valid_in',
+            'related_heading',
+            'related_description',
+        ];
 
-        return view('users.contracts.contract_details',compact('document','reviews','data'));
+        $results2 = GeneralSection::whereIn('key', $keys2)->get()->keyBy('key');
+        $data2 = [
+            'guide_heading' => $results2['guide_heading']->value ?? null,
+            'guide_button' => $results2['guide_button']->value ?? null,
+            'valid_in' => $results2['valid_in']->value ?? null,
+            'related_heading' => $results2['related_heading']->value ?? null,
+            'related_description' => $results2['related_description']->value ?? null,
+        ];
+
+        $agreements = GeneralSection::where('key','agreement')->with('media')->get();
+        $guides = GeneralSection::where('key','guide_section')->get();
+
+        return view('users.contracts.contract_details',compact('document','reviews','data','data2','agreements','guides'));
     }
 
 

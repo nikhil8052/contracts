@@ -237,36 +237,89 @@ $(document).ready(function() {
   $(window).on('scroll', checkScroll);
 });
 
-// Header dropdown 
+// Header dropdown
+
+// $(document).ready(function () {
+//   function handleMenuClick() {
+//     // Handle click event on menu items
+//     $('.menu-item > a').off('click').on('click', function (e) {
+//       e.preventDefault(); // Prevent default link behavior
+
+//       const $dropdownMenu = $(this).siblings('.dropdown_menu');
+//       $dropdownMenu.slideToggle(0); // Slide toggle the dropdown
+
+//       $(this).parent('.menu-item').toggleClass('active');
+
+//       $(this).toggleClass('clicked');
+
+//       // Close other dropdowns
+//       $('.menu-item')
+//         .not($(this).parent('.menu-item'))
+//         .removeClass('active')
+//         .find('.dropdown_menu')
+//         .slideUp(0);
+//       $('.menu-item > a')
+//         .not($(this))
+//         .removeClass('clicked'); // Remove class 'clicked' from other items
+//     });
+//   }
+
+//   handleMenuClick(); // Apply menu functionality
+
+//   $(window).resize(function () {
+//     handleMenuClick(); // Reapply in case of dynamic DOM changes
+//   });
+// });
+
+
+
 $(document).ready(function () {
+  // Function to handle menu item clicks
   function handleMenuClick() {
-    // Handle click event on menu items
+    // Bind the click event to menu items
     $('.menu-item > a').off('click').on('click', function (e) {
       e.preventDefault(); // Prevent default link behavior
 
       const $dropdownMenu = $(this).siblings('.dropdown_menu');
-      $dropdownMenu.slideToggle(0); // Slide toggle the dropdown
+      const $menuItem = $(this).parent('.menu-item');
 
-      $(this).parent('.menu-item').toggleClass('active');
-
+      // Toggle the clicked item
+      $dropdownMenu.stop(true, true).slideToggle(0);
+      $menuItem.toggleClass('active');
       $(this).toggleClass('clicked');
 
       // Close other dropdowns
       $('.menu-item')
-        .not($(this).parent('.menu-item'))
+        .not($menuItem)
         .removeClass('active')
         .find('.dropdown_menu')
         .slideUp(0);
       $('.menu-item > a')
         .not($(this))
-        .removeClass('clicked'); // Remove class 'clicked' from other items
+        .removeClass('clicked');
     });
   }
 
   handleMenuClick(); // Apply menu functionality
 
+  // Close dropdowns when clicking outside of the menu
+  $(document).on('click', function (e) {
+    // Check if the click was outside the menu
+    if (!$(e.target).closest('.menu-item').length) {
+      // Close all dropdowns and remove active/clicked classes
+      $('.menu-item').removeClass('active').find('.dropdown_menu').slideUp(0);
+      $('.menu-item > a').removeClass('clicked');
+    }
+  });
+
+  // Prevent closing the dropdown if clicking inside the menu
+  $('.menu-item').on('click', function (e) {
+    e.stopPropagation(); // Prevent document click from triggering
+  });
+
+  // Reapply menu functionality on window resize (in case DOM changes)
   $(window).resize(function () {
-    handleMenuClick(); // Reapply in case of dynamic DOM changes
+    handleMenuClick();
   });
 });
 

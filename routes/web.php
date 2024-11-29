@@ -86,6 +86,8 @@ Route::group(['middleware' =>['admin']],function(){
      Route::get('/admin-dashboard/edit-document/{slug}',[DocumentController::class,'editDocument']);
      Route::post('/admin-dashboard/update-document',[DocumentController::class,'updateDocument']);
      Route::post('/update/documentField/image',[DocumentController::class,'updateFieldImage']);
+     Route::get('/admin-dashboard/general-section',[DocumentController::class,'generalSection']);
+     Route::post('/admin-dashboard/add/general-section',[DocumentController::class,'addGeneralSection']);
      Route::post('/update/agreement/image',[DocumentController::class,'updateAgreementImage']);
      //*************************End Documents Urls ***********************//
 

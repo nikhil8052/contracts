@@ -84,6 +84,9 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/document/categories') }}" class="nk-menu-link"><span class="nk-menu-text">Categories</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/general-section') }}" class="nk-menu-link"><span class="nk-menu-text">General Section</span></a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <!-- <li class="nk-menu-item has-sub">

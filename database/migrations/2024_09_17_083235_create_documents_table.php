@@ -21,9 +21,6 @@ return new class extends Migration
             $table->longtext('short_description')->nullable();
             $table->string('btn_text')->nullable();
             $table->longtext('long_description')->nullable();
-            $table->text('guide_main_heading')->nullable();
-            $table->text('guide_button')->nullable();
-            $table->text('guide_button_link')->nullable();
             $table->text('legal_heading')->nullable();
             $table->longtext('legal_description')->nullable();
             $table->string('legal_btn_text')->nullable();
@@ -32,9 +29,6 @@ return new class extends Migration
             $table->string('directory_name')->nullable();
             $table->text('file_path')->nullable();
             $table->string('published')->nullable();
-            $table->string('valid_in')->nullable();
-            $table->text('related_heading')->nullable();
-            $table->longtext('related_description')->nullable();
             $table->integer('doc_price')->nullable();
             $table->longtext('meta_title')->nullable();
             $table->longtext('meta_description')->nullable();
