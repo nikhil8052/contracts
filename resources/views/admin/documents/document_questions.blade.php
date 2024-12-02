@@ -70,7 +70,7 @@
                                         </div>
                                    </div>
                                    <hr>
-                                   <!-- <div class="add_qu_sec"> -->
+                                   <div class="add_qu_sec">
                                    @if(isset($document_questions) && $document_questions != null)
                                    <?php $num = 1; ?>
                                    @foreach($document_questions as $docQues)
@@ -129,108 +129,72 @@
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
                                                             $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
-                                                            $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
                                                        @if($isConditionType1 && !empty($conditions))
-                                                            <div class="cond_ques_div{{ $docQues->id ?? '' }}" style="display:block;">
-                                                                 <div class="col-md-12">
-                                                                      <div class="form-group">
-                                                                           <label class="form-label" for="">Add conditional questions label</label>
-                                                                      </div>
+                                                       <div class="cond_ques_div{{ $docQues->id ?? '' }}" style="display:block;">
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                                 @foreach($conditions as $condition)
-                                                                      @if($condition->condition_type == 'question_label_condition')
-                                                                      <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
-                                                                           <hr>
-                                                                           <div class="text-end">
-                                                                                <div class="form-group">
-                                                                                     <span onclick="removeLabel(this)" data-id="{{ $condition->id ?? '' }}">
-                                                                                          <i class="fa fa-times"></i>
-                                                                                     </span>
-                                                                                </div>
-                                                                           </div>
-                                                                           <div class="row">
-                                                                                <div class="col-md-4">
-                                                                                     <div class="form-group">
-                                                                                          <label class="form-label" for="condition_question_label-{{ $condition->id ?? '' }}">Label</label>
-                                                                                          <input type="text" class="form-control" id="condition_question_label-{{ $condition->id ?? '' }}" name="condition_question_label-{{ $condition->id ?? '' }}[]" value="{{ $condition->question_label ?? '' }}">
-                                                                                     </div>
-                                                                                </div>
-                                                                                <div class="col-md-4">
-                                                                                     <div class="form-group">
-                                                                                          <label class="form-label" for="label_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
-                                                                                          <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $condition->id ?? '' }}[]" id="label_qu_id-{{ $condition->id ?? '' }}">
-                                                                                               @foreach($questions ?? [] as $question)
-                                                                                                    <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
-                                                                                                    {{ $question->getName() ?? '' }}
-                                                                                                    </option>
-                                                                                               @endforeach
-                                                                                          </select>
-                                                                                     </div>
-                                                                                </div>
-                                                                                <div class="col-md-4">
-                                                                                     <div class="form-group">
-                                                                                          <label class="form-label" for="condition_question_value-{{ $condition->id ?? '' }}">Value</label>
-                                                                                          <input type="text" class="form-control" id="condition_question_value-{{ $condition->id ?? '' }}" name="condition_question_value-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
-                                                                                     </div>
-                                                                                </div>
-                                                                           </div>
-                                                                           <br>
-                                                                      </div>
-                                                                      @endif
-                                                                 @endforeach
-                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
-                                                                      </div>
-                                                                 </div>
-                                                                 <hr>
                                                             </div>
+                                                            <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}">
+                                                            @foreach($conditions as $condition)
+                                                                 @if($condition->condition_type == 'question_label_condition')
+                                                                 <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
+                                                                      <hr>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <span onclick="removeLabel(this)" data-id="{{ $condition->id ?? '' }}">
+                                                                                     <i class="fa fa-times"></i>
+                                                                                </span>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="condition_question_label-{{ $condition->id ?? '' }}">Label</label>
+                                                                                     <input type="text" class="form-control" id="condition_question_label-{{ $condition->id ?? '' }}" name="condition_question_label-{{ $condition->id ?? '' }}[]" value="{{ $condition->question_label ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="label_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
+                                                                                     <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $condition->id ?? '' }}[]" id="label_qu_id-{{ $condition->id ?? '' }}">
+                                                                                          @foreach($questions ?? [] as $question)
+                                                                                               <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                               {{ $question->getName() ?? '' }}
+                                                                                               </option>
+                                                                                          @endforeach
+                                                                                     </select>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="condition_question_value-{{ $condition->id ?? '' }}">Value</label>
+                                                                                     <input type="text" class="form-control" id="condition_question_value-{{ $condition->id ?? '' }}" name="condition_question_value-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <br>
+                                                                 </div>
+                                                                 @endif
+                                                            @endforeach
+                                                            </div>
+                                                            <div class="text-end">
+                                                                 <div class="form-group">
+                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
+                                                                 </div>
+                                                            </div>
+                                                            <hr>
+                                                       </div>
                                                        @else
                                                        <div class="cond_ques_div{{ $docQues->id ?? '' }}" style="display:none;">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                            </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" value="appended" data-is_new="false">
-                                                                 <hr>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" value="appended">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_label-{{ $docQues->id ?? '' }}">Label</label>
-                                                                                <input type="text" class="form-control" id="condition_question_label-{{ $docQues->id ?? '' }}" name="condition_question_label-${label_count}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
-                                                                                <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
-                                                                                     @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                     @endforeach
-                                                                                </select>
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_value-{{ $docQues->id ?? '' }}">Value</label>
-                                                                                <input type="text" class="form-control" id="condition_question_value-{{ $docQues->id ?? '' }}" name="condition_question_value-{{ $docQues->id ?? '' }}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                                 <br>
                                                             </div>
                                                             <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
                                                             <div class="text-end">
@@ -315,20 +279,21 @@
                                                        @endphp
 
                                                        @if($isConditionType2 && !empty($enable_conditions))
-                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add Conditions</label>
                                                                  </div>
                                                             </div>
+                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}">
                                                             @foreach($enable_conditions as $condition)
                                                                  @if($condition->condition_type == 'go_to_step_condition')
-                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}" value="appended" data-is_new=true>
+                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}"  data-id="{{ $condition->id ?? '' }}" data-is_new=false>
                                                                       <hr>
                                                                       <div class="text-end">
                                                                            <div class="form-group">
                                                                                 <div>
-                                                                                     <span onclick="removeCondition(this)" value="appended">
+                                                                                     <span onclick="removeCondition(this)"  data-id="{{ $condition->id ?? '' }}">
                                                                                           <i class="fa fa-times"></i>
                                                                                      </span>
                                                                                 </div>
@@ -342,7 +307,9 @@
                                                                                           <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
                                                                                                @if(isset($questions) && $questions != null)
                                                                                                     @foreach($questions ?? [] as $question)
-                                                                                                         <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                                         <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                                         {{ $question->getName() ?? '' }}
+                                                                                                         </option>
                                                                                                     @endforeach
                                                                                                @endif
                                                                                           </select>
@@ -357,19 +324,33 @@
                                                                                                <option value="" selected disabled>Select</option>
                                                                                                @if(isset($condition->conditional_check) && $condition->conditional_check != null)
                                                                                                     @if($condition->conditional_check == 1)
-                                                                                                    <option value="is equal to" selected>is equal to</option>
-                                                                                                    @elseif($condition->conditional_check == 2)
-                                                                                                    <option value="is greater than" selected>is greater than</option>
-                                                                                                    @elseif($condition->conditional_check == 3)
-                                                                                                    <option value="is less than" selected>is less than</option>
-                                                                                                    @elseif($condition->conditional_check == 4)
-                                                                                                    <option value="not equal to" selected>not equal to</option>
+                                                                                                    <option value="is_equal_to" selected>is equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="is_equal_to">is equal to</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 2)
+                                                                                                    <option value="is_greater_than" selected>is greater than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_greater_than">is greater than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 3)
+                                                                                                    <option value="is_less_than" selected>is less than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_less_than">is less than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 4)
+                                                                                                    <option value="not_equal_to" selected>not equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="not_equal_to">not equal to</option>
                                                                                                     @endif
                                                                                                @else
-                                                                                               <option value="is equal to">is equal to</option>
-                                                                                               <option value="is greater than">is greater than</option>
-                                                                                               <option value="is less than">is less than</option>
-                                                                                               <option value="not equal to">not equal to</option>
+                                                                                               <option value="is_equal_to">is equal to</option>
+                                                                                               <option value="is_greater_than">is greater than</option>
+                                                                                               <option value="is_less_than">is less than</option>
+                                                                                               <option value="not_equal_to">not equal to</option>
                                                                                                @endif
                                                                                           </select>
                                                                                      </div>
@@ -386,7 +367,7 @@
                                                                  </div>
                                                                  @endif
                                                             @endforeach
-                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}"></div>
+                                                            </div>
                                                             <div class="text-end">
                                                                  <div class="form-group">
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
@@ -409,19 +390,6 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       <!-- <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
-                                                            <div class="col-md-12">
-                                                                 <div class="form-group">
-                                                                      <label class="form-label" for="">Add Conditions</label>
-                                                                 </div>
-                                                            </div>
-                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}"></div>
-                                                            <div class="text-end">
-                                                                 <div class="form-group">
-                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
-                                                                 </div>
-                                                            </div>
-                                                       </div> -->
                                                   </div>
                                              </div>
                                              <br>
@@ -492,6 +460,7 @@
                                                                            <label class="form-label" for="">Add conditional questions label</label>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}">
                                                                  @foreach($conditions as $condition)
                                                                       @if($condition->condition_type == 'question_label_condition')
                                                                       <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
@@ -533,7 +502,7 @@
                                                                       </div>
                                                                       @endif
                                                                  @endforeach
-                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
+                                                                 </div>
                                                                  <div class="text-end">
                                                                       <div class="form-group">
                                                                            <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
@@ -548,11 +517,11 @@
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
                                                             </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" value="appended" data-is_new="false">
+                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
                                                                  <hr>
                                                                  <div class="text-end">
                                                                       <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" value="appended">
+                                                                           <span onclick="removeLabel(this)" data-id="{{ $condition->id ?? '' }}">
                                                                                 <i class="fa fa-times"></i>
                                                                            </span>
                                                                       </div>
@@ -569,7 +538,9 @@
                                                                                 <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
                                                                                 <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
                                                                                      @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
                                                                                      @endforeach
                                                                                 </select>
                                                                            </div>
@@ -659,7 +630,110 @@
                                                             @endif
                                                        </div>
                                                        <hr>
-                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none;">
+                                                       @php
+                                                            $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
+                                                       @endphp
+
+                                                       @if($isConditionType2 && !empty($enable_conditions))
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}">
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="">Add Conditions</label>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}">
+                                                            @foreach($enable_conditions as $condition)
+                                                                 @if($condition->condition_type == 'go_to_step_condition')
+                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new=false>
+                                                                      <hr>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <div>
+                                                                                     <span onclick="removeCondition(this)" data-id="{{ $condition->id ?? '' }}">
+                                                                                          <i class="fa fa-times"></i>
+                                                                                     </span>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
+                                                                                     <div class="form-control-wrap question"> 
+                                                                                          <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               @if(isset($questions) && $questions != null)
+                                                                                                    @foreach($questions ?? [] as $question)
+                                                                                                         <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                                         {{ $question->getName() ?? '' }}
+                                                                                                         </option>
+                                                                                                    @endforeach
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_conditions-{{ $condition->id ?? '' }}">Condition</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="page_Setting_conditions-{{ $condition->id ?? '' }}[]" id="page_Setting_conditions-{{ $condition->id ?? '' }}">
+                                                                                               <option value="" selected disabled>Select</option>
+                                                                                               @if(isset($condition->conditional_check) && $condition->conditional_check != null)
+                                                                                               @if($condition->conditional_check == 1)
+                                                                                                    <option value="is_equal_to" selected>is equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="is_equal_to">is equal to</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 2)
+                                                                                                    <option value="is_greater_than" selected>is greater than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_greater_than">is greater than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 3)
+                                                                                                    <option value="is_less_than" selected>is less than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_less_than">is less than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 4)
+                                                                                                    <option value="not_equal_to" selected>not equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="not_equal_to">not equal to</option>
+                                                                                                    @endif
+                                                                                               @else
+                                                                                               <option value="is_equal_to">is equal to</option>
+                                                                                               <option value="is_greater_than">is greater than</option>
+                                                                                               <option value="is_less_than">is less than</option>
+                                                                                               <option value="not_equal_to">not equal to</option>
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_val-{{ $condition->id ?? '' }}">Value</label>
+                                                                                     <input type="text" class="form-control" id="page_Setting_qu_val-{{ $condition->id ?? '' }}" name="page_Setting_qu_val-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <br>
+                                                                 </div>
+                                                                 @endif
+                                                            @endforeach
+                                                            </div>
+                                                            <div class="text-end">
+                                                                 <div class="form-group">
+                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       @else
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add Conditions</label>
@@ -671,7 +745,9 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <hr>
                                                        </div>
+                                                       @endif
                                                   </div>
                                              </div>
                                              <br>
@@ -742,6 +818,7 @@
                                                                            <label class="form-label" for="">Add conditional questions label</label>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}">
                                                                  @foreach($conditions as $condition)
                                                                       @if($condition->condition_type == 'question_label_condition')
                                                                       <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
@@ -783,7 +860,7 @@
                                                                       </div>
                                                                       @endif
                                                                  @endforeach
-                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
+                                                                 </div>
                                                                  <div class="text-end">
                                                                       <div class="form-group">
                                                                            <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
@@ -797,41 +874,6 @@
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                            </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" value="appended" data-is_new="false">
-                                                                 <hr>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" value="appended">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_label-{{ $docQues->id ?? '' }}">Label</label>
-                                                                                <input type="text" class="form-control" id="condition_question_label-{{ $docQues->id ?? '' }}" name="condition_question_label-${label_count}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
-                                                                                <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
-                                                                                     @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                     @endforeach
-                                                                                </select>
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_value-{{ $docQues->id ?? '' }}">Value</label>
-                                                                                <input type="text" class="form-control" id="condition_question_value-{{ $docQues->id ?? '' }}" name="condition_question_value-{{ $docQues->id ?? '' }}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                                 <br>
                                                             </div>
                                                             <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
                                                             <div class="text-end">
@@ -859,87 +901,67 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       <!-- <div class="cond_ques_div{{ $docQues->id ?? '' }}" style="display:none;">
-                                                            <div class="col-md-12">
-                                                                 <div class="form-group">
-                                                                      <label class="form-label" for="">Add conditional questions label</label>
-                                                                 </div>
-                                                            </div>
-                                                            <div class="append_label_condition" id="append_label_condition${{ $docQues->id ?? '' }}"></div>
-                                                            <div class="text-end">
-                                                                 <div class="form-group">
-                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
-                                                                 </div>
-                                                            </div>
-                                                            <hr>
-                                                       </div>
-                                                       <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}">
-                                                            <div class="form-group">
-                                                                 <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
-                                                                 <input type="text" class="form-control question_labl" id="text_qu_label-{{ $docQues->id ?? '' }}" name="text_qu_label-{{ $docQues->id ?? '' }}" value="{{ $docQues->questionData->question_label ?? '' }}">
-                                                            </div>
-                                                            <hr>
-                                                       </div> -->
                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="">Add Dropdown Option</label>
                                                             </div>
                                                        </div>
-                                                       @if(isset($docQues->options) && $docQues->options != null)
-                                                       <?php $options = json_decode($docQues->options); ?>
-                                                       @foreach($options as $option)
-                                                       <div class="dropdown-option" id="dropdown-option{{ $option->id ?? '' }}" data-id="{{ $option->id ?? '' }}" data-is_new=false>
-                                                            <hr>
-                                                            <div class="text-end">
-                                                                 <div class="form-group">
-                                                                      <div>
-                                                                           <span onclick="removeOptions(this)" data-id="{{ $option->id ?? '' }}" data-field="dropdown">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                 <div class="col-md-4">
+                                                       <div class="append_options" id="append_options{{ $docQues->id ?? '' }}">
+                                                            @if(isset($docQues->options) && $docQues->options != null)
+                                                            <?php $options = json_decode($docQues->options); ?>
+                                                            @foreach($options as $option)
+                                                            <div class="dropdown-option" id="dropdown-option{{ $option->id ?? '' }}" data-id="{{ $option->id ?? '' }}" data-is_new=false>
+                                                                 <hr>
+                                                                 <div class="text-end">
                                                                       <div class="form-group">
-                                                                           <label class="form-label" for="dropdown_option_label-{{ $option->id ?? '' }}">Label</label>
-                                                                           <input type="text" class="form-control" id="dropdown_option_label-{{ $option->id ?? '' }}" name="dropdown_option_label-{{ $option->id ?? '' }}[]" value="{{ $option->option_label ?? '' }}">
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="col-md-4">
-                                                                      <div class="form-group">
-                                                                           <label class="form-label" for="dropdown_option_value-{{ $option->id ?? '' }}">Value</label>
-                                                                           <input type="text" class="form-control" id="dropdown_option_value-{{ $option->id ?? '' }}" name="dropdown_option_value-{{ $option->id ?? '' }}[]" value="{{ $option->option_value ?? '' }}">
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="col-md-4">
-                                                                      <div class="form-group">
-                                                                           <label class="form-label" for="dropdown_go_to_step-{{ $option->id ?? '' }}">Go to Step</label>
-                                                                           <div class="form-control-wrap"> 
-                                                                                <select class="form-select js-select2 new_label_question_id" data-search="on" name="dropdown_go_to_step-{{ $option->id ?? '' }}[]" id="dropdown_go_to_step-{{ $option->id ?? '' }}">
-                                                                                     @if(isset($questions) && $questions != null)
-                                                                                          @foreach($questions as $question)
-                                                                                               @if(isset($option->next_question_id) && $option->next_question_id)
-                                                                                                    @if($option->next_question_id == $question->getName())
-                                                                                                    <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
-                                                                                                    @else
-                                                                                                    <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                                    @endif
-                                                                                               @else
-                                                                                               <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                               @endif
-                                                                                          @endforeach
-                                                                                     @endif
-                                                                                </select>
+                                                                           <div>
+                                                                                <span onclick="removeOptions(this)" data-id="{{ $option->id ?? '' }}" data-field="dropdown">
+                                                                                     <i class="fa fa-times"></i>
+                                                                                </span>
                                                                            </div>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="row">
+                                                                      <div class="col-md-4">
+                                                                           <div class="form-group">
+                                                                                <label class="form-label" for="dropdown_option_label-{{ $option->id ?? '' }}">Label</label>
+                                                                                <input type="text" class="form-control" id="dropdown_option_label-{{ $option->id ?? '' }}" name="dropdown_option_label-{{ $option->id ?? '' }}[]" value="{{ $option->option_label ?? '' }}">
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="col-md-4">
+                                                                           <div class="form-group">
+                                                                                <label class="form-label" for="dropdown_option_value-{{ $option->id ?? '' }}">Value</label>
+                                                                                <input type="text" class="form-control" id="dropdown_option_value-{{ $option->id ?? '' }}" name="dropdown_option_value-{{ $option->id ?? '' }}[]" value="{{ $option->option_value ?? '' }}">
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="col-md-4">
+                                                                           <div class="form-group">
+                                                                                <label class="form-label" for="dropdown_go_to_step-{{ $option->id ?? '' }}">Go to Step</label>
+                                                                                <div class="form-control-wrap"> 
+                                                                                     <select class="form-select js-select2 new_label_question_id" data-search="on" name="dropdown_go_to_step-{{ $option->id ?? '' }}[]" id="dropdown_go_to_step-{{ $option->id ?? '' }}">
+                                                                                          @if(isset($questions) && $questions != null)
+                                                                                               @foreach($questions as $question)
+                                                                                                    @if(isset($option->next_question_id) && $option->next_question_id)
+                                                                                                         @if($option->next_question_id == $question->getName())
+                                                                                                         <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
+                                                                                                         @else
+                                                                                                         <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                                         @endif
+                                                                                                    @else
+                                                                                                    <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                                    @endif
+                                                                                               @endforeach
+                                                                                          @endif
+                                                                                     </select>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                 </div>
+                                                                 <br>
                                                             </div>
-                                                            <br>
+                                                            @endforeach
+                                                            @endif
                                                        </div>
-                                                       @endforeach
-                                                       @endif
-                                                       <div class="append_options" id="append_options{{ $docQues->id ?? '' }}"></div>
                                                        <div class="text-end">
                                                             <div class="form-group">
                                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addOptions('dropdown','{{ $docQues->id ?? '' }}')">Add Option</button>
@@ -965,7 +987,110 @@
                                                             @endif
                                                        </div>
                                                        <hr>
-                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none;">
+                                                       @php
+                                                            $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
+                                                       @endphp
+
+                                                       @if($isConditionType2 && !empty($enable_conditions))
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}">
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="">Add Conditions</label>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}">
+                                                            @foreach($enable_conditions as $condition)
+                                                                 @if($condition->condition_type == 'go_to_step_condition')
+                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}"  data-id="{{ $condition->id ?? '' }}" data-is_new=false>
+                                                                      <hr>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <div>
+                                                                                     <span onclick="removeCondition(this)"  data-id="{{ $condition->id ?? '' }}">
+                                                                                          <i class="fa fa-times"></i>
+                                                                                     </span>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
+                                                                                     <div class="form-control-wrap question"> 
+                                                                                          <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               @if(isset($questions) && $questions != null)
+                                                                                                    @foreach($questions ?? [] as $question)
+                                                                                                         <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                                         {{ $question->getName() ?? '' }}
+                                                                                                         </option>
+                                                                                                    @endforeach
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_conditions-{{ $condition->id ?? '' }}">Condition</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="page_Setting_conditions-{{ $condition->id ?? '' }}[]" id="page_Setting_conditions-{{ $condition->id ?? '' }}">
+                                                                                               <option value="" selected disabled>Select</option>
+                                                                                               @if(isset($condition->conditional_check) && $condition->conditional_check != null)
+                                                                                               @if($condition->conditional_check == 1)
+                                                                                                    <option value="is_equal_to" selected>is equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="is_equal_to">is equal to</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 2)
+                                                                                                    <option value="is_greater_than" selected>is greater than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_greater_than">is greater than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 3)
+                                                                                                    <option value="is_less_than" selected>is less than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_less_than">is less than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 4)
+                                                                                                    <option value="not_equal_to" selected>not equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="not_equal_to">not equal to</option>
+                                                                                                    @endif
+                                                                                               @else
+                                                                                               <option value="is_equal_to">is equal to</option>
+                                                                                               <option value="is_greater_than">is greater than</option>
+                                                                                               <option value="is_less_than">is less than</option>
+                                                                                               <option value="not_equal_to">not equal to</option>
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_val-{{ $condition->id ?? '' }}">Value</label>
+                                                                                     <input type="text" class="form-control" id="page_Setting_qu_val-{{ $condition->id ?? '' }}" name="page_Setting_qu_val-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <br>
+                                                                 </div>
+                                                                 @endif
+                                                            @endforeach
+                                                            </div>
+                                                            <div class="text-end">
+                                                                 <div class="form-group">
+                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       @else
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add Conditions</label>
@@ -977,7 +1102,9 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <hr>
                                                        </div>
+                                                       @endif
                                                   </div>
                                              </div>
                                              <br>
@@ -1048,6 +1175,7 @@
                                                                            <label class="form-label" for="">Add conditional questions label</label>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}">
                                                                  @foreach($conditions as $condition)
                                                                       @if($condition->condition_type == 'question_label_condition')
                                                                       <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
@@ -1089,7 +1217,7 @@
                                                                       </div>
                                                                       @endif
                                                                  @endforeach
-                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
+                                                                 </div>
                                                                  <div class="text-end">
                                                                       <div class="form-group">
                                                                            <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
@@ -1103,41 +1231,6 @@
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                            </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" value="appended" data-is_new="false">
-                                                                 <hr>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" value="appended">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_label-{{ $docQues->id ?? '' }}">Label</label>
-                                                                                <input type="text" class="form-control" id="condition_question_label-{{ $docQues->id ?? '' }}" name="condition_question_label-${label_count}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
-                                                                                <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
-                                                                                     @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                     @endforeach
-                                                                                </select>
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_value-{{ $docQues->id ?? '' }}">Value</label>
-                                                                                <input type="text" class="form-control" id="condition_question_value-{{ $docQues->id ?? '' }}" name="condition_question_value-{{ $docQues->id ?? '' }}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                                 <br>
                                                             </div>
                                                             <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
                                                             <div class="text-end">
@@ -1160,6 +1253,7 @@
                                                                  <label class="form-label" for="">Add Radio Option</label>
                                                             </div>
                                                        </div>
+                                                       <div class="append_options" id="append_options{{ $docQues->id ?? '' }}">
                                                        @if(isset($docQues->options) && $docQues->options != null)
                                                        <?php $options = json_decode($docQues->options); ?>
                                                        @foreach($options as $option)
@@ -1215,7 +1309,7 @@
                                                        </div>
                                                        @endforeach
                                                        @endif
-                                                       <div class="append_options" id="append_options{{ $docQues->id ?? '' }}"></div>
+                                                       </div>
                                                        <div class="text-end">
                                                             <div class="form-group">
                                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addOptions('radio-button','{{ $docQues->id ?? '' }}')">Add Option</button>
@@ -1241,7 +1335,108 @@
                                                        @endif
                                                        </div>
                                                        <hr>
-                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none;">
+                                                       @php
+                                                            $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
+                                                       @endphp
+
+                                                       @if($isConditionType2 && !empty($enable_conditions))
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}">
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="">Add Conditions</label>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}">
+                                                            @foreach($enable_conditions as $condition)
+                                                                 @if($condition->condition_type == 'go_to_step_condition')
+                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}"  data-id="{{ $condition->id ?? '' }}" data-is_new=false>
+                                                                      <hr>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <div>
+                                                                                     <span onclick="removeCondition(this)"  data-id="{{ $condition->id ?? '' }}">
+                                                                                          <i class="fa fa-times"></i>
+                                                                                     </span>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
+                                                                                     <div class="form-control-wrap question"> 
+                                                                                          <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               @if(isset($questions) && $questions != null)
+                                                                                                    @foreach($questions ?? [] as $question)
+                                                                                                         <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                                    @endforeach
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_conditions-{{ $condition->id ?? '' }}">Condition</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="page_Setting_conditions-{{ $condition->id ?? '' }}[]" id="page_Setting_conditions-{{ $condition->id ?? '' }}">
+                                                                                               <option value="" selected disabled>Select</option>
+                                                                                               @if(isset($condition->conditional_check) && $condition->conditional_check != null)
+                                                                                               @if($condition->conditional_check == 1)
+                                                                                                    <option value="is_equal_to" selected>is equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="is_equal_to">is equal to</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 2)
+                                                                                                    <option value="is_greater_than" selected>is greater than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_greater_than">is greater than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 3)
+                                                                                                    <option value="is_less_than" selected>is less than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_less_than">is less than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 4)
+                                                                                                    <option value="not_equal_to" selected>not equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="not_equal_to">not equal to</option>
+                                                                                                    @endif
+                                                                                               @else
+                                                                                               <option value="is_equal_to">is equal to</option>
+                                                                                               <option value="is_greater_than">is greater than</option>
+                                                                                               <option value="is_less_than">is less than</option>
+                                                                                               <option value="not_equal_to">not equal to</option>
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_val-{{ $condition->id ?? '' }}">Value</label>
+                                                                                     <input type="text" class="form-control" id="page_Setting_qu_val-{{ $condition->id ?? '' }}" name="page_Setting_qu_val-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <br>
+                                                                 </div>
+                                                                 @endif
+                                                            @endforeach
+                                                            </div>
+                                                            <div class="text-end">
+                                                                 <div class="form-group">
+                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       @else
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add Conditions</label>
@@ -1253,7 +1448,9 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <hr>
                                                        </div>
+                                                       @endif
                                                   </div>
                                              </div>
                                              <br>
@@ -1331,6 +1528,7 @@
                                                                            <label class="form-label" for="">Add conditional questions label</label>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}">
                                                                  @foreach($conditions as $condition)
                                                                       @if($condition->condition_type == 'question_label_condition')
                                                                       <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
@@ -1372,7 +1570,7 @@
                                                                       </div>
                                                                       @endif
                                                                  @endforeach
-                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
+                                                                 </div>
                                                                  <div class="text-end">
                                                                       <div class="form-group">
                                                                            <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
@@ -1386,41 +1584,6 @@
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                            </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" value="appended" data-is_new="false">
-                                                                 <hr>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" value="appended">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_label-{{ $docQues->id ?? '' }}">Label</label>
-                                                                                <input type="text" class="form-control" id="condition_question_label-{{ $docQues->id ?? '' }}" name="condition_question_label-${label_count}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
-                                                                                <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
-                                                                                     @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                     @endforeach
-                                                                                </select>
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_value-{{ $docQues->id ?? '' }}">Value</label>
-                                                                                <input type="text" class="form-control" id="condition_question_value-{{ $docQues->id ?? '' }}" name="condition_question_value-{{ $docQues->id ?? '' }}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                                 <br>
                                                             </div>
                                                             <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
                                                             <div class="text-end">
@@ -1474,7 +1637,110 @@
                                                        @endif
                                                        </div>
                                                        <hr>
-                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none;">
+                                                       @php
+                                                            $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
+                                                       @endphp
+
+                                                       @if($isConditionType2 && !empty($enable_conditions))
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}">
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="">Add Conditions</label>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}">
+                                                            @foreach($enable_conditions as $condition)
+                                                                 @if($condition->condition_type == 'go_to_step_condition')
+                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}"  data-id="{{ $condition->id ?? '' }}" data-is_new=false>
+                                                                      <hr>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <div>
+                                                                                     <span onclick="removeCondition(this)"  data-id="{{ $condition->id ?? '' }}">
+                                                                                          <i class="fa fa-times"></i>
+                                                                                     </span>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
+                                                                                     <div class="form-control-wrap question"> 
+                                                                                          <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               @if(isset($questions) && $questions != null)
+                                                                                                    @foreach($questions ?? [] as $question)
+                                                                                                         <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                                         {{ $question->getName() ?? '' }}
+                                                                                                         </option>
+                                                                                                    @endforeach
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_conditions-{{ $condition->id ?? '' }}">Condition</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="page_Setting_conditions-{{ $condition->id ?? '' }}[]" id="page_Setting_conditions-{{ $condition->id ?? '' }}">
+                                                                                               <option value="" selected disabled>Select</option>
+                                                                                               @if(isset($condition->conditional_check) && $condition->conditional_check != null)
+                                                                                               @if($condition->conditional_check == 1)
+                                                                                                    <option value="is_equal_to" selected>is equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="is_equal_to">is equal to</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 2)
+                                                                                                    <option value="is_greater_than" selected>is greater than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_greater_than">is greater than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 3)
+                                                                                                    <option value="is_less_than" selected>is less than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_less_than">is less than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 4)
+                                                                                                    <option value="not_equal_to" selected>not equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="not_equal_to">not equal to</option>
+                                                                                                    @endif
+                                                                                               @else
+                                                                                               <option value="is_equal_to">is equal to</option>
+                                                                                               <option value="is_greater_than">is greater than</option>
+                                                                                               <option value="is_less_than">is less than</option>
+                                                                                               <option value="not_equal_to">not equal to</option>
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_val-{{ $condition->id ?? '' }}">Value</label>
+                                                                                     <input type="text" class="form-control" id="page_Setting_qu_val-{{ $condition->id ?? '' }}" name="page_Setting_qu_val-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <br>
+                                                                 </div>
+                                                                 @endif
+                                                            @endforeach
+                                                            </div>
+                                                            <div class="text-end">
+                                                                 <div class="form-group">
+                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       @else
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add Conditions</label>
@@ -1486,7 +1752,9 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <hr>
                                                        </div>
+                                                       @endif
                                                   </div>
                                              </div>
                                              <br>
@@ -1557,6 +1825,7 @@
                                                                            <label class="form-label" for="">Add conditional questions label</label>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}">
                                                                  @foreach($conditions as $condition)
                                                                       @if($condition->condition_type == 'question_label_condition')
                                                                       <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
@@ -1598,7 +1867,7 @@
                                                                       </div>
                                                                       @endif
                                                                  @endforeach
-                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
+                                                                 </div>
                                                                  <div class="text-end">
                                                                       <div class="form-group">
                                                                            <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
@@ -1612,41 +1881,6 @@
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                            </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" value="appended" data-is_new="false">
-                                                                 <hr>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" value="appended">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_label-{{ $docQues->id ?? '' }}">Label</label>
-                                                                                <input type="text" class="form-control" id="condition_question_label-{{ $docQues->id ?? '' }}" name="condition_question_label-${label_count}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
-                                                                                <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
-                                                                                     @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                     @endforeach
-                                                                                </select>
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_value-{{ $docQues->id ?? '' }}">Value</label>
-                                                                                <input type="text" class="form-control" id="condition_question_value-{{ $docQues->id ?? '' }}" name="condition_question_value-{{ $docQues->id ?? '' }}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                                 <br>
                                                             </div>
                                                             <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
                                                             <div class="text-end">
@@ -1674,27 +1908,6 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       <!-- <div class="cond_ques_div{{ $docQues->id ?? '' }}" style="display:none;">
-                                                            <div class="col-md-12">
-                                                                 <div class="form-group">
-                                                                      <label class="form-label" for="">Add conditional questions label</label>
-                                                                 </div>
-                                                            </div>
-                                                            <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
-                                                            <div class="text-end">
-                                                                 <div class="form-group">
-                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
-                                                                 </div>
-                                                            </div>
-                                                            <hr>
-                                                       </div>
-                                                       <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}">
-                                                            <div class="form-group">
-                                                                 <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
-                                                                 <input type="text" class="form-control question_labl" id="text_qu_label-{{ $docQues->id ?? '' }}" name="text_qu_label-{{ $docQues->id ?? '' }}" value="{{ $docQues->questionData->question_label ?? '' }}">
-                                                            </div>
-                                                            <hr>
-                                                       </div> -->
                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_placeholder-{{ $docQues->id ?? '' }}">Text Box Placeholder</label>
@@ -1745,7 +1958,108 @@
                                                        @endif
                                                        </div>
                                                        <hr>
-                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none;">
+                                                       @php
+                                                            $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
+                                                       @endphp
+
+                                                       @if($isConditionType2 && !empty($enable_conditions))
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}">
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="">Add Conditions</label>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}">
+                                                            @foreach($enable_conditions as $condition)
+                                                                 @if($condition->condition_type == 'go_to_step_condition')
+                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}"  data-id="{{ $condition->id ?? '' }}" data-is_new=false>
+                                                                      <hr>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <div>
+                                                                                     <span onclick="removeCondition(this)"  data-id="{{ $condition->id ?? '' }}">
+                                                                                          <i class="fa fa-times"></i>
+                                                                                     </span>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
+                                                                                     <div class="form-control-wrap question"> 
+                                                                                          <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               @if(isset($questions) && $questions != null)
+                                                                                                    @foreach($questions ?? [] as $question)
+                                                                                                         <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                                    @endforeach
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_conditions-{{ $condition->id ?? '' }}">Condition</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="page_Setting_conditions-{{ $condition->id ?? '' }}[]" id="page_Setting_conditions-{{ $condition->id ?? '' }}">
+                                                                                               <option value="" selected disabled>Select</option>
+                                                                                               @if(isset($condition->conditional_check) && $condition->conditional_check != null)
+                                                                                               @if($condition->conditional_check == 1)
+                                                                                                    <option value="is_equal_to" selected>is equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="is_equal_to">is equal to</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 2)
+                                                                                                    <option value="is_greater_than" selected>is greater than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_greater_than">is greater than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 3)
+                                                                                                    <option value="is_less_than" selected>is less than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_less_than">is less than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 4)
+                                                                                                    <option value="not_equal_to" selected>not equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="not_equal_to">not equal to</option>
+                                                                                                    @endif
+                                                                                               @else
+                                                                                               <option value="is_equal_to">is equal to</option>
+                                                                                               <option value="is_greater_than">is greater than</option>
+                                                                                               <option value="is_less_than">is less than</option>
+                                                                                               <option value="not_equal_to">not equal to</option>
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_val-{{ $condition->id ?? '' }}">Value</label>
+                                                                                     <input type="text" class="form-control" id="page_Setting_qu_val-{{ $condition->id ?? '' }}" name="page_Setting_qu_val-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <br>
+                                                                 </div>
+                                                                 @endif
+                                                            @endforeach
+                                                            </div>
+                                                            <div class="text-end">
+                                                                 <div class="form-group">
+                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       @else
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add Conditions</label>
@@ -1757,7 +2071,9 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <hr>
                                                        </div>
+                                                       @endif
                                                   </div>
                                              </div>
                                              <br>
@@ -1828,6 +2144,7 @@
                                                                            <label class="form-label" for="">Add conditional questions label</label>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}">
                                                                  @foreach($conditions as $condition)
                                                                       @if($condition->condition_type == 'question_label_condition')
                                                                       <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
@@ -1869,7 +2186,7 @@
                                                                       </div>
                                                                       @endif
                                                                  @endforeach
-                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
+                                                                 </div>
                                                                  <div class="text-end">
                                                                       <div class="form-group">
                                                                            <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
@@ -1883,41 +2200,6 @@
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                            </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" value="appended" data-is_new="false">
-                                                                 <hr>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" value="appended">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_label-{{ $docQues->id ?? '' }}">Label</label>
-                                                                                <input type="text" class="form-control" id="condition_question_label-{{ $docQues->id ?? '' }}" name="condition_question_label-${label_count}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
-                                                                                <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
-                                                                                     @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                     @endforeach
-                                                                                </select>
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_value-{{ $docQues->id ?? '' }}">Value</label>
-                                                                                <input type="text" class="form-control" id="condition_question_value-{{ $docQues->id ?? '' }}" name="condition_question_value-{{ $docQues->id ?? '' }}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                                 <br>
                                                             </div>
                                                             <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
                                                             <div class="text-end">
@@ -1945,27 +2227,6 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       <!-- <div class="cond_ques_div{{ $docQues->id ?? '' }}" style="display:none;">
-                                                            <div class="col-md-12">
-                                                                 <div class="form-group">
-                                                                      <label class="form-label" for="">Add conditional questions label</label>
-                                                                 </div>
-                                                            </div>
-                                                            <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
-                                                            <div class="text-end">
-                                                                 <div class="form-group">
-                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
-                                                                 </div>
-                                                            </div>
-                                                            <hr>
-                                                       </div>
-                                                       <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}">
-                                                            <div class="form-group">
-                                                                 <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
-                                                                 <input type="text" class="form-control question_labl" id="text_qu_label-{{ $docQues->id ?? '' }}" name="text_qu_label-{{ $docQues->id ?? '' }}" value="{{ $docQues->questionData->question_label ?? '' }}">
-                                                            </div>
-                                                            <hr>
-                                                       </div> -->
                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_placeholder-{{ $docQues->id ?? '' }}">Number field Placeholder</label>
@@ -2008,7 +2269,110 @@
                                                        @endif
                                                        </div>
                                                        <hr>
-                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none;">
+                                                       @php
+                                                            $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
+                                                       @endphp
+
+                                                       @if($isConditionType2 && !empty($enable_conditions))
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}">
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="">Add Conditions</label>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}">
+                                                            @foreach($enable_conditions as $condition)
+                                                                 @if($condition->condition_type == 'go_to_step_condition')
+                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}"  data-id="{{ $condition->id ?? '' }}" data-is_new=false>
+                                                                      <hr>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <div>
+                                                                                     <span onclick="removeCondition(this)"  data-id="{{ $condition->id ?? '' }}">
+                                                                                          <i class="fa fa-times"></i>
+                                                                                     </span>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
+                                                                                     <div class="form-control-wrap question"> 
+                                                                                          <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               @if(isset($questions) && $questions != null)
+                                                                                                    @foreach($questions ?? [] as $question)
+                                                                                                         <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                                         {{ $question->getName() ?? '' }}
+                                                                                                         </option>
+                                                                                                    @endforeach
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_conditions-{{ $condition->id ?? '' }}">Condition</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="page_Setting_conditions-{{ $condition->id ?? '' }}[]" id="page_Setting_conditions-{{ $condition->id ?? '' }}">
+                                                                                               <option value="" selected disabled>Select</option>
+                                                                                               @if(isset($condition->conditional_check) && $condition->conditional_check != null)
+                                                                                               @if($condition->conditional_check == 1)
+                                                                                                    <option value="is_equal_to" selected>is equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="is_equal_to">is equal to</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 2)
+                                                                                                    <option value="is_greater_than" selected>is greater than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_greater_than">is greater than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 3)
+                                                                                                    <option value="is_less_than" selected>is less than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_less_than">is less than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 4)
+                                                                                                    <option value="not_equal_to" selected>not equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="not_equal_to">not equal to</option>
+                                                                                                    @endif
+                                                                                               @else
+                                                                                               <option value="is_equal_to">is equal to</option>
+                                                                                               <option value="is_greater_than">is greater than</option>
+                                                                                               <option value="is_less_than">is less than</option>
+                                                                                               <option value="not_equal_to">not equal to</option>
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_val-{{ $condition->id ?? '' }}">Value</label>
+                                                                                     <input type="text" class="form-control" id="page_Setting_qu_val-{{ $condition->id ?? '' }}" name="page_Setting_qu_val-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <br>
+                                                                 </div>
+                                                                 @endif
+                                                            @endforeach
+                                                            </div>
+                                                            <div class="text-end">
+                                                                 <div class="form-group">
+                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       @else
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add Conditions</label>
@@ -2020,7 +2384,9 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <hr>
                                                        </div>
+                                                       @endif
                                                   </div>
                                              </div>
                                              <br>
@@ -2091,6 +2457,7 @@
                                                                            <label class="form-label" for="">Add conditional questions label</label>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}">
                                                                  @foreach($conditions as $condition)
                                                                       @if($condition->condition_type == 'question_label_condition')
                                                                       <div class="label-condition" id="label-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
@@ -2132,7 +2499,7 @@
                                                                       </div>
                                                                       @endif
                                                                  @endforeach
-                                                                 <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
+                                                                 </div>
                                                                  <div class="text-end">
                                                                       <div class="form-group">
                                                                            <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
@@ -2146,41 +2513,6 @@
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                            </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" value="appended" data-is_new="false">
-                                                                 <hr>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" value="appended">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_label-{{ $docQues->id ?? '' }}">Label</label>
-                                                                                <input type="text" class="form-control" id="condition_question_label-{{ $docQues->id ?? '' }}" name="condition_question_label-${label_count}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
-                                                                                <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
-                                                                                     @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                     @endforeach
-                                                                                </select>
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_value-{{ $docQues->id ?? '' }}">Value</label>
-                                                                                <input type="text" class="form-control" id="condition_question_value-{{ $docQues->id ?? '' }}" name="condition_question_value-{{ $docQues->id ?? '' }}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                                 <br>
                                                             </div>
                                                             <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
                                                             <div class="text-end">
@@ -2208,27 +2540,6 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       <!-- <div class="cond_ques_div{{ $docQues->id ?? '' }}" style="display:none;">
-                                                            <div class="col-md-12">
-                                                                 <div class="form-group">
-                                                                      <label class="form-label" for="">Add conditional questions label</label>
-                                                                 </div>
-                                                            </div>
-                                                            <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
-                                                            <div class="text-end">
-                                                                 <div class="form-group">
-                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addLabel('{{ $docQues->id ?? '' }}')">Add Label</button>
-                                                                 </div>
-                                                            </div>
-                                                            <hr>
-                                                       </div>
-                                                       <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}">
-                                                            <div class="form-group">
-                                                                 <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
-                                                                 <input type="text" class="form-control question_labl" id="text_qu_label-{{ $docQues->id ?? '' }}" name="text_qu_label-{{ $docQues->id ?? '' }}" value="{{ $docQues->questionData->question_label ?? '' }}">
-                                                            </div>
-                                                            <hr>
-                                                       </div> -->
                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_placeholder-{{ $docQues->id ?? '' }}">Text Box Placeholder</label>
@@ -2271,7 +2582,110 @@
                                                        @endif
                                                        </div>
                                                        <hr>
-                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none;">
+                                                       @php
+                                                            $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
+                                                       @endphp
+
+                                                       @if($isConditionType2 && !empty($enable_conditions))
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}">
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="">Add Conditions</label>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="append_page_condition" id="append_page_condition{{ $docQues->id ?? '' }}">
+                                                            @foreach($enable_conditions as $condition)
+                                                                 @if($condition->condition_type == 'go_to_step_condition')
+                                                                 <div class="sec-condition" id="sec-condition{{ $condition->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new=false>
+                                                                      <hr>
+                                                                      <div class="text-end">
+                                                                           <div class="form-group">
+                                                                                <div>
+                                                                                     <span onclick="removeCondition(this)" data-id="{{ $condition->id ?? '' }}">
+                                                                                          <i class="fa fa-times"></i>
+                                                                                     </span>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
+                                                                                     <div class="form-control-wrap question"> 
+                                                                                          <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               @if(isset($questions) && $questions != null)
+                                                                                                    @foreach($questions ?? [] as $question)
+                                                                                                         <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                                         {{ $question->getName() ?? '' }}
+                                                                                                         </option>
+                                                                                                    @endforeach
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_conditions-{{ $condition->id ?? '' }}">Condition</label>
+                                                                                     <div class="form-control-wrap"> 
+                                                                                          <select class="form-select js-select2" name="page_Setting_conditions-{{ $condition->id ?? '' }}[]" id="page_Setting_conditions-{{ $condition->id ?? '' }}">
+                                                                                               <option value="" selected disabled>Select</option>
+                                                                                               @if(isset($condition->conditional_check) && $condition->conditional_check != null)
+                                                                                               @if($condition->conditional_check == 1)
+                                                                                                    <option value="is_equal_to" selected>is equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="is_equal_to">is equal to</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 2)
+                                                                                                    <option value="is_greater_than" selected>is greater than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_greater_than">is greater than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 3)
+                                                                                                    <option value="is_less_than" selected>is less than</option>
+                                                                                                    @else
+                                                                                                    <option value="is_less_than">is less than</option>
+                                                                                                    @endif
+
+                                                                                                    @if($condition->conditional_check == 4)
+                                                                                                    <option value="not_equal_to" selected>not equal to</option>
+                                                                                                    @else
+                                                                                                    <option value="not_equal_to">not equal to</option>
+                                                                                                    @endif
+                                                                                               @else
+                                                                                               <option value="is_equal_to">is equal to</option>
+                                                                                               <option value="is_greater_than">is greater than</option>
+                                                                                               <option value="is_less_than">is less than</option>
+                                                                                               <option value="not_equal_to">not equal to</option>
+                                                                                               @endif
+                                                                                          </select>
+                                                                                     </div>
+                                                                                </div>
+                                                                           </div>
+                                                                           <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                     <label class="form-label" for="page_Setting_qu_val-{{ $condition->id ?? '' }}">Value</label>
+                                                                                     <input type="text" class="form-control" id="page_Setting_qu_val-{{ $condition->id ?? '' }}" name="page_Setting_qu_val-{{ $condition->id ?? '' }}[]" value="{{ $condition->conditional_question_value ?? '' }}">
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                      <br>
+                                                                 </div>
+                                                                 @endif
+                                                            @endforeach
+                                                            </div>
+                                                            <div class="text-end">
+                                                                 <div class="form-group">
+                                                                      <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       @else
+                                                       <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
                                                             <div class="col-md-12">
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add Conditions</label>
@@ -2283,7 +2697,9 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <hr>
                                                        </div>
+                                                       @endif
                                                   </div>
                                              </div>
                                              <br>
@@ -2340,6 +2756,7 @@
                                                                  <label class="form-label" for="">Different Contract Link</label>
                                                             </div>
                                                        </div>
+                                                       <div class="add_cont_rw" id="add_cont_rw{{ $docQues->id ?? '' }}">
                                                        @if(isset($docQues->options) && $docQues->options != null)
                                                        <?php $options = json_decode($docQues->options); ?>
                                                        @foreach($options as $option)
@@ -2392,7 +2809,7 @@
                                                        <br>
                                                        @endforeach
                                                        @endif
-                                                       <div class="add_cont_rw" id="add_cont_rw{{ $docQues->id ?? '' }}"></div>
+                                                       </div>
                                                        <div class="text-end">
                                                             <div class="form-group">
                                                                  <button type="button" class="btn btn-sm btn-primary" onclick="addContractRow('{{ $docQues->id ?? '' }}')">Add Row</button>
@@ -2421,7 +2838,7 @@
                                    @endif
                                    @endforeach
                                    @endif
-                                   <div class="add_qu_sec"></div>
+                                  </div>
                                    <br>
                                    <div class="text-end">
                                         <button type="button" class="btn btn-sm btn-primary question_dropbtn"
@@ -2455,7 +2872,7 @@
                                    <div class="nk-block-head-content">
                                         <div class="up-btn mbsc-form-group">
                                              @if(isset($_GET['id']) && $_GET['id'] != null)
-                                             <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata1">Update</button>
+                                             <button class="btn btn-sm btn-primary" type="button" id="updateQuestiondata">Update</button>
                                              @else
                                              <button class="btn btn-sm btn-primary" type="button" id="saveQuestiondata1">Save</button>
                                              @endif
@@ -2693,10 +3110,10 @@
                                         <div class="form-control-wrap"> 
                                              <select class="form-select js-select2" name="page_Setting_conditions-${condition_count}[]" id="page_Setting_conditions-${condition_count}">
                                                   <option value="" selected disabled>Select</option>
-                                                  <option value="is equal to">is equal to</option>
-                                                  <option value="is greater than">is greater than</option>
-                                                  <option value="is less than">is less than</option>
-                                                  <option value="not equal to">not equal to</option>
+                                                  <option value="is_equal_to">is equal to</option>
+                                                  <option value="is_greater_than">is greater than</option>
+                                                  <option value="is_less_than">is less than</option>
+                                                  <option value="not_equal_to">not equal to</option>
                                              </select>
                                         </div>
                                    </div>
@@ -3894,7 +4311,7 @@
                $('.add_qu_sec').append(html);
                $('.question_dropbtn').hide();
           }else if(key === 'second'){
-               $('.add_qu_sec').html(html);
+               $('.new_que_sec'+id).html(html);
                $('.question_dropbtn').hide();
           }
           // else if(key === 'third'){
@@ -3920,7 +4337,6 @@
 
      $(document).ready(function() {
           $(document).on('change', '[id^="condition_qu_label"]', function() {
-               console.log('doijgfifreugiuregu');
                const id = $(this).attr('id').replace('condition_qu_label', '');
                conditionalOptions(id);
           });
@@ -3932,7 +4348,6 @@
 
           $(document).on('change', '.type_question', function() {
                const value = $(this).val();
-               console.log(value);
                const id = $(this).attr('id').replace('question_type', '');
                addQuestionfields(value, id, 'second');
           });
@@ -4131,7 +4546,9 @@
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
+                    new_conditional_question_labels: [],
                     conditions: [],
+                    new_conditions: [],
                };
 
                if(conditionalQuestion){
@@ -4145,6 +4562,18 @@
                                    questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
                                    question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
                                    status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   textboxData.new_conditional_question_labels.push(question_label);
+                              }
+                         }else if(status === false){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
                               };
 
                               if(question_label.label && question_label.questionID && question_label.question_value){
@@ -4165,6 +4594,18 @@
                                    question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
                                    question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
                                    status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   textboxData.new_conditions.push(condition);
+                              }
+                         }else if(status === false){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId, 
                               };
 
                               if(condition.questionID && condition.question_condition && condition.question_value){
@@ -4201,7 +4642,9 @@
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
+                    new_conditional_question_labels: [],
                     conditions: [],
+                    new_conditions: [],
                };
 
                if(conditionalQuestion){
@@ -4215,6 +4658,18 @@
                                    questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
                                    question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
                                    status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   textareaData.new_conditional_question_labels.push(question_label);
+                              }
+                         }else if(status === false){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
                               };
 
                               if(question_label.label && question_label.questionID && question_label.question_value){
@@ -4235,6 +4690,18 @@
                                    question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
                                    question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
                                    status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   textareaData.new_conditions.push(condition);
+                              }
+                         }else if(status === false){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId, 
                               };
 
                               if(condition.questionID && condition.question_condition && condition.question_value){
@@ -4265,14 +4732,17 @@
                     // question_id: questionId,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
+                    new_conditional_question_labels: [],
                     conditions: [],
+                    new_conditions: [],
                     add_options: [],
+                    new_options: [],
                };
 
                if($(this).find('.append_options .dropdown-option') !== 0){
                     $(this).find('.append_options .dropdown-option').each(function(){
                          var status = $(this).data('is_new'); 
-                         var conditionId = $(this).data('id');
+                         var optionId = $(this).data('id');
 
                          if(status === true){
                               var option = {
@@ -4280,6 +4750,18 @@
                                    option_value: $(this).find('input[name^=dropdown_option_value]').val() || '',
                                    option_go_to_step: $(this).find('select[name^=dropdown_go_to_step]').val() || '',
                                    status: status,
+                              };
+
+                              if(option.option_label && option.option_value && option.option_go_to_step){
+                                   dropdownData.new_options.push(option);
+                              }
+                         }else if(status === false){
+                              var option = {
+                                   option_label: $(this).find('input[name^=dropdown_option_label]').val() || '',
+                                   option_value: $(this).find('input[name^=dropdown_option_value]').val() || '',
+                                   option_go_to_step: $(this).find('select[name^=dropdown_go_to_step]').val() || '',
+                                   status: status,
+                                   option_id: optionId,
                               };
 
                               if(option.option_label && option.option_value && option.option_go_to_step){
@@ -4303,6 +4785,18 @@
                               };
 
                               if(question_label.label && question_label.questionID && question_label.question_value){
+                                   dropdownData.new_conditional_question_labels.push(question_label);
+                              }
+                         }else if(status === false){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
                                    dropdownData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -4320,6 +4814,18 @@
                                    question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
                                    question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
                                    status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   dropdownData.new_conditions.push(condition);
+                              }
+                         }else if(status === false){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId, 
                               };
 
                               if(condition.questionID && condition.question_condition && condition.question_value){
@@ -4350,14 +4856,17 @@
                     // question_id: questionId,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
+                    new_conditional_question_labels: [],
                     conditions: [],
+                    new_conditions: [],
                     add_options: [],
+                    new_options: [],
                };
 
                if($(this).find('.append_options .radio-option') !== 0){
                     $(this).find('.append_options .radio-option').each(function(){
                          var status = $(this).data('is_new'); 
-                         var conditionId = $(this).data('id');
+                         var optionId = $(this).data('id');
 
                          if(status === true){
                               var option = {
@@ -4365,6 +4874,18 @@
                                    option_value: $(this).find('input[name^=radio_option_value]').val() || '',
                                    option_go_to_step: $(this).find('select[name^=radio_go_to_step]').val() || '',
                                    status: status,
+                              };
+
+                              if(option.option_label && option.option_value && option.option_go_to_step){
+                                   radioData.new_options.push(option);
+                              }
+                         }else if(status === false){
+                              var option = {
+                                   option_label: $(this).find('input[name^=radio_option_label]').val() || '',
+                                   option_value: $(this).find('input[name^=radio_option_value]').val() || '',
+                                   option_go_to_step: $(this).find('select[name^=radio_go_to_step]').val() || '',
+                                   status: status,
+                                   option_id: optionId,
                               };
 
                               if(option.option_label && option.option_value && option.option_go_to_step){
@@ -4388,6 +4909,18 @@
                               };
 
                               if(question_label.label && question_label.questionID && question_label.question_value){
+                                   radioData.new_conditional_question_labels.push(question_label);
+                              }
+                         }else if(status === false){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
                                    radioData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -4405,6 +4938,18 @@
                                    question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
                                    question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
                                    status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   radioData.new_conditions.push(condition);
+                              }
+                         }else if(status === false){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId, 
                               };
 
                               if(condition.questionID && condition.question_condition && condition.question_value){
@@ -4437,7 +4982,9 @@
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
+                    new_conditional_question_labels: [],
                     conditions: [],
+                    new_conditions: [],
                };
 
                if(conditionalQuestion){
@@ -4451,6 +4998,18 @@
                                    questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
                                    question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
                                    status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   datefieldData.new_conditional_question_labels.push(question_label);
+                              }
+                         }else if(status === false){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
                               };
 
                               if(question_label.label && question_label.questionID && question_label.question_value){
@@ -4471,6 +5030,18 @@
                                    question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
                                    question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
                                    status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   datefieldData.new_conditions.push(condition);
+                              }
+                         }else if(status === false){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
                               };
 
                               if(condition.questionID && condition.question_condition && condition.question_value){
@@ -4507,7 +5078,9 @@
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
+                    new_conditional_question_labels: [],
                     conditions: [],
+                    new_conditions: [],
                };
 
                if(conditionalQuestion){
@@ -4521,6 +5094,18 @@
                                    questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
                                    question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
                                    status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   priceBoxData.new_conditional_question_labels.push(question_label);
+                              }
+                         }else if(status === false){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
                               };
 
                               if(question_label.label && question_label.questionID && question_label.question_value){
@@ -4541,6 +5126,18 @@
                                    question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
                                    question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
                                    status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   priceBoxData.new_conditions.push(condition);
+                              }
+                         }else if(status === false){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId, 
                               };
 
                               if(condition.questionID && condition.question_condition && condition.question_value){
@@ -4577,7 +5174,9 @@
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
+                    new_conditional_question_labels: [],
                     conditions: [],
+                    new_conditions: [],
                };
 
                if(conditionalQuestion){
@@ -4591,6 +5190,18 @@
                                    questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
                                    question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
                                    status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   numberfieldData.new_conditional_question_labels.push(question_label);
+                              }
+                         }else if(status === false){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
                               };
 
                               if(question_label.label && question_label.questionID && question_label.question_value){
@@ -4611,6 +5222,18 @@
                                    question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
                                    question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
                                    status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   numberfieldData.new_conditions.push(condition);
+                              }
+                         }else if(status === false){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId, 
                               };
 
                               if(condition.questionID && condition.question_condition && condition.question_value){
@@ -4647,7 +5270,9 @@
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
                     conditional_question_labels: [],
+                    new_conditional_question_labels: [],
                     conditions: [],
+                    new_conditions: [],
                };
 
                if(conditionalQuestion){
@@ -4661,6 +5286,18 @@
                                    questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
                                    question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
                                    status: status,
+                              };
+
+                              if(question_label.label && question_label.questionID && question_label.question_value){
+                                   percentageBoxData.new_conditional_question_labels.push(question_label);
+                              }
+                         }else if(status === false){
+                              var question_label = {
+                                   label: $(this).find('input[name^="condition_question_label"]').val() || '',
+                                   questionID: $(this).find('select[name^="label_qu_id"]').val() || '',
+                                   question_value: $(this).find('input[name^="condition_question_value"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId,
                               };
 
                               if(question_label.label && question_label.questionID && question_label.question_value){
@@ -4681,6 +5318,18 @@
                                    question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
                                    question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
                                    status: status,
+                              };
+
+                              if(condition.questionID && condition.question_condition && condition.question_value){
+                                   percentageBoxData.new_conditions.push(condition);
+                              }
+                         }else if(status === false){
+                              var condition = {
+                                   questionID: $(this).find('select[name^="page_Setting_qu_id"]').val() || '',
+                                   question_condition: $(this).find('select[name^="page_Setting_conditions"]').val() || '',
+                                   question_value: $(this).find('input[name^="page_Setting_qu_val"]').val() || '',
+                                   status: status,
+                                   condition_id: conditionId, 
                               };
 
                               if(condition.questionID && condition.question_condition && condition.question_value){
@@ -4709,12 +5358,13 @@
                     same_contract_link: sameContractlink,
                     go_to_step: goToStep,
                     add_rows: [],
+                    new_rows: [],
                };
 
                if($(this).find('.add_cont_rw .contract-option') !== 0){
                     $(this).find('.add_cont_rw .contract-option').each(function(){
                          var status = $(this).data('is_new'); 
-                         var conditionId = $(this).data('id');
+                         var optionId = $(this).data('id');
 
                          if(status === true){
                               var row = {
@@ -4724,6 +5374,18 @@
                                    status: status,
                               };
                               
+                              if(row.label && row.contract_link && row.next_step){
+                                   dropdownLinkData.new_rows.push(row);
+                              }
+                         }else if(status === false){
+                              var row = {
+                                   label: $(this).find('input[name^=dropdown_link_label]').val() || '',
+                                   contract_link: $(this).find('input[name^=contract_link]').val() || '',
+                                   next_step: $(this).find('input[name^=contract_send_next_step]').is(':checked') ? 1 : 0,
+                                   status: status,
+                                   option_id: optionId
+                              };
+
                               if(row.label && row.contract_link && row.next_step){
                                    dropdownLinkData.add_rows.push(row);
                               }
@@ -4953,11 +5615,11 @@
                     const uniqueId = $(this).attr('id').replace('condition_go_to', '');
                     const conditionSection = $('.cond_div' + uniqueId);
 
-                    if($(this).is(':checked')){
+                    if(!hasError && $(this).is(':checked')){
                          const appendSection = $('#append_page_condition' + uniqueId);
                          const conditionSections = appendSection.find('.sec-condition');
 
-                         if(!hasError && conditionSections.length === 0){
+                         if(conditionSections.length === 0){
                               NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
                               hasError = true;
                               return false; 
@@ -4971,7 +5633,7 @@
                               }
                          });
      
-                         if(!hasError && conditionInvalid){
+                         if(conditionInvalid){
                               NioApp.Toast('Please fill in all required conditions fields.', 'error', { position: 'top-right' });
                               hasError = true;
                               return false;
@@ -4986,6 +5648,259 @@
      
                if(!hasError){
                     $('#questionForm').submit();
+               }
+          })
+
+          $('#updateQuestiondata').click(function(){
+               var data = getAllSteps();
+               console.log(data);
+
+               $('#formdata').val(JSON.stringify(data));
+               var documentName = $('#document_id').val();
+               let hasError = false;
+
+               $('.add_conditional_label').each(function (){
+                    const uniqueId = $(this).attr('id').replace('condition_qu_label', '');
+                    const conditionSection = $('.cond_ques_div' + uniqueId);
+                   
+                    if($(this).is(':checked')){
+                         const appendSection = $('#append_label_condition' + uniqueId);
+                         const conditionSections = appendSection.find('.label-condition');
+
+                         if(conditionSections.length === 0){
+                              NioApp.Toast('Please add label.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false; 
+                         }
+
+                         let conditionInvalid = false;
+                         conditionSection.find('select, input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+     
+                         if(conditionInvalid){
+                              NioApp.Toast('Please fill in all required labels.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false;
+                         }
+                    }
+               });
+
+               $(".hide_question_label").each(function(){
+                    const uniqueId = $(this).attr('id').replace('hide_question_label', '');
+                    const questionSection = $(this);
+                    const displayStyle = questionSection.css('display'); 
+                    
+                    if(displayStyle === 'block'){
+                         const questionLabelInput = questionSection.find(".question_labl"); 
+                         if(!hasError && !questionLabelInput.val()){
+                              NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+                              hasError = true; 
+                              return false; 
+                         }
+                    }
+               });
+
+               
+               // $(".hide_question_label").each(function(){
+               //      const uniqueId = $(this).attr('id').replace('hide_question_label', '');
+               //      const questionSection = $('#hide_question_label'+uniqueId);
+               //      const displayStyle = questionSection.css('display'); 
+               //      console.log(displayStyle);
+
+               //      if(displayStyle === 'block'){
+               //           $(".question_labl").each(function(){
+               //                if(!hasError && !$(this).val()){
+               //                     NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+               //                     hasError = true;
+               //                     return false;
+               //                }
+               //           });
+               //      }
+               // })
+
+               $(".radio_ques").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $(".date_ques").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $(".dropdown_ques").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Question Label', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               }); 
+               
+               $(".same_contract").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Same Contract Link Label', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               }); 
+
+               // $(".text_box_id").each(function(){
+               //      if(!hasError && !$(this).val()){
+               //           NioApp.Toast('Please fill the Text Box ID', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // });
+          
+               $(".text_box_placeholder").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Text Box Placeholder', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               // $(".date_field").each(function(){
+               //      if(!hasError && !$(this).val()){
+               //           NioApp.Toast('Please fill the Date field ID', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // });
+               
+               // $(".number_field").each(function(){
+               //      if(!hasError && !$(this).val()){
+               //           NioApp.Toast('Please fill the Number field ID', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // });
+
+               $(".number_placeholder").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Number field Placeholder', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               $('.add_cont_rw').each(function(){
+                    const uniqueId = $(this).attr('id').replace('add_cont_rw', '');
+                    const appendSection = $('#add_cont_rw' + uniqueId);
+                    const contractSections = appendSection.find('.contract-option');
+                    let conditionInvalid = false;
+
+                    if(!hasError && contractSections.length !== 0){ 
+                         contractSections.find('input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+                    }
+
+                    if(!hasError && conditionInvalid){
+                         NioApp.Toast('Please fill in all required rows fields.', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               })
+
+               $(".go_to_step").each(function(){
+                    if(!hasError && !$(this).val()){
+                         NioApp.Toast('Please fill the Go to step', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               });
+
+               // $(".question_ID").each(function(){
+               //      if(!hasError && !$(this).val()){
+               //           NioApp.Toast('Please fill the Question Id', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // });
+
+               $('.append_options').each(function(){
+                    const uniqueId = $(this).attr('id').replace('append_options', '');
+                    const appendSection = $('#append_options' + uniqueId);
+                    const dropdownOptionSections = appendSection.find('.dropdown-option');
+                    const radioOptionSections = appendSection.find('.radio-option');
+                    let conditionInvalid = false;
+
+                    if(!hasError && dropdownOptionSections.length !== 0){ 
+                         dropdownOptionSections.find('input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+                    }
+
+                    if(!hasError && radioOptionSections.length !== 0){
+                         radioOptionSections.find('input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+                    }
+
+                    if(!hasError && conditionInvalid){
+                         NioApp.Toast('Please fill in all required options.', 'error', { position: 'top-right' });
+                         hasError = true;
+                         return false;
+                    }
+               })
+
+               $('.enable_conditional').each(function(){
+                    const uniqueId = $(this).attr('id').replace('condition_go_to', '');
+                    const conditionSection = $('.cond_div' + uniqueId);
+                    // console.log($(this).is(':checked'));
+                    if(!hasError && $(this).is(':checked')){
+                         const appendSection = $('#append_page_condition' + uniqueId);
+                         const conditionSections = appendSection.find('.sec-condition');
+
+                         if(conditionSections.length === 0){
+                              NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false; 
+                         }
+
+                         let conditionInvalid = false;
+                         conditionSection.find('select, input').each(function(){
+                              if(!$(this).val()){
+                                   conditionInvalid = true;
+                                   return false; 
+                              }
+                         });
+     
+                         if(conditionInvalid){
+                              NioApp.Toast('Please fill in all required conditions fields.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false;
+                         }
+                    }
+               });
+
+               // if(!hasError && (!documentName || documentName.trim() === "")){
+               //      NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
+               //      hasError = true;
+               // }
+     
+               if(!hasError){
+                    // $('#questionForm').submit();
                }
           })
      })

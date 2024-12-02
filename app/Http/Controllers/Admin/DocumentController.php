@@ -829,28 +829,26 @@ class DocumentController extends Controller
     public function addDocumentQuestion(Request $request){
         // return $request->all();
         // die();
-
         DB::beginTransaction(); 
         try{
             if(isset($request->formdata) && $request->formdata != null){
                 $formData = json_decode($request->formdata);
+                // return $formData;
                 foreach($formData as $data){    
                     if($data->is_new == true){
                         $questions = new Question;
                         $questions->document_id = $request->document_id;
                         $questions->type = $data->type;
 
-                        if(isset($data->is_conditional_question) && $data->is_conditional_question != null || isset($data->is_conditional_step) && $data->is_conditional_step != null){
-                            if($data->is_conditional_question == 1){
-                                $is_condition = 1;
-                                $condition_type = 1;
-                            }elseif($data->is_conditional_step == 1){
-                                $is_condition = 1;
-                                $condition_type = 2;
-                            }elseif($data->is_conditional_question == 1 && $data->is_conditional_step == 1){
-                                $is_condition = 1;
-                                $condition_type = 3;
-                            }
+                        if(!empty($data->is_conditional_question) && !empty($data->is_conditional_step)){
+                            $is_condition = 1;
+                            $condition_type = 3;
+                        }elseif(!empty($data->is_conditional_question)){
+                            $is_condition = 1;
+                            $condition_type = 1;
+                        }elseif(!empty($data->is_conditional_step)){
+                            $is_condition = 1;
+                            $condition_type = 2;
                         }else{
                             $is_condition = 0;
                             $condition_type = null;
@@ -859,22 +857,10 @@ class DocumentController extends Controller
                         $questions->is_condition = $is_condition;
                         $questions->condition_type = $condition_type;
                         $questions->save();
-
+                    
                         $question_data = new QuestionData;
                         $question_data->question_id = $questions->id;
                         $question_data->question_label = $data->question_label;
-
-                        // if(isset($data->text_box_id) && $data->text_box_id != null){
-                        //     if($data->type == "dropdown" && $data->type == "radio"){
-                        //         $question_data->textbox_id = $data->question_id;
-                        //     }elseif($data->type == "datefield"){
-                        //         $question_data->textbox_id = $data->date_field_Id;
-                        //     }elseif($data->type == "dropdownlink"){
-                        //         $question_data->textbox_id = null;
-                        //     }else{
-                        //         $question_data->textbox_id = $data->text_box_id;
-                        //     }
-                        // }
 
                         if(isset($data->text_box_placeholder) && $data->text_box_placeholder != null){
                             $question_data->text_box_placeholder = $data->text_box_placeholder;
@@ -894,9 +880,9 @@ class DocumentController extends Controller
                             $question_data->is_end = 0;
                         }
                         
-                        if($condition_type == 1){
+                        if($questions->condition_type == 1){
                             $question_condition_type = "question_label_condition";
-                            $conditional_question_labels = $data->conditional_question_labels;
+                            $conditional_question_labels = $data->new_conditional_question_labels;
                             for($i=0; $i<count($conditional_question_labels); $i++){
                                 $conditional = $conditional_question_labels[$i];
 
@@ -908,9 +894,9 @@ class DocumentController extends Controller
                                 $question_conditions->conditional_question_value = $conditional->question_value;
                                 $question_conditions->save();
                             }
-                        }elseif($condition_type == 2){
+                        }elseif($questions->condition_type == 2){
                             $question_condition_type = "go_to_step_condition";
-                            $step_conditions = $data->conditions;
+                            $step_conditions = $data->new_conditions;
                             for($i=0; $i<count($step_conditions); $i++){
                                 $step = $step_conditions[$i];
                                 
@@ -918,14 +904,14 @@ class DocumentController extends Controller
                                 $question_conditions->question_id = $questions->id;
                                 $question_conditions->condition_type = $question_condition_type;
 
-                                if(isset($step->question_condition) && $step->question_condition != null){
-                                    if($step->question_condition == "is equal to"){
+                                if(!empty($step->question_condition)){
+                                    if($step->question_condition == "is_equal_to"){
                                         $conditionCheck = 1;
-                                    }elseif($step->question_condition == "is greater than"){
+                                    }elseif($step->question_condition == "is_greater_than"){
                                         $conditionCheck = 2;
-                                    }elseif($step->question_condition == "is less than"){
+                                    }elseif($step->question_condition == "is_less_than"){
                                         $conditionCheck = 3;
-                                    }elseif($step->question_condition == "not equal to"){
+                                    }elseif($step->question_condition == "not_equal_to"){
                                         $conditionCheck = 4;
                                     }
                                 }
@@ -937,10 +923,10 @@ class DocumentController extends Controller
                             }
                         }
 
-                        if(isset($data->add_options) && $data->add_options != null){
+                        if(isset($data->new_options) && $data->new_options != null){
                             $order = 1;
-                            for($i=0; $i<count($data->add_options); $i++){
-                                $option = $data->add_options[$i];
+                            for($i=0; $i<count($data->new_options); $i++){
+                                $option = $data->new_options[$i];
                                 $multiple_options = new MultipleChoiceQuestionOption;
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $option->option_label;
@@ -951,10 +937,10 @@ class DocumentController extends Controller
                             }                        
                         }
 
-                        if(isset($data->add_rows) && $data->add_rows != null){
+                        if(isset($data->new_rows) && $data->new_rows != null){
                             $order = 1;
-                            for($i=0; $i<count($data->add_rows); $i++){
-                                $row = $data->add_rows[$i];
+                            for($i=0; $i<count($data->new_rows); $i++){
+                                $row = $data->new_rows[$i];
                                 $multiple_options = new MultipleChoiceQuestionOption;
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $row->label;
@@ -965,7 +951,194 @@ class DocumentController extends Controller
                             }
                         }
                         $question_data->save();
+
+                    }elseif($data->is_new == false){
+                        $questions = Question::find($data->id);
+    
+                        if(!empty($data->is_conditional_question) && !empty($data->is_conditional_step)){
+                            $is_condition = 1;
+                            $condition_type = 3;
+                        }elseif(!empty($data->is_conditional_question)){
+                            $is_condition = 1;
+                            $condition_type = 1;
+                        }elseif(!empty($data->is_conditional_step)){
+                            $is_condition = 1;
+                            $condition_type = 2;
+                        }else{
+                            $is_condition = 0;
+                            $condition_type = null;
+                        }
+                        
+                        $questions->is_condition = $is_condition;
+                        $questions->condition_type = $condition_type;
+                        $questions->update();
+
+                        $question_data = QuestionData::where('question_id',$data->id)->first();
+                        $question_data->question_label = $data->question_label;
+
+                        if(isset($data->text_box_placeholder) && $data->text_box_placeholder != null){
+                            $question_data->text_box_placeholder = $data->text_box_placeholder;
+                        }
+                        
+                        if($data->type == "dropdown-link"){
+                            $question_data->same_contract_link_label = $data->same_contract_link;
+                        }
+                       
+                        if(isset($data->go_to_step) && $data->go_to_step != null){
+                            $question_data->next_question_id = $data->go_to_step;
+                        }
+                        
+                        if(isset($request->is_end) && $request->is_end != null){
+                            $question_data->is_end = $request->is_end;
+                        }else{
+                            $question_data->is_end = 0;
+                        }
+
+                        $question_data->update();
+                        
+
+                        if($questions->condition_type == 1){
+                            $question_condition_type = "question_label_condition";
+
+                            if(!empty($data->new_conditional_question_labels)){
+                                $new_conditional_labels = $data->new_conditional_question_labels;
+                                for($i=0; $i<count($new_conditional_labels); $i++){
+                                    $conditional = $new_conditional_question_labels[$i];
+
+                                    $question_conditions = new QuestionCondition;
+                                    $question_conditions->question_id = $questions->id;
+                                    $question_conditions->condition_type = $question_condition_type;
+                                    $question_conditions->question_label = $conditional->label;
+                                    $question_conditions->conditional_question_id = $conditional->questionID;
+                                    $question_conditions->conditional_question_value = $conditional->question_value;
+                                    $question_conditions->save();
+                                }
+                            }
+                            
+                            if(!empty($data->conditional_question_labels)){
+                                $conditional_question_labels = $data->conditional_question_labels;
+                                for($i=0; $i<count($conditional_question_labels); $i++){
+                                    $conditional = $conditional_question_labels[$i];
+
+                                    $question_conditions = QuestionCondition::where('id',$conditional->condition_id)->first();
+                                    $question_conditions->question_label = $conditional->label;
+                                    $question_conditions->conditional_question_id = $conditional->questionID;
+                                    $question_conditions->conditional_question_value = $conditional->question_value;
+                                    $question_conditions->update();
+                                }
+                            }
+
+                           
+                        }elseif($questions->condition_type == 2){
+                            $question_condition_type = "go_to_step_condition";
+
+                            if(!empty($data->new_conditions)){
+                                $new_conditions = $data->new_conditions;
+                                for($i=0; $i<count($new_conditions); $i++){
+                                    $step = $new_conditions[$i];
+                                    
+                                    $question_conditions = new QuestionCondition;
+                                    $question_conditions->question_id = $questions->id;
+                                    $question_conditions->condition_type = $question_condition_type;
+
+                                    if(!empty($step->question_condition)){
+                                        if($step->question_condition == "is_equal_to"){
+                                            $conditionCheck = 1;
+                                        }elseif($step->question_condition == "is_greater_than"){
+                                            $conditionCheck = 2;
+                                        }elseif($step->question_condition == "is_less_than"){
+                                            $conditionCheck = 3;
+                                        }elseif($step->question_condition == "not_equal_to"){
+                                            $conditionCheck = 4;
+                                        }
+                                    }
+
+                                    $question_conditions->conditional_check = $conditionCheck;
+                                    $question_conditions->conditional_question_id = $step->questionID;
+                                    $question_conditions->conditional_question_value = $step->question_value;
+                                    $question_conditions->save();
+                                }
+                            }
+
+                            if(!empty($data->conditions)){
+                                $step_conditions = $data->conditions;
+                                for($i=0; $i<count($step_conditions); $i++){
+                                    $step = $step_conditions[$i];
+                                    
+                                    $question_conditions = QuestionCondition::where('id',$step->condition_id)->first();
+
+                                    if(!empty($step->question_condition)){
+                                        if($step->question_condition == "is_equal_to"){
+                                            $conditionCheck = 1;
+                                        }elseif($step->question_condition == "is_greater_than"){
+                                            $conditionCheck = 2;
+                                        }elseif($step->question_condition == "is_less_than"){
+                                            $conditionCheck = 3;
+                                        }elseif($step->question_condition == "not_equal_to"){
+                                            $conditionCheck = 4;
+                                        }
+                                    }
+
+                                    $question_conditions->conditional_check = $conditionCheck;
+                                    $question_conditions->conditional_question_id = $step->questionID;
+                                    $question_conditions->conditional_question_value = $step->question_value;
+                                    $question_conditions->update();
+                                }
+                            }
+                        }
+
+                        if(!empty($data->add_options)){
+                            for($i=0; $i<count($data->add_options); $i++){
+                                $option = $data->add_options[$i];
+                                $multiple_options = MultipleChoiceQuestionOption::where('id',$option->option_id)->first();
+                                $multiple_options->option_label = $option->option_label;
+                                $multiple_options->option_value = $option->option_value;
+                                $multiple_options->next_question_id = $option->option_go_to_step;
+                                $multiple_options->update();
+                            }                        
+                         }
+
+                        if(!empty($data->new_options)){
+                            $order = 1;
+                            for($i=0; $i<count($data->new_options); $i++){
+                                $option = $data->new_options[$i];
+                                $multiple_options = new MultipleChoiceQuestionOption;
+                                $multiple_options->question_id = $questions->id;
+                                $multiple_options->option_label = $option->option_label;
+                                $multiple_options->option_value = $option->option_value;
+                                $multiple_options->next_question_id = $option->option_go_to_step;
+                                $multiple_options->order_id = $order++;
+                                $multiple_options->save();
+                            }   
+                        }
+
+                        if(!empty($data->add_rows)){
+                            for($i=0; $i<count($data->add_rows); $i++){
+                                $row = $data->add_rows[$i];
+                                $multiple_options = MultipleChoiceQuestionOption::where('id',$row->option_id)->first();
+                                $multiple_options->option_label = $row->label;
+                                $multiple_options->contract_link = $row->contract_link;
+                                $multiple_options->contract_send_to_next_step = $row->next_step;
+                                $multiple_options->update();
+                            }
+                        }
+
+                        if(!empty($data->new_rows)){
+                         $order = 1;
+                            for($i=0; $i<count($data->new_rows); $i++){
+                                $row = $data->new_rows[$i];
+                                $multiple_options = new MultipleChoiceQuestionOption;
+                                $multiple_options->question_id = $questions->id;
+                                $multiple_options->option_label = $row->label;
+                                $multiple_options->contract_link = $row->contract_link;
+                                $multiple_options->contract_send_to_next_step = $row->next_step;
+                                $multiple_options->order_id = $order++;
+                                $multiple_options->save();
+                            }
+                        }
+                       
                     }
+                    
                 }
                 DB::commit(); 
                 return redirect()->back()->with('success', 'Document Questions added successfully.');
@@ -977,6 +1150,3 @@ class DocumentController extends Controller
         }
     }
 }
-
-
-

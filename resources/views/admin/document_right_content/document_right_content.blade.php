@@ -1041,10 +1041,10 @@ $(document).ready(function () {
                }
           });
      
-          if(!hasError && (!documentName || documentName.trim() === "")){
-               NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
-               hasError = true;
-          }
+          // if(!hasError && (!documentName || documentName.trim() === "")){
+          //      NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
+          //      hasError = true;
+          // }
      
           if(!hasError){
                $('#updatecontentForm').submit();

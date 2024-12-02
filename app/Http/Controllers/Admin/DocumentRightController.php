@@ -86,7 +86,6 @@ class DocumentRightController extends Controller
                             $document_right_section->content = $data->content_html;
                             $document_right_section->text_alignment = $data->text_align;
                             // $document_right_section->signature_field = $data->signature_field;
-                            $document_right_section->content_class = $data->content_class;
                             $document_right_section->is_condition = $data->add_condition;
                             $document_right_section->secure_blur_content = $data->secure_blurr_content;
                             // $document_right_section->blur_content = $data->blurr_content;
