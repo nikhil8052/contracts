@@ -10,17 +10,18 @@
                          <div class="col-md-8">
                               <div class="form-group">
                                    <label class="form-label" for="page_type">Select Page</label>
-                                   <select class="form-select page_type" id="page_type" name="page_type" tabindex="-1" aria-hidden="true">
-                                        <!-- <option value="" disabled selected>Select</option> -->
-                                        <!-- <option value="login">Login</option>
-                                        <option value="register">Register</option>
-                                        <option value="contact">Contact us</option> -->
-                                        <option value="" disabled selected>Select</option>
-                                        <option value="login" {{ old('page_type') == 'login' ? 'selected' : '' }}>Login</option>
-                                        <option value="register" {{ old('page_type') == 'register' ? 'selected' : '' }}>Register</option>
-                                        <option value="contact" {{ old('page_type') == 'contact' ? 'selected' : '' }}>Contact us</option>
-                                   </select>
-                                   </select>
+                                   <div class="form-control-wrap"> 
+                                        <select class="form-select js-select2 page_type" id="page_type" name="page_type" data-search="on" tabindex="-1" aria-hidden="true">
+                                             <!-- <option value="" disabled selected>Select</option> -->
+                                             <!-- <option value="login">Login</option>
+                                             <option value="register">Register</option>
+                                             <option value="contact">Contact us</option> -->
+                                             <option value="" disabled selected>Select</option>
+                                             <option value="login" {{ old('page_type') == 'login' ? 'selected' : '' }}>Login</option>
+                                             <option value="register" {{ old('page_type') == 'register' ? 'selected' : '' }}>Register</option>
+                                             <option value="contact" {{ old('page_type') == 'contact' ? 'selected' : '' }}>Contact us</option>
+                                        </select>
+                                   </div>
                               </div>
                          </div>
                          <br>
