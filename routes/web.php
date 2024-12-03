@@ -13,6 +13,7 @@ use App\Http\Controllers\Users\HomeController;
 use App\Http\Controllers\Users\ContactUsController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\ContractController;
+use App\Http\Controllers\Users\CheckoutController;
 
 
 
@@ -67,6 +68,9 @@ Route::group(['middleware' => ['front']], function() {
      Route::get('/centro-de-ayuda',[SitePagesController::class,'HelpCenter'])->name('help.center');
      Route::get('/sobre-nosotros',[SitePagesController::class,'whoWeAre']);
      // ****************** SitePagesController End **********************//
+
+     // ******************** Checkout Page ************************* //
+     Route::get('/checkout',[CheckoutController::class,'checkout']);
 });
 
 Route::middleware('admin.redirect')->group(function () {

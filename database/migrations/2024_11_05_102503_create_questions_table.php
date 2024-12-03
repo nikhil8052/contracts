@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->string('document_id')->nullable();
+            $table->string('document_id');
             $table->string('qid')->nullable();
             $table->string('type'); // For question type (textbox, dropdown, etc.)
             $table->boolean('is_condition')->default(false); // Condition attached (True | False)

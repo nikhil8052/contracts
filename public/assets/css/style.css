@@ -3930,3 +3930,15 @@ footer .select-menu .select-btn:hover {
 .header_drop_inpt:hover .drop_serach_btn {
     background-color: #012555;
 }
+
+
+.check_out .row .pymnt_form .pymnt > .form-check label span a:hover,
+.check_out .row .pymnt_form .detail p.size18 span a:hover{
+    -webkit-text-stroke: 0.5px;
+    color: #002347;
+    text-decoration:  #002347 underline;
+}
+
+.check_out .row .pymnt_form .pymnt>.form-check .form-check-input:focus {
+    border-color: rgba(0, 0, 0, .25);
+}

@@ -116,33 +116,32 @@ class HomeController extends Controller
 
 
     // This is the testing for the questions 
-  public function question_testing()
-{
-    $questions = Question::with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
-    $documentContents = DocumentRightSection::where('document_id', 3)->get();
+    public function question_testing(){
+        $questions = Question::with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
+        $documentContents = DocumentRightSection::where('document_id', 3)->get();
 
-    // Process each content and replace placeholders
-    foreach ($documentContents as $content) {
-        // Match and replace all #{number}# patterns
-        $content->content = preg_replace_callback(
-            '/#(\d+)#/',
-            function ($matches) {
-                $classNumber = $matches[1];
-                return "<span class=\"answered_spns qidtarget-$classNumber\"></span>";
-            },
-            $content->content
-        );
+        // Process each content and replace placeholders
+        foreach ($documentContents as $content) {
+            // Match and replace all #{number}# patterns
+            $content->content = preg_replace_callback(
+                '/#(\d+)#/',
+                function ($matches) {
+                    $classNumber = $matches[1];
+                    return "<span class=\"answered_spns qidtarget-$classNumber\"></span>";
+                },
+                $content->content
+            );
 
-        if($content->secure_blur_content){
-            $content->content= $this->encryptText($content->content, "nik");
+            if($content->secure_blur_content){
+                $content->content= $this->encryptText($content->content, "nik");
+            }
         }
+
+        // Log the output to ensure replacements are made
+        // dd($documentContents);
+
+        return view('users.contracts.questions', compact('questions', 'documentContents'));
     }
-
-    // Log the output to ensure replacements are made
-    // dd($documentContents);
-
-    return view('users.contracts.questions', compact('questions', 'documentContents'));
-}
 
     private function encryptText($text, $key)
     {

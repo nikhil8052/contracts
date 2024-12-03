@@ -32,69 +32,68 @@
         <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
         <div class="left-box left-question-box questions-div">
             @foreach($questions as $index => $question)
-                                    <div class="question-div step step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id }}"
-                                        id="{{ $question->qid }}" is_condition="{{ $question->is_condition }}"
-                                        swtchtyp="{{ $question->condition_type }}">
-                                        <p class="que_heading lbl-{{ $question->id }}"
-                                            json-data="{{  $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
-                                            {{ $question->questionData->question_label ?? '' }}</p>
-                                        @php 
-                                            $question_type = $question->type;
-    $next_qid = NULL;
-                                        @endphp 
+                <div class="question-div step step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id }}"
+                    id="{{ $question->qid }}" is_condition="{{ $question->is_condition }}"
+                    swtchtyp="{{ $question->condition_type }}">
+                    <p class="que_heading lbl-{{ $question->id }}"
+                        json-data="{{  $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
+                        {{ $question->questionData->question_label ?? '' }}</p>
+                        @php 
+                            $question_type = $question->type;
+                            $next_qid = NULL;
+                        @endphp 
 
-                                        @if($question_type == "textbox")
-                                            @php 
-                                                 $next_qid = $question->questionData->next_question_id;
-                                              @endphp 
-                                            <input type="text" target-id="qidtarget-{{ $question->id }}"
-                                                onkeyup="storeAnswers(this, '{{ $question->id }}','textbox')" />
+                        @if($question_type == "textbox")
+                            @php 
+                                $next_qid = $question->questionData->next_question_id ?? '';
+                            @endphp 
+                            <input type="text" target-id="qidtarget-{{ $question->id }}"
+                                onkeyup="storeAnswers(this, '{{ $question->id }}','textbox')" />
+                        @elseif($question_type == "dropdown")
+                            @php 
+                                $next_qid = $question->options->first()->next_question_id ?? '';
+                            @endphp 
+                            <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id }}','dropdown') " target-id=".qidtarget-{{ $question->id }}">
+                                @foreach($question->options as $option)
+                                    <option my_ref_nxt=".nxt_btn_{{ $question->id }}" que_id="{{ $option->next_question_id }}"
+                                        value="{{ $option->option_value }}"> {{ $option->option_label }} </option>
+                                @endforeach
+                            </select>
+                        @elseif($question_type == "radio")
+                            @php 
+                                $next_qid = $question->options->first()->next_question_id ?? '';
+                            @endphp 
+                            @foreach($question->options as $option)
+                                <input type="radio" name="question_{{ $question->id }}" target-id=".qidtarget-{{ $question->id }}"
+                                    onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id }}','radio')" my_ref_nxt=".nxt_btn_{{ $question->id }}"
+                                    que_id="{{ $option->next_question_id }}" value="{{ $option->option_value }}" />
+                                <label>{{ $option->option_label }}</label>
+                            @endforeach
+                        @elseif($question_type == "datefield")
+                            @php 
+                                $next_qid = $question->questionData->next_question_id ?? '';
+                            @endphp 
+                            <!-- <input type="date" /> -->
+                            <input type="date" target-id="qidtarget-{{ $question->id }}"
+                                onchange="storeAnswers(this, '{{ $question->id }}','textbox')" />
+                        @endif
 
-                                        @elseif($question_type == "dropdown")
-                                            @php 
-                                                   $next_qid = $question->options->first()->next_question_id;
-                                            @endphp 
-                                            <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id }}','dropdown') " target-id=".qidtarget-{{ $question->id }}">
-                                                @foreach($question->options as $option)
-                                                    <option my_ref_nxt=".nxt_btn_{{ $question->id }}" que_id="{{ $option->next_question_id }}"
-                                                        value="{{ $option->option_value }}"> {{ $option->option_label }} </option>
-                                                @endforeach
-                                            </select>
-                                        @elseif($question_type == "radio")
-                                            @php 
-                                                   $next_qid = $question->options->first()->next_question_id;
-                                            @endphp 
-                                            @foreach($question->options as $option)
-                                                <input type="radio" name="question_{{ $question->id }}" target-id=".qidtarget-{{ $question->id }}"
-                                                    onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id }}','radio')" my_ref_nxt=".nxt_btn_{{ $question->id }}"
-                                                    que_id="{{ $option->next_question_id }}" value="{{ $option->option_value }}" />
-                                                <label>{{ $option->option_label }}</label>
-                                            @endforeach
-                                        @elseif($question_type == "datefield")
-                                            @php 
-                                                 $next_qid = $question->questionData->next_question_id;
-                                              @endphp 
-                                            <!-- <input type="date" /> -->
-                                            <input type="date" target-id="qidtarget-{{ $question->id }}"
-                                                onchange="storeAnswers(this, '{{ $question->id }}','textbox')" />
-                                        @endif
-
-                                        <div class="navigation-btns mt-4">
-                                            @if($index != 0)
-                                                <button type="button" class="pre_btn_{{ $question->id }} nxt" que_id=""
-                                                    onclick="go_pre_step(this)">Previous</button>
-                                            @endif
-                                            <button type="button" class="nxt_btn_{{ $question->id }} pre " que_id="{{ $next_qid ?? '' }}"
-                                                my_ref="{{ $question->id }}" onclick="go_next_step(this)">Next</button>
-                                        </div>
-                                    </div>
+                    <div class="navigation-btns mt-4">
+                        @if($index != 0)
+                            <button type="button" class="pre_btn_{{ $question->id }} nxt" que_id=""
+                                onclick="go_pre_step(this)">Previous</button>
+                        @endif
+                        <button type="button" class="nxt_btn_{{ $question->id }} pre " que_id="{{ $next_qid ?? '' }}"
+                            my_ref="{{ $question->id }}" onclick="go_next_step(this)">Next</button>
+                    </div>
+                </div>
             @endforeach
         </div>
 
         <!-- This is the box where we show the steps or the form -->
         <div class="right-box right-question-box form-div card ">
-            @foreach ($documentContents as $content)
-                <div id="right_content_div_{{ $content->id }}" class="{{ $content->content_class }} right-sec-div mb-2 {{ $content->blur_content ? "blur_content" : "" }}  {{ $content->is_condition ? "d-none" : NULL }}" conditional_section="{{ $content->is_condition ? "true" : NULL }}">
+            @foreach($documentContents as $content)
+                <div id="right_content_div_{{ $content->id }}" class="{{ $content->content_class }} right-sec-div mb-2 {{ $content->blur_content ? 'blur_content' : '' }}  {{ $content->is_condition ? 'd-none' : NULL }}" conditional_section="{{ $content->is_condition ? 'true' : NULL }}">
                     {!! $content->content !!}
                 </div>
             @endforeach

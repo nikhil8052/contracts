@@ -1001,9 +1001,9 @@ class DocumentController extends Controller
                             $question_condition_type = "question_label_condition";
 
                             if(!empty($data->new_conditional_question_labels)){
-                                $new_conditional_labels = $data->new_conditional_question_labels;
-                                for($i=0; $i<count($new_conditional_labels); $i++){
-                                    $conditional = $new_conditional_question_labels[$i];
+                                $new_conditional = $data->new_conditional_question_labels;
+                                for($i=0; $i<count($new_conditional); $i++){
+                                    $conditional = $new_conditional[$i];
 
                                     $question_conditions = new QuestionCondition;
                                     $question_conditions->question_id = $questions->id;
@@ -1099,9 +1099,9 @@ class DocumentController extends Controller
                          }
 
                         if(!empty($data->new_options)){
-                            $order = 1;
-                            for($i=0; $i<count($data->new_options); $i++){
-                                $option = $data->new_options[$i];
+                            $lastOrder = MultipleChoiceQuestionOption::where('question_id', $questions->id)->max('order_id');
+                            $order = $lastOrder ? $lastOrder + 1 : 1;
+                            foreach ($data->new_options as $option) {
                                 $multiple_options = new MultipleChoiceQuestionOption;
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $option->option_label;
@@ -1109,8 +1109,9 @@ class DocumentController extends Controller
                                 $multiple_options->next_question_id = $option->option_go_to_step;
                                 $multiple_options->order_id = $order++;
                                 $multiple_options->save();
-                            }   
+                            }
                         }
+                            
 
                         if(!empty($data->add_rows)){
                             for($i=0; $i<count($data->add_rows); $i++){
@@ -1124,7 +1125,9 @@ class DocumentController extends Controller
                         }
 
                         if(!empty($data->new_rows)){
-                         $order = 1;
+                            $lastOrder = MultipleChoiceQuestionOption::where('question_id', $questions->id)->max('order_id');
+                            $order = $lastOrder ? $lastOrder + 1 : 1;
+                            
                             for($i=0; $i<count($data->new_rows); $i++){
                                 $row = $data->new_rows[$i];
                                 $multiple_options = new MultipleChoiceQuestionOption;
@@ -1136,10 +1139,39 @@ class DocumentController extends Controller
                                 $multiple_options->save();
                             }
                         }
-                       
                     }
-                    
                 }
+
+                if(!empty($request->option_id)){
+                    $ids = explode(',',$request->option_id);
+                    foreach($ids as $id){
+                        $options = MultipleChoiceQuestionOption::where('id',$id)->first();
+                        if($options){
+                            $options->delete();
+                        }
+                    }
+                }
+
+                if(!empty($request->condition_id)){
+                    $ids = explode(',',$request->condition_id);
+                    foreach($ids as $id){
+                        $conditions = QuestionCondition::where('id',$id)->first();
+                        if($conditions){
+                            $conditions->delete();
+                        }
+                    }
+                }
+
+                if(!empty($request->remove_question_id)){
+                    $deleteIds = explode(',', $request->remove_question_id);
+                    foreach($deleteIds as $id){
+                        $delete_question = Question::where('id',$id)->first();
+                        if($delete_question){
+                            $delete_question->delete();
+                        }
+                    }
+                }
+
                 DB::commit(); 
                 return redirect()->back()->with('success', 'Document Questions added successfully.');
             }

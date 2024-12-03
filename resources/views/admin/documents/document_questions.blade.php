@@ -8,19 +8,9 @@
           <input type="hidden" id="formdata" name="formdata" value="">
           <input type="hidden" id="is_end" name="is_end" value="">
           <input type="hidden" id="document_id" name="document_id" value="{{ $_GET['id'] ?? '' }}">
-          <input type="hidden" id="removeTextbox_id" name="removeTextbox_id" value="">
-          <input type="hidden" id="removeTextarea_id" name="removeTextarea_id" value="">
-          <input type="hidden" id="removeDropdown_id" name="removeDropdown_id" value="">
-          <input type="hidden" id="removeRadio_id" name="removeRadio_id" value="">
-          <input type="hidden" id="removeDatefield_id" name="removeDatefield_id" value="">
-          <input type="hidden" id="removePricebox_id" name="removePricebox_id" value="">
-          <input type="hidden" id="removeNumberfield_id" name="removeNumberfield_id" value="">
-          <input type="hidden" id="removePercentagebox_id" name="removePercentagebox_id" value="">
-          <input type="hidden" id="removeDropdownlink_id" name="removeDropdownlink_id" value="">
-          <input type="hidden" id="removeContract_id" name="removeContract_id" value="">
-          <input type="hidden" id="dropdownOption_id" name="dropdownOption_id" value="">
-          <input type="hidden" id="radioOption_id" name="radioOption_id" value="">
-          <input type="hidden" id="removeLabel_id" name="removeLabel_id" value="">
+          <input type="hidden" id="remove_question_id" name="remove_question_id" value="">
+          <input type="hidden" id="condition_id" name="condition_id" value="">
+          <input type="hidden" id="option_id" name="option_id" value="">
 
           @if(isset($document) && $document != null)
           <div class="col-md-12 doc-title mt-4 pb-4">
@@ -516,43 +506,6 @@
                                                                  <div class="form-group">
                                                                       <label class="form-label" for="">Add conditional questions label</label>
                                                                  </div>
-                                                            </div>
-                                                            <div class="label-condition" id="label-condition{{ $docQues->id ?? '' }}" data-id="{{ $condition->id ?? '' }}" data-is_new="false">
-                                                                 <hr>
-                                                                 <div class="text-end">
-                                                                      <div class="form-group">
-                                                                           <span onclick="removeLabel(this)" data-id="{{ $condition->id ?? '' }}">
-                                                                                <i class="fa fa-times"></i>
-                                                                           </span>
-                                                                      </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_label-{{ $docQues->id ?? '' }}">Label</label>
-                                                                                <input type="text" class="form-control" id="condition_question_label-{{ $docQues->id ?? '' }}" name="condition_question_label-${label_count}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="label_qu_id-{{ $docQues->id ?? '' }}">Question ID</label>
-                                                                                <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $docQues->id ?? '' }}[]" id="label_qu_id-{{ $docQues->id ?? '' }}">
-                                                                                     @foreach($questions ?? [] as $question)
-                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
-                                                                                          {{ $question->getName() ?? '' }}
-                                                                                          </option>
-                                                                                     @endforeach
-                                                                                </select>
-                                                                           </div>
-                                                                      </div>
-                                                                      <div class="col-md-4">
-                                                                           <div class="form-group">
-                                                                                <label class="form-label" for="condition_question_value-{{ $docQues->id ?? '' }}">Value</label>
-                                                                                <input type="text" class="form-control" id="condition_question_value-{{ $docQues->id ?? '' }}" name="condition_question_value-{{ $docQues->id ?? '' }}[]" value="">
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                                 <br>
                                                             </div>
                                                             <div class="append_label_condition" id="append_label_condition{{ $docQues->id ?? '' }}"></div>
                                                             <div class="text-end">
@@ -1598,7 +1551,7 @@
                                                             <div class="form-group">
                                                                  <label class="form-label" for="date_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
-                                                                      <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-${newUniqueId}">
+                                                                      <select class="form-select js-select2 new_label_question_id" data-search="on" name="date_go_to_step-{{ $docQues->id ?? '' }}" id="date_go_to_step-${newUniqueId}">
                                                                       @if(isset($questions) && $questions != null)
                                                                            @foreach($questions as $question)
                                                                            @if(isset($docQues->questionData->next_question_id) && $docQues->questionData->next_question_id != null)
@@ -2105,7 +2058,7 @@
                                                             <div class="col-md-5">
                                                                  <div class="form-group">
                                                                       <span class="col-md-2 offset-md-10">
-                                                                           <span onclick="removeFields(this)" value="appended" data-field="number-field"><i class="fa-solid fa-minus"></i></span>
+                                                                           <span onclick="removeFields(this)" data-field="number-field" data-id="{{ $docQues->id ?? '' }}"><i class="fa-solid fa-minus"></i></span>
                                                                       </span>  
                                                                  </div>
                                                             </div>
@@ -2418,7 +2371,7 @@
                                                             <div class="col-md-5">
                                                                  <div class="form-group">
                                                                       <span class="col-md-2 offset-md-10">
-                                                                           <span onclick="removeFields(this)" value="appended" data-field="percentBox"><i class="fa-solid fa-minus"></i></span>
+                                                                           <span onclick="removeFields(this)" data-field="percentBox" data-id="{{ $docQues->id ?? '' }}"><i class="fa-solid fa-minus"></i></span>
                                                                       </span>  
                                                                  </div>
                                                             </div>
@@ -2731,7 +2684,7 @@
                                                             <div class="col-md-5">
                                                                  <div class="form-group">
                                                                       <span class="col-md-2 offset-md-10">
-                                                                           <span onclick="removeFields(this)" value="appended" data-field="dropdown-link"><i class="fa-solid fa-minus"></i></span>
+                                                                           <span onclick="removeFields(this)" data-field="dropdown-link" data-id="{{ $docQues->id ?? '' }}"><i class="fa-solid fa-minus"></i></span>
                                                                       </span>  
                                                                  </div>
                                                             </div>
@@ -3063,13 +3016,13 @@
                $(e).closest('.label-condition').remove();
           }else{
                var id = $(e).data('id');
-               let deleteIds = $('#removeLabel_id').val();
+               let deleteIds = $('#condition_id').val();
                if(deleteIds){
                     deleteIds += ',' + id;
                }else{
                     deleteIds = id;
                }
-               $('#removeLabel_id').val(deleteIds);
+               $('#condition_id').val(deleteIds);
                $('#label-condition'+id).hide();
           }
      }
@@ -3137,13 +3090,13 @@
                $(e).closest('.sec-condition').remove();
           }else{
                var id = $(e).data('id');
-               let deleteIds = $('#img_sec_ids').val();
+               let deleteIds = $('#condition_id').val();
                if(deleteIds){
                     deleteIds += ',' + id;
                }else{
                     deleteIds = id;
                }
-               $('#img_sec_ids').val(deleteIds);
+               $('#condition_id').val(deleteIds);
                $('#sec-condition'+id).hide();
           }
      }
@@ -3249,13 +3202,13 @@
                     $(e).closest('.dropdown-option').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#dropdownOption_id').val();
+                    let deleteIds = $('#option_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#dropdownOption_id').val(deleteIds);
+                    $('#option_id').val(deleteIds);
                     $('#dropdown-option'+id).hide();
                }
           }else if($(e).attr('data-field') === 'radio-button'){
@@ -3263,13 +3216,13 @@
                     $(e).closest('.radio-option').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#radioOption_id').val();
+                    let deleteIds = $('#option_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#radioOption_id').val(deleteIds);
+                    $('#option_id').val(deleteIds);
                     $('#radio-option'+id).hide();
                }
           }
@@ -3321,13 +3274,13 @@
                $(e).closest('.contract-option').remove();
           }else{
                var id = $(e).data('id');
-               let deleteIds = $('#removeContract_id').val();
+               let deleteIds = $('#option_id').val();
                if(deleteIds){
                     deleteIds += ',' + id;
                }else{
                     deleteIds = id;
                }
-               $('#removeContract_id').val(deleteIds);
+               $('#option_id').val(deleteIds);
                $('#contract-option'+id).hide();
           }
      }
@@ -3426,7 +3379,8 @@
 
           if(name === 'textbox'){
                textbox_count++ ;
-               html = `<div class="append_textbox" id="append_textbox${textbox_count}" value="appended" data-is_new=true>
+               html = `<div class="new_que_sec${newUniqueId}">
+                    <div class="append_textbox" id="append_textbox${newUniqueId}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner main_question_div">
                                    <div class="row add_step">
@@ -3528,10 +3482,12 @@
                               </div>
                          </div>
                          <br>
+                    </div>
                     </div>`;
           }else if(name === 'textarea'){
                textarea_count++ ;
-               html =`<div class="append_textarea" id="append_textarea${textarea_count}" value="appended" data-is_new=true>
+               html =`<div class="new_que_sec${newUniqueId}">
+                    <div class="append_textarea" id="append_textarea${newUniqueId}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -3633,10 +3589,12 @@
                               </div>
                          </div>
                          <br>
+                    </div>
                     </div>`;
           }else if(name === 'dropdown'){
                dropdown_count++ ;
-               html = `<div class="append_dropdown" id="append_dropdown${dropdown_count}" value="appended" data-is_new=true>
+               html = `<div class="new_que_sec${newUniqueId}">
+                    <div class="append_dropdown" id="append_dropdown${newUniqueId}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -3727,10 +3685,12 @@
                               </div>
                          </div>
                          <br>
+                    </div>
                     </div>`;
           }else if(name === 'radio-button'){
                radio_count++ ;
-               html = `<div class="append_radio" id="append_radio${radio_count}" value="appended" data-is_new=true>
+               html = `<div class="new_que_sec${newUniqueId}">
+                    <div class="append_radio" id="append_radio${newUniqueId}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -3821,10 +3781,12 @@
                               </div>
                          </div>
                          <br>
+                    </div>
                     </div>`;
           }else if(name === 'date-field'){
                datefield_count++ ;
-               html = `<div class="append_dateField" id="append_dateField${datefield_count}" value="appended" data-is_new=true>
+               html = `<div class="new_que_sec${newUniqueId}">
+                    <div class="append_dateField" id="append_dateField${newUniqueId}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -3919,10 +3881,12 @@
                               </div>
                          </div>
                          <br>
+                    </div>
                     </div>`;
           }else if(name === 'pricebox'){
                pricebox_count++ ;
-               html = `<div class="append_priceBox" id="append_priceBox${pricebox_count}" value="appended" data-is_new=true>
+               html = `<div class="new_que_sec${newUniqueId}">
+                    <div class="append_priceBox" id="append_priceBox${newUniqueId}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -4024,10 +3988,12 @@
                               </div>
                          </div>
                          <br>
+                    </div>
                     </div>`;
           }else if(name === 'number-field'){
                numberfield_count++ ; 
-               html = `<div class="append_numberField" id="append_numberField${numberfield_count}" value="appended" data-is_new=true>
+               html = `<div class="new_que_sec${newUniqueId}">
+                    <div class="append_numberField" id="append_numberField${newUniqueId}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -4129,10 +4095,12 @@
                               </div>
                          </div>
                          <br>
+                    </div>
                     </div>`;
           }else if(name === 'percentage-box'){
                percentage_count++ ;
-               html = `<div class="appendPercentageBox" id="appendPercentageBox${percentage_count}" value="appended" data-is_new=true>
+               html = `<div class="new_que_sec${newUniqueId}">
+                    <div class="appendPercentageBox" id="appendPercentageBox${newUniqueId}" value="appended" data-is_new=true>
                          <div class="card card-bordered card-preview">
                               <div class="card-inner">
                                    <div class="row add_step">
@@ -4234,10 +4202,12 @@
                               </div>
                          </div>
                          <br>
+                    </div>
                     </div>`;
           }else if(name === 'dropdown-link'){
                droplink_count++ ;
-               html = `<div class="append_dropdownLink" id="append_dropdownLink${droplink_count}" value="appended" data-is_new=true>
+               html = `<div class="new_que_sec${newUniqueId}">
+                    <div class="append_dropdownLink" id="append_dropdownLink${newUniqueId}" value="appended" data-is_new=true>
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
                               <div class="row add_step">
@@ -4304,6 +4274,7 @@
                          </div>
                     </div>
                     <br>
+               </div>
                </div>`;
           }
 
@@ -4349,6 +4320,7 @@
           $(document).on('change', '.type_question', function() {
                const value = $(this).val();
                const id = $(this).attr('id').replace('question_type', '');
+               console.log(id);
                addQuestionfields(value, id, 'second');
           });
 
@@ -4391,13 +4363,13 @@
                     $(e).closest('.append_textbox').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removeTextbox_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removeTextbox_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#append_textbox'+id).hide();
                }    
           }else if($(e).attr('data-field') === 'textarea'){
@@ -4405,13 +4377,15 @@
                     $(e).closest('.append_textarea').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removeTextarea_id').val();
+                    // let deleteIds = $('#removeTextarea_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removeTextbox_id').val(deleteIds);
+                    // $('#removeTextbox_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#append_textarea'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'dropdown'){
@@ -4419,13 +4393,15 @@
                     $(e).closest('.append_dropdown').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removeDropdown_id').val();
+                    // let deleteIds = $('#removeDropdown_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removeDropdown_id').val(deleteIds);
+                    // $('#removeDropdown_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#append_dropdown'+id).hide();
                }   
 
@@ -4434,13 +4410,15 @@
                     $(e).closest('.append_radio').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removeRadio_id').val();
+                    // let deleteIds = $('#removeRadio_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removeRadio_id').val(deleteIds);
+                    // $('#removeRadio_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#append_radio'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'date-field'){
@@ -4448,13 +4426,15 @@
                     $(e).closest('.append_dateField').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removeDatefield_id').val();
+                    // let deleteIds = $('#removeDatefield_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removeDatefield_id').val(deleteIds);
+                    // $('#removeDatefield_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#append_dateField'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'pricebox'){
@@ -4462,13 +4442,15 @@
                     $(e).closest('.append_priceBox').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removePricebox_id').val();
+                    // let deleteIds = $('#removePricebox_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removePricebox_id').val(deleteIds);
+                    // $('#removePricebox_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#append_priceBox'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'number-field'){
@@ -4476,13 +4458,15 @@
                     $(e).closest('.append_numberField').remove();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removeNumberfield_id').val();
+                    // let deleteIds = $('#removeNumberfield_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removeNumberfield_id').val(deleteIds);
+                    // $('#removeNumberfield_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#append_numberField'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'percentBox'){
@@ -4490,27 +4474,31 @@
                     $(e).closest('.appendPercentageBox').hide();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removePercentagebox_id').val();
+                    // let deleteIds = $('#removePercentagebox_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removePercentagebox_id').val(deleteIds);
+                    // $('#removePercentagebox_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#appendPercentageBox'+id).hide();
                }   
           }else if($(e).attr('data-field') === 'dropdown-link'){
                if($(e).attr('value') === 'appended'){
-                    $(e).closest('.append_dropdownLink').remove();
+                    $(e).closest('.append_dropdownLink').hide();
                }else{
                     var id = $(e).data('id');
-                    let deleteIds = $('#removeDropdownlink_id').val();
+                    // let deleteIds = $('#removeDropdownlink_id').val();
+                    let deleteIds = $('#remove_question_id').val();
                     if(deleteIds){
                          deleteIds += ',' + id;
                     }else{
                          deleteIds = id;
                     }
-                    $('#removeDropdownlink_id').val(deleteIds);
+                    // $('#removeDropdownlink_id').val(deleteIds);
+                    $('#remove_question_id').val(deleteIds);
                     $('#append_dropdownLink'+id).hide();
                }   
           }
@@ -4533,6 +4521,10 @@
                // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               if(conditionalQuestion){
+                    questionLabel = null;
+               }
 
                var textboxData = {
                     type: 'textbox',
@@ -4630,6 +4622,10 @@
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
+               if(conditionalQuestion){
+                    questionLabel = null;
+               }
+
                var textareaData = {
                     type: 'textarea',
                     is_new: is_new,
@@ -4722,6 +4718,10 @@
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
                // var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               if(conditionalQuestion){
+                    questionLabel = null;
+               }
 
                var dropdownData = {
                     type: 'dropdown',
@@ -5066,6 +5066,10 @@
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
+               if(conditionalQuestion){
+                    questionLabel = null;
+               }
+
                var priceBoxData = {
                     type: 'pricebox',
                     is_new: is_new,
@@ -5162,6 +5166,10 @@
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
 
+               if(conditionalQuestion){
+                    questionLabel = null;
+               }
+
                var numberfieldData = {
                     type: 'number-field',
                     is_new: is_new,
@@ -5257,6 +5265,10 @@
                // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+
+               if(conditionalQuestion){
+                    questionLabel = null;
+               }
 
                var percentageBoxData = {
                     type: 'percentage-box',
@@ -5374,7 +5386,7 @@
                                    status: status,
                               };
                               
-                              if(row.label && row.contract_link && row.next_step){
+                              if(row.label && row.contract_link || row.next_step){
                                    dropdownLinkData.new_rows.push(row);
                               }
                          }else if(status === false){
@@ -5386,7 +5398,7 @@
                                    option_id: optionId
                               };
 
-                              if(row.label && row.contract_link && row.next_step){
+                              if(row.label && row.contract_link || row.next_step){
                                    dropdownLinkData.add_rows.push(row);
                               }
                          }
@@ -5900,7 +5912,7 @@
                // }
      
                if(!hasError){
-                    // $('#questionForm').submit();
+                    $('#questionForm').submit();
                }
           })
      })

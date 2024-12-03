@@ -898,13 +898,13 @@ $(document).ready(function () {
           //      }
           // });
 
-          $(".text_align").each(function(){
-               if(!$(this).val()){
-                    NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
-                    hasError = true;
-                    return false;
-               }
-          })
+          // $(".text_align").each(function(){
+          //      if(!$(this).val()){
+          //           NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+          //           hasError = true;
+          //           return false;
+          //      }
+          // })
 
           $(".new_heading_html").each(function(){
                if (!hasError && !$(this).val()) {
@@ -987,13 +987,13 @@ $(document).ready(function () {
           //      }
           // });
 
-          $(".text_align").each(function(){
-               if(!$(this).val()){
-                    NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
-                    hasError = true;
-                    return false;
-               }
-          })
+          // $(".text_align").each(function(){
+          //      if(!$(this).val()){
+          //           NioApp.Toast('Please select the Text align option', 'error', { position: 'top-right' });
+          //           hasError = true;
+          //           return false;
+          //      }
+          // })
 
           $(".new_heading_html").each(function(){
                if(!hasError && !$(this).val()){
