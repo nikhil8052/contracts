@@ -32,6 +32,12 @@ class Question extends Model
     {
         return $this->belongsTo(Question::class, 'next_question_id');
     }
+    
+    // public function nextQuestion()
+    // {
+    //     return $this->hasMany(QuestionData::class, 'next_question_id','id');
+    // }
+    
 
     public function getName()
     {

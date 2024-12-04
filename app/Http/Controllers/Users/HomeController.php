@@ -156,7 +156,42 @@ class HomeController extends Controller
     }
 
     
+    public function contracts($slug){
+        $document = Document::where('slug',$slug)->first();
+        $id = $document->id;
+        $questions = Question::where('document_id',$id)->with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
+        // foreach($questions as $data){
+        //     echo '<pre>';
+        //     print_r($data->questionData);
+        //     print_r($data->conditions);
+        //     print_r($data->options);
+        //     print_r($data->nextQuestion);
+        // }
 
+        // die();
 
+        $documentContents = DocumentRightSection::where('document_id', $id)->get();
 
+        // Process each content and replace placeholders
+        foreach ($documentContents as $content) {
+            // Match and replace all #{number}# patterns
+            $content->content = preg_replace_callback(
+                '/#(\d+)#/',
+                function ($matches) {
+                    $classNumber = $matches[1];
+                    return "<span class=\"answered_spns qidtarget-$classNumber\"></span>";
+                },
+                $content->content
+            );
+
+            if($content->secure_blur_content){
+                $content->content= $this->encryptText($content->content, "nik");
+            }
+        }
+
+        // Log the output to ensure replacements are made
+        // dd($documentContents);
+
+        return view('users.contracts.contracts', compact('questions', 'documentContents'));
+    }
 }

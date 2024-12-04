@@ -143,7 +143,7 @@
                             </ul> -->
 
                             <div class="con_btn_div">
-                                <a href="" class="cta_light_cont ">{{ $document->btn_text ?? '' }}</a>
+                                <a href="{{ url('contracts/'.$document->slug ?? '') }}" class="cta_light_cont ">{{ $document->btn_text ?? '' }}</a>
                             </div>
                         </div>
                     </div>
