@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->timestamps();
 
             // Foreign keys
+            
             $table->foreign('conditional_question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->foreign('go_to_step')->references('id')->on('questions')->onDelete('cascade'); // Foreign key for go_to_step
             $table->foreign('document_right_content_id')->references('id')->on('document_right_contents')->onDelete('set null'); // New foreign key relationship

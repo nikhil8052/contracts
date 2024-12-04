@@ -160,15 +160,6 @@ class HomeController extends Controller
         $document = Document::where('slug',$slug)->first();
         $id = $document->id;
         $questions = Question::where('document_id',$id)->with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
-        // foreach($questions as $data){
-        //     echo '<pre>';
-        //     print_r($data->questionData);
-        //     print_r($data->conditions);
-        //     print_r($data->options);
-        //     print_r($data->nextQuestion);
-        // }
-
-        // die();
 
         $documentContents = DocumentRightSection::where('document_id', $id)->get();
 
@@ -183,9 +174,9 @@ class HomeController extends Controller
                 },
                 $content->content
             );
-
+            
             if($content->secure_blur_content){
-                $content->content= $this->encryptText($content->content, "nik");
+                $content->content= $this->encryptText($content->content, "test");
             }
         }
 

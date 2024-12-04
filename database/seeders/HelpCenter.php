@@ -32,7 +32,7 @@ class HelpCenter extends Seeder
             ],
             [
                 'key' => 'banner_image',
-                'value' => null
+                'value' => null,
             ],
             [
                 'key' => 'main_title',
@@ -41,7 +41,7 @@ class HelpCenter extends Seeder
             [
                 'key' => 'sub_title',
                 'value' => null,
-            ]
+            ],
             [
                 'key' => 'faq_heading',
                 'value' => null,
@@ -56,7 +56,7 @@ class HelpCenter extends Seeder
             ],
             [
                 'key' => 'banner_heading',
-                'value' => null
+                'value' => null,
             ],
             [
                 'key' => 'banner_description',

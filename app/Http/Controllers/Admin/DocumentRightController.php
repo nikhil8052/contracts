@@ -65,6 +65,8 @@ class DocumentRightController extends Controller
 
                     }elseif($data->section == 'content'){
                         if($data->is_new == true){
+                            // $text_alignment = $data->text_align ?? null;
+                            $text_align = $data->text_align ?? null;
                             $document_right_section = new DocumentRightSection;
                             $document_right_section->type = $data->section;
                             // $document_right_section->title = $request->title;
@@ -72,9 +74,10 @@ class DocumentRightController extends Controller
                             $document_right_section->published = $request->published;
                             // $document_right_section->start_new_section = $data->start_new_section;
                             $document_right_section->content = $data->content_html;
-                            $document_right_section->text_alignment = $data->text_align;
+                            $document_right_section->text_align = $text_align;
+                            // $document_right_section->text_alignment = $text_alignment;
                             // $document_right_section->signature_field = $data->signature_field;
-                            $document_right_section->content_class = $data->content_class;
+                            // $document_right_section->content_class = $data->content_class;
                             $document_right_section->is_condition = $data->add_condition;
                             $document_right_section->secure_blur_content = $data->secure_blurr_content;
                             // $document_right_section->blur_content = $data->blurr_content;
@@ -92,52 +95,58 @@ class DocumentRightController extends Controller
                             $document_right_section->update();
                         }
                         
-                        if(!empty($data->new_conditions) && $data->add_condition){
-                            for($i=0; $i<count($data->new_conditions); $i++){
-                                $new_condition = $data->new_conditions[$i];
-                                if($new_condition->condition == 'is_equal_to'){
-                                    $condition_value = 1;
-                                }elseif($new_condition->condition == 'is_greater_than'){
-                                    $condition_value = 2;
-                                }elseif($new_condition->condition == 'is_less_than'){
-                                    $condition_value = 3;
-                                }elseif($new_condition->condition == 'not_equal_to') {
-                                    $condition_value = 4;
+                        if (!empty($data->add_condition)) {
+                            // Handle New Conditions
+                            if (!empty($data->new_conditions)) {
+                                foreach ($data->new_conditions as $new_condition) {
+                                    $condition_value = match ($new_condition->condition) {
+                                        'is_equal_to' => 1,
+                                        'is_greater_than' => 2,
+                                        'is_less_than' => 3,
+                                        'not_equal_to' => 4,
+                                        default => null,
+                                    };
+                                   
+                                    
+                                    if ($condition_value !== null) {
+                                        $documentCondition = new QuestionCondition();
+                                        $documentCondition->condition_type = 'content_condition';
+                                        $documentCondition->document_right_content_id = $document_right_section->id;
+                                        $documentCondition->conditional_question_id = $new_condition->question_id;
+                                        $documentCondition->conditional_check = $condition_value;
+                                        $documentCondition->conditional_question_value = $new_condition->question_value;
+                                        $documentCondition->save();
+                                    }
                                 }
-    
-                                $documentCondition = new QuestionCondition;
-                                $documentCondition->condition_type = 'content_condition';
-                                $documentCondition->document_right_content_id = $document_right_section->id;
-                                $documentCondition->conditional_question_id  = $new_condition->question_id;
-                                $documentCondition->conditional_check = $condition_value;
-                                $documentCondition->conditional_question_value = $new_condition->question_value;
-                                $documentCondition->save();
+                            }
+                        
+                            // Handle Existing Conditions
+                            if (!empty($data->conditions)) {
+                                foreach ($data->conditions as $condition) {
+                                    $condition_value = match ($condition->condition) {
+                                        'is_equal_to' => 1,
+                                        'is_greater_than' => 2,
+                                        'is_less_than' => 3,
+                                        'not_equal_to' => 4,
+                                        default => null,
+                                    };
+
+                                    if ($condition_value !== null) {
+                                        $documentCondition = QuestionCondition::find($condition->condition_id);
+                                        if ($documentCondition) {
+                                            $documentCondition->conditional_question_id = $condition->question_id;
+                                            $documentCondition->conditional_check = $condition_value;
+                                            $documentCondition->conditional_question_value = $condition->question_value;
+                                            $documentCondition->update();
+                                        }
+                                    }
+                                }
                             }
                         }
-
-                        if(!empty($data->conditions) && $data->add_condition){
-                            for($i=0; $i<count($data->conditions); $i++){
-                                $condition = $data->conditions[$i];
-                                if($condition->condition == 'is_equal_to'){
-                                    $condition_value = 1;
-                                }elseif($condition->condition == 'is_greater_than'){
-                                    $condition_value = 2;
-                                }elseif($condition->condition == 'is_less_than'){
-                                    $condition_value = 3;
-                                }elseif($condition->condition == 'not_equal_to') {
-                                    $condition_value = 4;
-                                }
-    
-                                $documentCondition = QuestionCondition::find($condition->condition_id);
-                                $documentCondition->conditional_question_id  = $condition->question_id;
-                                $documentCondition->conditional_check = $condition_value;
-                                $documentCondition->conditional_question_value = $condition->question_value;
-                                $documentCondition->update();
-                            }
-                        }                        
+                        
                     }
                 }   
-                
+
                 if($request->remove_content != null){
                     $deleteIds = explode(',', $request->remove_content);
                     foreach($deleteIds as $id){

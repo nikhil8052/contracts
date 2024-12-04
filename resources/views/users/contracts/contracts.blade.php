@@ -27,175 +27,253 @@
 </style>
 <section class="questions_page_main_div">
     <!-- This is the main container for the question and the form  -->
-     <div id="main-question-form-controller" class="p-5 card"
-        style="display: flex !important ; flex-direction: row !important ; gap: 10px;">
-        <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
-          <div class="left-box left-question-box questions-div">
-               @foreach($questions as $index => $question)
-                    <?php 
-                         // $condition = $question->conditions; 
-                         // foreach($condition as $cond){
-                         //      print_r($cond->conditional_question_value);
-                         // }
-                    ?>
+    <div id="main-question-form-controller" class="p-5 card"
+    style="display: flex !important ; flex-direction: row !important ; gap: 10px;">
+    <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
+        <div class="left-box left-question-box questions-div">
+            @foreach($questions as $index => $question)
+                <?php 
+                    // $condition = $question->conditions; 
+                    // foreach($condition as $cond){
+                    //     print_r($cond->conditional_question_value);
+                    // }
+                ?>
 
-                    <div class="question-div step step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id }}"
-                         id="{{ $question->id }}" is_condition="{{ $question->is_condition }}"
-                         swtchtyp="{{ $question->condition_type }}">
-                         <p class="que_heading lbl-{{ $question->id }}"
-                         json-data="{{  $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
-                              {{ $question->questionData->question_label ?? '' }}</p>
-                              @php 
-                                   $question_type = $question->type;
-                                   $next_qid = NULL;
-                              @endphp 
-                              @if($question_type == "textbox")
-                                   @php 
-                                        $next_qid = $question->questionData->next_question_id ?? '';
-                                   @endphp 
-                                   <input type="text" target-id="qidtarget-{{ $question->id }}"
-                                        onkeyup="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" />
-                                   
-                              @elseif($question_type == "dropdown")
-                                   @php 
-                                        $next_qid = $question->options->first()->next_question_id ?? '';
-                                   @endphp 
-                                   <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id }}','{{ $question_type }}') " target-id=".qidtarget-{{ $question->id }}">
-                                        @foreach($question->options as $option)
-                                             <option my_ref_nxt=".nxt_btn_{{ $question->id }}" que_id="{{ $option->next_question_id }}"
-                                                  value="{{ $option->option_value }}"> {{ $option->option_label }} </option>
-                                        @endforeach
-                                   </select>
-                              @elseif($question_type == "radio")
-                                   @php 
-                                        $next_qid = $question->options->first()->next_question_id ?? '';
-                                   @endphp 
-                                   @foreach($question->options as $option)
-                                        <input type="radio" name="question_{{ $question->id }}" target-id=".qidtarget-{{ $question->id }}"
-                                             onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" my_ref_nxt=".nxt_btn_{{ $question->id }}"
-                                             que_id="{{ $option->next_question_id }}" value="{{ $option->option_value }}" />
-                                        <label>{{ $option->option_label }}</label>
-                                   @endforeach
-                              @elseif($question_type == "datefield")
-                                   @php 
-                                        $next_qid = $question->questionData->next_question_id ?? '';
-                                   @endphp 
-                                   
-                                   <input type="date" target-id="qidtarget-{{ $question->id }}"
-                                        onchange="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" />
-                              @endif
+                <div class="question-div step step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id }}" id="{{ $question->qid }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}">
+                    <p class="que_heading lbl-{{ $question->id }}"
+                        json-data="{{  $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
+                    {{ $question->questionData->question_label ?? '' }}
+                    </p>
+                    @php 
+                        $question_type = $question->type;
+                        $next_qid = NULL;
+                    @endphp 
+                    @if($question_type == "textbox")
+                        @php 
+                            $next_qid = $question->questionData->next_question_id ?? '';
+                        @endphp 
+                        <input type="text" target-id="qidtarget-{{ $question->id }}"
+                            onkeyup="storeAnswers(this, '{{ $question->id }}','textbox')" />
+                        
+                    @elseif($question_type == "dropdown")
+                        @php 
+                            $next_qid = $question->options->first()->next_question_id ?? '';
+                        @endphp 
+                        <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id }}','{{ $question_type }}') " target-id=".qidtarget-{{ $question->id }}">
+                            @foreach($question->options as $option)
+                                    <option my_ref_nxt=".nxt_btn_{{ $question->id }}" que_id="{{ $option->next_question_id }}"
+                                        value="{{ $option->option_value }}"> {{ $option->option_label }} </option>
+                            @endforeach
+                        </select>
+                    @elseif($question_type == "radio")
+                        @php 
+                            $next_qid = $question->options->first()->next_question_id ?? '';
+                        @endphp 
+                        @foreach($question->options as $option)
+                            <input type="radio" name="question_{{ $question->id }}" target-id=".qidtarget-{{ $question->id }}"
+                                    onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" my_ref_nxt=".nxt_btn_{{ $question->id }}"
+                                    que_id="{{ $option->next_question_id }}" value="{{ $option->option_value }}" />
+                            <label>{{ $option->option_label }}</label>
+                        @endforeach
+                    @elseif($question_type == "datefield")
+                        @php 
+                            $next_qid = $question->questionData->next_question_id ?? '';
+                        @endphp 
+                        
+                        <input type="date" target-id="qidtarget-{{ $question->id }}"
+                            onchange="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" />
+                    @endif
 
-                         <div class="navigation-btns mt-4">
-                         @if($index != 0)
-                              <button type="button" class="pre_btn_{{ $question->id }} nxt" que_id=""
-                                   onclick="go_pre_step(this)">Previous</button>
-                         @endif
-                         <button type="button" class="nxt_btn_{{ $question->id }} pre " que_id="{{ $next_qid ?? '' }}"
-                              my_ref="{{ $question->id }}" onclick="go_next_step(this)">Next</button>
-                         </div>
+                    <div class="navigation-btns mt-4">
+                        @if($index != 0)
+                            <button type="button" class="pre_btn_{{ $question->id }} nxt" que_id=""
+                                onclick="go_pre_step(this)">Previous</button>
+                        @endif
+                        <button type="button" class="nxt_btn_{{ $question->id }} pre" que_id="{{ $next_qid ?? '' }}"
+                            my_ref="{{ $question->id }}" onclick="go_next_step(this)">Next</button>
                     </div>
-               @endforeach
-          </div>
+                </div>
+            @endforeach
+        </div>
 
-          <!-- This is the box where we show the steps or the form -->
-          <div class="right-box right-question-box form-div card ">
-               @foreach($documentContents as $content)
-                    <div id="right_content_div_{{ $content->id }}" class="{{ $content->content_class }} right-sec-div mb-2 {{ $content->blur_content ? "blur_content" : "" }}  {{ $content->is_condition ? "d-none" : NULL }}" conditional_section="{{ $content->is_condition ? "true" : NULL }}">
-                         {!! $content->content !!}
-                    </div>
-               @endforeach
-          </div>
-     </div>
+        <!-- This is the box where we show the steps or the form -->
+        <div class="right-box right-question-box form-div card ">
+            @foreach($documentContents as $content)
+                <div id="right_content_div_{{ $content->id }}" class="{{ $content->content_class }} right-sec-div mb-2 {{ $content->blur_content ? "blur_content" : "" }}  {{ $content->is_condition ? "d-none" : NULL }}" conditional_section="{{ $content->is_condition ? "true" : NULL }}">
+                    {!! $content->content !!}
+                </div>
+            @endforeach
+        </div>
+    </div>
 </section>
 
 <!-- JS for getting the questions  -->
 <!-- <script src="{{ asset('assets/js/questions.js') }}"></script> -->
 
 <script>
-    let attemptedAnswers = {};
-    let currentQuestion = 1;
-    $(".question-div").hide();
-    $(".step-1").show();
-    function go_next_step(e) {
-        // This is the next question ID 
-        var next_step_id = $(e).attr("que_id");
-        // Update the current question ID to the global counter 
-        currentQuestion = next_step_id;
-        // This is the current div id 
-        var my_ref = $(e).attr("my_ref");
-        // This is the next Main Div 
-        var next_step_div = `.step-${next_step_id}`;
+//     let attemptedAnswers = {};
+//     let currentQuestion = 1;
+//     $(".question-div").hide();
+//     $(".step-1").show();
+//     function go_next_step(e) {
+//         // This is the next question ID 
+//         var next_step_id = $(e).attr("que_id");
+//         // Update the current question ID to the global counter 
+//         currentQuestion = next_step_id;
+//         // This is the current div id 
+//         var my_ref = $(e).attr("my_ref");
+//         // This is the next Main Div 
+//         var next_step_div = `.step-${next_step_id}`;
 
-        /**
-         * Before going to the next questions check all the conditions attached to the current question 
-           This parameter makes sure that the condtion is attached to the next question   
-           if it is 1 condition is attached else not 
-        */
-        var is_condition = $(next_step_div).attr('is_condition');
+//         /**
+//          * Before going to the next questions check all the conditions attached to the current question 
+//            This parameter makes sure that the condtion is attached to the next question   
+//            if it is 1 condition is attached else not 
+//         */
+//         var is_condition = $(next_step_div).attr('is_condition');
 
-        if (is_condition != undefined && is_condition == 1) {
-            var lbl = `.lbl-${next_step_id}`;
-            // It tells which condition is set Go to step or the Lable condition 
-            var conditionType = $(next_step_div).attr('swtchtyp')
-            var conditions = $(lbl).attr('json-data');  // Get the conditions data from the Label 
-            if (conditions != undefined) {
-                conditions = JSON.parse(conditions)
-                conditions.forEach(function (condition) {
-                    // first check the Condition Type
-                    var condition_type = condition.condition_type
-                    var conditional_que_div = `.step-${condition.conditional_question_id}`; // this is the div for which we need to check the conditon 
-                    var value = $(conditional_que_div).attr('attempted')  // we get the value attempted for the conditional question 
-                    var conditionType = $(next_step_div).attr('swtchtyp') 
+//         if (is_condition != undefined && is_condition == 1) {
+//             var lbl = `.lbl-${next_step_id}`;
+//             // It tells which condition is set Go to step or the Lable condition 
+//             var conditionType = $(next_step_div).attr('swtchtyp')
+//             var conditions = $(lbl).attr('json-data');  // Get the conditions data from the Label 
+//             if (conditions != undefined) {
+//                 conditions = JSON.parse(conditions)
+//                 conditions.forEach(function (condition) {
+//                     // first check the Condition Type
+//                     var condition_type = condition.condition_type
+//                     var conditional_que_div = `.step-${condition.conditional_question_id}`; // this is the div for which we need to check the conditon 
+//                     var value = $(conditional_que_div).attr('attempted')  // we get the value attempted for the conditional question 
+//                     var conditionType = $(next_step_div).attr('swtchtyp') 
 
-                    if(condition_type=="content_condition"){
-                        var rightContentDiv=`#right_content_div_${condition.document_right_content_id}`;
-                        if( value ==condition.conditional_question_value ){
-                            $(rightContentDiv).removeClass('d-none');
-                        }
+//                     if(condition_type=="content_condition"){
+//                         var rightContentDiv=`#right_content_div_${condition.document_right_content_id}`;
+//                         if( value ==condition.conditional_question_value ){
+//                             $(rightContentDiv).removeClass('d-none');
+//                         }
                         
-                    }else {
- // 1 is for the Lable condition 
-                    if (conditionType == 1) {
-     // update the lable of the current question 
-                        if (value == condition.conditional_question_value) {
-                            var changed_label = condition.question_label
-                            $(lbl).text(changed_label)
-                        }
-                    } else if (conditionType == 2) {
-                        // 2 is for the step condition 
-                        if (value == condition.conditional_question_value) {
-                            // Change the buuton value of this 
-                            var current_question_next_btn = `.nxt_btn_${next_step_id}`
-                            $(current_question_next_btn).attr('que_id', condition.go_to_step);
-                            $(`.step-${next_step_id}`).attr('onchange', false);
+//                     }else {
+//  // 1 is for the Lable condition 
+//                     if (conditionType == 1) {
+//      // update the lable of the current question 
+//                         if (value == condition.conditional_question_value) {
+//                             var changed_label = condition.question_label
+//                             $(lbl).text(changed_label)
+//                         }
+//                     } else if (conditionType == 2) {
+//                         // 2 is for the step condition 
+//                         if (value == condition.conditional_question_value) {
+//                             // Change the buuton value of this 
+//                             var current_question_next_btn = `.nxt_btn_${next_step_id}`
+//                             $(current_question_next_btn).attr('que_id', condition.go_to_step);
+//                             $(`.step-${next_step_id}`).attr('onchange', false);
 
-                        }
-                        console.log(condition, " This is the step 2 condition man sop we ")
-                    } else if(conditionType == 1){
-                        // both the conditons are active label and go to step 
-                        window.reload();
-                    }
-                    }
+//                         }
+//                         console.log(condition, " This is the step 2 condition man sop we ")
+//                     } else if(conditionType == 1){
+//                         // both the conditons are active label and go to step 
+//                         window.reload();
+//                     }
+//                     }
                    
 
-                });
+//                 });
 
-            }
+//             }
 
+//         }
+//         // get the current div previsous button refrence
+//         var pre_btn = `.pre_btn_${next_step_id}`;
+//         $(pre_btn).attr("que_id", my_ref);
+//         $(".question-div").hide();
+//         $(next_step_div).show();
+//     }
+
+//     function go_pre_step(e) {
+//         $(".question-div").hide();
+//         var next_step_id = $(e).attr("que_id");
+//         var next_step_div = `.step-${next_step_id}`;
+//         $(next_step_div).show();
+//     }
+
+    let attemptedAnswers = {};
+    let currentQuestion = 1;
+
+    // Initially hide all question-divs and show the first one.
+    $(".question-div").hide();
+    $(".step-1").show();
+
+    function go_next_step(e) {
+        const nextStepId = $(e).attr("que_id"); // Get next step ID
+        const myRef = $(e).attr("my_ref"); // Current question reference
+        const nextStepDiv = `.step-${nextStepId}`; // Next step selector
+
+        if (!nextStepId || !$(nextStepDiv).length) {
+            console.error("Next step ID is invalid or missing.");
+            return;
         }
-        // get the current div previsous button refrence
-        var pre_btn = `.pre_btn_${next_step_id}`;
-        $(pre_btn).attr("que_id", my_ref);
+
+        // Check if conditions are attached to the next step
+        const isCondition = $(nextStepDiv).attr("is_condition");
+
+        if (isCondition && isCondition == "1") {
+            const lbl = `.lbl-${nextStepId}`;
+            const conditionType = $(nextStepDiv).attr("swtchtyp");
+            let conditions = $(lbl).attr("json-data");
+
+            if (conditions) {
+                conditions = JSON.parse(conditions);
+                conditions.forEach((condition) => {
+                    const conditionType = condition.condition_type;
+                    const conditionalQuestionDiv = `.step-${condition.conditional_question_id}`;
+                    const attemptedValue = $(conditionalQuestionDiv).attr("attempted");
+
+                    if (conditionType === "content_condition") {
+                        const rightContentDiv = `#right_content_div_${condition.document_right_content_id}`;
+                        if (attemptedValue == condition.conditional_question_value) {
+                            $(rightContentDiv).removeClass("d-none");
+                        }
+                    } else {
+                        if (conditionType == "1") {
+                            if (attemptedValue == condition.conditional_question_value) {
+                                const changedLabel = condition.question_label;
+                                $(lbl).text(changedLabel);
+                            }
+                        } else if (conditionType == "2") {
+                            if (attemptedValue == condition.conditional_question_value) {
+                                const currentNextBtn = `.nxt_btn_${nextStepId}`;
+                                $(currentNextBtn).attr("que_id", condition.go_to_step);
+                            }
+                        } else {
+                            console.warn("Unexpected condition type:", conditionType);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Set the previous button reference for the next step
+        const preBtn = `.pre_btn_${nextStepId}`;
+        $(preBtn).attr("que_id", myRef);
+
+        // Update visibility of the steps
         $(".question-div").hide();
-        $(next_step_div).show();
+        $(nextStepDiv).show();
     }
 
     function go_pre_step(e) {
+        const prevStepId = $(e).attr("que_id"); // Get previous step ID
+        if (!prevStepId) {
+            console.error("Previous step ID is invalid or missing.");
+            return;
+        }
+
+        const prevStepDiv = `.step-${prevStepId}`; // Previous step selector
+
         $(".question-div").hide();
-        var next_step_id = $(e).attr("que_id");
-        var next_step_div = `.step-${next_step_id}`;
-        $(next_step_div).show();
+        $(prevStepDiv).show();
     }
+
 
     function updateNextButton(selectElement) {
 

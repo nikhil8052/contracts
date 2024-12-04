@@ -63,6 +63,7 @@
                                         @if(isset($documentRight) && $documentRight != null)
                                         <?php 
                                              $count = 1;
+                                             $num = 1;
                                              $date = Carbon::now();
                                              $carbonDate = Carbon::parse($date);
                                              $uniqueId = $carbonDate->timestamp * 1000;
@@ -74,8 +75,11 @@
                                                        <div class="card card-bordered card-preview">
                                                             <div class="card-inner">
                                                                  <div class="row add_content_heading">
-                                                                      <div class="col-md-6">
-                                                                           <h6>Content Heading</h6>  
+                                                                      <div class="col-md-1">
+                                                                           <p><b>{{ $num++ ?? '' }}</b></p>
+                                                                      </div>
+                                                                      <div class="col-md-5">
+                                                                           <span>{{ $num++ ?? '' }}</span><h6>Content Heading</h6>  
                                                                       </div> 
                                                                       <div class="col-md-6">
                                                                            <div class="form-group">
@@ -101,7 +105,10 @@
                                                        <div class="card card-bordered card-preview">
                                                             <div class="card-inner">
                                                                  <div class="row">
-                                                                      <div class="col-md-6">
+                                                                      <div class="col-md-1">
+                                                                           <p><b>{{ $num++ ?? '' }}</b></p>
+                                                                      </div>
+                                                                      <div class="col-md-5">
                                                                            <h6>Content</h6>  
                                                                       </div> 
                                                                       <div class="col-md-6">
@@ -491,13 +498,6 @@
                               <div class="row add_content_heading">
                                    <div class="col-md-6">
                                         <h6>Content Heading</h6>  
-                                        <div class="form-group">
-                                             <select class="form-select js-select2 type_question" name="question_type${newUniqueId}" id="question_type${newUniqueId}">
-                                                  ${types.map(type => `
-                                                  <option value="${type.slug}" ${name === type.slug ? 'selected' : ''}>${type.name}</option>
-                                                  `).join('')}
-                                             </select>
-                                        </div>
                                    </div> 
                                    <div class="col-md-6">
                                         <div class="form-group">
@@ -506,6 +506,7 @@
                                              </span>  
                                         </div>
                                    </div>
+                                   
                               </div> 
                               <hr>
                               <div class="col-md-12">
@@ -851,7 +852,7 @@ function getAllContents() {
                               status: status,
                          };
 
-                         if(new_condition.question_id && new_condition.condition && new_condition.question_value) {
+                         if(new_condition.question_id && new_condition.condition || new_condition.question_value) {
                               contentData.new_conditions.push(new_condition);
                          }
                     }else if(status === false){
@@ -863,7 +864,7 @@ function getAllContents() {
                               condition_id: conditionId
                          };
 
-                         if(condition.question_id && condition.condition && condition.question_value) {
+                         if(condition.question_id && condition.condition || condition.question_value) {
                               contentData.conditions.push(condition);
                          }
                     }
