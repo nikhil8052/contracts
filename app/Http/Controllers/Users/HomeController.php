@@ -155,7 +155,6 @@ class HomeController extends Controller
         return base64_encode($iv . $encryptedText);
     }
 
-    
     public function contracts($slug){
         $document = Document::where('slug',$slug)->first();
         $id = $document->id;
@@ -164,7 +163,7 @@ class HomeController extends Controller
         $documentContents = DocumentRightSection::where('document_id', $id)->get();
 
         // Process each content and replace placeholders
-        foreach ($documentContents as $content) {
+        foreach($documentContents as $content) {
             // Match and replace all #{number}# patterns
             $content->content = preg_replace_callback(
                 '/#(\d+)#/',
@@ -175,11 +174,11 @@ class HomeController extends Controller
                 $content->content
             );
             
-            if($content->secure_blur_content){
-                $content->content= $this->encryptText($content->content, "test");
-            }
+            // print_r($content->content);
+            // if($content->secure_blur_content){
+            //     $content->content= $this->encryptText($content->content, "test");
+            // }
         }
-
         // Log the output to ensure replacements are made
         // dd($documentContents);
 
