@@ -996,7 +996,7 @@ class DocumentController extends Controller
 
                         $question_data->update();
                         
-
+                        
                         if($questions->condition_type == 1){
                             $question_condition_type = "question_label_condition";
 
@@ -1085,6 +1085,91 @@ class DocumentController extends Controller
                                     $question_conditions->update();
                                 }
                             }
+                        }elseif($questions->condition_type == 3){
+                            if(!empty($data->new_conditional_question_labels)){
+                                $question_condition_type = "question_label_condition";
+                                $new_conditional = $data->new_conditional_question_labels;
+                                for($i=0; $i<count($new_conditional); $i++){
+                                    $conditional = $new_conditional[$i];
+
+                                    $question_conditions = new QuestionCondition;
+                                    $question_conditions->question_id = $questions->id;
+                                    $question_conditions->condition_type = $question_condition_type;
+                                    $question_conditions->question_label = $conditional->label;
+                                    $question_conditions->conditional_question_id = $conditional->questionID;
+                                    $question_conditions->conditional_question_value = $conditional->question_value;
+                                    $question_conditions->save();
+                                }
+                            }
+                            
+                            if(!empty($data->conditional_question_labels)){
+                                $conditional_question_labels = $data->conditional_question_labels;
+                                for($i=0; $i<count($conditional_question_labels); $i++){
+                                    $conditional = $conditional_question_labels[$i];
+
+                                    $question_conditions = QuestionCondition::where('id',$conditional->condition_id)->first();
+                                    $question_conditions->question_label = $conditional->label;
+                                    $question_conditions->conditional_question_id = $conditional->questionID;
+                                    $question_conditions->conditional_question_value = $conditional->question_value;
+                                    $question_conditions->update();
+                                }
+                            }
+
+                            if(!empty($data->new_conditions)){
+                                $question_condition_type = "go_to_step_condition";
+                                $new_conditions = $data->new_conditions;
+                                for($i=0; $i<count($new_conditions); $i++){
+                                    $step = $new_conditions[$i];
+                                    
+                                    $question_conditions = new QuestionCondition;
+                                    $question_conditions->question_id = $questions->id;
+                                    $question_conditions->condition_type = $question_condition_type;
+
+                                    if(!empty($step->question_condition)){
+                                        if($step->question_condition == "is_equal_to"){
+                                            $conditionCheck = 1;
+                                        }elseif($step->question_condition == "is_greater_than"){
+                                            $conditionCheck = 2;
+                                        }elseif($step->question_condition == "is_less_than"){
+                                            $conditionCheck = 3;
+                                        }elseif($step->question_condition == "not_equal_to"){
+                                            $conditionCheck = 4;
+                                        }
+                                    }
+
+                                    $question_conditions->conditional_check = $conditionCheck;
+                                    $question_conditions->conditional_question_id = $step->questionID;
+                                    $question_conditions->conditional_question_value = $step->question_value;
+                                    $question_conditions->save();
+                                }
+                            }
+
+                            if(!empty($data->conditions)){
+                                $step_conditions = $data->conditions;
+                                for($i=0; $i<count($step_conditions); $i++){
+                                    $step = $step_conditions[$i];
+                                    
+                                    $question_conditions = QuestionCondition::where('id',$step->condition_id)->first();
+
+                                    if(!empty($step->question_condition)){
+                                        if($step->question_condition == "is_equal_to"){
+                                            $conditionCheck = 1;
+                                        }elseif($step->question_condition == "is_greater_than"){
+                                            $conditionCheck = 2;
+                                        }elseif($step->question_condition == "is_less_than"){
+                                            $conditionCheck = 3;
+                                        }elseif($step->question_condition == "not_equal_to"){
+                                            $conditionCheck = 4;
+                                        }
+                                    }
+
+                                    $question_conditions->conditional_check = $conditionCheck;
+                                    $question_conditions->conditional_question_id = $step->questionID;
+                                    $question_conditions->conditional_question_value = $step->question_value;
+                                    $question_conditions->update();
+                                }
+                            }
+
                         }
 
                         if(!empty($data->add_options)){

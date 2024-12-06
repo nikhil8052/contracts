@@ -64,9 +64,9 @@
                                         <?php 
                                              $count = 1;
                                              $num = 1;
-                                             $date = Carbon::now();
-                                             $carbonDate = Carbon::parse($date);
-                                             $uniqueId = $carbonDate->timestamp * 1000;
+                                             // $date = Carbon::now();
+                                             // $carbonDate = Carbon::parse($date);
+                                             // $uniqueId = $carbonDate->timestamp * 1000;
                                         ?>
                                              @foreach($documentRight as $data)
                                                   @if($data->type == 'content_heading')
@@ -92,8 +92,8 @@
                                                                  <hr>
                                                                  <div class="col-md-12">
                                                                       <div class="form-group">
-                                                                           <label class="form-label" for="content_heading_html{{ $uniqueId ?? '' }}">Content Html</label>
-                                                                           <input type="text" class="form-control content_heading_html" name="content_heading_html-{{ $count++ }}" id="content_heading_html{{ $uniqueId ?? '' }}" value="{{ $data->content ?? '' }}">
+                                                                           <label class="form-label" for="content_heading_html{{ $data->id ?? '' }}">Content Html</label>
+                                                                           <input type="text" class="form-control content_heading_html" name="content_heading_html-{{ $data->id ?? '' }}" id="content_heading_html{{ $data->id ?? '' }}" value="{{ $data->content ?? '' }}">
                                                                       </div>
                                                                  </div>
                                                             </div>
@@ -140,29 +140,29 @@
                                                                  @endif
                                                                  </div>
                                                                  <hr> -->
-                                                                 @if(isset($data->text_alignment) && $data->text_alignment != null)
+                                                                 @if(isset($data->text_align) && $data->text_align != null)
                                                                  <div class="start_append_section{{ $data->id ?? '' }}" style="display:block">
                                                                       <div class="row">
                                                                            <div class="col-md-6">
                                                                                 <div class="form-group">
-                                                                                     <label class="form-label" for="text_align">Text align</label>
+                                                                                     <label class="form-label" for="text_align{{ $data->id ?? '' }}">Text align</label>
                                                                                      <div class="form-control-wrap"> 
-                                                                                          <select class="form-select js-select2" name="text_align-{{ $count++ }}" id="text_align">
+                                                                                          <select class="form-select js-select2" name="text_align-{{ $data->id ?? '' }}" id="text_align{{ $data->id ?? '' }}">
                                                                                                <option value="" selected disabled>Select</option>
-                                                                                               @if(isset($data->text_alignment) && $data->text_alignment != null)
+                                                                                               @if(isset($data->text_align) && $data->text_align != null)
                                                                                                     @if($data->text_alignment == 'left')
                                                                                                     <option value="left" selected>left</option>
                                                                                                     @else
                                                                                                     <option value="left">left</option>
                                                                                                     @endif
 
-                                                                                                    @if($data->text_alignment == 'right')
+                                                                                                    @if($data->text_align == 'right')
                                                                                                     <option value="right" selected>right</option>
                                                                                                     @else
                                                                                                     <option value="right">right</option>
                                                                                                     @endif
 
-                                                                                                    @if($data->text_alignment == 'center')
+                                                                                                    @if($data->text_align == 'center')
                                                                                                     <option value="center" selected>center</option>
                                                                                                     @else
                                                                                                     <option value="center">center</option>
@@ -201,9 +201,9 @@
                                                                       <div class="row">
                                                                            <div class="col-md-6">
                                                                                 <div class="form-group">
-                                                                                     <label class="form-label" for="text_align">Text align</label>
+                                                                                     <label class="form-label" for="text_align{{ $data->id ?? '' }}">Text align</label>
                                                                                      <div class="form-control-wrap"> 
-                                                                                          <select class="form-select js-select2 text_align" name="text_align-{{ $count++ }}" id="text_align">
+                                                                                          <select class="form-select js-select2 text_align" name="text_align-{{ $data->id ?? '' }}" id="text_align{{ $data->id ?? '' }}">
                                                                                                <option value="" selected disabled>Select</option>
                                                                                                <option value="left">left</option>
                                                                                                <option value="right">right</option>
@@ -369,15 +369,15 @@
                                                                            <div class="custom-control custom-checkbox">
                                                                            @if(isset($data->secure_blur_content) && $data->secure_blur_content != null)
                                                                                 @if($data->secure_blur_content == '1')
-                                                                                <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $uniqueId ?? '' }}" name="secure_blurr_content-{{ $count++ }}" checked>
-                                                                                <label class="custom-control-label" for="secure_blurr_content{{ $uniqueId ?? '' }}">Secure Blurr Content</label>
+                                                                                <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $data->id ?? '' }}" name="secure_blurr_content{{ $data->id ?? '' }}" checked>
+                                                                                <label class="custom-control-label" for="secure_blurr_content{{ $data->id ?? '' }}">Secure Blurr Content</label>
                                                                                 @else
-                                                                                <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $uniqueId ?? '' }}" name="secure_blurr_content-{{ $count++ }}">
-                                                                                <label class="custom-control-label" for="secure_blurr_content{{ $uniqueId ?? '' }}">Secure Blurr Content</label>
+                                                                                <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $data->id ?? '' }}" name="secure_blurr_content{{ $data->id ?? '' }}">
+                                                                                <label class="custom-control-label" for="secure_blurr_content{{ $data->id ?? '' }}">Secure Blurr Content</label>
                                                                                 @endif
                                                                            @else
-                                                                           <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $uniqueId ?? '' }}" name="secure_blurr_content-{{ $count++ }}">
-                                                                           <label class="custom-control-label" for="secure_blurr_content{{ $uniqueId ?? '' }}">Secure Blurr Content</label>
+                                                                           <input type="checkbox" class="custom-control-input" id="secure_blurr_content{{ $data->id ?? '' }}" name="secure_blurr_content{{ $data->id ?? '' }}">
+                                                                           <label class="custom-control-label" for="secure_blurr_content{{ $data->id ?? '' }}">Secure Blurr Content</label>
                                                                            @endif
                                                                            </div>
                                                                       </div>
@@ -454,10 +454,7 @@
 
 <script>
      $(document).ready(function() {
-          $('.js-select2').select2({
-               placeholder: 'Select a question',
-               allowClear: true
-          });
+          $('.js-select2').select2();
      });
 </script>
 
@@ -491,7 +488,7 @@
           let html = ``;
           if(name === 'content_heading'){
                heading_section_count++ ;
-               html = `<div class="append_content_heading" id="content_heading${heading_section_count}" value="appended" data-is_new=true>
+               html = `<div class="append_content_heading" id="content_heading${newUniqueId}" value="appended" data-is_new=true>
                     <hr>
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
@@ -512,7 +509,7 @@
                               <div class="col-md-12">
                                    <div class="form-group">
                                         <label class="form-label" for="content_heading_html${newUniqueId}">Content Html</label>
-                                        <input type="text" class="form-control new_heading_html" name="content_heading_html-${heading_section_count}" id="content_heading_html${newUniqueId}" value="">
+                                        <input type="text" class="form-control new_heading_html" name="content_heading_html-${newUniqueId}" id="content_heading_html${newUniqueId}" value="">
                                    </div>
                               </div>
                          </div>
@@ -522,7 +519,7 @@
           }else if(name === 'content'){
                content_section_count++ ;
 
-               html = `<div class="append_content" id="content${content_section_count}" value="appended" data-is_new=true>
+               html = `<div class="append_content" id="content${newUniqueId}" value="appended" data-is_new=true>
                     <hr>
                     <div class="card card-bordered card-preview">
                          <div class="card-inner">
@@ -545,7 +542,7 @@
                                    </div>
                               </div>
                               <div class="custom-control custom-checkbox">
-                                   <input type="checkbox" class="custom-control-input new_section" id="start_new_section${newUniqueId}" name="start_new_section-${content_section_count}">
+                                   <input type="checkbox" class="custom-control-input new_section" id="start_new_section${newUniqueId}" name="start_new_section-${newUniqueId}">
                                    <label class="custom-control-label" for="start_new_section${newUniqueId}"></label>
                               </div>
                               <hr> -->
@@ -553,9 +550,9 @@
                                    <div class="row">
                                         <div class="col-md-6">
                                              <div class="form-group">
-                                                  <label class="form-label" for="text_align">Text align</label>
+                                                  <label class="form-label" for="text_align${newUniqueId}">Text align</label>
                                                   <div class="form-control-wrap"> 
-                                                       <select class="form-select js-select2 text_align" name="text_align-${content_section_count}" id="text_align">
+                                                       <select class="form-select js-select2 text_align" name="text_align-${newUniqueId}" id="text_align${newUniqueId}">
                                                             <option value="" selected disabled>Select</option>
                                                             <option value="left">left</option>
                                                             <option value="right">right</option>
@@ -567,7 +564,7 @@
                                         <!-- <div class="col-md-6">
                                              <p class="p_label">This is signature field</p>
                                              <div class="custom-control custom-checkbox">
-                                                  <input type="checkbox" class="custom-control-input" id="signature_field${newUniqueId}" name="signature_field-${content_section_count}">
+                                                  <input type="checkbox" class="custom-control-input" id="signature_field${newUniqueId}" name="signature_field-${newUniqueId}">
                                                   <label class="custom-control-label" for="signature_field${newUniqueId}"></label>
                                              </div>
                                         </div> -->
@@ -577,7 +574,7 @@
                               <div class="col-md-12">
                                    <div class="form-group">
                                         <label class="form-label" for="content_content_html">Content Html</label>
-                                        <textarea class="form-control new_content_html" name="content_content_html-${content_section_count}" id="content_content_html"></textarea>
+                                        <textarea class="form-control" name="content_content_html-${newUniqueId}" id="content_content_html"></textarea>
                                    </div>
                               </div>
                               <hr>
@@ -585,7 +582,7 @@
                                    <div class="col-md-6">
                                         <p class="p_label">Add Condition</p>
                                         <div class="custom-control custom-checkbox">
-                                             <input type="checkbox" class="custom-control-input add_condition" id="add_condition${newUniqueId}" name="add_condition-${content_section_count}">
+                                             <input type="checkbox" class="custom-control-input add_condition" id="add_condition${newUniqueId}" name="add_condition-${newUniqueId}">
                                              <label class="custom-control-label" for="add_condition${newUniqueId}"></label>
                                         </div>
                                    </div>
@@ -607,14 +604,14 @@
                                    <div class="col-md-6">
                                         <p class="p_label">Secure Blurr Content</p>
                                         <div class="custom-control custom-checkbox">
-                                             <input type="checkbox" class="custom-control-input" id="secure_blurr_content${newUniqueId}" name="secure_blurr_content-${content_section_count}">
+                                             <input type="checkbox" class="custom-control-input" id="secure_blurr_content${newUniqueId}" name="secure_blurr_content${newUniqueId}">
                                              <label class="custom-control-label" for="secure_blurr_content${newUniqueId}">Secure Blurr Content</label>
                                         </div>
                                    </div>
                                    <!-- <div class="col-md-6">
                                         <p class="p_label">Blurr Content</p>
                                         <div class="custom-control custom-checkbox">
-                                             <input type="checkbox" class="custom-control-input" id="blurr_content${newUniqueId}" name="blurr_content-${content_section_count}">
+                                             <input type="checkbox" class="custom-control-input" id="blurr_content${newUniqueId}" name="blurr_content-${newUniqueId}">
                                              <label class="custom-control-label" for="blurr_content${newUniqueId}">Blurr Content</label>
                                         </div>
                                    </div> -->
@@ -625,6 +622,7 @@
           }
 
           $('.add_contents').append(html);
+          $('.js-select2').select2();
      }
 
 
@@ -754,7 +752,7 @@
 
           $(document).on('change', '[id^="secure_blurr_content"]', function() {
                const id = $(this).attr('id').replace('secure_blurr_content', '');
-               toggleCheckboxValue($(this), 'secure_blurr_content' + id);
+               goToSteps(id);
           });
 
           $(document).on('change', '[id^="blurr_content"]', function() {
@@ -773,18 +771,16 @@
           }
      }
 
-     // function startNewSection(id) {
-     //      if ($('#start_new_section' + id).is(':checked')) {
-     //           $('.start_append_section' + id).show();
-     //           $('#start_new_section' + id).val(1);
-     //      } else {
-     //           $('.start_append_section' + id).hide();
-     //           $('#start_new_section' + id).val(0);
-     //      }
-     // }
+     function goToSteps(id) {
+          if($('#secure_blurr_content' + id).is(':checked')) {
+               $('#secure_blurr_content' + id).val(1);
+          }else {
+               $('#secure_blurr_content' + id).val(0);
+          }
+     }
 
      function toggleCheckboxValue(element, id) {
-          if (element.is(':checked')) {
+          if(element.is(':checked')) {
                $('#' + id).val(1);
           } else {
                $('#' + id).val(0);
@@ -915,13 +911,13 @@ $(document).ready(function () {
                }
           });
      
-          $(".new_content_html").each(function(){
-               if (!hasError && !$(this).val()) {
-                    NioApp.Toast('Please fill the content HTML field', 'error', { position: 'top-right' });
-                    hasError = true;
-                    return false;
-               }
-          });
+          // $(".new_content_html").each(function(){
+          //      if (!hasError && !$(this).val()) {
+          //           NioApp.Toast('Please fill the content HTML field', 'error', { position: 'top-right' });
+          //           hasError = true;
+          //           return false;
+          //      }
+          // });
      
           $('.add_condition').each(function () {
                const uniqueId = $(this).attr('id').replace('add_condition', '');
@@ -1004,13 +1000,13 @@ $(document).ready(function () {
                }
           });
      
-          $(".new_content_html").each(function(){
-               if (!hasError && !$(this).val()) {
-                    NioApp.Toast('Please fill the content HTML field', 'error', { position: 'top-right' });
-                    hasError = true;
-                    return false;
-               }
-          });
+          // $(".new_content_html").each(function(){
+          //      if (!hasError && !$(this).val()) {
+          //           NioApp.Toast('Please fill the content HTML field', 'error', { position: 'top-right' });
+          //           hasError = true;
+          //           return false;
+          //      }
+          // });
      
           $('.add_condition').each(function (){
                const uniqueId = $(this).attr('id').replace('add_condition', '');

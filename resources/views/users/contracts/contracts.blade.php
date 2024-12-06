@@ -1,8 +1,8 @@
 @extends('users_layout.master') @section('content')
 <style>
     .answered_spns {
-        background: #002655;
-        color: white;
+        /* background: #002655; */
+        /* color: white; */
     }
 
     .right-question-box {
@@ -11,14 +11,20 @@
         border-radius: 10px;
         height: 70vh;
     }
-
+/* 
     .answered_spns {
         border: 1px solid #002655;
         min-width: 60px;
         display: inline-block;
         min-height: 18px;
         text-align: center;
-    }
+    } */
+    /* .answered_spns {
+        display: inline-block;
+        color: #002655; 
+        font-size: 18px; 
+    } */
+
     .blur_content {
         filter: blur(5px);
         pointer-events: none; 
@@ -31,16 +37,26 @@
     style="display: flex !important ; flex-direction: row !important ; gap: 10px;">
     <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
         <div class="left-box left-question-box questions-div">
-
+            @php 
+                $count = 1;
+            @endphp
             @foreach($questions as $index => $question)
                 <?php 
                     // print_r($index);
                 ?>
 
-                <div class="question-div step step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id }}" id="{{ $question->qid }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}">
+                <div class="question-div step{{ $count++ }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id }}" id="{{ $question->qid }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}">
                     <p class="que_heading lbl-{{ $question->id }}"
                         json-data="{{  $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
                         {{ $question->questionData->question_label ?? '' }}
+                        <!-- @if($question->questionData->question_label != null)
+                            {{ $question->questionData->question_label }}
+                        @else
+                            @foreach($question->conditions as $lbl_cond)
+                            {{ $lbl_cond->question_label }}
+                            @endforeach
+                        @endif -->
+
                     </p>
                     @php 
                         $question_type = $question->type;
@@ -134,7 +150,7 @@
         <!-- This is the box where we show the steps or the form -->
         <div class="right-box right-question-box form-div card ">
             @foreach($documentContents as $content)
-                <div id="right_content_div_{{ $content->id }}" style="text-align:{{ $content->text_align }}" class="{{ $content->content_class }} right-sec-div mb-2  {{ $content->is_condition ? "d-block" : NULL }}" conditional_section="{{ $content->is_condition ? "true" : NULL }}">
+                <div id="right_content_div_{{ $content->id }}" style="text-align:{{ $content->text_align }}" class="{{ $content->content_class }} right-sec-div mb-2  {{ $content->secure_blur_content ? "d-none" : NULL }} {{ $content->is_condition ? "block" : NULL }}" conditional_section="{{ $content->is_condition ? "true" : NULL }}">
                     {!! $content->content !!}
                 </div>
             @endforeach
@@ -149,11 +165,13 @@
     let attemptedAnswers = {};
     let currentQuestion = 1;
     $(".question-div").hide();
-    $(".step-1").show();
+    $(".step1").show();
     
     function go_next_step(e) {
         // This is the next question ID 
         var next_step_id = $(e).attr("que_id");
+        console.log(next_step_id);
+
         // Update the current question ID to the global counter 
         currentQuestion = next_step_id;
         // This is the current div id 
@@ -183,32 +201,41 @@
                     var conditionType = $(next_step_div).attr('swtchtyp') 
 
                     if(condition_type == "content_condition"){
+                        // console.log(condition_type);
                         var rightContentDiv = `#right_content_div_${condition.document_right_content_id}`;
                         if(value == condition.conditional_question_value ){
                             $(rightContentDiv).removeClass('d-none');
                         }
-                        
                     }else {
                         // 1 is for the Lable condition 
                         if(conditionType == 1){
+                            // console.log(conditionType);
                             // update the lable of the current question 
-                            if (value == condition.conditional_question_value) {
+                            if(value == condition.conditional_question_value){
                                 var changed_label = condition.question_label
-                                $(lbl).text(changed_label)
+                                $(lbl).text(changed_label);
                             }
                         }else if(conditionType == 2){
+                            // console.log(conditionType);
                         // 2 is for the step condition 
-                            if (value == condition.conditional_question_value) {
+                            if(value == condition.conditional_question_value){
                                 // Change the buuton value of this 
                                 var current_question_next_btn = `.nxt_btn_${next_step_id}`
                                 $(current_question_next_btn).attr('que_id', condition.go_to_step);
                                 $(`.step-${next_step_id}`).attr('onchange', false);
-
                             }
-                            console.log(condition, " This is the step 2 condition man sop we ")
+                            console.log(condition, " This is the step 2 condition man sop we ");
+
                         }else if(conditionType == 3){
+                            console.log(conditionType);
                         // both the conditons are active label and go to step 
-                            window.reload();
+                            // location.reload();
+
+                            if(value == condition.conditional_question_value){
+                                var current_question_next_btn = `.nxt_btn_${next_step_id}`
+                                $(current_question_next_btn).attr('que_id', condition.go_to_step);
+                                $(`.step-${next_step_id}`).attr('onchange', false);
+                            }
                         }
                     }
                    
@@ -232,7 +259,6 @@
     }
 
     function updateNextButton(selectElement) {
-
         // Get the main div 
         var shouldStepChange = $(`.step-${currentQuestion}`).attr('onchange');
         if (shouldStepChange != undefined && shouldStepChange == "false") {
@@ -264,9 +290,8 @@
         $(myNextBtn).attr("que_id", queId);
     }
 
-
     function storeAnswers(e, que_id = undefined, qtype = undefined) {
-        if (qtype === "textbox") {
+        if(qtype === "textbox"){
             // Get the div and inject the attempted value, filling the object
             var qid = `que${que_id}`;
             var main_q_div = `.step-${que_id}`;
@@ -276,118 +301,169 @@
                 "qid": qid,
                 "ans": $(e).val() // Fixed syntax error here
             };
-            $(right_part_target).text(obj.ans)
+            // $(right_part_target).text(obj.ans)
+            $(right_part_target).text(obj.ans).css({
+                "color": "white",      // Set text color
+                "background-color": "#002655", // Set background color
+                "padding": "5px",      // Add padding for better visibility
+                "border-radius": "3px" // Optional: Add rounded corners
+            });
+
+
+            // Store the object in attemptedAnswers using qid as the key
+            attemptedAnswers[qid] = obj;
+
+            smoothScrollToTarget(right_part_target, '.right-question-box');
+            // Update the main question div with the attempted answer attribute
+            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans); // Fixed attribute reference here
+
+        }else if(qtype === "date-field"){
+            var qid = `que${que_id}`;
+            var main_q_div = `.step-${que_id}`;
+            var right_part_target = `.qidtarget-${que_id}`;
+            var value = $(e).val();
+            var date = new Date(value);
+            var options = { day: "2-digit", month: "long", year: "numeric" };
+            var formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
+            // Define an object to store the question ID and answer
+            var obj = {
+                "qid": qid,
+                "ans": formattedDate // Fixed syntax error here
+            };
+            // $(right_part_target).text(obj.ans)
+            $(right_part_target).text(obj.ans).css({
+                "color": "white",      // Set text color
+                "background-color": "#002655", // Set background color
+                "padding": "5px",      // Add padding for better visibility
+                "border-radius": "3px" // Optional: Add rounded corners
+            });
             // Store the object in attemptedAnswers using qid as the key
             attemptedAnswers[qid] = obj;
 
             smoothScrollToTarget(right_part_target, '.right-question-box');
 
+            // Update the main question div with the attempted answer attribute
+            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
+
+        }else if(qtype === "number-field"){
+            var qid = `que${que_id}`;
+            var main_q_div = `.step-${que_id}`;
+            var right_part_target = `.qidtarget-${que_id}`;
+            // Define an object to store the question ID and answer
+            var obj = {
+                "qid": qid,
+                "ans": $(e).val() // Fixed syntax error here
+            };
+            // $(right_part_target).text(obj.ans)
+            $(right_part_target).text(obj.ans).css({
+                "color": "white",      // Set text color
+                "background-color": "#002655", // Set background color
+                "padding": "5px",      // Add padding for better visibility
+                "border-radius": "3px" // Optional: Add rounded corners
+            });
+            // Store the object in attemptedAnswers using qid as the key
+            attemptedAnswers[qid] = obj;
+
+            smoothScrollToTarget(right_part_target, '.right-question-box');
+
+            // Update the main question div with the attempted answer attribute
+            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
+
+        }else if (qtype === "textarea"){
+            var qid = `que${que_id}`;
+            var main_q_div = `.step-${que_id}`;
+            var right_part_target = `.qidtarget-${que_id}`;
+            // Define an object to store the question ID and answer
+            var obj = {
+                "qid": qid,
+                "ans": $(e).val() // Fixed syntax error here
+            };
+            // $(right_part_target).text(obj.ans)
+            $(right_part_target).text(obj.ans).css({
+                "color": "white",      // Set text color
+                "background-color": "#002655", // Set background color
+                "padding": "5px",      // Add padding for better visibility
+                "border-radius": "3px" // Optional: Add rounded corners
+            });
+            // Store the object in attemptedAnswers using qid as the key
+            attemptedAnswers[qid] = obj;
+
+            smoothScrollToTarget(right_part_target, '.right-question-box');
+
+            // Update the main question div with the attempted answer attribute
+            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
+        }else if (qtype === "pricebox"){
+            var qid = `que${que_id}`;
+            var main_q_div = `.step-${que_id}`;
+            var right_part_target = `.qidtarget-${que_id}`;
+            // Define an object to store the question ID and answer
+            var obj = {
+                "qid": qid,
+                "ans": $(e).val() // Fixed syntax error here
+            };
+            // $(right_part_target).text(obj.ans)
+            $(right_part_target).text(obj.ans).css({
+                "color": "white",      // Set text color
+                "background-color": "#002655", // Set background color
+                "padding": "5px",      // Add padding for better visibility
+                "border-radius": "3px" // Optional: Add rounded corners
+            });
+            // Store the object in attemptedAnswers using qid as the key
+            attemptedAnswers[qid] = obj;
+
+            smoothScrollToTarget(right_part_target, '.right-question-box');
+
+            // Update the main question div with the attempted answer attribute
+            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
+
+        }else if (qtype === "percentage-box"){
+            var qid = `que${que_id}`;
+            var main_q_div = `.step-${que_id}`;
+            var right_part_target = `.qidtarget-${que_id}`;
+            // Define an object to store the question ID and answer
+            var obj = {
+                "qid": qid,
+                "ans": $(e).val() // Fixed syntax error here
+            };
+            // $(right_part_target).text(obj.ans)
+            $(right_part_target).text(obj.ans).css({
+                "color": "white",      // Set text color
+                "background-color": "#002655", // Set background color
+                "padding": "5px",      // Add padding for better visibility
+                "border-radius": "3px" // Optional: Add rounded corners
+            });
+            // Store the object in attemptedAnswers using qid as the key
+            attemptedAnswers[qid] = obj;
+
+            smoothScrollToTarget(right_part_target, '.right-question-box');
+
+            // Update the main question div with the attempted answer attribute
+            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
+
+        }else if( qtype === "dropdown" || qtype === "radio-button"){
+            var qid = `que${que_id}`;
+            var main_q_div = `.step-${que_id}`;
+            var right_part_target = `.qidtarget-${que_id}`;
+            // Define an object to store the question ID and answer
+            var obj = {
+                "qid": qid,
+                "ans": $(e).val() // Fixed syntax error here
+            };
+            // $(right_part_target).text(obj.ans)
+            $(right_part_target).text(obj.ans).css({
+                "color": "white",      // Set text color
+                "background-color": "#002655", // Set background color
+                "padding": "5px",      // Add padding for better visibility
+                "border-radius": "3px" // Optional: Add rounded corners
+            });
+            // Store the object in attemptedAnswers using qid as the key
+            attemptedAnswers[qid] = obj;
+
+            smoothScrollToTarget(right_part_target, '.right-question-box');
 
             // Update the main question div with the attempted answer attribute
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans); // Fixed attribute reference here
-        }else if (qtype === "date-field") {
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            // Define an object to store the question ID and answer
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() // Fixed syntax error here
-            };
-            $(right_part_target).text(obj.ans)
-            // Store the object in attemptedAnswers using qid as the key
-            attemptedAnswers[qid] = obj;
 
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-
-            // Update the main question div with the attempted answer attribute
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-        }else if (qtype === "number-field") {
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            // Define an object to store the question ID and answer
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() // Fixed syntax error here
-            };
-            $(right_part_target).text(obj.ans)
-            // Store the object in attemptedAnswers using qid as the key
-            attemptedAnswers[qid] = obj;
-
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-
-            // Update the main question div with the attempted answer attribute
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-        }else if (qtype === "textarea") {
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            // Define an object to store the question ID and answer
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() // Fixed syntax error here
-            };
-            $(right_part_target).text(obj.ans)
-            // Store the object in attemptedAnswers using qid as the key
-            attemptedAnswers[qid] = obj;
-
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-
-            // Update the main question div with the attempted answer attribute
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-        }else if (qtype === "pricebox") {
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            // Define an object to store the question ID and answer
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() // Fixed syntax error here
-            };
-            $(right_part_target).text(obj.ans)
-            // Store the object in attemptedAnswers using qid as the key
-            attemptedAnswers[qid] = obj;
-
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-
-            // Update the main question div with the attempted answer attribute
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-        }else if (qtype === "percentage-box") {
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            // Define an object to store the question ID and answer
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() // Fixed syntax error here
-            };
-            $(right_part_target).text(obj.ans)
-            // Store the object in attemptedAnswers using qid as the key
-            attemptedAnswers[qid] = obj;
-
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-
-            // Update the main question div with the attempted answer attribute
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-        }else if ( qtype === "dropdown" ||   qtype === "radio-button"){
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            // Define an object to store the question ID and answer
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() // Fixed syntax error here
-            };
-            $(right_part_target).text(obj.ans)
-            // Store the object in attemptedAnswers using qid as the key
-            attemptedAnswers[qid] = obj;
-
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-
-
-            // Update the main question div with the attempted answer attribute
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans); // Fixed attribute reference here
         }else if(qtype === "dropdown-link"){
             var dropdown = $(e);
             console.log(dropdown);
@@ -407,7 +483,13 @@
                 "qid": qid,
                 "ans": selectedValue
             };
-            $(right_part_target).text(obj.ans);
+            // $(right_part_target).text(obj.ans);
+            $(right_part_target).text(obj.ans).css({
+                "color": "white",      // Set text color
+                "background-color": "#002655", // Set background color
+                "padding": "5px",      // Add padding for better visibility
+                "border-radius": "3px" // Optional: Add rounded corners
+            });
             attemptedAnswers[qid] = obj;
 
             smoothScrollToTarget(right_part_target, '.right-question-box');
@@ -417,9 +499,16 @@
 
 
     function smoothScrollToTarget(targetElement, container, offset = 35) {
-        var container = $(container);
-        var targetOffset = $(targetElement).offset().top - container.offset().top + container.scrollTop() - offset;
-        var currentScroll = container.scrollTop();
+        var $container = $(container);
+        var $target = $(targetElement);
+
+        if(!$container.length || !$target.length){
+            console.error('Container or target element not found:', { container, targetElement });
+            return;
+        }
+
+        var targetOffset = $target.offset().top - $container.offset().top + $container.scrollTop() - offset;
+        var currentScroll = $container.scrollTop();
         var distance = targetOffset - currentScroll;
         var duration = 800; // Total duration in ms
         var start = null;
@@ -432,9 +521,9 @@
             // Calculate current position with ease-in function
             var scrollPosition = easeInQuad(progress, currentScroll, distance, duration);
 
-            container.scrollTop(scrollPosition);
+            $container.scrollTop(scrollPosition);
 
-            if (progress < duration) {
+            if(progress < duration){
                 window.requestAnimationFrame(smoothStep);
             }
         }
@@ -442,7 +531,7 @@
         window.requestAnimationFrame(smoothStep);
 
         // Ease-in quadratic function
-        function easeInQuad(time, start, distance, duration) {
+        function easeInQuad(time, start, distance, duration){
             time /= duration;
             return distance * time * time + start;
         }

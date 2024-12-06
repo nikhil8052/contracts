@@ -103,7 +103,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox">
                                                             @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 1)
+                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3)
                                                                  <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label{{ $docQues->id ?? '' }}" name="condition_qu_label{{ $docQues->id ?? '' }}" checked>
                                                                  <label class="custom-control-label" for="condition_qu_label{{ $docQues->id ?? '' }}">Conditional questions label</label>
                                                                  @else
@@ -118,7 +118,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
+                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -224,17 +224,10 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                      <option value=""></option>
                                                                       @if(isset($questions) && $questions != null)
                                                                            @foreach($questions as $question)
-                                                                           @if(isset($docQues->questionData->next_question_id) && $docQues->questionData->next_question_id != null)
-                                                                                @if($docQues->questionData->next_question_id == $question->getName())
-                                                                                <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
-                                                                                @else
-                                                                                <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                @endif
-                                                                           @else
-                                                                           <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                           @endif
+                                                                           <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>{{ $question->getName() ?? '' }}</option>
                                                                            @endforeach
                                                                       @endif
                                                                       </select>
@@ -249,7 +242,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox checked">
                                                             @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 2)
+                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3)
                                                                  <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to{{ $docQues->id ?? '' }}" name="condition_go_to{{ $docQues->id ?? '' }}" checked>
                                                                  <label class="custom-control-label" for="condition_go_to{{ $docQues->id ?? '' }}">Enable Conditional Go To Step Settings</label>
                                                                  @else
@@ -264,7 +257,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3;
                                                             $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -424,7 +417,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox">
                                                             @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 1)
+                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3)
                                                                  <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label{{ $docQues->id ?? '' }}" name="condition_qu_label{{ $docQues->id ?? '' }}" checked>
                                                                  <label class="custom-control-label" for="condition_qu_label{{ $docQues->id ?? '' }}">Conditional questions label</label>
                                                                  @else
@@ -439,7 +432,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
+                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -545,17 +538,12 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-${newUniqueId}">
+                                                                      <option value=""></option>
                                                                       @if(isset($questions) && $questions != null)
                                                                            @foreach($questions as $question)
-                                                                           @if(isset($docQues->questionData->next_question_id) && $docQues->questionData->next_question_id != null)
-                                                                                @if($docQues->questionData->next_question_id == $question->getName())
-                                                                                <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
-                                                                                @else
-                                                                                <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                @endif
-                                                                           @else
-                                                                           <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                           @endif
+                                                                           <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}> 
+                                                                           {{ $question->getName() ?? '' }}
+                                                                           </option>
                                                                            @endforeach
                                                                       @endif
                                                                       </select>
@@ -570,7 +558,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox checked">
                                                             @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 2)
+                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3)
                                                                  <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to{{ $docQues->id ?? '' }}" name="condition_go_to{{ $docQues->id ?? '' }}" checked>
                                                                  <label class="custom-control-label" for="condition_go_to{{ $docQues->id ?? '' }}">Enable Conditional Go To Step Settings</label>
                                                                  @else
@@ -585,7 +573,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3;
                                                             $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -745,7 +733,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label{{ $docQues->id ?? '' }}" name="condition_qu_label{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_qu_label{{ $docQues->id ?? '' }}">Conditional questions label</label>
                                                             @else
@@ -760,7 +748,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
+                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -892,17 +880,12 @@
                                                                                 <label class="form-label" for="dropdown_go_to_step-{{ $option->id ?? '' }}">Go to Step</label>
                                                                                 <div class="form-control-wrap"> 
                                                                                      <select class="form-select js-select2 new_label_question_id" data-search="on" name="dropdown_go_to_step-{{ $option->id ?? '' }}[]" id="dropdown_go_to_step-{{ $option->id ?? '' }}">
+                                                                                          <option value=""></option>
                                                                                           @if(isset($questions) && $questions != null)
                                                                                                @foreach($questions as $question)
-                                                                                                    @if(isset($option->next_question_id) && $option->next_question_id)
-                                                                                                         @if($option->next_question_id == $question->getName())
-                                                                                                         <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
-                                                                                                         @else
-                                                                                                         <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                                         @endif
-                                                                                                    @else
-                                                                                                    <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                                    @endif
+                                                                                                   <option value="{{ $question->getName() ?? '' }}" {{ $option->next_question_id == $question->getName() ? 'selected': '' }}>
+                                                                                                   {{ $question->getName() ?? '' }}
+                                                                                                   </option>
                                                                                                @endforeach
                                                                                           @endif
                                                                                      </select>
@@ -927,7 +910,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox checked">
                                                             @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 2)
+                                                                 @if($docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3)
                                                                  <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to{{ $docQues->id ?? '' }}" name="condition_go_to{{ $docQues->id ?? '' }}" checked>
                                                                  <label class="custom-control-label" for="condition_go_to{{ $docQues->id ?? '' }}">Enable Conditional Go To Step Settings</label>
                                                                  @else
@@ -942,7 +925,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3;
                                                             $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -1102,7 +1085,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label{{ $docQues->id ?? '' }}" name="condition_qu_label{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_qu_label{{ $docQues->id ?? '' }}">Conditional questions label</label>
                                                             @else
@@ -1117,7 +1100,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
+                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -1239,18 +1222,12 @@
                                                                            <label class="form-label" for="radio_go_to_step-{{ $option->id ?? '' }}">Go to Step</label>
                                                                            <div class="form-control-wrap"> 
                                                                                 <select class="form-select js-select2 new_label_question_id" data-search="on" name="radio_go_to_step-{{ $option->id ?? '' }}[]" id="radio_go_to_step-{{ $option->id ?? '' }}">
-                                                                                     <option value="" selected disabled>Select</option>
+                                                                                     <option value=""></option>
                                                                                      @if(isset($questions) && $questions != null)
                                                                                           @foreach($questions as $question)
-                                                                                               @if(isset($option->next_question_id) && $option->next_question_id)
-                                                                                                    @if($option->next_question_id == $question->getName())
-                                                                                                    <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
-                                                                                                    @else
-                                                                                                    <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                                    @endif
-                                                                                               @else
-                                                                                               <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                               @endif
+                                                                                               <option value="{{ $question->getName() ?? '' }}" {{ $option->next_question_id == $question->getName() ? 'selected':'' }}>
+                                                                                                    {{ $question->getName() ?? '' }}
+                                                                                               </option>
                                                                                           @endforeach
                                                                                      @endif
                                                                                 </select>
@@ -1275,7 +1252,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox checked">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to{{ $docQues->id ?? '' }}" name="condition_go_to{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_go_to{{ $docQues->id ?? '' }}">Enable Conditional Go To Step Settings</label>
                                                             @else
@@ -1290,7 +1267,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3;
                                                             $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -1323,7 +1300,9 @@
                                                                                           <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
                                                                                                @if(isset($questions) && $questions != null)
                                                                                                     @foreach($questions ?? [] as $question)
-                                                                                                         <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                                         <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected': '' }}>
+                                                                                                         {{ $question->getName() ?? '' }}
+                                                                                                         </option>
                                                                                                     @endforeach
                                                                                                @endif
                                                                                           </select>
@@ -1448,7 +1427,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label{{ $docQues->id ?? '' }}" name="condition_qu_label{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_qu_label{{ $docQues->id ?? '' }}">Conditional questions label</label>
                                                             @else
@@ -1470,7 +1449,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
+                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -1552,19 +1531,14 @@
                                                                  <label class="form-label" for="date_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="date_go_to_step-{{ $docQues->id ?? '' }}" id="date_go_to_step-${newUniqueId}">
-                                                                      @if(isset($questions) && $questions != null)
+                                                                           <option value=""></option>
+                                                                           @if(isset($questions) && $questions != null)
                                                                            @foreach($questions as $question)
-                                                                           @if(isset($docQues->questionData->next_question_id) && $docQues->questionData->next_question_id != null)
-                                                                                @if($docQues->questionData->next_question_id == $question->getName())
-                                                                                <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
-                                                                                @else
-                                                                                <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                @endif
-                                                                           @else
-                                                                           <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                           @endif
+                                                                           <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected':'' }}>
+                                                                                {{ $question->getName() ?? '' }}
+                                                                           </option>
                                                                            @endforeach
-                                                                      @endif
+                                                                           @endif
                                                                       </select>
                                                                  </div>
                                                             </div>
@@ -1577,7 +1551,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox checked">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to{{ $docQues->id ?? '' }}" name="condition_go_to{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_go_to{{ $docQues->id ?? '' }}">Enable Conditional Go To Step Settings</label>
                                                             @else
@@ -1592,7 +1566,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3;
                                                             $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -1752,7 +1726,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label{{ $docQues->id ?? '' }}" name="condition_qu_label{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_qu_label{{ $docQues->id ?? '' }}">Conditional questions label</label>
                                                             @else
@@ -1767,7 +1741,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
+                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -1801,11 +1775,13 @@
                                                                                      <div class="form-group">
                                                                                           <label class="form-label" for="label_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
                                                                                           <select class="form-select js-select2 new_label_question_id" name="label_qu_id-{{ $condition->id ?? '' }}[]" id="label_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               @if(isset($questions) && $questions != null)     
                                                                                                @foreach($questions ?? [] as $question)
                                                                                                     <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
                                                                                                     {{ $question->getName() ?? '' }}
                                                                                                     </option>
                                                                                                @endforeach
+                                                                                               @endif
                                                                                           </select>
                                                                                      </div>
                                                                                 </div>
@@ -1873,19 +1849,14 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-${newUniqueId}">
-                                                                      @if(isset($questions) && $questions != null)
-                                                                           @foreach($questions as $question)
-                                                                           @if(isset($docQues->questionData->next_question_id) && $docQues->questionData->next_question_id != null)
-                                                                                @if($docQues->questionData->next_question_id == $question->getName())
-                                                                                <option value="{{ $question->getName() ?? '' }}" selected>{{ $question->getName() ?? '' }}</option>
-                                                                                @else
-                                                                                <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                @endif
-                                                                           @else
-                                                                           <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                           @endif
+                                                                           <option value=""></option>
+                                                                           @if(isset($questions) && $questions != null)
+                                                                           @foreach($questions ?? [] as $question)
+                                                                                <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                {{ $question->getName() ?? '' }}
+                                                                                </option>
                                                                            @endforeach
-                                                                      @endif
+                                                                           @endif
                                                                       </select>
                                                                  </div>
                                                             </div>
@@ -1898,7 +1869,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox checked">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to{{ $docQues->id ?? '' }}" name="condition_go_to{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_go_to{{ $docQues->id ?? '' }}">Enable Conditional Go To Step Settings</label>
                                                             @else
@@ -1913,7 +1884,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3;
                                                             $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -1944,10 +1915,13 @@
                                                                                      <label class="form-label" for="page_Setting_qu_id-{{ $condition->id ?? '' }}">Question ID</label>
                                                                                      <div class="form-control-wrap question"> 
                                                                                           <select class="form-select js-select2" data-search="on" name="page_Setting_qu_id-{{ $condition->id ?? '' }}[]" id="page_Setting_qu_id-{{ $condition->id ?? '' }}">
+                                                                                               <option value=""></option>     
                                                                                                @if(isset($questions) && $questions != null)
-                                                                                                    @foreach($questions ?? [] as $question)
-                                                                                                         <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                                    @endforeach
+                                                                                               @foreach($questions ?? [] as $question)
+                                                                                                    <option value="{{ $question->getName() ?? '' }}" {{ $condition->conditional_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                                         {{ $question->getName() ?? '' }}
+                                                                                                    </option>
+                                                                                               @endforeach
                                                                                                @endif
                                                                                           </select>
                                                                                      </div>
@@ -2071,7 +2045,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label{{ $docQues->id ?? '' }}" name="condition_qu_label{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_qu_label{{ $docQues->id ?? '' }}">Conditional questions label</label>
                                                             @else
@@ -2086,7 +2060,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
+                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -2192,12 +2166,13 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                           <option value=""></option>
                                                                            @if(isset($questions) && $questions != null)
-                                                                                @foreach($questions ?? [] as $question)
-                                                                                     <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>
-                                                                                     {{ $question->getName() ?? '' }}
-                                                                                     </option>
-                                                                                @endforeach
+                                                                           @foreach($questions ?? [] as $question)
+                                                                                <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>
+                                                                                {{ $question->getName() ?? '' }}
+                                                                                </option>
+                                                                           @endforeach
                                                                            @endif
                                                                       </select>
                                                                  </div>
@@ -2211,7 +2186,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox checked">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to{{ $docQues->id ?? '' }}" name="condition_go_to{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_go_to{{ $docQues->id ?? '' }}">Enable Conditional Go To Step Settings</label>
                                                             @else
@@ -2226,7 +2201,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3;
                                                             $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -2386,7 +2361,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input add_conditional_label" id="condition_qu_label{{ $docQues->id ?? '' }}" name="condition_qu_label{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_qu_label{{ $docQues->id ?? '' }}">Conditional questions label</label>
                                                             @else
@@ -2401,7 +2376,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1;
+                                                            $isConditionType1 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 1 || $docQues->condition_type == 3;
                                                             $conditions = $isConditionType1 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -2507,10 +2482,11 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                           <option value=""></option>     
                                                                            @if(isset($questions) && $questions != null)
-                                                                                @foreach($questions as $question)
-                                                                                     <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
-                                                                                @endforeach
+                                                                           @foreach($questions as $question)
+                                                                                <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                           @endforeach
                                                                            @endif
                                                                       </select>
                                                                  </div>
@@ -2524,7 +2500,7 @@
                                                        </div>
                                                        <div class="custom-control custom-checkbox checked">
                                                        @if(isset($docQues->is_condition) && $docQues->is_condition != null)
-                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2)
+                                                            @if($docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3)
                                                             <input type="checkbox" class="custom-control-input enable_conditional" id="condition_go_to{{ $docQues->id ?? '' }}" name="condition_go_to{{ $docQues->id ?? '' }}" checked>
                                                             <label class="custom-control-label" for="condition_go_to{{ $docQues->id ?? '' }}">Enable Conditional Go To Step Settings</label>
                                                             @else
@@ -2539,7 +2515,7 @@
                                                        <hr>
                                                        @php
                                                             $isCondition = isset($docQues->is_condition) && $docQues->is_condition != null;
-                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2;
+                                                            $isConditionType2 = $isCondition && $docQues->is_condition == 1 && $docQues->condition_type == 2 || $docQues->condition_type == 3;
                                                             $enable_conditions = $isConditionType2 ? json_decode($docQues->conditions) : [];
                                                        @endphp
 
@@ -2776,13 +2752,14 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-{{ $docQues->id ?? '' }}">
-                                                                      @if(isset($questions) && $questions != null)     
+                                                                           <option value=""></option>
+                                                                           @if(isset($questions) && $questions != null)     
                                                                            @foreach($questions ?? [] as $question)
                                                                                 <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>
                                                                                 {{ $question->getName() ?? '' }}
                                                                                 </option>
                                                                            @endforeach
-                                                                      @endif
+                                                                           @endif
                                                                       </select>
                                                                  </div>
                                                             </div>
@@ -3139,6 +3116,7 @@
                                    <label class="form-label" for="dropdown_go_to_step-${uID}">Go to Step</label>
                                    <div class="form-control-wrap"> 
                                         <select class="form-select js-select2 new_label_question_id" data-search="on" name="dropdown_go_to_step-${uID}[]" id="dropdown_go_to_step-${uID}">
+                                             <option value=""></option>
                                              @if(isset($questions) && $questions != null)
                                                   @foreach($questions as $question)
                                                        <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3181,7 +3159,7 @@
                                    <label class="form-label" for="radio_go_to_step-${uID}">Go to Step</label>
                                    <div class="form-control-wrap"> 
                                         <select class="form-select js-select2 new_label_question_id" data-search="on" name="radio_go_to_step-${uID}[]" id="radio_go_to_step-${uID}">
-                                             <option value="" selected disabled>Select</option>
+                                             <option value=""></option>
                                              @if(isset($questions) && $questions != null)
                                                   @foreach($questions as $question)
                                                        <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3450,6 +3428,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       <option value=""></option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3557,6 +3536,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       <option value=""></option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3849,6 +3829,7 @@
                                              <label class="form-label" for="date_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="date_go_to_step-${newUniqueId}" id="date_go_to_step-${newUniqueId}">
+                                                       <option value=""></option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3956,6 +3937,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       <option value=""></option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -4063,6 +4045,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       <option value=""></option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -4170,6 +4153,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                       <option value=""></option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -4266,6 +4250,7 @@
                                         <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                         <div class="form-control-wrap"> 
                                              <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
+                                                  <option value=""></option>
                                                   @if(isset($questions) && $questions != null)
                                                        @foreach($questions as $question)
                                                             <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>

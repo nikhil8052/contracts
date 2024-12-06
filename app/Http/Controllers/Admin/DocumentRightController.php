@@ -84,10 +84,12 @@ class DocumentRightController extends Controller
                             $document_right_section->save();
 
                         }elseif($data->is_new == false){
+                            $text_align = $data->text_align ?? null;
+
                             $document_right_section = DocumentRightSection::where([['id',$data->id],['type',$data->section]])->first();
                             // $document_right_section->start_new_section = $data->start_new_section;
                             $document_right_section->content = $data->content_html;
-                            $document_right_section->text_alignment = $data->text_align;
+                            $document_right_section->text_align = $text_align;
                             // $document_right_section->signature_field = $data->signature_field;
                             $document_right_section->is_condition = $data->add_condition;
                             $document_right_section->secure_blur_content = $data->secure_blurr_content;

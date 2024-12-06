@@ -169,15 +169,15 @@ class HomeController extends Controller
                 '/#(\d+)#/',
                 function ($matches) {
                     $classNumber = $matches[1];
-                    return "<span class=\"answered_spns qidtarget-$classNumber\"></span>";
+                    return "<span class=\"answered_spns qidtarget-$classNumber\">_______</span>";
                 },
                 $content->content
             );
             
             // print_r($content->content);
-            // if($content->secure_blur_content){
-            //     $content->content= $this->encryptText($content->content, "test");
-            // }
+            if($content->secure_blur_content){
+                $content->content= $this->encryptText($content->content, "test");
+            }
         }
         // Log the output to ensure replacements are made
         // dd($documentContents);
