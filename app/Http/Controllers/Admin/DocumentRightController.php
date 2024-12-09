@@ -24,11 +24,12 @@ class DocumentRightController extends Controller
 
 
     public function documentRightContent(){
-        $questions = Question::all();
         if(isset($_GET['id']) && $_GET['id'] != null){
+            $questions = Question::where('document_id', $_GET['id'])->get();
             $document = Document::find($_GET['id']);
             $documentRight = DocumentRightSection::where('document_id', $_GET['id'])->with('conditions','document')->orderBy('order_id')->orderByRaw('order_id IS NULL')->get();
         }else{
+            $questions = '';
             $document = '';
             $documentRight = '';
         }

@@ -25,7 +25,7 @@
                     <div class="nk-block nk-block-middle nk-auth-body wide-xs">
                         <div class="brand-logo pb-4 text-center">
                             <!-- <a href="#" class="logo-link"> -->
-                                <h4>Docx</h4>
+                                <h4>Legalio</h4>
                             <!-- </a> -->
                         </div>
                         <div class="card card-bordered" >

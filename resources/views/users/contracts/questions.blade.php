@@ -250,7 +250,7 @@
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans); // Fixed attribute reference here
         } else if (qtype === "datefield") {
 
-        }else if ( qtype === "dropdown" ||   qtype === "radio" ){
+        }else if( qtype === "dropdown" ||   qtype === "radio" ){
             var qid = `que${que_id}`;
             var main_q_div = `.step-${que_id}`;
             var right_part_target = `.qidtarget-${que_id}`;

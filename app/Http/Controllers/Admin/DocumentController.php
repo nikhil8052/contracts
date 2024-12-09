@@ -767,13 +767,14 @@ class DocumentController extends Controller
 
     public function documentQuestion(){
         $documents = Document::where('published',1)->get();
-
         $types = QuestionType::all();
-        $questions = Question::all();
+        
         if(isset($_GET['id']) && $_GET['id'] != null){
+            $questions = Question::where('document_id',$_GET['id'])->get();
             $document = Document::find($_GET['id']);
             $document_questions = Question::where('document_id',$_GET['id'])->with('questionData','conditions','options','nextQuestion')->get();
         }else{
+            $questions = '';
             $document = '';
             $document_questions = '';
         }
