@@ -106,11 +106,8 @@ class ContractController extends Controller
         $questions = Question::where('document_id',$id)->with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
 
         $documentContents = DocumentRightSection::where('document_id', $id)->get();
-
-        // Process each content and replace placeholders
         
         foreach($documentContents as $content) {
-            // Match and replace all #{number}# patterns
             $content->content = preg_replace_callback(
                 '/#(\d+)#/',
                 function ($matches) {
@@ -120,11 +117,12 @@ class ContractController extends Controller
                 $content->content
             );
             
-            // print_r($content->content);
+            
             if($content->secure_blur_content){
                 $content->content= $this->encryptText($content->content, "test");
             }
         }
+            
         // Log the output to ensure replacements are made
         // dd($documentContents);
 

@@ -25,15 +25,18 @@
         font-size: 18px; 
     } */
 
-    .blur_content {
-        filter: blur(5px);
-        pointer-events: none; 
+    .secure_content {
+       word-wrap: break-word;
+       color: transparent;
+       text-shadow: 0 0 8px #999;
+       font-weight: normal;
+       -webkit-filter: blur(5px);
     }
 
 </style>
 <section class="questions_page_main_div">
     <!-- This is the main container for the question and the form  -->
-    <form>
+    <form id="contractForm" method="post">
         <div id="main-question-form-controller" class="p-5 card"
             style="display: flex !important ; flex-direction: row !important ; gap: 10px;">
             <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
@@ -60,24 +63,24 @@
                             @php 
                                 $next_qid = $question->questionData->next_question_id ?? '';
                             @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}"/>
+                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
 
                         @elseif($question_type == "textarea")
                             @php 
                                 $next_qid = $question->questionData->next_question_id ?? '';
                             @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}"/>
+                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
                         
                         @elseif($question_type == "dropdown")
                             @php 
                                 $next_qid = $question->options->first()->next_question_id ?? '';
                             @endphp 
-                            <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id }}','{{ $question_type }}') " target-id=".qidtarget-{{ $question->id }}">
+                            <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
                                 @foreach($question->options as $option)
-                                    <option my_ref_nxt=".nxt_btn_{{ $question->id }}" que_id="{{ $option->next_question_id }}"
-                                    value="{{ $option->option_value }}"> {{ $option->option_label }} </option>
+                                    <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $option->next_question_id ?? '' }}"
+                                    value="{{ $option->option_value ?? '' }}"> {{ $option->option_label }} </option>
                                 @endforeach
                             </select>
                         @elseif($question_type == "radio-button")
@@ -85,9 +88,9 @@
                                 $next_qid = $question->options->first()->next_question_id ?? '';
                             @endphp 
                             @foreach($question->options as $option)
-                                <input type="radio" name="question_{{ $question->id }}" target-id=".qidtarget-{{ $question->id }}"
-                                        onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" my_ref_nxt=".nxt_btn_{{ $question->id }}"
-                                        que_id="{{ $option->next_question_id }}" value="{{ $option->option_value }}" />
+                                <input type="radio" name="question_{{ $question->id ?? '' }}" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}"
+                                        onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}"
+                                        que_id="{{ $option->next_question_id ?? '' }}" value="{{ $option->option_value ?? '' }}" />
                                 <label>{{ $option->option_label }}</label>
                             @endforeach
                         @elseif($question_type == "date-field")
@@ -95,32 +98,32 @@
                                 $next_qid = $question->questionData->next_question_id ?? '';
                             @endphp 
                             
-                            <input type="date" target-id="qidtarget-{{ $question->id }}"
-                                onchange="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" />
+                            <input type="date" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                onchange="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" />
                         @elseif($question_type == "pricebox")
                             @php 
                                 $next_qid = $question->questionData->next_question_id ?? '';
                             @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}"/>
+                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}" 
+                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
 
                         @elseif($question_type == "number-field")
                             @php 
                                 $next_qid = $question->questionData->next_question_id ?? '';
                             @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}"/>
+                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
                         @elseif($question_type == "percentage-box")
                             @php 
                                 $next_qid = $question->questionData->next_question_id ?? '';
                             @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id }}','{{ $question_type }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}"/>
+                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
                         @elseif($question_type == "dropdown-link")
                             @php 
                                 $next_qid = $question->questionData->next_question_id ?? '';
                             @endphp 
-                            <select id="dropdown-link-{{ $question->id }}" onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id }}','{{ $question_type }}') " target-id=".qidtarget-{{ $question->id ?? '' }}">
+                            <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}"  id="{{ $question->id }}" name="{{ $question->id ?? '' }}">
                                 <option value="" selected>{{ $question->questionData->same_contract_link_label ?? '' }}</option>
                                 @foreach($question->options as $option)
                                     <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $question->questionData->next_question_id ?? '' }}"
@@ -143,10 +146,21 @@
             <!-- This is the box where we show the steps or the form -->
             <div class="right-box right-question-box form-div card">
                 @foreach($documentContents as $content)
-                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div mb-2  {{ $content->secure_blur_content ? 'block' : null }} {{ $content->is_condition ? 'd-none' : NULL }}" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                    data-conditions="{{  $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                    @if($content->secure_blur_content == 1)
+                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
                         {!! $content->content !!}
                     </div>
+                    @elseif($content->is_condition == 0)
+                    <div style="text-align:{{ $content->text_align ?? '' }}" class="mb-2">
+                        {!! $content->content !!}
+                    </div>
+                    @else
+                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                        {!! $content->content !!}
+                    </div>
+                    @endif
                 @endforeach
             </div>
         </div>
@@ -161,9 +175,113 @@
     let currentQuestion = 1;
     $(".question-div").hide();
     $(".step1").show();
-    
-    // var right_conditions = $('#right_section_conditions').val();
-    // console.log(right_conditions);
+
+
+    $(document).ready(function(){
+        $('form#contractForm select').each(function(){
+            var id = $(this).attr('id');
+            if(id != null && id != '' && id != undefined){
+                var targetvalue = $('#'+id).val();
+                if(targetvalue == '' || targetvalue == null || targetvalue == undefined){
+                    var defaultvalue = $('#'+id).data('placeholdertext');
+                    if(defaultvalue == '' || defaultvalue == null || targetvalue == undefined){
+                        targetvalue = '_________';
+                    }else{
+                        targetvalue = defaultvalue;
+                    }
+                }
+                $(".qidtarget-"+id).html(targetvalue);
+                // $(".qidtarget-"+id).each(function(){
+                //     $(this).html(targetvalue);
+                // });
+            }
+        })
+
+        // $('.right-sec-div').each(function(){
+        //     if($(this).data('conditions') != null && $(this).data('conditions') != ''){
+        //         var conditions = $(this).data('conditions');
+        //         // var cond_arr = $.parseJSON(conditions);
+        //         var is_elem_show = true;
+
+        //         $.each(conditions, function(key,val){
+        //             var queId = val.conditional_question_id;
+        //             var queValue = val.conditional_question_value;
+        //             var conditionalCheck = val.conditional_check;
+
+        //             if($('#'+queId).length){
+        //                 if(conditionalCheck == '1'){
+        //                     // console.log($('#'+queId).val());
+        //                     // console.log(queValue);
+        //                     if($('#'+queId).val() == queValue && is_elem_show == true){
+        //                         is_elem_show = true;
+        //                     }else{
+        //                         is_elem_show = false;
+        //                     }
+        //                 }else if(conditionalCheck == '2'){
+        //                     // console.log($('#'+queId).val());
+        //                     // console.log(queValue);
+        //                     if($('#'+queId).val() > queValue && is_elem_show == true){
+        //                         is_elem_show = true;
+        //                     }else{
+        //                         is_elem_show = false;
+        //                     }
+        //                 }else if(conditionalCheck == '3'){
+        //                     // console.log($('#'+queId).val());
+        //                     // console.log(queValue);
+        //                     if($('#'+queId).val() < queValue && is_elem_show == true){
+        //                         is_elem_show = true;
+        //                     }else{
+        //                         is_elem_show = false;
+        //                     }
+        //                 }else if(conditionalCheck == '4'){
+        //                     // console.log($('#'+queId).val());
+        //                     // console.log(queValue);
+        //                     if($('#'+queId).val() != queValue && is_elem_show == true){
+        //                         is_elem_show = true;
+        //                     }else{
+        //                         is_elem_show = false;
+        //                     }
+        //                 }
+        //             }else if($('input[type="radio"][name="question_'+qus_id+'"]').length){
+        //                 console.log('abcd');
+        //                 if(condition == '1'){
+        //                     if($('input[type="radio"][name="question_'+qus_id+'"]:checked').val() == qus_val && show_element == 'yes'){
+        //                         show_element = 'yes';
+        //                     }else{
+        //                         show_element = 'no';	
+        //                     }
+        //                 }else if(condition == '2'){
+        //                     if($('input[type="radio"][name="question_'+qus_id+'"]:checked').val() > qus_val && show_element == 'yes'){
+        //                         show_element = 'yes';
+        //                     }else{
+        //                         show_element = 'no';	
+        //                     }
+        //                 }else if(condition == '3'){
+        //                     if($('input[type="radio"][name="question_'+qus_id+'"]:checked').val() < qus_val && show_element == 'yes'){
+        //                         show_element = 'yes';
+        //                     }else{
+        //                         show_element = 'no';	
+        //                     }
+        //                 }else if(condition == '4'){
+        //                     if($('input[type="radio"][name="question_'+qus_id+'"]:checked').val() != qus_val && show_element == 'yes'){
+        //                         show_element = 'yes';
+        //                     }else{
+        //                         show_element = 'no';	
+        //                     } 
+        //                 }
+        //             }			
+        //         });
+
+        //         if(is_elem_show == true){ 
+        //             $(this).removeClass('d-none');
+        //         }else{
+        //             $(this).addClass('d-none');
+        //         }
+        //     }
+        // })
+    })
+
+   
 
     function go_next_step(e){
         // This is the next question ID 
@@ -183,80 +301,97 @@
            if it is 1 condition is attached else not 
         */
         var is_condition = $(next_step_div).attr('is_condition');
-
         $('.right-sec-div').each(function(){
             if($(this).data('conditions') != null && $(this).data('conditions') != ''){
                 var conditions = $(this).data('conditions');
                 // var cond_arr = $.parseJSON(conditions);
-                var is_elem_show = 'yes';
+                var is_elem_show = true;
 
                 $.each(conditions, function(key,val){
                     var queId = val.conditional_question_id;
                     var queValue = val.conditional_question_value;
                     var conditionalCheck = val.conditional_check;
-                })
+
+                    if($('#'+queId).length){
+                        if(conditionalCheck == '1'){
+                            // console.log($('#'+queId).val());
+                            // console.log(queValue);
+                            if($('#'+queId).val() == queValue && is_elem_show == true){
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;
+                            }
+                        }else if(conditionalCheck == '2'){
+                            // console.log($('#'+queId).val());
+                            // console.log(queValue);
+                            if($('#'+queId).val() > queValue && is_elem_show == true){
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;
+                            }
+                        }else if(conditionalCheck == '3'){
+                            // console.log($('#'+queId).val());
+                            // console.log(queValue);
+                            if($('#'+queId).val() < queValue && is_elem_show == true){
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;
+                            }
+                        }else if(conditionalCheck == '4'){
+                            // console.log($('#'+queId).val());
+                            // console.log(queValue);
+                            if($('#'+queId).val() != queValue && is_elem_show == true){
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;
+                            }
+                        }
+                    }
+                });
+
+                if(is_elem_show == true){ 
+                    $(this).removeClass('d-none');
+                }else{
+                    $(this).addClass('d-none');
+                }
             }
         })
 
-       
-
-        if(is_condition != undefined && is_condition == 1){
-            var lbl = `.lbl-${next_step_id}`;
-            console.log(lbl);
-            // It tells which condition is set Go to step or the Lable condition 
-            var conditionType = $(next_step_div).attr('swtchtyp')
-            var conditions = $(lbl).attr('json-data');  // Get the conditions data from the Label 
-            console.log(conditions);
-            if(conditions != undefined){
-                conditions = JSON.parse(conditions)
-                conditions.forEach(function (condition){
-                    // first check the Condition Type
-                    var condition_type = condition.condition_type
-                    var conditional_que_div = `.step-${condition.conditional_question_id}`; // this is the div for which we need to check the conditon 
-                    var value = $(conditional_que_div).attr('attempted')  // we get the value attempted for the conditional question 
-                    var conditionType = $(next_step_div).attr('swtchtyp') 
+        // if(is_condition != undefined && is_condition == 1){
+        //     var lbl = `.lbl-${next_step_id}`;
+        //     console.log(lbl);
+        //     // It tells which condition is set Go to step or the Lable condition 
+        //     var conditionType = $(next_step_div).attr('swtchtyp')
+        //     var conditions = $(lbl).attr('json-data');  // Get the conditions data from the Label 
+        //     // console.log(conditions);
+        //     if(conditions != undefined){
+        //         conditions = JSON.parse(conditions)
+        //         conditions.forEach(function (condition){
+        //             // first check the Condition Type
+        //             var conditional_que_div = `.step-${condition.conditional_question_id}`; // this is the div for which we need to check the conditon 
+        //             var value = $(conditional_que_div).attr('attempted')  // we get the value attempted for the conditional question 
+        //             var conditionType = $(next_step_div).attr('swtchtyp') 
                 
-                    console.log(condition.document_right_content_id);
-                    
-                    if(condition_type == "content_condition"){
-                        console.log(condition_type);
-                        var rightContentDiv = `#right_content_div_${condition.document_right_content_id}`;
-                        // if(value == condition.conditional_question_value ){
-                            $(rightContentDiv).removeClass('d-none');
-                        // }
-                    }else{
-                        // 1 is for the Lable condition 
-                        if(conditionType == 1){
-                            console.log(conditionType);
-                            // update the lable of the current question 
-                            if(value == condition.conditional_question_value){
-                                // console.log(condition.conditional_question_value);
-                                var changed_label = condition.question_label
-                                // console.log(changed_label);
-                                $(lbl).text(changed_label);
-                            }
-                        }else if(conditionType == 2){
-                            console.log(conditionType);
-                        // 2 is for the step condition 
-                            if(value == condition.conditional_question_value){
-                                // Change the button value of this 
-                                // console.log(condition.conditional_question_value);
-                                var current_question_next_btn = `.nxt_btn_${next_step_id}`
-                                $(current_question_next_btn).attr('que_id', condition.go_to_step);
-                                $(`.step-${next_step_id}`).attr('onchange', false);
-                            }
-                            console.log(condition, " This is the step 2 condition man sop we ");
+        //             if(conditionType == 1){
+        //                 if(value == condition.conditional_question_value){
+        //                     var changed_label = condition.question_label;
+        //                     $(lbl).text(changed_label);
+        //                 }
+        //             }else if(conditionType == 2){
+        //                 if(value == condition.conditional_question_value){
+        //                     var current_question_next_btn = `.nxt_btn_${next_step_id}`
+        //                     $(current_question_next_btn).attr('que_id', condition.go_to_step);
+        //                     $(`.step-${next_step_id}`).attr('onchange', false);
+        //                 }
+        //                 console.log(condition, " This is the step 2 condition ");
 
-                        }else if(conditionType == 3){
-                            location.reload();
-                        }
-                    }
-                   
-                });
+        //             }else if(conditionType == 3){
+        //                 location.reload();
+        //             }
+        //         });
+        //     }
 
-            }
-
-        }
+        // }
         // get the current div previsous button refrence
         var pre_btn = `.pre_btn_${next_step_id}`;
         $(pre_btn).attr("que_id", my_ref);
