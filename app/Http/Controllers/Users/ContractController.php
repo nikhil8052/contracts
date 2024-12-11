@@ -117,6 +117,14 @@ class ContractController extends Controller
                 $content->content
             );
             
+            $content->content = preg_replace_callback(
+                '/{abclist1}/',
+                function($matches){
+                    $list = $matches[0];
+                    return "<span class=\"abclist $list\"></span>";
+                },
+                $content->content
+            );
             
             if($content->secure_blur_content){
                 $content->content= $this->encryptText($content->content, "test");

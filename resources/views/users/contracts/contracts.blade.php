@@ -43,6 +43,7 @@
             <div class="left-box left-question-box questions-div">
                 @php 
                     $count = 1;
+                    $num = 1;
                 @endphp
                 @foreach($questions as $index => $question)
                     <?php 
@@ -52,7 +53,11 @@
                     <div class="question-div step{{ $count++ }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id }}" id="{{ $question->qid }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}">
                         <p class="que_heading lbl-{{ $question->id }}"
                             json-data="{{  $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
+                            @if($question->is_condition == 1)
+                            {{ $question->conditions[0]->question_label ?? '' }}
+                            @else
                             {{ $question->questionData->question_label ?? '' }}
+                            @endif
                         </p>
                         @php 
                             $question_type = $question->type;
@@ -80,7 +85,7 @@
                             <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
                                 @foreach($question->options as $option)
                                     <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $option->next_question_id ?? '' }}"
-                                    value="{{ $option->option_value ?? '' }}"> {{ $option->option_label }} </option>
+                                    value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'selected' : '' }}> {{ $option->option_label }} </option>
                                 @endforeach
                             </select>
                         @elseif($question_type == "radio-button")
@@ -88,9 +93,9 @@
                                 $next_qid = $question->options->first()->next_question_id ?? '';
                             @endphp 
                             @foreach($question->options as $option)
-                                <input type="radio" name="question_{{ $question->id ?? '' }}" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}"
+                                <input type="radio" name="question_{{ $question->id ?? '' }}" target-id="qidtarget-{{ $question->id ?? '' }}" id="radio_{{ $question->id ?? '' }}{{ $num++ ?? '' }}"
                                         onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}"
-                                        que_id="{{ $option->next_question_id ?? '' }}" value="{{ $option->option_value ?? '' }}" />
+                                        que_id="{{ $option->next_question_id ?? '' }}" value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'checked' : '' }} />
                                 <label>{{ $option->option_label }}</label>
                             @endforeach
                         @elseif($question_type == "date-field")
@@ -132,7 +137,7 @@
                             </select>
                         @endif
 
-                        <div class="navigation-btns mt-4">
+                        <div class="navigation-btns mt-4"> 
                             @if($index != 0)
                                 <button type="button" class="pre_btn_{{ $question->id }} nxt" que_id=""
                                     onclick="go_pre_step(this)">Previous</button>
@@ -147,19 +152,19 @@
             <div class="right-box right-question-box form-div card">
                 @foreach($documentContents as $content)
                     @if($content->secure_blur_content == 1)
-                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
-                        {!! $content->content !!}
-                    </div>
+                        <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                        data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                            {!! $content->content !!}
+                        </div>
                     @elseif($content->is_condition == 0)
-                    <div style="text-align:{{ $content->text_align ?? '' }}" class="mb-2">
-                        {!! $content->content !!}
-                    </div>
+                        <span style="text-align:{{ $content->text_align ?? '' }}" class="">
+                            {!! $content->content !!}
+                        </span>
                     @else
-                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
-                        {!! $content->content !!}
-                    </div>
+                        <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                        data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                            {!! $content->content !!}
+                        </div>
                     @endif
                 @endforeach
             </div>
@@ -176,7 +181,6 @@
     $(".question-div").hide();
     $(".step1").show();
 
-
     $(document).ready(function(){
         $('form#contractForm select').each(function(){
             var id = $(this).attr('id');
@@ -191,97 +195,97 @@
                     }
                 }
                 $(".qidtarget-"+id).html(targetvalue);
-                // $(".qidtarget-"+id).each(function(){
-                //     $(this).html(targetvalue);
-                // });
+                $(".qidtarget-"+id).each(function(){
+                    $(this).html(targetvalue);
+                });
             }
         })
 
-        // $('.right-sec-div').each(function(){
-        //     if($(this).data('conditions') != null && $(this).data('conditions') != ''){
-        //         var conditions = $(this).data('conditions');
-        //         // var cond_arr = $.parseJSON(conditions);
-        //         var is_elem_show = true;
-
-        //         $.each(conditions, function(key,val){
-        //             var queId = val.conditional_question_id;
-        //             var queValue = val.conditional_question_value;
-        //             var conditionalCheck = val.conditional_check;
-
-        //             if($('#'+queId).length){
-        //                 if(conditionalCheck == '1'){
-        //                     // console.log($('#'+queId).val());
-        //                     // console.log(queValue);
-        //                     if($('#'+queId).val() == queValue && is_elem_show == true){
-        //                         is_elem_show = true;
-        //                     }else{
-        //                         is_elem_show = false;
-        //                     }
-        //                 }else if(conditionalCheck == '2'){
-        //                     // console.log($('#'+queId).val());
-        //                     // console.log(queValue);
-        //                     if($('#'+queId).val() > queValue && is_elem_show == true){
-        //                         is_elem_show = true;
-        //                     }else{
-        //                         is_elem_show = false;
-        //                     }
-        //                 }else if(conditionalCheck == '3'){
-        //                     // console.log($('#'+queId).val());
-        //                     // console.log(queValue);
-        //                     if($('#'+queId).val() < queValue && is_elem_show == true){
-        //                         is_elem_show = true;
-        //                     }else{
-        //                         is_elem_show = false;
-        //                     }
-        //                 }else if(conditionalCheck == '4'){
-        //                     // console.log($('#'+queId).val());
-        //                     // console.log(queValue);
-        //                     if($('#'+queId).val() != queValue && is_elem_show == true){
-        //                         is_elem_show = true;
-        //                     }else{
-        //                         is_elem_show = false;
-        //                     }
-        //                 }
-        //             }else if($('input[type="radio"][name="question_'+qus_id+'"]').length){
-        //                 console.log('abcd');
-        //                 if(condition == '1'){
-        //                     if($('input[type="radio"][name="question_'+qus_id+'"]:checked').val() == qus_val && show_element == 'yes'){
-        //                         show_element = 'yes';
-        //                     }else{
-        //                         show_element = 'no';	
-        //                     }
-        //                 }else if(condition == '2'){
-        //                     if($('input[type="radio"][name="question_'+qus_id+'"]:checked').val() > qus_val && show_element == 'yes'){
-        //                         show_element = 'yes';
-        //                     }else{
-        //                         show_element = 'no';	
-        //                     }
-        //                 }else if(condition == '3'){
-        //                     if($('input[type="radio"][name="question_'+qus_id+'"]:checked').val() < qus_val && show_element == 'yes'){
-        //                         show_element = 'yes';
-        //                     }else{
-        //                         show_element = 'no';	
-        //                     }
-        //                 }else if(condition == '4'){
-        //                     if($('input[type="radio"][name="question_'+qus_id+'"]:checked').val() != qus_val && show_element == 'yes'){
-        //                         show_element = 'yes';
-        //                     }else{
-        //                         show_element = 'no';	
-        //                     } 
-        //                 }
-        //             }			
-        //         });
-
-        //         if(is_elem_show == true){ 
-        //             $(this).removeClass('d-none');
-        //         }else{
-        //             $(this).addClass('d-none');
-        //         }
-        //     }
-        // })
+        rightSecConditions();
     })
 
-   
+    function rightSecConditions(){
+        $('.right-sec-div').each(function(){
+            if($(this).data('conditions') != null && $(this).data('conditions') != '' && $(this).data('conditions') != undefined){
+                var conditions = $(this).data('conditions');
+                var is_elem_show = true;
+
+                $.each(conditions, function(key,val){
+                    var queId = val.conditional_question_id;
+                    var queValue = val.conditional_question_value;
+                    var conditionalCheck = val.conditional_check;
+
+                    if($('#'+queId).length){
+                        if(conditionalCheck == '1'){
+                            if($('#'+queId).val() == queValue && is_elem_show == true){
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;
+                            }
+                        }else if(conditionalCheck == '2'){
+                            if($('#'+queId).val() > queValue && is_elem_show == true){
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;
+                            }
+                        }else if(conditionalCheck == '3'){
+                            if($('#'+queId).val() < queValue && is_elem_show == true){
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;
+                            }
+                        }else if(conditionalCheck == '4'){
+                            if($('#'+queId).val() != queValue && is_elem_show == true){
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;
+                            }
+                        }
+                    }else if($('input[type="radio"][name="question_'+queId+'"]').length){
+                        if(conditionalCheck == '1'){
+                            if($('input[type="radio"][name="question_'+queId+'"]:checked').val() == queValue && is_elem_show == true){
+                                console.log(queValue);
+                                console.log($('input[type="radio"][name="question_'+queId+'"]:checked').val());
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;	
+                            }
+                        }else if(conditionalCheck == '2'){
+                            if($('input[type="radio"][name="question_'+queId+'"]:checked').val() > queValue && is_elem_show == true){
+                                console.log(queValue);
+                                console.log($('input[type="radio"][name="question_'+queId+'"]:checked').val());
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;	
+                            }
+                        }else if(conditionalCheck == '3'){
+                            if($('input[type="radio"][name="question_'+queId+'"]:checked').val() < queValue && is_elem_show == true){
+                                console.log(queValue);
+                                console.log($('input[type="radio"][name="question_'+queId+'"]:checked').val());
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;	
+                            }
+                        }else if(conditionalCheck == '4'){
+                            if($('input[type="radio"][name="question_'+queId+'"]:checked').val() != queValue && is_elem_show == true){
+                                console.log(queValue);
+                                console.log($('input[type="radio"][name="question_'+queId+'"]:checked').val());
+                                is_elem_show = true;
+                            }else{
+                                is_elem_show = false;	
+                            } 
+                        }
+                    }			
+                });
+
+                if(is_elem_show == true){ 
+                    $(this).removeClass('d-none');
+                }else{
+                    $(this).addClass('d-none');
+                }
+            }
+        })
+    }
 
     function go_next_step(e){
         // This is the next question ID 
@@ -301,62 +305,6 @@
            if it is 1 condition is attached else not 
         */
         var is_condition = $(next_step_div).attr('is_condition');
-        $('.right-sec-div').each(function(){
-            if($(this).data('conditions') != null && $(this).data('conditions') != ''){
-                var conditions = $(this).data('conditions');
-                // var cond_arr = $.parseJSON(conditions);
-                var is_elem_show = true;
-
-                $.each(conditions, function(key,val){
-                    var queId = val.conditional_question_id;
-                    var queValue = val.conditional_question_value;
-                    var conditionalCheck = val.conditional_check;
-
-                    if($('#'+queId).length){
-                        if(conditionalCheck == '1'){
-                            // console.log($('#'+queId).val());
-                            // console.log(queValue);
-                            if($('#'+queId).val() == queValue && is_elem_show == true){
-                                is_elem_show = true;
-                            }else{
-                                is_elem_show = false;
-                            }
-                        }else if(conditionalCheck == '2'){
-                            // console.log($('#'+queId).val());
-                            // console.log(queValue);
-                            if($('#'+queId).val() > queValue && is_elem_show == true){
-                                is_elem_show = true;
-                            }else{
-                                is_elem_show = false;
-                            }
-                        }else if(conditionalCheck == '3'){
-                            // console.log($('#'+queId).val());
-                            // console.log(queValue);
-                            if($('#'+queId).val() < queValue && is_elem_show == true){
-                                is_elem_show = true;
-                            }else{
-                                is_elem_show = false;
-                            }
-                        }else if(conditionalCheck == '4'){
-                            // console.log($('#'+queId).val());
-                            // console.log(queValue);
-                            if($('#'+queId).val() != queValue && is_elem_show == true){
-                                is_elem_show = true;
-                            }else{
-                                is_elem_show = false;
-                            }
-                        }
-                    }
-                });
-
-                if(is_elem_show == true){ 
-                    $(this).removeClass('d-none');
-                }else{
-                    $(this).addClass('d-none');
-                }
-            }
-        })
-
         // if(is_condition != undefined && is_condition == 1){
         //     var lbl = `.lbl-${next_step_id}`;
         //     console.log(lbl);
@@ -393,6 +341,7 @@
 
         // }
         // get the current div previsous button refrence
+
         var pre_btn = `.pre_btn_${next_step_id}`;
         $(pre_btn).attr("que_id", my_ref);
         $(".question-div").hide();
@@ -535,12 +484,11 @@
             });
             // Store the object in attemptedAnswers using qid as the key
             attemptedAnswers[qid] = obj;
-
             smoothScrollToTarget(right_part_target, '.right-question-box');
-
             // Update the main question div with the attempted answer attribute
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-        }else if (qtype === "pricebox"){
+
+        }else if(qtype === "pricebox"){
             var qid = `que${que_id}`;
             var main_q_div = `.step-${que_id}`;
             var right_part_target = `.qidtarget-${que_id}`;
@@ -564,7 +512,7 @@
             // Update the main question div with the attempted answer attribute
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
 
-        }else if (qtype === "percentage-box"){
+        }else if(qtype === "percentage-box"){
             var qid = `que${que_id}`;
             var main_q_div = `.step-${que_id}`;
             var right_part_target = `.qidtarget-${que_id}`;
@@ -588,7 +536,7 @@
             // Update the main question div with the attempted answer attribute
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
 
-        }else if( qtype === "dropdown" || qtype === "radio-button"){
+        }else if(qtype === "dropdown" || qtype === "radio-button"){
             var qid = `que${que_id}`;
             var main_q_div = `.step-${que_id}`;
             var right_part_target = `.qidtarget-${que_id}`;
@@ -641,6 +589,8 @@
             smoothScrollToTarget(right_part_target, '.right-question-box');
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
         }
+
+        rightSecConditions();
     }
 
 
