@@ -120,7 +120,7 @@ class ContractController extends Controller
             $content->content = preg_replace_callback(
                 '/{abclist1}/',
                 function($matches){
-                    $list = $matches[0];
+                    $list = substr($matches[0], 1, -1); 
                     return "<span class=\"abclist $list\"></span>";
                 },
                 $content->content
@@ -134,6 +134,10 @@ class ContractController extends Controller
         // Log the output to ensure replacements are made
         // dd($documentContents);
 
-        return view('users.contracts.contracts', compact('questions', 'documentContents'));
+        return view('users.contracts.contracts', compact('questions', 'documentContents','id'));
+    }
+
+    public function saveContractsQuestions(Request $request){
+        return $request->all();
     }
 }

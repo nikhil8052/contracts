@@ -3023,12 +3023,28 @@ footer .foot_end_box .reserve_box {
     font-size: 20px;
 }
 
-.nxt,
-.pre {
+.nxt {
     background: #002655;
     color: white;
-    padding: 7px;
-    border-radius: 10px;
+    padding: 15px 25px;
+    border-radius: 50px;
+    border: 1px solid #002655;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.pre {
+    background: transparent;
+    color: #C1C1C1;
+    padding: 15px 25px;
+    border-radius: 50px;
+    border: 1px solid transparent;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.pre:hover{
+    color: #002655;
 }
 
 /* 7nov 2024///////////////////////// */

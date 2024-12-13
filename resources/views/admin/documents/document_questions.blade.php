@@ -224,7 +224,7 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-{{ $docQues->id ?? '' }}">
-                                                                      <option value=""></option>
+                                                                      <option value="0">0</option>
                                                                       @if(isset($questions) && $questions != null)
                                                                            @foreach($questions as $question)
                                                                            <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>{{ $question->getName() ?? '' }}</option>
@@ -538,7 +538,7 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-${newUniqueId}">
-                                                                      <option value=""></option>
+                                                                      <option value="0">0</option>
                                                                       @if(isset($questions) && $questions != null)
                                                                            @foreach($questions as $question)
                                                                            <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}> 
@@ -880,7 +880,7 @@
                                                                                 <label class="form-label" for="dropdown_go_to_step-{{ $option->id ?? '' }}">Go to Step</label>
                                                                                 <div class="form-control-wrap"> 
                                                                                      <select class="form-select js-select2 new_label_question_id" data-search="on" name="dropdown_go_to_step-{{ $option->id ?? '' }}[]" id="dropdown_go_to_step-{{ $option->id ?? '' }}">
-                                                                                          <option value=""></option>
+                                                                                          <option value="0">0</option>
                                                                                           @if(isset($questions) && $questions != null)
                                                                                                @foreach($questions as $question)
                                                                                                    <option value="{{ $question->getName() ?? '' }}" {{ $option->next_question_id == $question->getName() ? 'selected': '' }}>
@@ -1222,7 +1222,7 @@
                                                                            <label class="form-label" for="radio_go_to_step-{{ $option->id ?? '' }}">Go to Step</label>
                                                                            <div class="form-control-wrap"> 
                                                                                 <select class="form-select js-select2 new_label_question_id" data-search="on" name="radio_go_to_step-{{ $option->id ?? '' }}[]" id="radio_go_to_step-{{ $option->id ?? '' }}">
-                                                                                     <option value=""></option>
+                                                                                     <option value="0">0</option>
                                                                                      @if(isset($questions) && $questions != null)
                                                                                           @foreach($questions as $question)
                                                                                                <option value="{{ $question->getName() ?? '' }}" {{ $option->next_question_id == $question->getName() ? 'selected':'' }}>
@@ -1531,7 +1531,7 @@
                                                                  <label class="form-label" for="date_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="date_go_to_step-{{ $docQues->id ?? '' }}" id="date_go_to_step-${newUniqueId}">
-                                                                           <option value=""></option>
+                                                                           <option value="0">0</option>
                                                                            @if(isset($questions) && $questions != null)
                                                                            @foreach($questions as $question)
                                                                            <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected':'' }}>
@@ -1849,7 +1849,7 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-${newUniqueId}">
-                                                                           <option value=""></option>
+                                                                           <option value="0">0</option>
                                                                            @if(isset($questions) && $questions != null)
                                                                            @foreach($questions ?? [] as $question)
                                                                                 <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>
@@ -2166,7 +2166,7 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-{{ $docQues->id ?? '' }}">
-                                                                           <option value=""></option>
+                                                                           <option value="0">0</option>
                                                                            @if(isset($questions) && $questions != null)
                                                                            @foreach($questions ?? [] as $question)
                                                                                 <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>
@@ -2482,7 +2482,7 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-{{ $docQues->id ?? '' }}">
-                                                                           <option value=""></option>     
+                                                                           <option value="0">0</option>     
                                                                            @if(isset($questions) && $questions != null)
                                                                            @foreach($questions as $question)
                                                                                 <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -2752,7 +2752,7 @@
                                                                  <label class="form-label" for="text_go_to_step-{{ $docQues->id ?? '' }}">Go to step</label>
                                                                  <div class="form-control-wrap"> 
                                                                       <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-{{ $docQues->id ?? '' }}" id="text_go_to_step-{{ $docQues->id ?? '' }}">
-                                                                           <option value=""></option>
+                                                                           <option value="0">0</option>
                                                                            @if(isset($questions) && $questions != null)     
                                                                            @foreach($questions ?? [] as $question)
                                                                                 <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->next_question_id == $question->getName() ? 'selected' : '' }}>
@@ -3116,7 +3116,7 @@
                                    <label class="form-label" for="dropdown_go_to_step-${uID}">Go to Step</label>
                                    <div class="form-control-wrap"> 
                                         <select class="form-select js-select2 new_label_question_id" data-search="on" name="dropdown_go_to_step-${uID}[]" id="dropdown_go_to_step-${uID}">
-                                             <option value=""></option>
+                                             <option value="0">0</option>
                                              @if(isset($questions) && $questions != null)
                                                   @foreach($questions as $question)
                                                        <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3159,7 +3159,7 @@
                                    <label class="form-label" for="radio_go_to_step-${uID}">Go to Step</label>
                                    <div class="form-control-wrap"> 
                                         <select class="form-select js-select2 new_label_question_id" data-search="on" name="radio_go_to_step-${uID}[]" id="radio_go_to_step-${uID}">
-                                             <option value=""></option>
+                                             <option value="0">0</option>
                                              @if(isset($questions) && $questions != null)
                                                   @foreach($questions as $question)
                                                        <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3428,7 +3428,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
-                                                       <option value=""></option>
+                                                       <option value="0">0</option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3536,7 +3536,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
-                                                       <option value=""></option>
+                                                       <option value="0">0</option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3829,7 +3829,7 @@
                                              <label class="form-label" for="date_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="date_go_to_step-${newUniqueId}" id="date_go_to_step-${newUniqueId}">
-                                                       <option value=""></option>
+                                                       <option value="0">0</option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -3937,7 +3937,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
-                                                       <option value=""></option>
+                                                       <option value="0">0</option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -4045,7 +4045,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
-                                                       <option value=""></option>
+                                                       <option value="0">0</option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -4153,7 +4153,7 @@
                                              <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                              <div class="form-control-wrap"> 
                                                   <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
-                                                       <option value=""></option>
+                                                       <option value="0">0</option>
                                                        @if(isset($questions) && $questions != null)
                                                             @foreach($questions as $question)
                                                                  <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
@@ -4250,7 +4250,7 @@
                                         <label class="form-label" for="text_go_to_step-${newUniqueId}">Go to step</label>
                                         <div class="form-control-wrap"> 
                                              <select class="form-select js-select2 new_label_question_id" data-search="on" name="text_go_to_step-${newUniqueId}" id="text_go_to_step-${newUniqueId}">
-                                                  <option value=""></option>
+                                                  <option value="0">0</option>
                                                   @if(isset($questions) && $questions != null)
                                                        @foreach($questions as $question)
                                                             <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>

@@ -828,8 +828,6 @@ class DocumentController extends Controller
     }
 
     public function addDocumentQuestion(Request $request){
-        // return $request->all();
-        // die();
         DB::beginTransaction(); 
         try{
             if(isset($request->formdata) && $request->formdata != null){
@@ -1176,10 +1174,17 @@ class DocumentController extends Controller
                         if(!empty($data->add_options)){
                             for($i=0; $i<count($data->add_options); $i++){
                                 $option = $data->add_options[$i];
+
+                                if($option->option_go_to_step == "0"){
+                                    $go_to_step = null;
+                                }else{
+                                    $go_to_step = $option->option_go_to_step;
+                                }
+
                                 $multiple_options = MultipleChoiceQuestionOption::where('id',$option->option_id)->first();
                                 $multiple_options->option_label = $option->option_label;
                                 $multiple_options->option_value = $option->option_value;
-                                $multiple_options->next_question_id = $option->option_go_to_step;
+                                $multiple_options->next_question_id = $go_to_step;
                                 $multiple_options->update();
                             }                        
                          }
@@ -1187,12 +1192,18 @@ class DocumentController extends Controller
                         if(!empty($data->new_options)){
                             $lastOrder = MultipleChoiceQuestionOption::where('question_id', $questions->id)->max('order_id');
                             $order = $lastOrder ? $lastOrder + 1 : 1;
-                            foreach ($data->new_options as $option) {
+                            foreach($data->new_options as $option) {
+                                if($option->option_go_to_step == "0"){
+                                    $go_to_step = null;
+                                }else{
+                                    $go_to_step = $option->option_go_to_step;
+                                }
+
                                 $multiple_options = new MultipleChoiceQuestionOption;
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $option->option_label;
                                 $multiple_options->option_value = $option->option_value;
-                                $multiple_options->next_question_id = $option->option_go_to_step;
+                                $multiple_options->next_question_id = $go_to_step;
                                 $multiple_options->order_id = $order++;
                                 $multiple_options->save();
                             }
@@ -1202,6 +1213,7 @@ class DocumentController extends Controller
                         if(!empty($data->add_rows)){
                             for($i=0; $i<count($data->add_rows); $i++){
                                 $row = $data->add_rows[$i];
+
                                 $multiple_options = MultipleChoiceQuestionOption::where('id',$row->option_id)->first();
                                 $multiple_options->option_label = $row->label;
                                 $multiple_options->contract_link = $row->contract_link;
@@ -1216,6 +1228,7 @@ class DocumentController extends Controller
                             
                             for($i=0; $i<count($data->new_rows); $i++){
                                 $row = $data->new_rows[$i];
+
                                 $multiple_options = new MultipleChoiceQuestionOption;
                                 $multiple_options->question_id = $questions->id;
                                 $multiple_options->option_label = $row->label;

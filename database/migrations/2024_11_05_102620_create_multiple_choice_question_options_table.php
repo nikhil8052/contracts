@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key for next_question_id
-            $table->foreign('next_question_id')->references('id')->on('questions')->onDelete('set null');
+            // $table->foreign('next_question_id')->references('id')->on('questions')->onDelete('set null');
         });
     }
 

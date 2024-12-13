@@ -72,6 +72,7 @@ Route::group(['middleware' => ['front']], function() {
      // ******************** Checkout Page ************************* //
      Route::get('/checkout',[CheckoutController::class,'checkout']);
      Route::get('/contracts/{slug}',[ContractController::class,'contracts']);
+     Route::post('/save/steps',[ContractController::class,'saveContractsQuestions']);
 });
 
 Route::middleware('admin.redirect')->group(function () {
