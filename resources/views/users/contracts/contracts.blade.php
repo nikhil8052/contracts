@@ -1,172 +1,175 @@
 @extends('users_layout.master') @section('content')
-<style>
-    .right-question-box {
-        background: white;
-        overflow-y: scroll;
-        border-radius: 10px;
-        height: 70vh;
-    }
 
-    .is_active {
-        animation: 4s forwards;
-    }
-/* 
-    .answered_spns {
-        border: 1px solid #002655;
-        min-width: 60px;
-        display: inline-block;
-        min-height: 18px;
-        text-align: center;
-    } */
-    /* .answered_spns {
-        display: inline-block;
-        color: #002655; 
-        font-size: 18px; 
-    } */
-
-    .secure_content {
-       word-wrap: break-word;
-       color: transparent;
-       text-shadow: 0 0 8px #999;
-       font-weight: normal;
-       -webkit-filter: blur(5px);
-    }
-
-</style>
-<section class="questions_page_main_div">
+<section class="privacy-sec questions_page_main_div">
+    <div class="container">
+        <div class="contract-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="contract_heading_div">
+                        <h1>{{ $document->title ?? '' }}</h1>	
+                        <div class="tab_ul">
+                            <div class="tab_star_li">
+                                <span class="rating-on rate-1" data-rating="1"></span>
+                                <span class="rating-on rate-2" data-rating="2"></span>
+                                <span class="rating-on rate-3" data-rating="3"></span>
+                                <span class="rating-on rate-4" data-rating="4"></span>
+                                <span class="rating-on rate-5" data-rating="5"></span>
+                            </div>
+                            <div>4.6</div>
+                        </div>    
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contract-progress">
+                        <div class="progressLabel">
+                            <span class="progressCount">0%</span>		
+                        </div>	
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="progress-bar"></div>
+                        </div>	
+                    </div>	
+                </div>	
+                <div class="col-md-12">
+                    <div class="valid_in_check tick_img">
+                        <img src="{{ asset('assets/img/org_tick.svg') }}" alt=""> 
+                        {{ $general->value ?? '' }}
+                    </div>
+                </div>
+            </div>	
+        </div>
+    </div>
     <!-- This is the main container for the question and the form  -->
-    <div id="main-question-form-controller" class="row p-5 card" style="display: flex !important ; flex-direction: row !important ; gap: 10px;">
-        <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
-        <div class="left-box left-question-box questions-div col-md-4">
-            <form id="contractForm">
-                <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
-                @php 
-                    $count = 1;
-                    $num = 1;
-                @endphp
-                @foreach($questions as $index => $question)
-                    <?php 
-                        // print_r($index);
-                    ?>
-                    <div class="question-div step{{ $count++ }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}">
-                        <p class="que_heading lbl-{{ $question->id }}">
-                            @if($question->is_condition == 1)
-                            {{ $question->conditions[0]->question_label ?? '' }}
-                            @else
-                            {{ $question->questionData->question_label ?? '' }}
-                            @endif
-                        </p>
-                        @php 
-                            $question_type = $question->type;
-                            $next_qid = NULL;
-                        @endphp 
-                        
-                        @if($question_type == "textbox")
+    <div id="main-question-form-controller" class="row outer_main">
+        <!-- <div class="col-md-4"> -->
+            <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
+            <h3 class="contarct_top_left_heading">Introduce los datos aquí:</h3>
+            <div class="left-box left-question-box questions-div col-md-4">
+                <form id="contractForm">
+                    <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
+                    @php 
+                        $count = 1;
+                        $num = 1;
+                    @endphp
+                    @foreach($questions as $index => $question)
+                        <div class="question-div step{{ $count++ }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}">
+                            <p class="que_heading lbl-{{ $question->id }}">
+                                @if($question->is_condition == 1)
+                                {{ $question->conditions[0]->question_label ?? '' }}
+                                @else
+                                {{ $question->questionData->question_label ?? '' }}
+                                @endif
+                            </p>
                             @php 
-                                $next_qid = $question->questionData->next_question_id ?? '';
-                            @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
-
-                        @elseif($question_type == "textarea")
-                            @php 
-                                $next_qid = $question->questionData->next_question_id ?? '';
-                            @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
-                        
-                        @elseif($question_type == "dropdown")
-                            @php 
-                                $next_qid = $question->options->first()->next_question_id ?? '';
-                            @endphp 
-                            <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
-                                @foreach($question->options as $option)
-                                    <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $option->next_question_id ?? '' }}"
-                                    value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'selected' : '' }}> {{ $option->option_label }} </option>
-                                @endforeach
-                            </select>
-                        @elseif($question_type == "radio-button")
-                            @php 
-                                $next_qid = $question->options->first()->next_question_id ?? '';
-                            @endphp 
-                            @foreach($question->options as $option)
-                                <input type="radio" name="question_{{ $question->id ?? '' }}" target-id="qidtarget-{{ $question->id ?? '' }}" id="radio_{{ $question->id ?? '' }}{{ $num++ ?? '' }}"
-                                        onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}"
-                                        que_id="{{ $option->next_question_id ?? '' }}" value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'checked' : '' }} />
-                                <label>{{ $option->option_label }}</label>
-                            @endforeach
-                        @elseif($question_type == "date-field")
-                            @php 
-                                $next_qid = $question->questionData->next_question_id ?? '';
+                                $question_type = $question->type;
+                                $next_qid = NULL;
                             @endphp 
                             
-                            <input type="date" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                onchange="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" />
-                        @elseif($question_type == "pricebox")
-                            @php 
-                                $next_qid = $question->questionData->next_question_id ?? '';
-                            @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}" 
-                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                            @if($question_type == "textbox")
+                                @php 
+                                    $next_qid = $question->questionData->next_question_id ?? '';
+                                @endphp 
+                                <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
 
-                        @elseif($question_type == "number-field")
-                            @php 
-                                $next_qid = $question->questionData->next_question_id ?? '';
-                            @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
-                        @elseif($question_type == "percentage-box")
-                            @php 
-                                $next_qid = $question->questionData->next_question_id ?? '';
-                            @endphp 
-                            <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
-                        @elseif($question_type == "dropdown-link")
-                            @php 
-                                $next_qid = $question->questionData->next_question_id ?? '';
-                            @endphp 
-                            <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}"  id="{{ $question->id }}" name="{{ $question->id ?? '' }}">
-                                <option value="" selected>{{ $question->questionData->same_contract_link_label ?? '' }}</option>
+                            @elseif($question_type == "textarea")
+                                @php 
+                                    $next_qid = $question->questionData->next_question_id ?? '';
+                                @endphp 
+                                <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                            
+                            @elseif($question_type == "dropdown")
+                                @php 
+                                    $next_qid = $question->options->first()->next_question_id ?? '';
+                                @endphp 
+                                <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
+                                    @foreach($question->options as $option)
+                                        <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $option->next_question_id ?? '' }}"
+                                        value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'selected' : '' }}> {{ $option->option_label }} </option>
+                                    @endforeach
+                                </select>
+                            @elseif($question_type == "radio-button")
+                                @php 
+                                    $next_qid = $question->options->first()->next_question_id ?? '';
+                                @endphp 
                                 @foreach($question->options as $option)
-                                    <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $question->questionData->next_question_id ?? '' }}"
-                                    value="{{ $option->contract_link ?? '' }}"> {{ $option->option_label ?? '' }} </option>
+                                    <input type="radio" name="question_{{ $question->id ?? '' }}" target-id="qidtarget-{{ $question->id ?? '' }}" id="radio_{{ $question->id ?? '' }}{{ $num++ ?? '' }}"
+                                            onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}"
+                                            que_id="{{ $option->next_question_id ?? '' }}" value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'checked' : '' }} />
+                                    <label>{{ $option->option_label }}</label>
                                 @endforeach
-                            </select>
-                        @endif
+                            @elseif($question_type == "date-field")
+                                @php 
+                                    $next_qid = $question->questionData->next_question_id ?? '';
+                                @endphp 
+                                
+                                <input type="date" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                    onchange="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" />
+                            @elseif($question_type == "pricebox")
+                                @php 
+                                    $next_qid = $question->questionData->next_question_id ?? '';
+                                @endphp 
+                                <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}" 
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
 
-                        <div class="navigation-btns mt-4"> 
-                            @if($index != 0)
-                                <button type="button" class="pre_btn_{{ $question->id }} pre" que_id="" my_ref="{{ $question->id }}"
-                                    onclick="go_pre_step(this)">Previous</button>
+                            @elseif($question_type == "number-field")
+                                @php 
+                                    $next_qid = $question->questionData->next_question_id ?? '';
+                                @endphp 
+                                <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                            @elseif($question_type == "percentage-box")
+                                @php 
+                                    $next_qid = $question->questionData->next_question_id ?? '';
+                                @endphp 
+                                <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                            @elseif($question_type == "dropdown-link")
+                                @php 
+                                    $next_qid = $question->questionData->next_question_id ?? '';
+                                @endphp 
+                                <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}"  id="{{ $question->id }}" name="{{ $question->id ?? '' }}">
+                                    <option value="" selected>{{ $question->questionData->same_contract_link_label ?? '' }}</option>
+                                    @foreach($question->options as $option)
+                                        <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $question->questionData->next_question_id ?? '' }}"
+                                        value="{{ $option->contract_link ?? '' }}"> {{ $option->option_label ?? '' }} </option>
+                                    @endforeach
+                                </select>
                             @endif
-                            <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}"
-                                my_ref="{{ $question->id }}" onclick="go_next_step(this)">Next</button>
+                            <div class="navigation-btns mt-4"> 
+                                @if($index != 0)
+                                    <button type="button" class="pre_btn_{{ $question->id }} pre" que_id="" my_ref="{{ $question->id }}"
+                                        onclick="go_pre_step(this)">Previous</button>
+                                @endif
+                                <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}"
+                                    my_ref="{{ $question->id }}" onclick="go_next_step(this)">Next</button>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-            </form>
-        </div>
-            <!-- This is the box where we show the steps or the form -->
-            <div class="right-box right-question-box form-div card col-md-8">
-                @foreach($documentContents as $content)
-                    @if($content->secure_blur_content == 1)
-                        <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                        data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
-                            {!! $content->content !!}
-                        </div>
-                    @elseif($content->is_condition == 0)
-                        <span style="text-align:{{ $content->text_align ?? '' }}" class="">
-                            {!! $content->content !!}
-                        </span>
-                    @else
-                        <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                        data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
-                            {!! $content->content !!}
-                        </div>
-                    @endif
-                @endforeach
+                    @endforeach
+                </form>
             </div>
+        <!-- </div> -->
+            <!-- This is the box where we show the steps or the form -->
+        <div class="right-box right-question-box form-div card col-md-8">
+            @foreach($documentContents as $content)
+                @if($content->secure_blur_content == 1)
+                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                        {!! $content->content !!}
+                    </div>
+                @elseif($content->is_condition == 0)
+                    <span style="text-align:{{ $content->text_align ?? '' }}" class="r_div">
+                        {!! $content->content !!}
+                    </span>
+                @else
+                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                        {!! $content->content !!}
+                    </div>
+                @endif
+            @endforeach
         </div>
+    </div>
 </section>
 
 <script>
@@ -307,28 +310,42 @@
     }
 
     function go_next_step(e){
+        // $('.right-box').animate({ scrollTop: 0 }, 'fast');
+        // $(right_part_target)
+        //     .animate({ opacity: 0.8 }, 200)  // Fade out slightly
+        //     .animate({ opacity: 1 }, 200)   // Fade back in for a pulsating effect
+        //     .focus(); 
+
         var next_step_id = $(e).attr("que_id");
         currentQuestion = next_step_id;
         var my_ref = $(e).attr("my_ref");
+
         if(next_step_id == '' || next_step_id == null || next_step_id == undefined){
-            console.log('this is the last step');
             saveSteps(my_ref);
         }else{
+            var next_step_div = `.step-${next_step_id}`;
+            var pre_btn = `.pre_btn_${next_step_id}`;
+            $(pre_btn).attr("que_id", my_ref);
+            $(".question-div").hide();
+
+            if(my_ref != null && my_ref != '' && my_ref != undefined){
+                var current_step = `.step-${my_ref}`;
+                if($(current_step).hasClass('active')){
+                    $(current_step).removeClass('active');
+                    $(current_step).addClass('done');
+                }
+            }
+            $(next_step_div).show();
+            $(next_step_div).addClass('active');
+
+            // $('#right_content_div_'+next_step_id)
+            //     .animate({  backgroundColor: "black", opacity: 0.5 }, 200)  // Fade out slightly
+            //     .animate({  backgroundColor: "black", opacity: 1 }, 200)   // Fade back in for a pulsating effect
+            //     .focus(); 
+
             saveSteps();
         }
-        var next_step_div = `.step-${next_step_id}`;
-        var pre_btn = `.pre_btn_${next_step_id}`;
-        $(pre_btn).attr("que_id", my_ref);
-        $(".question-div").hide();
-        if(my_ref != null && my_ref != '' && my_ref != undefined){
-            var current_step = `.step-${my_ref}`;
-            if($(current_step).hasClass('active')){
-                $(current_step).removeClass('active');
-                $(current_step).addClass('done');
-            }
-        }
-        $(next_step_div).show();
-        $(next_step_div).addClass('active');
+        
     }
 
     function go_pre_step(e) {
@@ -346,7 +363,6 @@
             $(next_step_div).removeClass('done');
             $(next_step_div).addClass('active');
         }
-        
     }
 
     function updateNextButton(selectElement) {
@@ -406,7 +422,6 @@
                 }
             })
         }
-
     }
 
     function storeAnswers(e, que_id = undefined, qtype = undefined){
@@ -449,7 +464,8 @@
                 "padding": "5px",      
                 "border-radius": "3px" 
             });
-            
+            // $(right_part_target).attr("tabindex", "0");
+
             attemptedAnswers[qid] = obj;
             smoothScrollToTarget(right_part_target, '.right-question-box');
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
@@ -469,7 +485,8 @@
                 "padding": "5px",      
                 "border-radius": "3px" 
             });
-             
+            // $(right_part_target).attr("tabindex", "0");
+
             attemptedAnswers[qid] = obj;
             smoothScrollToTarget(right_part_target, '.right-question-box');
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
@@ -490,7 +507,8 @@
                 "padding": "5px",      
                 "border-radius": "3px" 
             });
-           
+            // $(right_part_target).attr("tabindex", "0");
+
             attemptedAnswers[qid] = obj;
             smoothScrollToTarget(right_part_target, '.right-question-box');
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
@@ -511,7 +529,8 @@
                 "padding": "5px",      
                 "border-radius": "3px"
             });
-           
+            // $(right_part_target).attr("tabindex", "0");
+
             attemptedAnswers[qid] = obj;
             smoothScrollToTarget(right_part_target, '.right-question-box');
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
@@ -532,7 +551,8 @@
                 "padding": "5px",   
                 "border-radius": "3px"
             });
-          
+            // $(right_part_target).attr("tabindex", "0");
+
             attemptedAnswers[qid] = obj;
             smoothScrollToTarget(right_part_target, '.right-question-box');
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
@@ -553,7 +573,8 @@
                 "padding": "5px",      
                 "border-radius": "3px" 
             });
-            
+            // $(right_part_target).attr("tabindex", "0");
+
             attemptedAnswers[qid] = obj;
             smoothScrollToTarget(right_part_target, '.right-question-box');
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans); 
@@ -581,18 +602,18 @@
                 "padding": "5px",      
                 "border-radius": "3px" 
             });
-            attemptedAnswers[qid] = obj;
+            // $(right_part_target).attr("tabindex", "0");
 
+            attemptedAnswers[qid] = obj;
             smoothScrollToTarget(right_part_target, '.right-question-box');
             $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
         }
 
         rightSecConditions();
         alphabetList();
-    }
+    }   
 
-
-    function smoothScrollToTarget(targetElement, container, offset = 35) {
+    function smoothScrollToTarget(targetElement, container, offset = 0) {
         var $container = $(container);
         var $target = $(targetElement);
 
@@ -623,6 +644,20 @@
             return distance * time * time + start;
         }
     }
+
+    // function smoothScrollToTarget(target, container) {
+    //     const $container = $(container); // Parent container
+    //     const $target = $(target);       // Target element to scroll to
+
+    //     if ($target.length && $container.length) {
+    //         const scrollTop = $container.scrollTop(); // Current scroll position
+    //         const offset = $target.position().top;   // Position of the target within the container
+
+    //         $container.animate({
+    //             scrollTop: scrollTop + offset
+    //         }, 500); // Smooth scroll over 500ms
+    //     }
+    // }
 
 </script>
 

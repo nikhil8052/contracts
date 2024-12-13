@@ -13,6 +13,7 @@ use App\Models\Document;
 use App\Models\DocumentCategory;
 use App\Models\Question;
 use App\Models\DocumentRightSection;
+use App\Models\GeneralSection;
 
 class ContractController extends Controller
 {
@@ -107,7 +108,7 @@ class ContractController extends Controller
 
         $documentContents = DocumentRightSection::where('document_id', $id)->get();
         
-        foreach($documentContents as $content) {
+        foreach($documentContents as $content){
             $content->content = preg_replace_callback(
                 '/#(\d+)#/',
                 function ($matches) {
@@ -131,10 +132,9 @@ class ContractController extends Controller
             }
         }
             
-        // Log the output to ensure replacements are made
-        // dd($documentContents);
-
-        return view('users.contracts.contracts', compact('questions', 'documentContents','id'));
+        $general = GeneralSection::where('key', 'valid_in')->first();
+    
+        return view('users.contracts.contracts', compact('questions', 'documentContents','id','general','document'));
     }
 
     public function saveContractsQuestions(Request $request){

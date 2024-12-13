@@ -2983,8 +2983,21 @@ footer .foot_end_box .reserve_box {
     padding: 120px 0px 0px 0px;
 }
 
+.question-div > input[type="text"], .question-div > select {
+    height: 40px;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    color: #002655;
+    background: #fff;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
 /* 7nov2024////////////////////////// */
-.main-question-form-controller {
+#main-question-form-controller {
     display: flex !important;
     flex-direction: row !important;
     width: 100%;
@@ -2996,7 +3009,8 @@ footer .foot_end_box .reserve_box {
     flex: 0.3;
     /* 30% width for the left box */
     padding: 10px;
-    min-height: 50vh;
+    min-height: 60vh;
+    max-height: 70vh;
 }
 
 .right-box {
@@ -3005,17 +3019,32 @@ footer .foot_end_box .reserve_box {
     padding: 20px;
 }
 
+.r_div {
+    color: #002655;
+    font-size: 14px;
+}
+
 /* Optional: Add some styling to each box */
 .left-question-box {
     background-color: #edeef1;
-    /* Example color */
     border-radius: 10px;
 }
 
 .right-question-box {
-    background-color: #e0e0e0;
-    /* Example color */
+    max-height: 700px;
+    overflow-y: scroll;
+    border: 1px solid #1e2c4f2e;
+    padding: 46px;
+
 }
+
+.secure_content {
+    word-wrap: break-word;
+    color: transparent;
+    text-shadow: 0 0 8px #999;
+    font-weight: normal;
+    -webkit-filter: blur(5px);
+ }
 
 .question-div .que_heading {
     color: #002655;
@@ -3045,6 +3074,58 @@ footer .foot_end_box .reserve_box {
 
 .pre:hover{
     color: #002655;
+}
+
+.contract_heading_div h1{
+    font-size: 30px;
+    font-weight: 600;
+    color: #002655;
+}
+
+.valid_in_check {
+    display: flex;
+    align-items: center;
+    column-gap: 6PX;
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #002655;
+}
+
+.valid_in_check.tick_img {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.progress {
+    display: flex;
+    overflow: hidden;
+    font-size: .75rem;
+    border-radius: .25rem;
+    background: #EDEEF1;
+    height: 10px;
+}
+
+.progressLabel {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: #002655;
+    margin-bottom: 4px;
+}
+
+.progressLabel span{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.outer_main {
+    padding: 30px 95px 0px 95px;
+}
+
+.outer_main h3 {
+    color: #002655;
+    font-size: 20px;
 }
 
 /* 7nov 2024///////////////////////// */
