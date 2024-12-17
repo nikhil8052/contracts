@@ -1,7 +1,7 @@
 @extends('users_layout.master') 
 @section('content')
 
-<section class="check_out odr_sec p_120">
+<section class="check_out odr_sec">
      <div class="container">
           <div class="listo">
                <div class="listo_img">
@@ -51,9 +51,10 @@
                               <div class="opt">
                                    <div class="form-check active">
                                         <label class="form-check-label" for="cards">
-                                             <img src="{{ asset('assets/img/cards.png') }}" alt="cards">
+                                             <img src="{{ asset('assets/img/Group_34801.svg') }}">
+                                             <img src="{{ asset('assets/img/Group_34802.svg') }}">
+                                             <img src="{{ asset('assets/img/American_Express_logo.svg') }}">
                                              <input class="form-check-input" name="pymnt_method" value="card" type="radio" id="cards">
-
                                         </label>
                                    </div>
                                    <form class="row g-3 pymnt-details">

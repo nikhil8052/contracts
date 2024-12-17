@@ -3006,6 +3006,7 @@ footer .foot_end_box .reserve_box {
 
 /* Ensures both boxes take up equal width */
 .left-box {
+    padding-top: 0px !important;
     flex: 0.3;
     /* 30% width for the left box */
     padding: 10px;
@@ -3025,10 +3026,14 @@ footer .foot_end_box .reserve_box {
 }
 
 /* Optional: Add some styling to each box */
-.left-question-box {
+.question-div.active {
     background-color: #edeef1;
     border-radius: 10px;
+    position: relative;
+    margin-bottom: 0 !important;
+    padding: 50px 20px 20px 20px !important;
 }
+
 
 .right-question-box {
     max-height: 700px;
@@ -3048,28 +3053,31 @@ footer .foot_end_box .reserve_box {
 
 .question-div .que_heading {
     color: #002655;
-    font-weight: 600;
-    font-size: 20px;
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 12px;
 }
 
 .nxt {
     background: #002655;
     color: white;
-    padding: 15px 25px;
+    padding: 8px 40px;
     border-radius: 50px;
     border: 1px solid #002655;
     font-size: 18px;
     font-weight: 600;
+    font-family: inherit;
 }
 
 .pre {
     background: transparent;
     color: #C1C1C1;
-    padding: 15px 25px;
+    padding: 8px 25px;
     border-radius: 50px;
     border: 1px solid transparent;
     font-size: 18px;
     font-weight: 600;
+    font-family: inherit;
 }
 
 .pre:hover{
@@ -4039,3 +4047,407 @@ footer .select-menu .select-btn:hover {
 .check_out .row .pymnt_form .pymnt>.form-check .form-check-input:focus {
     border-color: rgba(0, 0, 0, .25);
 }
+
+
+
+/* 17dec2024////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.question-div{
+    position: relative;
+}
+.question-div .save_document_button{
+    color: #002655;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 11px;
+    background: #fff;
+    border: 1px solid #1e2c4f59;
+    border-radius: 50px;
+}
+.question-div .textarea{
+    width: 100%;
+}
+ .question-div .contract_date {
+    height: 40px;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    color: #002655;
+    background: #fff;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.question-div .contract_textarea {
+    width: 100%;
+    min-height: 200px;
+    height: 100%;
+    border: 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+/* ************CHECK OUT PAGE*********** */
+/* ************form_sec*********** */
+.check_out {
+    padding-top: 350px;
+}
+
+.check_out .listo {
+    max-width: 757px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.check_out .listo .listo_txt h2,
+.check_out .listo .listo_txt p.size20 {
+    margin-bottom: 0;
+}
+
+.check_out .listo .listo_txt h2 {
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.check_out .listo .listo_txt p.size20 {
+    font-weight: 400;
+
+}
+
+.check_out .listo .listo_txt p.size20:last-child {
+    font-weight: 600;
+}
+
+.check_out .listo .listo_txt p.size20:last-child span {
+    font-weight: 400;
+    color: #002655;
+}
+
+.check_out .listo .listo_txt p.size20:last-child span>img {
+    margin-bottom: 8px;
+    margin-left: 4px;
+}
+
+.check_out .row.prnt_row {
+    border: 1px solid #0125551A;
+    border-radius: 25px;
+    /* padding: 42px 50px; */
+    margin-top: 34px;
+}
+
+.check_out .row.prnt_row>.col-lg-6:first-child {
+    padding: 46px 30px 46px 46px;
+}
+
+.check_out .row.prnt_row>.col-lg-6:nth-child(2) {
+    padding: 48px 46px;
+}
+
+.check_out .row .pymnt_form {
+    display: flex;
+    flex-direction: column;
+    /* gap: 20px; */
+}
+
+.check_out form.row.g-3 .form-control {
+    border: 1px solid #0125551A;
+    border-radius: 5px !important;
+    padding: 21px 18px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17.07px;
+    text-align: left;
+    color: #828282;
+}
+
+.check_out form.row.g-3 .form-control:active,
+.check_out form.row.g-3 .form-control:focus,
+.check_out form.row.g-3 .form-control:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.check_out .row .pymnt_form .detail p.size18 {
+    font-weight: 400;
+    padding-bottom: 35px;
+}
+
+.check_out .row .pymnt_form .detail p.size18 span {
+    color: #012555;
+}
+
+.check_out .row .pymnt_form h6.b-dark {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 29.26px;
+    text-align: left;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.check_out .row .pymnt_form .detail>h6.b-dark {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+/* .check_out .row .othr-opt .form-check:last-child{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+} */
+
+/* .check_out .row .othr-opt .form-check:not(:last-child) {
+    border: 1px solid #0125551A;
+    border-radius: 5px !important;
+    padding: 21px 18px;
+}
+
+.check_out .row .othr-opt .form-check .form-check-input {
+    margin-left: 0px;
+    width: 18px;
+    height: 18px;
+}
+
+.check_out .row .opt .form-check label.form-check-label {
+    width: 100%;
+} */
+
+.check_out .row .pymnt>.form-check label.form-check-label span {
+    color: #374976;
+}
+
+.check_out .row.prnt_row .form_btn {
+    margin-top: 40px;
+}
+
+.check_out .row.prnt_row .form_btn a.cta_org {
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24.38px;
+
+}
+
+.check_out .row.prnt_row .carta-poder {
+    /* max-width: 600px; */
+    margin: auto;
+    width: 100%;
+    /* margin-top: 26px; */
+    border: 1px solid #E0E0E0;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 28px 30px;
+
+}
+
+.check_out .row.prnt_row .carta-poder .carta-detail {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid #C5C5C5;
+    padding-bottom: 28px;
+
+}
+
+.check_out .row.prnt_row .carta-poder .carta-detail .carta_img {
+    width: 85px;
+    border: 1px solid #012555;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.check_out .row.prnt_row .col-lg-6 .doc_ready .form_btn {
+    margin-top: 0;
+}
+
+
+.check_out .row.prnt_row .carta-poder .carta-detail .carta_txt h6 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 29.26px;
+    text-align: left;
+    color: #000000;
+
+}
+
+.check_out .row.prnt_row .carta-poder .carta-detail .carta_txt p.size18 {
+    font-weight: 400;
+    line-height: 21.94px;
+}
+
+.check_out .row.prnt_row .carta-poder .carta_cost {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 28px;
+
+}
+
+.check_out .row.prnt_row .carta-poder .carta_cost p.size20 {
+    font-weight: 500;
+
+}
+
+.check_out .row.prnt_row .carta-poder .carta_cost p.size20.b-dark {
+    font-weight: 700;
+
+}
+
+.check_out .row.prnt_row .sitio.carta-poder .carta-detail {
+    align-items: unset;
+    border: none;
+    padding-bottom: 0;
+    gap: 0;
+}
+
+.check_out .row.prnt_row .sitio.carta-poder .sitio_txt p.size18.b-dark {
+    font-weight: 600;
+}
+
+.check_out .row.prnt_row .sitio.carta-poder .sitio_txt p:last-child {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.5px;
+    max-width: 338px;
+}
+
+.check_out .row.prnt_row .sitio.carta-poder .carta-detail .sc_txt {
+    display: flex;
+    gap: 20px;
+}
+
+.check_out .row.prnt_row .sitio.carta-poder .carta-detail .sitio_img {
+    display: none;
+}
+
+.check_out .row .othr-opt .form-check {
+    display: flex;
+    align-items: center;
+}
+
+.check_out .row.prnt_row .col-lg-6:not(:first-child) {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background: #F4F4F4;
+}
+
+.check_out .row.prnt_row .doc_ready {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* ///////////////////// 04/10/24 ///////////////////////// */
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check {
+    padding: 17px 22px;
+    border: 1px solid #01255526;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check .form-check-input {
+    margin-left: 0;
+    margin-right: 10px;
+
+}
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check .form-check-input:focus,
+.check_out .row .pymnt_form .pymnt>.opt .form-check .form-check-input:focus-visible,
+.check_out .row .pymnt_form .pymnt>.form-check .form-check-input:focus,
+.check_out .row .pymnt_form .pymnt>.form-check .form-check-input:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check+.pymnt-details {
+    display: none;
+}
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check.active+.pymnt-details {
+    display: flex;
+}
+
+/* .check_out .row .pymnt_form .pymnt>.opt .form-check .form-check-input:checked, */
+.check_out .row .pymnt_form .pymnt>.form-check .form-check-input:checked {
+    background-color: #002655;
+    border-color: #002655;
+
+}
+.check_out .row .pymnt_form .pymnt>.opt .form-check .form-check-input:checked {
+    background-color: transparent;
+    border-color: #0000004a;
+}
+
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check.active {
+    background: #EDEEF1;
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+}
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check.active+.pymnt-details {
+    border: 1px solid #01255526;
+    border-top: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 18px;
+    margin-inline: 0;
+    width: 100%;
+}
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check.active+.pymnt-details .col-md-12:first-child {
+    margin-top: 20px;
+}
+
+.check_out .row .pymnt_form .pymnt .opt:not(:nth-child(2)) {
+    margin-top: 30px;
+}
+
+.check_out .row .pymnt_form .pymnt>.form-check {
+    padding-top: 30px;
+}
+
+.outer_foot_bg.dark.odr-footer .foot_end_box .trm {
+    display: flex;
+    gap: 50px;
+}
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check.active .form-check-label {
+    position: relative;
+}
+
+.check_out .row .pymnt_form .pymnt>.opt .form-check.active .form-check-label input[type=radio]::before {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    content: " ";
+    background-color: #fff;
+    border-radius: 50%;
+    border: 4px solid  #012555;
+    width: 16px;
+    height: 16px;
+}
+.check_out .row.prnt_row .carta-poder:hover{
+    box-shadow: 0px 25px 36px 0px #00000014;
+    border: 1px solid white;
+}
+
+.check_out .row .pymnt_form .pymnt .opt:hover,
+.check_out .row .pymnt_form .pymnt .opt .form-check-label:hover{
+    cursor: pointer;
+}
+/* .r_div br {
+    display: none;
+} */

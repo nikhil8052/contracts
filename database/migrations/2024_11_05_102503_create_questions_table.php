@@ -20,7 +20,8 @@ return new class extends Migration
             $table->boolean('is_condition')->default(false); // Condition attached (True | False)
             $table->boolean('condition_type')
                 ->nullable()
-                ->comment('1: question_label_condition; 2: go_to_step_condition; 3: if both the conditions are applied');        
+                ->comment('1: question_label_condition; 2: go_to_step_condition; 3: if both the conditions are applied'); 
+            $table->boolean('is_end')->default(false); // Indicates if this is the last question       
             $table->timestamps();
         });
     }

@@ -42,8 +42,10 @@
     <div id="main-question-form-controller" class="row outer_main">
         <!-- <div class="col-md-4"> -->
             <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
-            <h3 class="contarct_top_left_heading">Introduce los datos aquí:</h3>
-            <div class="left-box left-question-box questions-div col-md-4">
+            <div class="left-box left-question-box col-md-4">
+                <div class="left_heding">
+                    <h3 class="contarct_top_left_heading">Introduce los datos aquí:</h3>
+                </div>
                 <form id="contractForm">
                     <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
                     @php 
@@ -51,14 +53,17 @@
                         $num = 1;
                     @endphp
                     @foreach($questions as $index => $question)
-                        <div class="question-div step{{ $count++ }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}">
-                            <p class="que_heading lbl-{{ $question->id }}">
+                        <div class="question-div step{{ $count++ }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" is_condition="{{ $question->is_condition }}" data-condition_step="{{  $question->questionData->conditional_go_to_step ?? '' }}" swtchtyp="{{ $question->condition_type }}">
+                            <div class="save_document_button">
+                                <span><img src="{{ asset('assets/img/download_icon.svg') }}"> Guardar</span>
+                            </div>
+                            <label class="que_heading lbl-{{ $question->id }}" json-data="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
                                 @if($question->is_condition == 1)
                                 {{ $question->conditions[0]->question_label ?? '' }}
                                 @else
                                 {{ $question->questionData->question_label ?? '' }}
                                 @endif
-                            </p>
+                            </label>
                             @php 
                                 $question_type = $question->type;
                                 $next_qid = NULL;
@@ -75,8 +80,8 @@
                                 @php 
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
-                                <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                                <textarea class="contract_textarea" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"></textarea>
                             
                             @elseif($question_type == "dropdown")
                                 @php 
@@ -103,7 +108,7 @@
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
                                 
-                                <input type="date" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                <input type="date" class="contract_date" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
                                     onchange="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" />
                             @elseif($question_type == "pricebox")
                                 @php 
@@ -132,7 +137,7 @@
                                     <option value="" selected>{{ $question->questionData->same_contract_link_label ?? '' }}</option>
                                     @foreach($question->options as $option)
                                         <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $question->questionData->next_question_id ?? '' }}"
-                                        value="{{ $option->contract_link ?? '' }}"> {{ $option->option_label ?? '' }} </option>
+                                        value="{{ $option->contract_link ?? '' }}">{{ $option->option_label ?? '' }}</option>
                                     @endforeach
                                 </select>
                             @endif
@@ -147,6 +152,7 @@
                         </div>
                     @endforeach
                 </form>
+                
             </div>
         <!-- </div> -->
             <!-- This is the box where we show the steps or the form -->
@@ -155,16 +161,28 @@
                 @if($content->secure_blur_content == 1)
                     <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
                     data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                        @if($content->type == 'content_heading')
+                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                        @else
                         {!! $content->content !!}
+                        @endif
                     </div>
                 @elseif($content->is_condition == 0)
                     <span style="text-align:{{ $content->text_align ?? '' }}" class="r_div">
+                        @if($content->type == 'content_heading')
+                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                        @else
                         {!! $content->content !!}
+                        @endif
                     </span>
                 @else
                     <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
                     data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                        @if($content->type == 'content_heading')
+                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                        @else
                         {!! $content->content !!}
+                        @endif
                     </div>
                 @endif
             @endforeach
@@ -310,12 +328,6 @@
     }
 
     function go_next_step(e){
-        // $('.right-box').animate({ scrollTop: 0 }, 'fast');
-        // $(right_part_target)
-        //     .animate({ opacity: 0.8 }, 200)  // Fade out slightly
-        //     .animate({ opacity: 1 }, 200)   // Fade back in for a pulsating effect
-        //     .focus(); 
-
         var next_step_id = $(e).attr("que_id");
         currentQuestion = next_step_id;
         var my_ref = $(e).attr("my_ref");
@@ -324,6 +336,77 @@
             saveSteps(my_ref);
         }else{
             var next_step_div = `.step-${next_step_id}`;
+            var is_condition = $(next_step_div).attr('is_condition');
+            
+            if(is_condition != null && is_condition != undefined && is_condition != ''){
+                var label = `.lbl-${next_step_id}`;
+                var conditions = $(label).attr('json-data');
+                $.each(conditions, function(key,val){
+                    console.log(val);
+
+                    var queLabel = val.question_label;
+                    var queId = val.conditional_question_id;
+                    var queValue = val.conditional_question_value;
+                    var conditionalCheck = val.conditional_check;
+                    var conditional_que_div = `.step-${queId}`;
+                    var value = $(conditional_que_div).attr('attempted');  
+                    var conditionType = $(next_step_div).attr('swtchtyp'); 
+                    var condition_step = $('.step-'+my_ref).data('condition_step');
+
+                    if(conditionType == 1){
+                        console.log('1');
+                        if(value == queValue){
+                            console.log(queValue);
+                            var changed_label = queLabel
+                            $(label).text(changed_label);
+                        }
+                    }else if(conditionType == 2){
+                        console.log('2');
+                        if(value == queValue) {
+                            console.log(value);
+                            var current_div = `.nxt_btn_${next_step_id}`;
+                            $(queValue).attr('que_id', condition_step);
+                            $(`.step-${next_step_id}`).attr('onchange', false);
+                        }
+                    }
+                })
+            }
+            // if(is_condition != undefined && is_condition == 1){
+            //     var lbl = `.lbl-${next_step_id}`;
+            //     var conditionType = $(next_step_div).attr('swtchtyp')
+            //     var conditions = $(lbl).attr('json-data'); 
+            //     var current_step = `.step-${my_ref}`;
+            //     var condition_step = $(current_step).data('condition_step');
+
+            //     if(conditions != undefined){
+            //         conditions = JSON.parse(conditions)
+            //         conditions.forEach(function(condition){
+            //             var condition_type = condition.condition_type
+            //             var conditional_que_div = `.step-${condition.conditional_question_id}`; 
+            //             var value = $(conditional_que_div).attr('attempted');  
+            //             var conditionType = $(next_step_div).attr('swtchtyp'); 
+                    
+            //             if(conditionType == 1){
+            //                 console.log('1');
+            //                 if(value == condition.conditional_question_value){
+            //                     var changed_label = condition.question_label
+            //                     $(lbl).text(changed_label)
+            //                 }
+            //             }else if(conditionType == 2){
+            //                 console.log('2');
+            //                 if(value == condition.conditional_question_value) {
+            //                     var current_question_next_btn = `.nxt_btn_${next_step_id}`;
+            //                     $(current_question_next_btn).attr('que_id', condition_step);
+            //                     $(`.step-${next_step_id}`).attr('onchange', false);
+
+            //                 }
+            //             }else if(conditionType == 3){
+            //                 window.reload();
+            //             }
+            //         });
+            //     }
+            // }
+
             var pre_btn = `.pre_btn_${next_step_id}`;
             $(pre_btn).attr("que_id", my_ref);
             $(".question-div").hide();
@@ -335,17 +418,12 @@
                     $(current_step).addClass('done');
                 }
             }
+
             $(next_step_div).show();
             $(next_step_div).addClass('active');
 
-            // $('#right_content_div_'+next_step_id)
-            //     .animate({  backgroundColor: "black", opacity: 0.5 }, 200)  // Fade out slightly
-            //     .animate({  backgroundColor: "black", opacity: 1 }, 200)   // Fade back in for a pulsating effect
-            //     .focus(); 
-
             saveSteps();
         }
-        
     }
 
     function go_pre_step(e) {

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('is_condition')->default(false); // true | false
             $table->string('text_align')->nullable();
             $table->enum('text_alignment', ['left', 'right', 'center'])->default('left'); // Text alignment options
-            // $table->boolean('signature_field')->default(false); // Signature field true | false
+            $table->boolean('signature_field')->default(false); // Signature field true | false
             // $table->string('content_class')->nullable(); // CSS class for content styling
             $table->boolean('secure_blur_content')->default(false); // true | false for secure blur
             // $table->boolean('blur_content')->default(false); // true | false for blur content

@@ -828,6 +828,9 @@ class DocumentController extends Controller
     }
 
     public function addDocumentQuestion(Request $request){
+        // return $request->all();
+        // die();
+
         DB::beginTransaction(); 
         try{
             if(isset($request->formdata) && $request->formdata != null){
@@ -855,6 +858,7 @@ class DocumentController extends Controller
                         
                         $questions->is_condition = $is_condition;
                         $questions->condition_type = $condition_type;
+                        $questions->is_end = $data->is_end;
                         $questions->save();
                     
                         $question_data = new QuestionData;
@@ -869,16 +873,14 @@ class DocumentController extends Controller
                             $question_data->same_contract_link_label = $data->same_contract_link;
                         }
                        
-                        if(isset($data->go_to_step) && $data->go_to_step != null){
-                            $question_data->next_question_id = $data->go_to_step;
+                        if(isset($data->go_to_step)){
+                            if($data->go_to_step == "0"){
+                                $question_data->next_question_id = null;
+                            }else{
+                                $question_data->next_question_id = $data->go_to_step;
+                            }
                         }
-                        
-                        if(isset($request->is_end) && $request->is_end != null){
-                            $question_data->is_end = $request->is_end;
-                        }else{
-                            $question_data->is_end = 0;
-                        }
-                        
+
                         if($questions->condition_type == 1){
                             $question_condition_type = "question_label_condition";
                             $conditional_question_labels = $data->new_conditional_question_labels;
@@ -919,6 +921,59 @@ class DocumentController extends Controller
                                 $question_conditions->conditional_question_id = $step->questionID;
                                 $question_conditions->conditional_question_value = $step->question_value;
                                 $question_conditions->save();
+                            }
+
+                            if(isset($data->condition_go_to_step)){
+                                $question_data->conditional_go_to_step = $data->condition_go_to_step;
+                            }
+                        }elseif($questions->condition_type == 3){
+                            if(!empty($data->new_conditional_question_labels)){
+                                $question_condition_type = "question_label_condition";
+                                $conditional_question_labels = $data->new_conditional_question_labels;
+                                for($i=0; $i<count($conditional_question_labels); $i++){
+                                    $conditional = $conditional_question_labels[$i];
+    
+                                    $question_conditions = new QuestionCondition;
+                                    $question_conditions->question_id = $questions->id;
+                                    $question_conditions->condition_type = $question_condition_type;
+                                    $question_conditions->question_label = $conditional->label;
+                                    $question_conditions->conditional_question_id = $conditional->questionID;
+                                    $question_conditions->conditional_question_value = $conditional->question_value;
+                                    $question_conditions->save();
+                                }
+                            }
+
+                            if(!empty($data->new_conditions)){
+                                $question_condition_type = "go_to_step_condition";
+                                $step_conditions = $data->new_conditions;
+                                for($i=0; $i<count($step_conditions); $i++){
+                                    $step = $step_conditions[$i];
+                                    
+                                    $question_conditions = new QuestionCondition;
+                                    $question_conditions->question_id = $questions->id;
+                                    $question_conditions->condition_type = $question_condition_type;
+
+                                    if(!empty($step->question_condition)){
+                                        if($step->question_condition == "is_equal_to"){
+                                            $conditionCheck = 1;
+                                        }elseif($step->question_condition == "is_greater_than"){
+                                            $conditionCheck = 2;
+                                        }elseif($step->question_condition == "is_less_than"){
+                                            $conditionCheck = 3;
+                                        }elseif($step->question_condition == "not_equal_to"){
+                                            $conditionCheck = 4;
+                                        }
+                                    }
+
+                                    $question_conditions->conditional_check = $conditionCheck;
+                                    $question_conditions->conditional_question_id = $step->questionID;
+                                    $question_conditions->conditional_question_value = $step->question_value;
+                                    $question_conditions->save();
+                                }
+                            }
+                            
+                            if(isset($data->condition_go_to_step)){
+                                $question_data->conditional_go_to_step = $data->condition_go_to_step;
                             }
                         }
 
@@ -970,6 +1025,7 @@ class DocumentController extends Controller
                         
                         $questions->is_condition = $is_condition;
                         $questions->condition_type = $condition_type;
+                        $questions->is_end = $data->is_end;
                         $questions->update();
 
                         $question_data = QuestionData::where('question_id',$data->id)->first();
@@ -983,18 +1039,15 @@ class DocumentController extends Controller
                             $question_data->same_contract_link_label = $data->same_contract_link;
                         }
                        
-                        if(isset($data->go_to_step) && $data->go_to_step != null){
-                            $question_data->next_question_id = $data->go_to_step;
+                        if(isset($data->go_to_step)){
+                            if($data->go_to_step == "0"){
+                                $question_data->next_question_id = null;
+                            }else{
+                                $question_data->next_question_id = $data->go_to_step;
+                            }
                         }
-                        
-                        if(isset($request->is_end) && $request->is_end != null){
-                            $question_data->is_end = $request->is_end;
-                        }else{
-                            $question_data->is_end = 0;
-                        }
-
+                      
                         $question_data->update();
-                        
                         
                         if($questions->condition_type == 1){
                             $question_condition_type = "question_label_condition";
@@ -1026,8 +1079,6 @@ class DocumentController extends Controller
                                     $question_conditions->update();
                                 }
                             }
-
-                           
                         }elseif($questions->condition_type == 2){
                             $question_condition_type = "go_to_step_condition";
 
@@ -1039,7 +1090,7 @@ class DocumentController extends Controller
                                     $question_conditions = new QuestionCondition;
                                     $question_conditions->question_id = $questions->id;
                                     $question_conditions->condition_type = $question_condition_type;
-
+                                
                                     if(!empty($step->question_condition)){
                                         if($step->question_condition == "is_equal_to"){
                                             $conditionCheck = 1;
@@ -1083,6 +1134,11 @@ class DocumentController extends Controller
                                     $question_conditions->conditional_question_value = $step->question_value;
                                     $question_conditions->update();
                                 }
+                            }
+
+                            if(isset($data->condition_go_to_step)){
+                                $question_data->conditional_go_to_step = $data->condition_go_to_step;
+                                $question_data->update();
                             }
                         }elseif($questions->condition_type == 3){
                             if(!empty($data->new_conditional_question_labels)){
@@ -1169,6 +1225,10 @@ class DocumentController extends Controller
                                 }
                             }
 
+                            if(isset($data->condition_go_to_step)){
+                                $question_data->conditional_go_to_step = $data->condition_go_to_step;
+                                $question_data->update();
+                            }
                         }
 
                         if(!empty($data->add_options)){

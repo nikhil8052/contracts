@@ -195,7 +195,7 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       @if($isCondition)
+                                                       @if($isConditionType1)
                                                        <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}" style="display:none;">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
@@ -356,6 +356,23 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $docQues->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $docQues->id ?? '' }}" id="conditional_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions ?? [] as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->conditional_go_to_step == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                        </div>
                                                        @else
                                                        <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
@@ -370,9 +387,46 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $condition->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $condition->id ?? '' }}" id="conditional_go_to_step-{{ $condition->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                             <hr>
                                                        </div>
                                                        @endif
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                       @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                            @if($docQues->is_end == 1)
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @endif
+                                                       @else
+                                                       <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                       <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                            step</label>
+                                                       @endif
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
@@ -509,7 +563,7 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       @if($isCondition)
+                                                       @if($isConditionType1)
                                                        <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}" style="display:none;">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
@@ -672,6 +726,23 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $docQues->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $docQues->id ?? '' }}" id="conditional_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions ?? [] as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->conditional_go_to_step == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                        </div>
                                                        @else
                                                        <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
@@ -686,9 +757,46 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $condition->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $condition->id ?? '' }}" id="conditional_go_to_step-{{ $condition->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                             <hr>
                                                        </div>
                                                        @endif
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                       @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                            @if($docQues->is_end == 1)
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @endif
+                                                       @else
+                                                       <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                       <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                            step</label>
+                                                       @endif
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
@@ -825,7 +933,7 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       @if($isCondition)
+                                                       @if($isConditionType1)
                                                        <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}" style="display:none;">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
@@ -1024,6 +1132,23 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $docQues->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $docQues->id ?? '' }}" id="conditional_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions ?? [] as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->conditional_go_to_step == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                        </div>
                                                        @else
                                                        <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
@@ -1038,9 +1163,46 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $condition->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $condition->id ?? '' }}" id="conditional_go_to_step-{{ $condition->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                             <hr>
                                                        </div>
                                                        @endif
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                       @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                            @if($docQues->is_end == 1)
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @endif
+                                                       @else
+                                                       <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                       <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                            step</label>
+                                                       @endif
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
@@ -1366,6 +1528,23 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $docQues->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $docQues->id ?? '' }}" id="conditional_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions ?? [] as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->conditional_go_to_step == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                        </div>
                                                        @else
                                                        <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
@@ -1380,9 +1559,46 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $condition->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $condition->id ?? '' }}" id="conditional_go_to_step-{{ $condition->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                             <hr>
                                                        </div>
                                                        @endif
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                       @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                            @if($docQues->is_end == 1)
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @endif
+                                                       @else
+                                                       <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                       <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                            step</label>
+                                                       @endif
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
@@ -1665,6 +1881,23 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $docQues->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $docQues->id ?? '' }}" id="conditional_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions ?? [] as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->conditional_go_to_step == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                        </div>
                                                        @else
                                                        <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
@@ -1679,9 +1912,46 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $condition->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $condition->id ?? '' }}" id="conditional_go_to_step-{{ $condition->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                             <hr>
                                                        </div>
                                                        @endif
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                       @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                            @if($docQues->is_end == 1)
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @endif
+                                                       @else
+                                                       <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                       <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                            step</label>
+                                                       @endif
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
@@ -1820,7 +2090,7 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       @if($isCondition)
+                                                       @if($isConditionType1)
                                                        <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}" style="display:none;">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
@@ -1984,6 +2254,23 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $docQues->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $docQues->id ?? '' }}" id="conditional_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions ?? [] as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->conditional_go_to_step == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                        </div>
                                                        @else
                                                        <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
@@ -1998,9 +2285,46 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $condition->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $condition->id ?? '' }}" id="conditional_go_to_step-{{ $condition->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                             <hr>
                                                        </div>
                                                        @endif
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                       @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                            @if($docQues->is_end == 1)
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @endif
+                                                       @else
+                                                       <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                       <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                            step</label>
+                                                       @endif
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
@@ -2137,7 +2461,7 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       @if($isCondition)
+                                                       @if($isConditionType1)
                                                        <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}" style="display:none;">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
@@ -2300,6 +2624,23 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $docQues->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $docQues->id ?? '' }}" id="conditional_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions ?? [] as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->conditional_go_to_step == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                        </div>
                                                        @else
                                                        <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
@@ -2314,9 +2655,34 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $condition->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $condition->id ?? '' }}" id="conditional_go_to_step-{{ $condition->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                             <hr>
                                                        </div>
                                                        @endif
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
@@ -2453,7 +2819,7 @@
                                                             <hr>
                                                        </div>
                                                        @endif
-                                                       @if($isCondition)
+                                                       @if($isConditionType1)
                                                        <div class="col-md-12 hide_question_label" id="hide_question_label{{ $docQues->id ?? '' }}" style="display:none;">
                                                             <div class="form-group">
                                                                  <label class="form-label" for="text_qu_label-{{ $docQues->id ?? '' }}">Question Label</label>
@@ -2614,6 +2980,23 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $docQues->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $docQues->id ?? '' }}" id="conditional_go_to_step-{{ $docQues->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions ?? [] as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}" {{ $docQues->questionData->conditional_go_to_step == $question->getName() ? 'selected' : '' }}>
+                                                                                          {{ $question->getName() ?? '' }}
+                                                                                          </option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                        </div>
                                                        @else
                                                        <div class="cond_div{{ $docQues->id ?? '' }}" style="display:none">
@@ -2628,9 +3011,46 @@
                                                                       <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('{{ $docQues->id ?? '' }}')">Add Condition</button>
                                                                  </div>
                                                             </div>
+                                                            <div class="col-md-12">
+                                                                 <div class="form-group">
+                                                                      <label class="form-label" for="conditional_go_to_step-{{ $condition->id ?? '' }}">Conditional Go to Step</label>
+                                                                      <div class="form-control-wrap"> 
+                                                                           <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-{{ $condition->id ?? '' }}" id="conditional_go_to_step-{{ $condition->id ?? '' }}">
+                                                                                <option value="0">0</option>
+                                                                                @if(isset($questions) && $questions != null)
+                                                                                     @foreach($questions as $question)
+                                                                                          <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                                     @endforeach
+                                                                                @endif
+                                                                           </select>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
                                                             <hr>
                                                        </div>
                                                        @endif
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                       @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                            @if($docQues->is_end == 1)
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @endif
+                                                       @else
+                                                       <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                       <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                            step</label>
+                                                       @endif
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
@@ -2767,6 +3187,28 @@
                                                   </div>
                                              </div>
                                              <br>
+                                             <div class="col-md-12">
+                                                  <div class="form-group">
+                                                       <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                  </div>
+                                             </div>
+                                             <div class="custom-control custom-checkbox checked">
+                                             @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                  @if($docQues->is_end == 1)
+                                                  <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                  <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                       step</label>
+                                                  @else
+                                                  <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                  <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                       step</label>
+                                                  @endif
+                                             @else
+                                             <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                             <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                  step</label>
+                                             @endif
+                                             </div>
                                         </div>
                                    </div>
                                    @endif
@@ -2784,16 +3226,6 @@
                                                   @endforeach
                                              </div>
                                         </div>
-                                   </div>
-                                   <div class="col-md-12">
-                                        <div class="form-group">
-                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
-                                        </div>
-                                   </div>
-                                   <div class="custom-control custom-checkbox checked">
-                                        <input type="checkbox" class="custom-control-input" id="last_step" name="last_step">
-                                        <label class="custom-control-label" for="last_step">Please check this box if you are on the last
-                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -3461,6 +3893,32 @@
                                                   <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="conditional_go_to_step-${newUniqueId}">Conditional Go to Step</label>
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-${newUniqueId}" id="conditional_go_to_step-${newUniqueId}">
+                                                            <option value="0">0</option>
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                        <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -3569,6 +4027,32 @@
                                                   <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="conditional_go_to_step-${newUniqueId}">Conditional Go to Step</label>
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-${newUniqueId}" id="conditional_go_to_step-${newUniqueId}">
+                                                            <option value="0">0</option>
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                        <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -3665,6 +4149,32 @@
                                                   <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="conditional_go_to_step-${newUniqueId}">Conditional Go to Step</label>
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-${newUniqueId}" id="conditional_go_to_step-${newUniqueId}">
+                                                            <option value="0">0</option>
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                        <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -3761,6 +4271,32 @@
                                                   <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="conditional_go_to_step-${newUniqueId}">Conditional Go to Step</label>
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-${newUniqueId}" id="conditional_go_to_step-${newUniqueId}">
+                                                            <option value="0">0</option>
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                        <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -3862,6 +4398,32 @@
                                                   <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="conditional_go_to_step-${newUniqueId}">Conditional Go to Step</label>
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-${newUniqueId}" id="conditional_go_to_step-${newUniqueId}">
+                                                            <option value="0">0</option>
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                        <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -3970,6 +4532,32 @@
                                                   <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="conditional_go_to_step-${newUniqueId}">Conditional Go to Step</label>
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-${newUniqueId}" id="conditional_go_to_step-${newUniqueId}">
+                                                            <option value="0">0</option>
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                        <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -4078,6 +4666,32 @@
                                                   <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="conditional_go_to_step-${newUniqueId}">Conditional Go to Step</label>
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-${newUniqueId}" id="conditional_go_to_step-${newUniqueId}">
+                                                            <option value="0">0</option>
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                        <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -4186,6 +4800,32 @@
                                                   <button type="button" class="btn btn-sm btn-primary" onclick="addCondition('${newUniqueId}')">Add Condition</button>
                                              </div>
                                         </div>
+                                        <div class="col-md-12">
+                                             <div class="form-group">
+                                                  <label class="form-label" for="conditional_go_to_step-${newUniqueId}">Conditional Go to Step</label>
+                                                  <div class="form-control-wrap"> 
+                                                       <select class="form-select js-select2" data-search="on" name="conditional_go_to_step-${newUniqueId}" id="conditional_go_to_step-${newUniqueId}">
+                                                            <option value="0">0</option>
+                                                            @if(isset($questions) && $questions != null)
+                                                                 @foreach($questions as $question)
+                                                                      <option value="{{ $question->getName() ?? '' }}">{{ $question->getName() ?? '' }}</option>
+                                                                 @endforeach
+                                                            @endif
+                                                       </select>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <br>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                             <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                        </div>
+                                   </div>
+                                   <div class="custom-control custom-checkbox checked">
+                                        <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                        <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                             step</label>
                                    </div>
                               </div>
                          </div>
@@ -4260,9 +4900,19 @@
                                         </div>
                                    </div>
                               </div>
+                              <hr>
+                              <div class="col-md-12">
+                                   <div class="form-group">
+                                        <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                   </div>
+                              </div>
+                              <div class="custom-control custom-checkbox checked">
+                                   <input type="checkbox" class="custom-control-input" id="is_end${newUniqueId}" name="is_end${newUniqueId}">
+                                   <label class="custom-control-label" for="is_end${newUniqueId}">Please check this box if you are on the last
+                                        step</label>
+                              </div>
                          </div>
                     </div>
-                    <br>
                </div>
                </div>`;
           }
@@ -4313,6 +4963,11 @@
                addQuestionfields(value, id, 'second');
           });
 
+          $(document).on('change', '[id^="is_end"]', function() {
+               const id = $(this).attr('id').replace("is_end",'');
+               isEndSection(id);
+          });
+
           // $(document).on('change','.new_question',function(){
           //      const value = $(this).val();
           //      const id = $(this).attr('id').replace('question_type', '');
@@ -4342,6 +4997,14 @@
           } else {
                $('.cond_div' + id).hide();
                $('#condition_go_to' + id).val(0);
+          }
+     }
+
+     function isEndSection(id){
+          if($('#is_end' + id).is(':checked')){
+               $('#is_end' + id).val(1);
+          }else{
+               $('#is_end' + id).val(0);
           }
      }
 
@@ -4510,6 +5173,8 @@
                // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+               var conditionalGoTostep = $(this).find('select[name^="conditional_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                if(conditionalQuestion){
                     questionLabel = null;
@@ -4526,10 +5191,12 @@
                     // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
+                    is_end: isEnd,
                     conditional_question_labels: [],
                     new_conditional_question_labels: [],
                     conditions: [],
                     new_conditions: [],
+                    condition_go_to_step: conditionalGoTostep,
                };
 
                if(conditionalQuestion){
@@ -4545,7 +5212,7 @@
                                    status: status,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    textboxData.new_conditional_question_labels.push(question_label);
                               }
                          }else if(status === false){
@@ -4557,7 +5224,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    textboxData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -4577,7 +5244,7 @@
                                    status: status,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    textboxData.new_conditions.push(condition);
                               }
                          }else if(status === false){
@@ -4589,7 +5256,7 @@
                                    condition_id: conditionId, 
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    textboxData.conditions.push(condition);
                               }
                          }
@@ -4610,6 +5277,8 @@
                // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+               var conditionalGoTostep = $(this).find('select[name^="conditional_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                if(conditionalQuestion){
                     questionLabel = null;
@@ -4626,10 +5295,12 @@
                     // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
+                    is_end: isEnd,
                     conditional_question_labels: [],
                     new_conditional_question_labels: [],
                     conditions: [],
                     new_conditions: [],
+                    condition_go_to_step: conditionalGoTostep,
                };
 
                if(conditionalQuestion){
@@ -4645,7 +5316,7 @@
                                    status: status,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    textareaData.new_conditional_question_labels.push(question_label);
                               }
                          }else if(status === false){
@@ -4657,7 +5328,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    textareaData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -4677,7 +5348,7 @@
                                    status: status,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    textareaData.new_conditions.push(condition);
                               }
                          }else if(status === false){
@@ -4689,7 +5360,7 @@
                                    condition_id: conditionId, 
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    textareaData.conditions.push(condition);
                               }
                          }
@@ -4707,6 +5378,8 @@
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
                // var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+               var conditionalGoTostep = $(this).find('select[name^="conditional_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                if(conditionalQuestion){
                     questionLabel = null;
@@ -4720,12 +5393,14 @@
                     question_label: questionLabel,
                     // question_id: questionId,
                     is_conditional_step: conditionalStep,
+                    is_end: isEnd,
                     conditional_question_labels: [],
                     new_conditional_question_labels: [],
                     conditions: [],
                     new_conditions: [],
                     add_options: [],
                     new_options: [],
+                    condition_go_to_step: conditionalGoTostep,
                };
 
                if($(this).find('.append_options .dropdown-option') !== 0){
@@ -4773,7 +5448,7 @@
                                    status: status,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    dropdownData.new_conditional_question_labels.push(question_label);
                               }
                          }else if(status === false){
@@ -4785,7 +5460,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    dropdownData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -4805,7 +5480,7 @@
                                    status: status,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    dropdownData.new_conditions.push(condition);
                               }
                          }else if(status === false){
@@ -4817,7 +5492,7 @@
                                    condition_id: conditionId, 
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    dropdownData.conditions.push(condition);
                               }
                          }
@@ -4835,6 +5510,8 @@
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
                // var questionId = $(this).find('select[name^="text_qu_id"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+               var conditionalGoTostep = $(this).find('select[name^="conditional_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                var radioData = {
                     type: 'radio-button',
@@ -4844,10 +5521,12 @@
                     question_label: questionLabel,
                     // question_id: questionId,
                     is_conditional_step: conditionalStep,
+                    is_end: isEnd,
                     conditional_question_labels: [],
                     new_conditional_question_labels: [],
                     conditions: [],
                     new_conditions: [],
+                    condition_go_to_step: conditionalGoTostep,
                     add_options: [],
                     new_options: [],
                };
@@ -4897,7 +5576,7 @@
                                    status: status,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    radioData.new_conditional_question_labels.push(question_label);
                               }
                          }else if(status === false){
@@ -4909,7 +5588,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    radioData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -4929,7 +5608,7 @@
                                    status: status,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition && condition.conditional_go_to_step || condition.question_value){
                                    radioData.new_conditions.push(condition);
                               }
                          }else if(status === false){
@@ -4941,7 +5620,7 @@
                                    condition_id: conditionId, 
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    radioData.conditions.push(condition);
                               }
                          }
@@ -4960,6 +5639,8 @@
                // var dateFieldId = $(this).find('input[name^="date_field_id"]').val() || '';
                var goToStep = $(this).find('select[name^="date_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+               var conditionalGoTostep = $(this).find('select[name^="conditional_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                var datefieldData = {
                     type: 'date-field',
@@ -4970,10 +5651,12 @@
                     // date_field_Id: dateFieldId,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
+                    is_end: isEnd,
                     conditional_question_labels: [],
                     new_conditional_question_labels: [],
                     conditions: [],
                     new_conditions: [],
+                    condition_go_to_step: conditionalGoTostep,
                };
 
                if(conditionalQuestion){
@@ -4989,7 +5672,7 @@
                                    status: status,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    datefieldData.new_conditional_question_labels.push(question_label);
                               }
                          }else if(status === false){
@@ -5001,7 +5684,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    datefieldData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -5021,7 +5704,7 @@
                                    status: status,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    datefieldData.new_conditions.push(condition);
                               }
                          }else if(status === false){
@@ -5033,7 +5716,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    datefieldData.conditions.push(condition);
                               }
                          }
@@ -5054,6 +5737,8 @@
                // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+               var conditionalGoTostep = $(this).find('select[name^="conditional_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                if(conditionalQuestion){
                     questionLabel = null;
@@ -5070,10 +5755,12 @@
                     // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
+                    is_end: isEnd,
                     conditional_question_labels: [],
                     new_conditional_question_labels: [],
                     conditions: [],
                     new_conditions: [],
+                    condition_go_to_step: conditionalGoTostep,
                };
 
                if(conditionalQuestion){
@@ -5089,7 +5776,7 @@
                                    status: status,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    priceBoxData.new_conditional_question_labels.push(question_label);
                               }
                          }else if(status === false){
@@ -5101,7 +5788,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    priceBoxData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -5121,7 +5808,7 @@
                                    status: status,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    priceBoxData.new_conditions.push(condition);
                               }
                          }else if(status === false){
@@ -5133,7 +5820,7 @@
                                    condition_id: conditionId, 
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    priceBoxData.conditions.push(condition);
                               }
                          }
@@ -5154,6 +5841,8 @@
                // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+               var conditionalGoTostep = $(this).find('select[name^="conditional_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                if(conditionalQuestion){
                     questionLabel = null;
@@ -5170,10 +5859,12 @@
                     // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
+                    is_end: isEnd,
                     conditional_question_labels: [],
                     new_conditional_question_labels: [],
                     conditions: [],
                     new_conditions: [],
+                    condition_go_to_step: conditionalGoTostep,
                };
 
                if(conditionalQuestion){
@@ -5189,7 +5880,7 @@
                                    status: status,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    numberfieldData.new_conditional_question_labels.push(question_label);
                               }
                          }else if(status === false){
@@ -5201,7 +5892,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    numberfieldData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -5221,7 +5912,7 @@
                                    status: status,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    numberfieldData.new_conditions.push(condition);
                               }
                          }else if(status === false){
@@ -5233,7 +5924,7 @@
                                    condition_id: conditionId, 
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    numberfieldData.conditions.push(condition);
                               }
                          }
@@ -5254,6 +5945,8 @@
                // var placeholderText = $(this).find('input[name^="placeholder_text"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
                var conditionalStep = $(this).find('input[name^="condition_go_to"]').is(':checked') ? 1 : 0;
+               var conditionalGoTostep = $(this).find('select[name^="conditional_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                if(conditionalQuestion){
                     questionLabel = null;
@@ -5270,10 +5963,12 @@
                     // placeholder_text: placeholderText,
                     go_to_step: goToStep,
                     is_conditional_step: conditionalStep,
+                    is_end: isEnd,
                     conditional_question_labels: [],
                     new_conditional_question_labels: [],
                     conditions: [],
                     new_conditions: [],
+                    condition_go_to_step: conditionalGoTostep,
                };
 
                if(conditionalQuestion){
@@ -5289,7 +5984,7 @@
                                    status: status,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    percentageBoxData.new_conditional_question_labels.push(question_label);
                               }
                          }else if(status === false){
@@ -5301,7 +5996,7 @@
                                    condition_id: conditionId,
                               };
 
-                              if(question_label.label && question_label.questionID && question_label.question_value){
+                              if(question_label.label && question_label.questionID || question_label.question_value){
                                    percentageBoxData.conditional_question_labels.push(question_label);
                               }
                          }
@@ -5321,7 +6016,7 @@
                                    status: status,
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    percentageBoxData.new_conditions.push(condition);
                               }
                          }else if(status === false){
@@ -5333,7 +6028,7 @@
                                    condition_id: conditionId, 
                               };
 
-                              if(condition.questionID && condition.question_condition && condition.question_value){
+                              if(condition.questionID && condition.question_condition || condition.question_value){
                                    percentageBoxData.conditions.push(condition);
                               }
                          }
@@ -5350,6 +6045,7 @@
                var questionLabel = $(this).find('input[name^="text_qu_label"]').val() || ''; 
                var sameContractlink = $(this).find('input[name^="same_contract_link"]').val() || '';
                var goToStep = $(this).find('select[name^="text_go_to_step"]').val() || '';
+               var isEnd = $(this).find('input[name^="is_end"]').is(':checked') ? 1 : 0;
 
                var dropdownLinkData = {
                     type: 'dropdown-link',
@@ -5358,6 +6054,7 @@
                     question_label: questionLabel,
                     same_contract_link: sameContractlink,
                     go_to_step: goToStep,
+                    is_end: isEnd,
                     add_rows: [],
                     new_rows: [],
                };
@@ -5402,40 +6099,40 @@
      $(document).ready(function(){
           $('#saveQuestiondata1').click(function(){
                var data = getAllSteps();
-               // console.log(data);
+               console.log(data);
                $('#formdata').val(JSON.stringify(data));
                var documentName = $('#document_id').val();
                let hasError = false;
 
-               $('.add_conditional_label').each(function () {
-                    const uniqueId = $(this).attr('id').replace('condition_qu_label', '');
-                    const conditionSection = $('.cond_ques_div' + uniqueId);
+               // $('.add_conditional_label').each(function () {
+               //      const uniqueId = $(this).attr('id').replace('condition_qu_label', '');
+               //      const conditionSection = $('.cond_ques_div' + uniqueId);
 
-                    if($(this).is(':checked')){
-                         const appendSection = $('#append_label_condition' + uniqueId);
-                         const conditionSections = appendSection.find('.label-condition');
+               //      if($(this).is(':checked')){
+               //           const appendSection = $('#append_label_condition' + uniqueId);
+               //           const conditionSections = appendSection.find('.label-condition');
 
-                         if(conditionSections.length === 0){
-                              NioApp.Toast('Please add label.', 'error', { position: 'top-right' });
-                              hasError = true;
-                              return false; 
-                         }
+               //           if(conditionSections.length === 0){
+               //                NioApp.Toast('Please add label.', 'error', { position: 'top-right' });
+               //                hasError = true;
+               //                return false; 
+               //           }
 
-                         let conditionInvalid = false;
-                         conditionSection.find('select, input').each(function(){
-                              if(!$(this).val()){
-                                   conditionInvalid = true;
-                                   return false; 
-                              }
-                         });
+               //           let conditionInvalid = false;
+               //           conditionSection.find('select, input').each(function(){
+               //                if(!$(this).val()){
+               //                     conditionInvalid = true;
+               //                     return false; 
+               //                }
+               //           });
      
-                         if(conditionInvalid){
-                              NioApp.Toast('Please fill in all required labels.', 'error', { position: 'top-right' });
-                              hasError = true;
-                              return false;
-                         }
-                    }
-               });
+               //           if(conditionInvalid){
+               //                NioApp.Toast('Please fill in all required labels.', 'error', { position: 'top-right' });
+               //                hasError = true;
+               //                return false;
+               //           }
+               //      }
+               // });
 
                $(".hide_question_label").each(function(){
                     const uniqueId = $(this).attr('id').replace('hide_question_label', '');
@@ -5612,35 +6309,35 @@
                     }
                })
 
-               $('.enable_conditional').each(function () {
-                    const uniqueId = $(this).attr('id').replace('condition_go_to', '');
-                    const conditionSection = $('.cond_div' + uniqueId);
+               // $('.enable_conditional').each(function () {
+               //      const uniqueId = $(this).attr('id').replace('condition_go_to', '');
+               //      const conditionSection = $('.cond_div' + uniqueId);
 
-                    if(!hasError && $(this).is(':checked')){
-                         const appendSection = $('#append_page_condition' + uniqueId);
-                         const conditionSections = appendSection.find('.sec-condition');
+               //      if(!hasError && $(this).is(':checked')){
+               //           const appendSection = $('#append_page_condition' + uniqueId);
+               //           const conditionSections = appendSection.find('.sec-condition');
 
-                         if(conditionSections.length === 0){
-                              NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
-                              hasError = true;
-                              return false; 
-                         }
+               //           if(conditionSections.length === 0){
+               //                NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
+               //                hasError = true;
+               //                return false; 
+               //           }
 
-                         let conditionInvalid = false;
-                         conditionSection.find('select, input').each(function(){
-                              if(!$(this).val()){
-                                   conditionInvalid = true;
-                                   return false; 
-                              }
-                         });
+               //           let conditionInvalid = false;
+               //           conditionSection.find('select, input').each(function(){
+               //                if(!$(this).val()){
+               //                     conditionInvalid = true;
+               //                     return false; 
+               //                }
+               //           });
      
-                         if(conditionInvalid){
-                              NioApp.Toast('Please fill in all required conditions fields.', 'error', { position: 'top-right' });
-                              hasError = true;
-                              return false;
-                         }
-                    }
-               });
+               //           if(conditionInvalid){
+               //                NioApp.Toast('Please fill in all required conditions fields.', 'error', { position: 'top-right' });
+               //                hasError = true;
+               //                return false;
+               //           }
+               //      }
+               // });
 
                // if(!hasError && (!documentName || documentName.trim() === "")){
                //      NioApp.Toast('Please select the document', 'error', { position: 'top-right' });
@@ -5660,35 +6357,35 @@
                var documentName = $('#document_id').val();
                let hasError = false;
 
-               $('.add_conditional_label').each(function (){
-                    const uniqueId = $(this).attr('id').replace('condition_qu_label', '');
-                    const conditionSection = $('.cond_ques_div' + uniqueId);
+               // $('.add_conditional_label').each(function (){
+               //      const uniqueId = $(this).attr('id').replace('condition_qu_label', '');
+               //      const conditionSection = $('.cond_ques_div' + uniqueId);
                    
-                    if($(this).is(':checked')){
-                         const appendSection = $('#append_label_condition' + uniqueId);
-                         const conditionSections = appendSection.find('.label-condition');
+               //      if($(this).is(':checked')){
+               //           const appendSection = $('#append_label_condition' + uniqueId);
+               //           const conditionSections = appendSection.find('.label-condition');
 
-                         if(conditionSections.length === 0){
-                              NioApp.Toast('Please add label.', 'error', { position: 'top-right' });
-                              hasError = true;
-                              return false; 
-                         }
+               //           if(conditionSections.length === 0){
+               //                NioApp.Toast('Please add label.', 'error', { position: 'top-right' });
+               //                hasError = true;
+               //                return false; 
+               //           }
 
-                         let conditionInvalid = false;
-                         conditionSection.find('select, input').each(function(){
-                              if(!$(this).val()){
-                                   conditionInvalid = true;
-                                   return false; 
-                              }
-                         });
+               //           let conditionInvalid = false;
+               //           conditionSection.find('select, input').each(function(){
+               //                if(!$(this).val()){
+               //                     conditionInvalid = true;
+               //                     return false; 
+               //                }
+               //           });
      
-                         if(conditionInvalid){
-                              NioApp.Toast('Please fill in all required labels.', 'error', { position: 'top-right' });
-                              hasError = true;
-                              return false;
-                         }
-                    }
-               });
+               //           if(conditionInvalid){
+               //                NioApp.Toast('Please fill in all required labels.', 'error', { position: 'top-right' });
+               //                hasError = true;
+               //                return false;
+               //           }
+               //      }
+               // });
 
                $(".hide_question_label").each(function(){
                     const uniqueId = $(this).attr('id').replace('hide_question_label', '');
@@ -5865,35 +6562,35 @@
                     }
                })
 
-               $('.enable_conditional').each(function(){
-                    const uniqueId = $(this).attr('id').replace('condition_go_to', '');
-                    const conditionSection = $('.cond_div' + uniqueId);
-                    // console.log($(this).is(':checked'));
-                    if(!hasError && $(this).is(':checked')){
-                         const appendSection = $('#append_page_condition' + uniqueId);
-                         const conditionSections = appendSection.find('.sec-condition');
+               // $('.enable_conditional').each(function(){
+               //      const uniqueId = $(this).attr('id').replace('condition_go_to', '');
+               //      const conditionSection = $('.cond_div' + uniqueId);
+               //      // console.log($(this).is(':checked'));
+               //      if(!hasError && $(this).is(':checked')){
+               //           const appendSection = $('#append_page_condition' + uniqueId);
+               //           const conditionSections = appendSection.find('.sec-condition');
 
-                         if(conditionSections.length === 0){
-                              NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
-                              hasError = true;
-                              return false; 
-                         }
+               //           if(conditionSections.length === 0){
+               //                NioApp.Toast('Please add condition.', 'error', { position: 'top-right' });
+               //                hasError = true;
+               //                return false; 
+               //           }
 
-                         let conditionInvalid = false;
-                         conditionSection.find('select, input').each(function(){
-                              if(!$(this).val()){
-                                   conditionInvalid = true;
-                                   return false; 
-                              }
-                         });
+               //           let conditionInvalid = false;
+               //           conditionSection.find('select, input').each(function(){
+               //                if(!$(this).val()){
+               //                     conditionInvalid = true;
+               //                     return false; 
+               //                }
+               //           });
      
-                         if(conditionInvalid){
-                              NioApp.Toast('Please fill in all required conditions fields.', 'error', { position: 'top-right' });
-                              hasError = true;
-                              return false;
-                         }
-                    }
-               });
+               //           if(conditionInvalid){
+               //                NioApp.Toast('Please fill in all required conditions fields.', 'error', { position: 'top-right' });
+               //                hasError = true;
+               //                return false;
+               //           }
+               //      }
+               // });
 
                // if(!hasError && (!documentName || documentName.trim() === "")){
                //      NioApp.Toast('Please select the document', 'error', { position: 'top-right' });

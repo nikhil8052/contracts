@@ -323,4 +323,12 @@ $(document).ready(function () {
   });
 });
 
+// Checkout form js //
+jQuery(document).ready(function () {
+  $('.check_out .row .pymnt_form .pymnt > .opt').on('click', function () {
+    $(this).children('.check_out .row .pymnt_form .pymnt > .opt > .form-check').addClass('active')
+     .parent().siblings().find('.form-check.active').removeClass('active');
+  });
+});
+
 

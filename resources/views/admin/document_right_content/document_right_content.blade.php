@@ -79,7 +79,7 @@
                                                                            <p><b>{{ $num++ ?? '' }}</b></p>
                                                                       </div>
                                                                       <div class="col-md-5">
-                                                                           <span>{{ $num++ ?? '' }}</span><h6>Content Heading</h6>  
+                                                                           <h6>Content Heading</h6>  
                                                                       </div> 
                                                                       <div class="col-md-6">
                                                                            <div class="form-group">
@@ -176,7 +176,7 @@
                                                                                      </div>
                                                                                 </div>
                                                                            </div>
-                                                                           <!-- <div class="col-md-6">
+                                                                           <div class="col-md-6">
                                                                                 <p class="p_label">This is signature field</p>
                                                                                 <div class="custom-control custom-checkbox">
                                                                                 @if(isset($data->signature_field) && $data->signature_field != null)
@@ -192,7 +192,7 @@
                                                                                      <label class="custom-control-label" for="signature_field{{ $data->id ?? '' }}"></label>
                                                                                 @endif
                                                                                 </div>
-                                                                           </div> -->
+                                                                           </div>
                                                                       </div>
                                                                       <hr>
                                                                  </div>
@@ -212,13 +212,13 @@
                                                                                      </div>
                                                                                 </div>
                                                                            </div>
-                                                                           <!-- <div class="col-md-6">
+                                                                           <div class="col-md-6">
                                                                                 <p class="p_label">This is signature field</p>
                                                                                 <div class="custom-control custom-checkbox">
                                                                                      <input type="checkbox" class="custom-control-input" id="signature_field" name="signature_field-{{ $count++ }}">
                                                                                      <label class="custom-control-label" for="signature_field"></label>
                                                                                 </div>
-                                                                           </div> -->
+                                                                           </div>
                                                                       </div>
                                                                       <hr>
                                                                  </div>
@@ -561,13 +561,13 @@
                                                   </div>
                                              </div>
                                         </div>
-                                        <!-- <div class="col-md-6">
+                                        <div class="col-md-6">
                                              <p class="p_label">This is signature field</p>
                                              <div class="custom-control custom-checkbox">
                                                   <input type="checkbox" class="custom-control-input" id="signature_field${newUniqueId}" name="signature_field-${newUniqueId}">
                                                   <label class="custom-control-label" for="signature_field${newUniqueId}"></label>
                                              </div>
-                                        </div> -->
+                                        </div>
                                    </div>
                                    <hr>
                               </div>
@@ -812,7 +812,7 @@ function getAllContents() {
 
           // var startNewSection = $(this).find('input[name^="start_new_section"]').is(':checked') ? 1 : 0;
           var textAlign = $(this).find('select[name^="text_align"]').val() || ''; 
-          // var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
+          var signatureField = $(this).find('input[name^="signature_field"]').is(':checked') ? 1 : 0;
           var contentHtml = $(this).find('textarea[name^="content_content_html"]').val();
           var contentClass = $(this).find('input[name^="content_class"]').val() || '';
           var addCondition = $(this).find('input[name^="add_condition"]').is(':checked') ? 1 : 0;
@@ -825,7 +825,7 @@ function getAllContents() {
                id: id,
                // start_new_section: startNewSection,
                text_align: textAlign,
-               // signature_field: signatureField,
+               signature_field: signatureField,
                content_html: contentHtml,
                content_class: contentClass,
                add_condition: addCondition,
