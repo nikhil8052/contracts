@@ -920,7 +920,7 @@ $(document).ready(function () {
           // });
      
           $('.add_condition').each(function () {
-               const uniqueId = $(this).attr('id').replace('add_condition', '');
+               const uniqueId = $(this).attr('').replace('add_condition', '');
                const conditionSection = $('.add_condition_section' + uniqueId);
 
                if(!hasError && $(this).is(':checked')){

@@ -2996,6 +2996,20 @@ footer .foot_end_box .reserve_box {
     box-shadow: none;
 }
 
+.radio_div >input[type="radio"] {
+    accent-color: #002655;
+}
+
+.radio_div {
+    display: flex;
+    align-items: baseline;
+    column-gap: 10px;
+}
+
+.progress-bar {
+    background: #002655;
+}
+
 /* 7nov2024////////////////////////// */
 #main-question-form-controller {
     display: flex !important;
@@ -3052,16 +3066,23 @@ footer .foot_end_box .reserve_box {
  }
 
 .question-div .que_heading {
-    color: #002655;
+    /* color: #002655;
     font-weight: 500;
     font-size: 18px;
-    margin-bottom: 12px;
+    margin-bottom: 12px; */
+
+    color: #002655;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    margin-right: 25px;
+    margin-bottom: 9px;
 }
 
 .nxt {
     background: #002655;
     color: white;
-    padding: 8px 40px;
+    padding: 8px 25px;
     border-radius: 50px;
     border: 1px solid #002655;
     font-size: 18px;

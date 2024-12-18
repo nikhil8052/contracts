@@ -62,7 +62,6 @@
                                    <hr>
                                    <div class="add_qu_sec">
                                    @if(isset($document_questions) && $document_questions != null)
-                                   <?php $num = 1; ?>
                                    @foreach($document_questions as $docQues)
                                    @if($docQues->type == 'textbox')
                                    <div class="new_que_sec{{ $docQues->id ?? '' }}">
@@ -71,7 +70,7 @@
                                                   <div class="card-inner main_question_div">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Textbox</h6> 
@@ -439,7 +438,7 @@
                                                   <div class="card-inner">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Textarea</h6>  
@@ -809,7 +808,7 @@
                                                   <div class="card-inner">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Dropdown</h6>  
@@ -1215,7 +1214,7 @@
                                                   <div class="card-inner">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Radio Button</h6> 
@@ -1611,7 +1610,7 @@
                                                   <div class="card-inner">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Date Field</h6>  
@@ -1964,7 +1963,7 @@
                                                   <div class="card-inner">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Pricebox</h6>
@@ -2337,7 +2336,7 @@
                                                   <div class="card-inner">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Number field</h6>  
@@ -2695,7 +2694,7 @@
                                                   <div class="card-inner">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Percentage Box</h6>  
@@ -3063,7 +3062,7 @@
                                                   <div class="card-inner">
                                                        <div class="row add_step">
                                                             <div class="col-md-1">
-                                                                 <b><p>{{ $num++ ?? ''}}</p></b>
+                                                                 <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
                                                             <div class="col-md-6">
                                                                  <h6>Dropdown link</h6> 
@@ -3184,31 +3183,32 @@
                                                                  </div>
                                                             </div>
                                                        </div>
+                                                       <hr>
+                                                       <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                 <label class="form-label" for="">Form submit handler for generating pdf</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="custom-control custom-checkbox checked">
+                                                       @if(isset($docQues->is_end) && $docQues->is_end != null)
+                                                            @if($docQues->is_end == 1)
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                            @endif
+                                                       @else
+                                                            <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
+                                                            <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
+                                                                 step</label>
+                                                       @endif
+                                                       </div>
                                                   </div>
                                              </div>
                                              <br>
-                                             <div class="col-md-12">
-                                                  <div class="form-group">
-                                                       <label class="form-label" for="">Form submit handler for generating pdf</label>
-                                                  </div>
-                                             </div>
-                                             <div class="custom-control custom-checkbox checked">
-                                             @if(isset($docQues->is_end) && $docQues->is_end != null)
-                                                  @if($docQues->is_end == 1)
-                                                  <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}" checked>
-                                                  <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
-                                                       step</label>
-                                                  @else
-                                                  <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
-                                                  <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
-                                                       step</label>
-                                                  @endif
-                                             @else
-                                             <input type="checkbox" class="custom-control-input" id="is_end{{ $docQues->id ?? '' }}" name="is_end{{ $docQues->id ?? '' }}">
-                                             <label class="custom-control-label" for="is_end{{ $docQues->id ?? '' }}">Please check this box if you are on the last
-                                                  step</label>
-                                             @endif
-                                             </div>
                                         </div>
                                    </div>
                                    @endif
