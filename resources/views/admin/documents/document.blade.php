@@ -15,8 +15,7 @@
                <input type="hidden" name="published" id="published" value="{{ $document->published ?? '' }}">
                <input type="hidden" name="field_img_id" id="field_img_id" value="">
                <input type="hidden" name="ag_img_id" id="ag_img_id" value="">
-               <input type="hidden" name="editor_value" id="editor_value" value="">
-
+               
                @if(isset($document) && $document != null)
                <div class="col-md-12 doc-title mt-4 pb-4">
                     <h3>{{ $document->title ?? '' }}</h3>

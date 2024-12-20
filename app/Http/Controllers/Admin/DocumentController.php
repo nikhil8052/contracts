@@ -44,7 +44,9 @@ class DocumentController extends Controller
         return view('admin.documents.document',compact('categories','related_documents','reviews'));
     }
 
-    public function addDocuments(DocumentFormRequest $request){     
+    public function addDocuments(DocumentFormRequest $request){    
+        // return $request->all();
+
         DB::beginTransaction(); 
         try{
             $document = new Document;

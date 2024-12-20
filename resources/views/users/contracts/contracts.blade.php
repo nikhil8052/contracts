@@ -64,6 +64,8 @@
                 <form id="contractForm">
                     <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
                     <input type="hidden" id="total_step" value="{{ count($questions) ?? ''}}">
+                    <input type="hidden" id="all_attempted" value="0">
+                    <input type="hidden" id="reverse_attempt" value="0">
                     @php 
                         $count = 1;
                         $num = 1;
@@ -92,20 +94,20 @@
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
                                 <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}', '{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
 
                             @elseif($question_type == "textarea")
                                 @php 
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
                                 <textarea class="contract_textarea" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"></textarea>
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}', '{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"></textarea>
                             
                             @elseif($question_type == "dropdown")
                                 @php 
                                     $next_qid = $question->options->first()->next_question_id ?? '';
                                 @endphp 
-                                <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
+                                <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
                                     @foreach($question->options as $option)
                                         <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $option->next_question_id ?? '' }}"
                                         value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'selected' : '' }}> {{ $option->option_label }} </option>
@@ -118,7 +120,7 @@
                                 @foreach($question->options as $option)
                                 <div class="radio_div">
                                     <input type="radio" name="question_{{ $question->id ?? '' }}" target-id="qidtarget-{{ $question->id ?? '' }}" id="radio_{{ $question->id ?? '' }}{{ $num++ ?? '' }}"
-                                            onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}"
+                                            onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}"
                                             que_id="{{ $option->next_question_id ?? '' }}" value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'checked' : '' }} />
                                     <label>{{ $option->option_label }}</label>
                                 </div>
@@ -129,31 +131,31 @@
                                 @endphp 
                                 
                                 <input type="date" class="contract_date" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                    onchange="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" />
+                                    onchange="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" />
                             @elseif($question_type == "pricebox")
                                 @php 
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
                                 <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}" 
-                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
 
                             @elseif($question_type == "number-field")
                                 @php 
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
                                 <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
                             @elseif($question_type == "percentage-box")
                                 @php 
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
                                 <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
                             @elseif($question_type == "dropdown-link")
                                 @php 
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
-                                <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}"  id="{{ $question->id }}" name="{{ $question->id ?? '' }}">
+                                <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}"  id="{{ $question->id }}" name="{{ $question->id ?? '' }}">
                                     <option value="" selected>{{ $question->questionData->same_contract_link_label ?? '' }}</option>
                                     @foreach($question->options as $option)
                                         <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $question->questionData->next_question_id ?? '' }}"
@@ -167,7 +169,7 @@
                                         onclick="go_pre_step(this)">Previous</button>
                                 @endif
 
-                                <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}"
+                                <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
                                     data-condition_step="{{  $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id }}" onclick="go_next_step(this)" 
                                     data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
                                 Next
@@ -353,176 +355,98 @@
         })
     }
 
-    // function questionConditions(){
-    //     $('.nxt').each(function(){
-    //         var next_id = $(this).attr("que_id");
-    //         var conditions = $(this).attr("data-condition");
-    //         var conditional_step = $(this).attr("data-condition_step");
+    var total_steps = $('#total_step').val(); 
+    var total_attempted = $('#all_attempted').val(); 
 
-    //         if(conditions != null && conditions != '' && conditions != undefined){
-    //             conditions = JSON.parse(conditions);
-    //             var is_matched = true;
+    function updateProgressBar() {
+        var percent = (total_attempted / total_steps) * 100;
+        var value = parseInt(percent);
 
-    //             $.each(conditions, function(key, val){
-    //                 var condition_type = val.condition_type;
-    //                 var queId = val.conditional_question_id;
-    //                 var queValue = val.conditional_question_value;
-    //                 var conditionalCheck = val.conditional_check;
-                    
-    //                 if(condition_type == 'go_to_step_condition'){
-    //                     if(conditionalCheck == 1){
-    //                         if($('#'+queId).val() == queValue && is_matched == true){
-    //                             is_matched = true;
-    //                         }else{
-    //                             is_matched = false;
-    //                         }
-    //                     }else if(conditionalCheck == 2){
-    //                         if($('#'+queId).val() > queValue && is_matched == true){
-    //                             is_matched = true;
-    //                         }else{
-    //                             is_matched = false;
-    //                         }
-    //                     }else if(conditionalCheck == 3){
-    //                         if($('#'+queId).val() < queValue && is_matched == true){
-    //                             is_matched = true;
-    //                         }else{
-    //                             is_matched = false;
-    //                         }
-    //                     }else if(conditionalCheck == 4){
-    //                         if($('#'+queId).val() != queValue && is_matched == true){
-    //                             is_matched = true;
-    //                         }else{
-    //                             is_matched = false;
-    //                         }
-    //                     }
-    //                 }
-    //             })
+        $('#percent_count').val(value); 
+        $('.progressCount').text(value + "%"); 
+        $('.progress-bar').css("width", value + "%");
+    }
 
-    //             if(is_matched == true){
-    //                 console.log('yes');
-    //                 $(this).attr("que_id", conditional_step);
-    //             }else{
-    //                 console.log('no');
-    //                 $(this).attr("que_id", next_id);
-    //             }
-    //         }
-    //     })
-    // }
-
-    // var total_steps = parseInt("{{ $total_steps ?? '' }}");
-   
-    function progressBarCount(id,next_id){
-        var total_steps = $('#total_step').val();
+    function progressBarCount(id, next_id){
         var current_step = $('.step-' + id);
-        var step_num = $(current_step).data('count');
         var total_hidden_steps = 0;
-        for(let i = parseInt(id)+ 1; i< next_id; i++){
-            if($('.step-' + i).hasClass('hide')) {
+        for(let i = parseInt(id) + 1; i < next_id; i++){
+            if($('.step-' + i).hasClass('hide')){
                 total_hidden_steps++;
             }
         }
 
         if(total_hidden_steps > 0){
-            total_steps -= total_hidden_steps; 
+            total_steps -= total_hidden_steps;
         }
 
         if($(current_step).hasClass('done')){
-            var max = total_steps;
-            var min = step_num; 
-            var percent = (min / total_steps) * 100; 
-            var value = parseInt(percent); 
-            $('#percent_count').val(value);
-            $('.progressCount').text(value + "%");
-            $('.progress-bar').css("width", value + "%");
-
-            // console.log("Updated total steps: " + total_steps);
-        }else{
-            var remaining_steps = total_steps - step_num;
-            var percent = (remaining_steps / total_steps) * 100;
-            var value = parseInt(percent);
-            value = Math.max(value, 0);
-            
-            $('#percent_count').val(value);
-            $('.progressCount').text(value + "%");
-            $('.progress-bar').css("width", value + "%");
+            total_attempted++;
+            updateProgressBar();
+            $('#all_attempted').val(total_attempted);
         }
     }
 
     function reverseProgressCount(id, next_id){
-        var current_step = $('.step-' + id);
-        var step_num = $(current_step).data('count');
-        // var total_hidden_steps = 0;
-        // for(let i = parseInt(id)+ 1; i< next_id; i++){
-        //     if($('.step-' + i).hasClass('hide')) {
-        //         total_hidden_steps++;
-        //     }
-        // }
-        var total_steps = $('#total_step').val();
-        // console.log(total_steps);
-        
-        var remaining_steps = parseInt(total_steps) - step_num;
-        var percent = (remaining_steps / total_steps) * 100;
-        var value = parseInt(percent);
-        value = Math.max(value, 0);
-        
-        $('#percent_count').val(value);
-        $('.progressCount').text(value + "%");
-        $('.progress-bar').css("width", value + "%");
-    }
-
-    function go_next_step(e){
-        var next_step_id = $(e).attr("que_id");  // Get the current next step ID
-        var my_ref = $(e).attr("my_ref");        // Get the reference ID for current step
-
-        // Check conditions before moving to the next step
-        questionConditions(my_ref);  // Evaluate conditions for the current step
-
-        // After checking conditions, ensure next_step_id is valid
-        if(next_step_id == '' || next_step_id == null || next_step_id == undefined){
-            // $('.nxt_btn_' + my_ref).text('Generar');
-            saveSteps(my_ref);
-        } else {
-            var is_condition = $(next_step_div).attr('is_condition');  // Check if the step has a condition
-
-            // Hide any inactive steps in between
-            for (let i = parseInt(my_ref) + 1; i < next_step_id; i++) {
-                if (!$('.step-' + i).hasClass('active')) {
-                    $('.step-' + i).addClass('hide');
-                }
-            }
-
-            // Prepare the previous button with the correct ID
-            var pre_btn = `.pre_btn_${next_step_id}`;
-            $(pre_btn).attr("que_id", my_ref);
-
-            // Mark the current step as 'done'
-            if (my_ref != null && my_ref != '' && my_ref != undefined) {
-                var current_step = `.step-${my_ref}`;
-                if ($(current_step).hasClass('active')) {
-                    $(current_step).removeClass('active');
-                    $(current_step).addClass('done');
-                }
-            }
-
-            // Show the next step and update the progress bar
-            var next_step_div = `.step-${next_step_id}`;
-            $(next_step_div).addClass('active');
-            saveSteps();
-
-            // Update progress bar
-            progressBarCount(my_ref, next_step_id);
+        var current_step = $('.step-' + id);        
+        total_attempted--;
+        if(total_attempted >= 0){ 
+            updateProgressBar();
         }
     }
 
-    function questionConditions(my_ref) {
-        $('.nxt').each(function() {
+    // function progressBarCount(id, next_id){
+    //     var current_step = $('.step-' + id);
+    //     var total_hidden_steps = 0;
+    
+    //     for(let i = parseInt(id) + 1; i < next_id; i++){
+    //         if ($('.step-' + i).hasClass('hide')) {
+    //             total_hidden_steps++;
+    //         }
+    //     }
+
+    //     if(total_hidden_steps > 0){
+    //         total_steps -= total_hidden_steps;
+    //     }
+    //     $('#total_step').val(total_steps);
+
+    //     if($(current_step).hasClass('done')){
+    //         total_attempted++;
+    //         var percent = (total_attempted / total_steps) * 100;
+    //         var value = parseInt(percent);
+
+    //         $('#percent_count').val(value); 
+    //         $('.progressCount').text(value + "%"); 
+    //         $('.progress-bar').css("width", value + "%");
+
+    //         $('#all_attempted').val(total_attempted);
+    //     }
+    // }
+
+    // function reverseProgressCount(id, next_id){
+    //     var current_step = $('.step-' + id);        
+    //     total_attempted-- ;
+    //     console.log(total_attempted);
+    //     if(total_attempted < total_steps){
+    //         var percent = (total_attempted / total_steps) * 100;
+    //         var value = parseInt(percent);
+    //         $('#percent_count').val(value);
+    //         $('.progressCount').text(value + "%");
+    //         $('.progress-bar').css("width", value + "%");
+    //     }
+    // }
+
+    function questionConditions(my_ref, next_step_id){
+        $('.nxt').each(function(){
             var next_id = $(this).attr("que_id");
             var conditions = $(this).attr("data-condition");
             var conditional_step = $(this).attr("data-condition_step");
+            var next_step = $(this).attr("data-next_step");
 
-            if(conditions != null && conditions != '' && conditions != undefined) {
+            if(conditions != null && conditions != '' && conditions != undefined){
                 conditions = JSON.parse(conditions);
                 var is_matched = true; 
+                var is_show = true;
 
                 $.each(conditions, function(key, val){
                     var condition_type = val.condition_type;
@@ -565,19 +489,19 @@
                                 is_matched = false;
                             }
                         }else if(conditionalCheck == 2){
-                            if ($('#' + queId).val() > queValue && is_matched == true) {
+                            if($('#' + queId).val() > queValue && is_matched == true){
                                 is_matched = true;
                             } else {
                                 is_matched = false;
                             }
                         }else if(conditionalCheck == 3){
-                            if ($('#' + queId).val() < queValue && is_matched == true) {
+                            if($('#' + queId).val() < queValue && is_matched == true){
                                 is_matched = true;
                             } else {
                                 is_matched = false;
                             }
                         }else if(conditionalCheck == 4){
-                            if ($('#' + queId).val() != queValue && is_matched == true) {
+                            if($('#' + queId).val() != queValue && is_matched == true){
                                 is_matched = true;
                             } else {
                                 is_matched = false;
@@ -589,68 +513,65 @@
                 if(is_matched == true){
                     $(this).attr("que_id", conditional_step); 
                 }else if(is_matched == false){
-                    var id = parseInt(my_ref) + 1;
-                    $(this).attr("que_id", id); 
-                    console.log($(this).attr("que_id"));
+                    $(this).attr("que_id", next_step); 
                 }
             }
         });
     }
 
+    function go_next_step(e){
+        var next_step_id = $(e).attr("que_id");  
+        var my_ref = $(e).attr("my_ref");       
 
-    // function go_next_step(e){
-    //     var next_step_id = $(e).attr("que_id");
-    //     var my_ref = $(e).attr("my_ref");
+        if(next_step_id == '' || next_step_id == null || next_step_id == undefined){ 
+            saveSteps(my_ref);
+        }else{
+            var is_condition = $(next_step_div).attr('is_condition');  
+            for(let i = parseInt(my_ref) + 1; i < next_step_id; i++){
+                if(!$('.step-' + i).hasClass('active')){
+                    $('.step-' + i).addClass('hide');
+                }
+            }
+            var pre_btn = `.pre_btn_${next_step_id}`;
+            $(pre_btn).attr("que_id", my_ref);
 
-    //     if(next_step_id == '' || next_step_id == null || next_step_id == undefined){
-    //         $('.nxt_btn_'+my_ref).text('Generar');
-    //         saveSteps(my_ref);
-    //     }else{
-    //         var is_condition = $(next_step_div).attr('is_condition');
-            
-    //         for(let i = parseInt(my_ref) + 1; i < next_step_id; i++) {
-    //             if(!$('.step-'+i).hasClass('active')){
-    //                 $('.step-'+i).addClass('hide');
-    //             }
-    //         }
+            if(my_ref != null && my_ref != '' && my_ref != undefined){
+                var current_step = `.step-${my_ref}`;
+                if($(current_step).hasClass('active')){
+                    $(current_step).removeClass('active');
+                    $(current_step).addClass('done');
+                }
+            }
 
-    //         var pre_btn = `.pre_btn_${next_step_id}`;
-    //         $(pre_btn).attr("que_id", my_ref);
-            
-    //         if(my_ref != null && my_ref != '' && my_ref != undefined){
-    //             var current_step = `.step-${my_ref}`;
-    //             if($(current_step).hasClass('active')){
-    //                 $(current_step).removeClass('active');
-    //                 $(current_step).addClass('done');
-    //             }
-    //         }
-
-    //         var next_step_div = `.step-${next_step_id}`;
-    //         $(next_step_div).addClass('active');
-    //         saveSteps();
-    //     }
-
-    //     progressBarCount(my_ref, next_step_id);
-    // }
+            var next_step_div = `.step-${next_step_id}`;
+            if($(next_step_div).hasClass('hide')){
+                $(next_step_div).addClass('active');
+                $(next_step_div).removeClass('hide');
+            }else{
+                $(next_step_div).addClass('active');
+            }
+    
+            saveSteps();
+        }
+        progressBarCount(my_ref, next_step_id);
+       
+    }
 
     function go_pre_step(e) {
-        // $(".question-div").hide();
-    
         var current_step_id = $(e).attr('my_ref');
         var current_step = `.step-${current_step_id}`;
         if($(current_step).hasClass('active')){
             $(current_step).removeClass('active');
         }
-
-        var next_step_id = $(e).attr("que_id");
-        var next_step_div = `.step-${next_step_id}`;
+        var prev_step_id = $(e).attr("que_id");
+        var prev_step_div = `.step-${prev_step_id}`;
         
-        if($(next_step_div).hasClass('done')){
-            $(next_step_div).removeClass('done');
-            $(next_step_div).addClass('active');
+        if($(prev_step_div).hasClass('done')){
+            $(prev_step_div).addClass('active');
+            $(prev_step_div).removeClass('done');
         }
 
-        // reverseProgressCount(current_step_id,next_step_id);
+        reverseProgressCount(current_step_id, prev_step_id);
     }
 
     function updateNextButton(selectElement) {
@@ -712,7 +633,7 @@
         }
     }
 
-    function storeAnswers(e, que_id = undefined, qtype = undefined){
+    function storeAnswers(e, que_id = undefined, qtype = undefined, next_id = undefined){
         if(qtype === "textbox"){
             var qid = `que${que_id}`;
             var main_q_div = `.step-${que_id}`;
@@ -899,6 +820,7 @@
 
         rightSecConditions();
         alphabetList();
+        questionConditions(que_id, next_id);
     }   
 
     function smoothScrollToTarget(targetElement, container, offset = 0) {
