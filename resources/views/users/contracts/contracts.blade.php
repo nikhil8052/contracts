@@ -63,7 +63,7 @@
                 </div>
                 <form id="contractForm">
                     <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
-                    <input type="hidden" id="total_step" value="{{ count($questions) ?? ''}}">
+                    <input type="hidden" id="total_step" value="{{ $total_questions ?? ''}}">
                     <input type="hidden" id="all_attempted" value="0">
                     <input type="hidden" id="reverse_attempt" value="0">
                     @php 
@@ -164,16 +164,30 @@
                                 </select>
                             @endif
                             <div class="navigation-btns mt-4"> 
+                           
                                 @if($index != 0)
                                     <button type="button" class="pre_btn_{{ $question->id }} pre" que_id="" my_ref="{{ $question->id }}"
                                         onclick="go_pre_step(this)">Previous</button>
                                 @endif
-
                                 <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
                                     data-condition_step="{{  $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id }}" onclick="go_next_step(this)" 
                                     data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
-                                Next
+                                    Next
                                 </button>
+                                <!-- @if($next_qid != null)
+                                <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
+                                    data-condition_step="{{  $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id }}" onclick="go_next_step(this)" 
+                                    data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
+                                    Next
+                                </button>
+                                @else
+                                <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
+                                    data-condition_step="{{  $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id }}" 
+                                    data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
+                                    Generar
+                                </button>
+                                @endif -->
+
                             </div>
                         </div>
                         @php $count++; @endphp
@@ -220,12 +234,16 @@
 <script>
     let attemptedAnswers = {};
     let currentQuestion = 1;
+    var total_steps = $('#total_step').val(); 
+    var total_attempted = $('#all_attempted').val(); 
+
+
     // $(".question-div").hide();
     // $(".step1").show();
     
     $(document).ready(function(){
         $(".step1").addClass('active');
-
+        
         $('form#contractForm select').each(function(){
             var id = $(this).attr('id');
             if(id != null && id != '' && id != undefined){
@@ -244,6 +262,9 @@
                 });
             }
         });
+
+      
+    
 
         rightSecConditions();
         alphabetList();
@@ -355,45 +376,105 @@
         })
     }
 
-    var total_steps = $('#total_step').val(); 
-    var total_attempted = $('#all_attempted').val(); 
 
+
+    // This function is used to update the progress bar based on the attempted question 
+    // function updateProgressBar() {
+    //     var percent = (total_attempted / total_steps) * 100;
+    //     var value = parseInt(percent);
+    //     $('#percent_count').val(value); 
+    //     $('.progressCount').text(value + "%"); 
+    //     $('.progress-bar').css("width", value + "%");
+    // }
+
+    // function progressBarCount(id, next_id){
+    //     // get the current step or questions which is shown to the user 
+    //     var current_step = $('.step-' + id);
+    //     var total_hidden_steps = 0;
+    //     var attempted = 1;
+
+    //     for(let i = parseInt(id)+1; i < next_id; i++){
+    //         if($('.step-' + i).hasClass('hide')){
+    //             total_hidden_steps++;
+    //         }
+    //     }
+
+    //     if(total_hidden_steps > 0){
+    //         attempted += total_hidden_steps;
+    //     }
+
+    //     if($(current_step).hasClass('done')){
+    //         total_attempted = attempted + 1;
+
+    //         console.log(total_attempted);
+    //         updateProgressBar();
+    //         $('#all_attempted').val(total_attempted);
+    //     }
+    // }
+
+    // Function to update the progress bar based on total attempted steps
     function updateProgressBar() {
         var percent = (total_attempted / total_steps) * 100;
         var value = parseInt(percent);
-
-        $('#percent_count').val(value); 
-        $('.progressCount').text(value + "%"); 
+        $('#percent_count').val(value);
+        $('.progressCount').text(value + "%");
         $('.progress-bar').css("width", value + "%");
     }
 
-    function progressBarCount(id, next_id){
+    // Function to handle progress bar updates as the user moves through the steps
+    function progressBarCount(id, next_id) {
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
+
+        // Loop through skipped steps and count them
         for(let i = parseInt(id) + 1; i < next_id; i++){
             if($('.step-' + i).hasClass('hide')){
                 total_hidden_steps++;
             }
         }
 
-        if(total_hidden_steps > 0){
-            total_steps -= total_hidden_steps;
+        total_attempted += total_hidden_steps;
+
+        if($(current_step).hasClass('done')) {
+            total_attempted++;
         }
 
-        if($(current_step).hasClass('done')){
-            total_attempted++;
+        console.log("Total attempted steps:", total_attempted);
+        updateProgressBar();
+
+        $('#all_attempted').val(total_attempted);
+    }
+
+    function reverseProgressCount(id, next_id) {
+        var current_step = $('.step-' + id);
+        var total_hidden_steps = 0;
+
+        for(let i = parseInt(id)-1; i >= next_id; i--){
+            if($('.step-' + i).hasClass('hide')){
+                total_hidden_steps++;
+            }
+        }
+
+        total_attempted -= total_hidden_steps;
+
+        total_attempted--;
+
+        console.log("Total reverse attempted steps:", total_attempted);
+
+        if(total_attempted >= 0){
             updateProgressBar();
             $('#all_attempted').val(total_attempted);
         }
     }
 
-    function reverseProgressCount(id, next_id){
-        var current_step = $('.step-' + id);        
-        total_attempted--;
-        if(total_attempted >= 0){ 
-            updateProgressBar();
-        }
-    }
+    // function reverseProgressCount(id, next_id){
+    //     var current_step = $('.step-' + id);        
+    //     total_attempted--;
+    //     if(total_attempted >= 0){ 
+    //         console.log(total_attempted);
+    //         updateProgressBar();
+    //     }
+    // }
 
     // function progressBarCount(id, next_id){
     //     var current_step = $('.step-' + id);

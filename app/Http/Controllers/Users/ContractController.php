@@ -102,19 +102,19 @@ class ContractController extends Controller
         $document = Document::where('slug',$slug)->first();
         $id = $document->id;
         $questions = Question::where('document_id',$id)->with(['questionData', 'conditions', 'options', 'nextQuestion'])->get();
-
         $documentContents = DocumentRightSection::where('document_id', $id)->get();
-        
+
         foreach($documentContents as $content){
             $content->content = preg_replace_callback(
                 '/#(\d+)#/',
-                function ($matches) {
+                function($matches) use (&$count){
                     $classNumber = $matches[1];
-                    return "<span class=\"answered_spns qidtarget-$classNumber\">_______</span>";
+                    $result = "<span class=\"answered_spns qidtarget-$classNumber\">_______</span>";
+                    return $result;
                 },
-                $content->content
+                $content->content,
             );
-            
+
             $content->content = preg_replace_callback(
                 '/{abclist1}/',
                 function($matches){
@@ -131,7 +131,8 @@ class ContractController extends Controller
             
         $general = GeneralSection::where('key', 'valid_in')->first();
     
-        return view('users.contracts.contracts', compact('questions', 'documentContents','id','general','document'));
+        $total_questions = count($questions);
+        return view('users.contracts.contracts', compact('questions', 'documentContents','id','general','document','total_questions'));
     }
 
     public function saveContractsQuestions(Request $request){
