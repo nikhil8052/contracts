@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('save_contract_questions', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->nullable();
+            $table->integer('document_id')->nullable();
+            $table->integer('question_id')->nullable();
+            $table->longText('answer')->nullable();
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }

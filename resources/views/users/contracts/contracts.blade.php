@@ -169,25 +169,15 @@
                                     <button type="button" class="pre_btn_{{ $question->id }} pre" que_id="" my_ref="{{ $question->id }}"
                                         onclick="go_pre_step(this)">Previous</button>
                                 @endif
-                                <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
-                                    data-condition_step="{{  $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id }}" onclick="go_next_step(this)" 
+                                <button type="button" class="nxt_btn_{{ $question->id ?? '' }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
+                                    data-condition_step="{{ $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id ?? '' }}" onclick="go_next_step(this)" 
                                     data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
                                     Next
                                 </button>
-                                <!-- @if($next_qid != null)
-                                <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
-                                    data-condition_step="{{  $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id }}" onclick="go_next_step(this)" 
-                                    data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
-                                    Next
-                                </button>
-                                @else
-                                <button type="button" class="nxt_btn_{{ $question->id }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
-                                    data-condition_step="{{  $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id }}" 
-                                    data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
+
+                                <button type="button" class="last_step_btn nxt" style="display:none;">
                                     Generar
                                 </button>
-                                @endif -->
-
                             </div>
                         </div>
                         @php $count++; @endphp
@@ -242,6 +232,14 @@
     // $(".step1").show();
     
     $(document).ready(function(){
+        let key = "last_saved_step";
+        // var last_step = getWithExpiry(key);
+
+        // if(last_step){
+        //     $(".step-"+last_step).addClass('active');
+        // }else{
+        //     $(".step1").addClass('active');
+        // }
         $(".step1").addClass('active');
         
         $('form#contractForm select').each(function(){
@@ -262,9 +260,6 @@
                 });
             }
         });
-
-      
-    
 
         rightSecConditions();
         alphabetList();
@@ -376,42 +371,6 @@
         })
     }
 
-
-
-    // This function is used to update the progress bar based on the attempted question 
-    // function updateProgressBar() {
-    //     var percent = (total_attempted / total_steps) * 100;
-    //     var value = parseInt(percent);
-    //     $('#percent_count').val(value); 
-    //     $('.progressCount').text(value + "%"); 
-    //     $('.progress-bar').css("width", value + "%");
-    // }
-
-    // function progressBarCount(id, next_id){
-    //     // get the current step or questions which is shown to the user 
-    //     var current_step = $('.step-' + id);
-    //     var total_hidden_steps = 0;
-    //     var attempted = 1;
-
-    //     for(let i = parseInt(id)+1; i < next_id; i++){
-    //         if($('.step-' + i).hasClass('hide')){
-    //             total_hidden_steps++;
-    //         }
-    //     }
-
-    //     if(total_hidden_steps > 0){
-    //         attempted += total_hidden_steps;
-    //     }
-
-    //     if($(current_step).hasClass('done')){
-    //         total_attempted = attempted + 1;
-
-    //         console.log(total_attempted);
-    //         updateProgressBar();
-    //         $('#all_attempted').val(total_attempted);
-    //     }
-    // }
-
     // Function to update the progress bar based on total attempted steps
     function updateProgressBar() {
         var percent = (total_attempted / total_steps) * 100;
@@ -422,7 +381,7 @@
     }
 
     // Function to handle progress bar updates as the user moves through the steps
-    function progressBarCount(id, next_id) {
+    function progressBarCount(id, next_id, is_last = false) {
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
 
@@ -438,10 +397,15 @@
         if($(current_step).hasClass('done')) {
             total_attempted++;
         }
-
         console.log("Total attempted steps:", total_attempted);
-        updateProgressBar();
-
+        if(is_last){
+            $('#percent_count').val(100);
+            $('.progressCount').text("100%");
+            $('.progress-bar').css("width", "100%");
+        }else{
+            updateProgressBar();
+        }
+       
         $('#all_attempted').val(total_attempted);
     }
 
@@ -456,7 +420,6 @@
         }
 
         total_attempted -= total_hidden_steps;
-
         total_attempted--;
 
         console.log("Total reverse attempted steps:", total_attempted);
@@ -466,56 +429,6 @@
             $('#all_attempted').val(total_attempted);
         }
     }
-
-    // function reverseProgressCount(id, next_id){
-    //     var current_step = $('.step-' + id);        
-    //     total_attempted--;
-    //     if(total_attempted >= 0){ 
-    //         console.log(total_attempted);
-    //         updateProgressBar();
-    //     }
-    // }
-
-    // function progressBarCount(id, next_id){
-    //     var current_step = $('.step-' + id);
-    //     var total_hidden_steps = 0;
-    
-    //     for(let i = parseInt(id) + 1; i < next_id; i++){
-    //         if ($('.step-' + i).hasClass('hide')) {
-    //             total_hidden_steps++;
-    //         }
-    //     }
-
-    //     if(total_hidden_steps > 0){
-    //         total_steps -= total_hidden_steps;
-    //     }
-    //     $('#total_step').val(total_steps);
-
-    //     if($(current_step).hasClass('done')){
-    //         total_attempted++;
-    //         var percent = (total_attempted / total_steps) * 100;
-    //         var value = parseInt(percent);
-
-    //         $('#percent_count').val(value); 
-    //         $('.progressCount').text(value + "%"); 
-    //         $('.progress-bar').css("width", value + "%");
-
-    //         $('#all_attempted').val(total_attempted);
-    //     }
-    // }
-
-    // function reverseProgressCount(id, next_id){
-    //     var current_step = $('.step-' + id);        
-    //     total_attempted-- ;
-    //     console.log(total_attempted);
-    //     if(total_attempted < total_steps){
-    //         var percent = (total_attempted / total_steps) * 100;
-    //         var value = parseInt(percent);
-    //         $('#percent_count').val(value);
-    //         $('.progressCount').text(value + "%");
-    //         $('.progress-bar').css("width", value + "%");
-    //     }
-    // }
 
     function questionConditions(my_ref, next_step_id){
         $('.nxt').each(function(){
@@ -572,19 +485,19 @@
                         }else if(conditionalCheck == 2){
                             if($('#' + queId).val() > queValue && is_matched == true){
                                 is_matched = true;
-                            } else {
+                            }else{
                                 is_matched = false;
                             }
                         }else if(conditionalCheck == 3){
                             if($('#' + queId).val() < queValue && is_matched == true){
                                 is_matched = true;
-                            } else {
+                            }else{
                                 is_matched = false;
                             }
                         }else if(conditionalCheck == 4){
                             if($('#' + queId).val() != queValue && is_matched == true){
                                 is_matched = true;
-                            } else {
+                            }else{
                                 is_matched = false;
                             }
                         }
@@ -603,11 +516,16 @@
     function go_next_step(e){
         var next_step_id = $(e).attr("que_id");  
         var my_ref = $(e).attr("my_ref");       
+        var is_last = !next_step_id || next_step_id === '';
 
-        if(next_step_id == '' || next_step_id == null || next_step_id == undefined){ 
+        if(is_last){
+            $('.last_step_btn').show();
+            $('.nxt_btn_'+my_ref).hide();
+
+            progressBarCount(my_ref, null, true);
             saveSteps(my_ref);
+            
         }else{
-            var is_condition = $(next_step_div).attr('is_condition');  
             for(let i = parseInt(my_ref) + 1; i < next_step_id; i++){
                 if(!$('.step-' + i).hasClass('active')){
                     $('.step-' + i).addClass('hide');
@@ -618,12 +536,13 @@
 
             if(my_ref != null && my_ref != '' && my_ref != undefined){
                 var current_step = `.step-${my_ref}`;
+                // console.log($(current_step).attr('attempted'));
                 if($(current_step).hasClass('active')){
                     $(current_step).removeClass('active');
                     $(current_step).addClass('done');
                 }
             }
-
+           
             var next_step_div = `.step-${next_step_id}`;
             if($(next_step_div).hasClass('hide')){
                 $(next_step_div).addClass('active');
@@ -631,11 +550,18 @@
             }else{
                 $(next_step_div).addClass('active');
             }
-    
+
             saveSteps();
+            progressBarCount(my_ref, next_step_id);
         }
-        progressBarCount(my_ref, next_step_id);
-       
+
+
+        // var now = new Date();
+        // var time = now.getTime();
+        // time += 3600 * 100;
+
+        // setWithExpiry("last_saved_step", my_ref, time);
+        // localStorage.setItem("last_saved_step", my_ref);
     }
 
     function go_pre_step(e) {
@@ -652,7 +578,37 @@
             $(prev_step_div).removeClass('done');
         }
 
+        var last_step_btn = $(current_step).find('.last_step_btn');
+        if(last_step_btn.length){
+            $('.last_step_btn').hide();
+            $('.nxt_btn_'+current_step_id).show();
+        }
+
         reverseProgressCount(current_step_id, prev_step_id);
+    }
+
+    function setWithExpiry(key, value, ttl) {
+        const now = new Date();
+        const item = {
+            value: value,
+            expiry: ttl,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+    }
+
+    function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) {
+            return null;
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date();
+
+        if(now.getTime() > item.expiry){
+            localStorage.removeItem(key)
+            return null
+        }
+        return item.value
     }
 
     function updateNextButton(selectElement) {
@@ -693,6 +649,8 @@
                 var answer = $('form#contractForm .question-div.active').attr('attempted');
                 var step = questionId;
                 var value = answer;
+
+                console.log(value);
             }
 
             var data = {
@@ -935,20 +893,6 @@
             return distance * time * time + start;
         }
     }
-
-    // function smoothScrollToTarget(target, container) {
-    //     const $container = $(container); // Parent container
-    //     const $target = $(target);       // Target element to scroll to
-
-    //     if ($target.length && $container.length) {
-    //         const scrollTop = $container.scrollTop(); // Current scroll position
-    //         const offset = $target.position().top;   // Position of the target within the container
-
-    //         $container.animate({
-    //             scrollTop: scrollTop + offset
-    //         }, 500); // Smooth scroll over 500ms
-    //     }
-    // }
 
 </script>
 
