@@ -170,7 +170,7 @@
                                         onclick="go_pre_step(this)">Previous</button>
                                 @endif
                                 <button type="button" class="nxt_btn_{{ $question->id ?? '' }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
-                                    data-condition_step="{{ $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id ?? '' }}" onclick="go_next_step(this)" 
+                                    data-condition_step="{{ $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id ?? '' }}" onclick="go_next_step(this, '{{ $question_type ?? '' }}')" 
                                     data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
                                     Next
                                 </button>
@@ -232,16 +232,35 @@
     // $(".step1").show();
     
     $(document).ready(function(){
-        let key = "last_saved_step";
-        // var last_step = getWithExpiry(key);
+        $(".step1").addClass('active');
+        showLastAttemptedAndInjectValues();
+        // let key = "Localstorage";
+        // let lastStep = getLocalstorage(key);
+        
+        // if(lastStep){
+        //     let step_id = lastStep.Question_id;
+        //     let prev_id = lastStep.Previous_id;
+  
+        //     let pre_btn = `.pre_btn_${step_id}`;
+        //     $(pre_btn).attr("que_id", prev_id);
 
-        // if(last_step){
-        //     $(".step-"+last_step).addClass('active');
+        //     var current_step = $(".step-"+step_id);
+        //     $(current_step).addClass('active');
+
+        //     // if($(current_step).hasClass('active')){
+        //     //     $(current_step).removeClass('active');
+        //     //     $(current_step).addClass('done');
+        //     // }
+
+        //     $(".step1").addClass('hide');
+
+        //     updateUrl(step_id);
         // }else{
         //     $(".step1").addClass('active');
         // }
-        $(".step1").addClass('active');
-        
+
+        // $(".step1").addClass('active');
+
         $('form#contractForm select').each(function(){
             var id = $(this).attr('id');
             if(id != null && id != '' && id != undefined){
@@ -264,6 +283,8 @@
         rightSecConditions();
         alphabetList();
         // questionConditions();
+         // Call the function on page load
+       
     })
 
     function alphabetList(){
@@ -513,7 +534,7 @@
         });
     }
 
-    function go_next_step(e){
+    function go_next_step(e,questionType){
         var next_step_id = $(e).attr("que_id");  
         var my_ref = $(e).attr("my_ref");       
         var is_last = !next_step_id || next_step_id === '';
@@ -524,6 +545,9 @@
 
             progressBarCount(my_ref, null, true);
             saveSteps(my_ref);
+
+            next_step_id = 'last_step';
+            updateUrl(next_step_id);
             
         }else{
             for(let i = parseInt(my_ref) + 1; i < next_step_id; i++){
@@ -553,18 +577,13 @@
 
             saveSteps();
             progressBarCount(my_ref, next_step_id);
+            updateUrl(next_step_id);
         }
 
-
-        // var now = new Date();
-        // var time = now.getTime();
-        // time += 3600 * 100;
-
-        // setWithExpiry("last_saved_step", my_ref, time);
-        // localStorage.setItem("last_saved_step", my_ref);
+        setLocalstorage(my_ref, next_step_id, questionType);        
     }
 
-    function go_pre_step(e) {
+    function go_pre_step(e){
         var current_step_id = $(e).attr('my_ref');
         var current_step = `.step-${current_step_id}`;
         if($(current_step).hasClass('active')){
@@ -576,6 +595,11 @@
         if($(prev_step_div).hasClass('done')){
             $(prev_step_div).addClass('active');
             $(prev_step_div).removeClass('done');
+        }else if($(prev_step_div).hasClass('hide')){
+            $(prev_step_div).addClass('active');
+            $(prev_step_div).removeClass('hide');
+        }else{
+            $(prev_step_div).addClass('active');
         }
 
         var last_step_btn = $(current_step).find('.last_step_btn');
@@ -585,33 +609,11 @@
         }
 
         reverseProgressCount(current_step_id, prev_step_id);
+
+        updateUrl(prev_step_id);
     }
 
-    function setWithExpiry(key, value, ttl) {
-        const now = new Date();
-        const item = {
-            value: value,
-            expiry: ttl,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-    }
-
-    function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
-        if (!itemStr) {
-            return null;
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date();
-
-        if(now.getTime() > item.expiry){
-            localStorage.removeItem(key)
-            return null
-        }
-        return item.value
-    }
-
-    function updateNextButton(selectElement) {
+    function updateNextButton(selectElement){
         var shouldStepChange = $(`.step-${currentQuestion}`).attr('onchange');
         if(shouldStepChange != undefined && shouldStepChange == "false"){
             return;
@@ -628,7 +630,7 @@
         $(myNextBtn).attr("que_id", queId);
     }
 
-    function updateNextButtonR(radioElement) {
+    function updateNextButtonR(radioElement){
         const myNextBtn = radioElement.getAttribute("my_ref_nxt");
         const queId = radioElement.getAttribute("que_id");
         const selectedValue = radioElement.value;
@@ -650,7 +652,7 @@
                 var step = questionId;
                 var value = answer;
 
-                console.log(value);
+                // console.log(value);
             }
 
             var data = {
@@ -698,6 +700,8 @@
             var main_q_div = `.step-${que_id}`;
             var right_part_target = `.qidtarget-${que_id}`;
             var value = $(e).val();
+            console.log(value);
+
             var date = new Date(value);
             var options = { day: "2-digit", month: "long", year: "numeric" };
             var formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
@@ -860,9 +864,211 @@
         rightSecConditions();
         alphabetList();
         questionConditions(que_id, next_id);
+
     }   
 
-    function smoothScrollToTarget(targetElement, container, offset = 0) {
+    // Store the value in Localstorage //
+    function setLocalstorage(que_id,next_id,qtype){
+        var document_id = $('#document_id').val();
+        var attemptedAnswer = $('.step-' + que_id).attr('attempted');
+        var prevId = $('.pre_btn_' + que_id).attr('que_id');
+        var now = new Date();
+        // var formattedTime = now.toLocaleTimeString();
+        var formattedTime = now.getTime();
+        var expiryTime = now.getTime() + 2 * 60 * 1000;
+        var progressValue = $('#percent_count').val();
+        
+        var newObj = {
+            Document_id: document_id,
+            Question_id: que_id,
+            Type: qtype,
+            Value: attemptedAnswer,
+            Attempted_time: formattedTime,
+            Previous_id: prevId,
+            Next_id: next_id,
+            Progress: progressValue,
+            // Expiry: expiryTime
+        };
+
+        let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
+        let attemptedQuestions = localStorageData.attempted_question;
+        // attemptedQuestions = attemptedQuestions.filter(obj => new Date().getTime() < obj.Expiry);
+
+        let objIndex = attemptedQuestions.findIndex(obj => 
+            obj.Question_id === newObj.Question_id
+        );
+
+        if(objIndex !== -1){
+            attemptedQuestions[objIndex].Value = newObj.Value === '' || newObj.Value === null ? null : newObj.Value;
+            attemptedQuestions[objIndex].Attempted_time = newObj.Attempted_time; 
+            console.log('Updated existing object');
+        }else{
+            newObj.Value = newObj.Value === '' || newObj.Value === null ? null : newObj.Value;
+            attemptedQuestions.push(newObj);
+            console.log('Added new object');
+        }
+
+        localStorageData.attempted_question = attemptedQuestions;
+        localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
+    }
+
+    // function getLocalstorage(key){
+    //     // let localStorageData = JSON.parse(localStorage.getItem(key));
+    //     // let attemptedQuestion = localStorageData.attempted_question;
+    
+    //     // attemptedQuestion.forEach(function(data){
+    //     //     document_id = data.Document_id;
+    //     //     ques_id = data.Question_id;
+    //     //     type = data.Type;
+    //     //     value = data.Value;
+    //     //     prev_id = data.Previous_id;
+    //     //     next_id = data.next_id;
+    //     //     attempted_time = data.Attempted_time;
+    //     // })
+           
+    //     // attemptedQuestion = attemptedQuestion.filter(data => new Date().getTime() < data.Expiry);
+    //     // console.log(attemptedQuestion);
+
+
+    //     let localStorageData = JSON.parse(localStorage.getItem(key));
+    //     if(!localStorageData || !localStorageData.attempted_question){
+    //         console.log("No data found");
+    //         return null;
+    //     }
+
+    //     let attemptedQuestions = localStorageData.attempted_question;
+    //     attemptedQuestions = attemptedQuestions.filter(data => new Date().getTime() < data.Expiry);
+
+    //     if(attemptedQuestions.length === 0){
+    //         console.log("No valid data found");
+    //         return null;
+    //     }
+
+    //     let lastAttempted = attemptedQuestions.reduce((latest, current) => {
+    //         return new Date(latest.Attempted_time) > new Date(current.Attempted_time) ? latest : current;
+    //     });
+
+    //     console.log("Last Attempted Question:", lastAttempted.Question_id);
+    //     return lastAttempted;
+    // }
+    function getLocalstorage(key) {
+        let localStorageData = JSON.parse(localStorage.getItem(key));
+        if (!localStorageData || !localStorageData.attempted_question) {
+            return null;
+        }
+
+        let attemptedQuestions = localStorageData.attempted_question;
+        // attemptedQuestions = attemptedQuestions.filter(data => new Date().getTime() < data.Expiry);
+
+        return attemptedQuestions.length > 0 ? attemptedQuestions : null;
+    }
+
+    function showLastAttemptedAndInjectValues() {
+        let attemptedQuestions = getLocalstorage('Localstorage');
+
+        if(!attemptedQuestions){
+            console.log("No valid data found");
+            return;
+        }
+
+        let lastAttempted = attemptedQuestions.reduce((latest, current) => {
+            return new Date(latest.Attempted_time) > new Date(current.Attempted_time) ? latest : current;
+        });
+
+        if(lastAttempted){
+            let step_id = lastAttempted.Question_id;
+            let prev_id = lastAttempted.Previous_id;
+            let value = lastAttempted.Value;
+            let progress = lastAttempted.Progress;
+
+            let pre_btn = `.pre_btn_${step_id}`;
+            $(pre_btn).attr("que_id", prev_id);
+
+            var current_step = $(".step-"+step_id);
+            $(current_step).addClass('active');
+
+            $('#'+step_id).val(value);
+            $(current_step).attr('attempted', value);
+
+            if($(".step1").hasClass('active')){
+                $(".step1").addClass('hide');
+                $(".step1").removeClass('active');
+            }
+
+            // if(progress){
+            //     $('#percent_count').val(progress);
+            //     $('.progressCount').text(progress+"%");
+            //     $('.progress-bar').css("width", progress+"%");
+            // }else{
+            //     $('#percent_count').val(0);
+            //     $('.progressCount').text("0%");
+            //     $('.progress-bar').css("width", "0%");
+            // }
+            
+            updateUrl(step_id);
+        }else{
+            if($(".step1").hasClass('hide')){
+                $(".step1").addClass('active');
+                $(".step1").removeClass('hide');
+            }
+        }
+        
+        attemptedQuestions.forEach(data => {
+            // console.log(data);
+            let ques_id = data.Question_id;
+            let prev_id = data.Previous_id;
+            let next_id = data.Next_id;
+            let type = data.Type;
+            let progress = lastAttempted.Progress;
+
+            let prev_btn = $('.pre_btn_'+ques_id);
+            let next_btn = $('.nxt_btn_'+ques_id);
+
+            $(prev_btn).attr('que_id',prev_id);
+            $(next_btn).attr('que_id',next_id);
+
+            let prevDiv = $('.step-' + prev_id);
+            let nextDiv = $('.step-' + next_id);
+            let quesDiv = $('.step-' + ques_id);
+            // console.log(prevDiv);
+            // console.log(nextDiv);
+    
+            // if(progress){
+            //     console.log(progress);
+
+            //     $('#percent_count').val(progress);
+            //     $('.progressCount').text(progress+"%");
+            //     $('.progress-bar').css("width", progress+"%");
+            // }else{
+            //     $('#percent_count').val(0);
+            //     $('.progressCount').text("0%");
+            //     $('.progress-bar').css("width", "0%");
+            // }
+
+            let value = data.Value;
+            if(quesDiv.length){
+                quesDiv.attr('attempted', value);
+
+                if(type == 'textbox' || type == 'textarea' || type == 'pricebox' || type == 'number-field' || type == 'percentage-box' || type == 'dropdown-link' || type == 'dropdown'){
+                    $('#'+ques_id).val(value);
+                    $('.qidtarget-'+ques_id).text(value);
+                }else if(type == 'radio-button'){
+                    let name = 'question_'+ques_id;
+                    $(`input[name=${name}]`).val(value);
+                    $('.qidtarget-'+ques_id).text(value);
+                }else if(type == 'date-field'){
+                    const originalDate = value;
+                    const date = new Date(originalDate);
+                    date.setDate(date.getDate() - 8);
+                    const formattedDate = date.toISOString().split('T')[0];
+                    $('#'+ques_id).val(formattedDate);
+                    $('.qidtarget-'+ques_id).text(value);
+                }
+            }
+        });
+    }
+
+    function smoothScrollToTarget(targetElement, container, offset = 0){
         var $container = $(container);
         var $target = $(targetElement);
 
@@ -891,6 +1097,20 @@
         function easeInQuad(time, start, distance, duration){
             time /= duration;
             return distance * time * time + start;
+        }
+    }
+
+    // update the current url for every step //
+    function updateUrl(step) {
+        const url = new URL(window.location.href);
+        // url.searchParams.set('step', step);
+        url.searchParams.set('step', step);
+
+        if(typeof(history.pushState) !== "undefined"){
+            const obj = {Title: 'title', Url: url.toString()};
+            history.pushState(obj, obj.Title, obj.Url);
+        }else{
+            alert("Browser does not support HTML5.");
         }
     }
 
