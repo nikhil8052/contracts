@@ -107,7 +107,7 @@
                                 @php 
                                     $next_qid = $question->options->first()->next_question_id ?? '';
                                 @endphp 
-                                <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
+                                <select onchange="updateNextButton(this, '{{ $question->id ?? '' }}'); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
                                     @foreach($question->options as $option)
                                         <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $option->next_question_id ?? '' }}"
                                         value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'selected' : '' }}> {{ $option->option_label }} </option>
@@ -155,8 +155,8 @@
                                 @php 
                                     $next_qid = $question->questionData->next_question_id ?? '';
                                 @endphp 
-                                <select onchange="updateNextButton(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}"  id="{{ $question->id }}" name="{{ $question->id ?? '' }}">
-                                    <option value="" selected>{{ $question->questionData->same_contract_link_label ?? '' }}</option>
+                                <select onchange="updateDropdownLInk(this, '{{ $question->id ?? '' }}'); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}"  id="{{ $question->id }}" name="{{ $question->id ?? '' }}">
+                                    <option value="{{ $question->questionData->same_contract_link_label ?? '' }}" selected>{{ $question->questionData->same_contract_link_label ?? '' }}</option>
                                     @foreach($question->options as $option)
                                         <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $question->questionData->next_question_id ?? '' }}"
                                         value="{{ $option->contract_link ?? '' }}">{{ $option->option_label ?? '' }}</option>
@@ -224,43 +224,17 @@
 <script>
     let attemptedAnswers = {};
     let currentQuestion = 1;
-    var total_steps = $('#total_step').val(); 
-    var total_attempted = $('#all_attempted').val(); 
-
+    let total_steps = $('#total_step').val(); 
+    let total_attempted = $('#all_attempted').val(); 
+    let lastprogress = 0;
 
     // $(".question-div").hide();
     // $(".step1").show();
     
     $(document).ready(function(){
         $(".step1").addClass('active');
-        showLastAttemptedAndInjectValues();
-        // let key = "Localstorage";
-        // let lastStep = getLocalstorage(key);
-        
-        // if(lastStep){
-        //     let step_id = lastStep.Question_id;
-        //     let prev_id = lastStep.Previous_id;
-  
-        //     let pre_btn = `.pre_btn_${step_id}`;
-        //     $(pre_btn).attr("que_id", prev_id);
-
-        //     var current_step = $(".step-"+step_id);
-        //     $(current_step).addClass('active');
-
-        //     // if($(current_step).hasClass('active')){
-        //     //     $(current_step).removeClass('active');
-        //     //     $(current_step).addClass('done');
-        //     // }
-
-        //     $(".step1").addClass('hide');
-
-        //     updateUrl(step_id);
-        // }else{
-        //     $(".step1").addClass('active');
-        // }
-
-        // $(".step1").addClass('active');
-
+        showLastAttemptedValues();
+    
         $('form#contractForm select').each(function(){
             var id = $(this).attr('id');
             if(id != null && id != '' && id != undefined){
@@ -281,10 +255,7 @@
         });
 
         rightSecConditions();
-        alphabetList();
-        // questionConditions();
-         // Call the function on page load
-       
+        alphabetList();       
     })
 
     function alphabetList(){
@@ -402,11 +373,10 @@
     }
 
     // Function to handle progress bar updates as the user moves through the steps
-    function progressBarCount(id, next_id, is_last = false) {
+    function progressBarCount(id, next_id, is_last = false){
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
 
-        // Loop through skipped steps and count them
         for(let i = parseInt(id) + 1; i < next_id; i++){
             if($('.step-' + i).hasClass('hide')){
                 total_hidden_steps++;
@@ -415,7 +385,7 @@
 
         total_attempted += total_hidden_steps;
 
-        if($(current_step).hasClass('done')) {
+        if($(current_step).hasClass('done')){
             total_attempted++;
         }
         console.log("Total attempted steps:", total_attempted);
@@ -568,6 +538,11 @@
             }
            
             var next_step_div = `.step-${next_step_id}`;
+            console.log($('.pre_btn_'+my_ref).attr('que_id'));
+            console.log($('.pre_btn_'+next_step_id).attr('que_id'));
+            console.log($('.nxt_btn_'+my_ref).attr('que_id'));
+            console.log($('.nxt_btn_'+next_step_id).attr('que_id'));
+
             if($(next_step_div).hasClass('hide')){
                 $(next_step_div).addClass('active');
                 $(next_step_div).removeClass('hide');
@@ -608,13 +583,15 @@
             $('.nxt_btn_'+current_step_id).show();
         }
 
+        let key = 'Localstorage';
         reverseProgressCount(current_step_id, prev_step_id);
+        popLocalstorageValue(current_step_id, key);
 
         updateUrl(prev_step_id);
     }
 
-    function updateNextButton(selectElement){
-        var shouldStepChange = $(`.step-${currentQuestion}`).attr('onchange');
+    function updateNextButton(selectElement, id){
+        var shouldStepChange = $(`.step-${id}`).attr('onchange');
         if(shouldStepChange != undefined && shouldStepChange == "false"){
             return;
         }
@@ -623,8 +600,8 @@
         const queId = selectedOption.getAttribute("que_id");
         const selectedValue = selectedOption.value;
         console.log( selectedValue, " the selected value ")
-        console.log(" This is the ID : ", `.step-${currentQuestion}`)
-        $(`.step-${currentQuestion}`).attr('attempted', selectedValue); 
+        console.log(" This is the ID : ", `.step-${id}`)
+        $(`.step-${id}`).attr('attempted', selectedValue); 
         const targetEle = $(selectElement).attr('target-id');
         $(targetEle).text(selectedValue)
         $(myNextBtn).attr("que_id", queId);
@@ -635,6 +612,23 @@
         const queId = radioElement.getAttribute("que_id");
         const selectedValue = radioElement.value;
         const targetEle = $(radioElement).attr('target-id');
+        $(targetEle).text(selectedValue)
+        $(myNextBtn).attr("que_id", queId);
+    }
+
+    function updateDropdownLInk(selectLink, id){
+        var shouldStepChange = $(`.step-${id}`).attr('onchange');
+        if(shouldStepChange != undefined && shouldStepChange == "false"){
+            return;
+        }
+        const selectedOption = selectLink.options[selectLink.selectedIndex];
+        const myNextBtn = selectedOption.getAttribute("my_ref_nxt");
+        const queId = selectedOption.getAttribute("que_id");
+        const selectedValue = selectedOption.value;
+        console.log( selectedValue, " the selected value ")
+        console.log(" This is the ID : ", `.step-${id}`)
+        $(`.step-${id}`).attr('attempted', selectedValue); 
+        const targetEle = $(selectLink).attr('target-id');
         $(targetEle).text(selectedValue)
         $(myNextBtn).attr("que_id", queId);
     }
@@ -872,21 +866,31 @@
         var document_id = $('#document_id').val();
         var attemptedAnswer = $('.step-' + que_id).attr('attempted');
         var prevId = $('.pre_btn_' + que_id).attr('que_id');
+        var pre_btn_id = $('.pre_btn_'+next_id).attr('que_id');
+        var next_btn_id = $('.nxt_btn_'+next_id).attr('que_id');
+
         var now = new Date();
         // var formattedTime = now.toLocaleTimeString();
         var formattedTime = now.getTime();
         var expiryTime = now.getTime() + 2 * 60 * 1000;
         var progressValue = $('#percent_count').val();
+        var totalSteps = $('#total_step').val();
+        var attemptedSteps = $('#all_attempted').val();
         
         var newObj = {
-            Document_id: document_id,
-            Question_id: que_id,
-            Type: qtype,
-            Value: attemptedAnswer,
-            Attempted_time: formattedTime,
-            Previous_id: prevId,
-            Next_id: next_id,
-            Progress: progressValue,
+            document_id: document_id,
+            question_id: que_id,
+            // question_id: next_id,
+            type: qtype,
+            attempted_answer: attemptedAnswer,
+            attempted_time: formattedTime,
+            previous_id: prevId,
+            // previous_id: pre_btn_id,
+            next_id: next_id,
+            // next_id: next_btn_id,
+            progress: progressValue,
+            total_steps: totalSteps,
+            attempted_step: attemptedSteps,
             // Expiry: expiryTime
         };
 
@@ -895,15 +899,15 @@
         // attemptedQuestions = attemptedQuestions.filter(obj => new Date().getTime() < obj.Expiry);
 
         let objIndex = attemptedQuestions.findIndex(obj => 
-            obj.Question_id === newObj.Question_id
+            obj.question_id === newObj.question_id
         );
 
         if(objIndex !== -1){
-            attemptedQuestions[objIndex].Value = newObj.Value === '' || newObj.Value === null ? null : newObj.Value;
-            attemptedQuestions[objIndex].Attempted_time = newObj.Attempted_time; 
+            attemptedQuestions[objIndex].attempted_answer = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
+            attemptedQuestions[objIndex].attempted_time = newObj.attempted_time; 
             console.log('Updated existing object');
         }else{
-            newObj.Value = newObj.Value === '' || newObj.Value === null ? null : newObj.Value;
+            newObj.Value = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
             attemptedQuestions.push(newObj);
             console.log('Added new object');
         }
@@ -912,48 +916,31 @@
         localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
     }
 
-    // function getLocalstorage(key){
-    //     // let localStorageData = JSON.parse(localStorage.getItem(key));
-    //     // let attemptedQuestion = localStorageData.attempted_question;
-    
-    //     // attemptedQuestion.forEach(function(data){
-    //     //     document_id = data.Document_id;
-    //     //     ques_id = data.Question_id;
-    //     //     type = data.Type;
-    //     //     value = data.Value;
-    //     //     prev_id = data.Previous_id;
-    //     //     next_id = data.next_id;
-    //     //     attempted_time = data.Attempted_time;
-    //     // })
-           
-    //     // attemptedQuestion = attemptedQuestion.filter(data => new Date().getTime() < data.Expiry);
-    //     // console.log(attemptedQuestion);
+    function popLocalstorageValue(que_id, key){
+        // console.log(que_id);
+        let localStorageData = JSON.parse(localStorage.getItem(key));
+        if(!localStorageData || !localStorageData.attempted_question){
+            return null;
+        }
 
+        let attemptedQuestions = localStorageData.attempted_question;
+        let questionIndex = attemptedQuestions.findIndex(data => data.question_id === que_id);
 
-    //     let localStorageData = JSON.parse(localStorage.getItem(key));
-    //     if(!localStorageData || !localStorageData.attempted_question){
-    //         console.log("No data found");
-    //         return null;
-    //     }
+        if(questionIndex !== -1){
+            let poppedQuestion = attemptedQuestions.splice(questionIndex, 1)[0];
+            localStorageData.attempted_question = attemptedQuestions;
+            localStorage.setItem(key, JSON.stringify(localStorageData));
+            console.log("Popped Question:", poppedQuestion);
+            return poppedQuestion;
+        }else{
+            console.log("Question ID not found in attempted questions.");
+            return null;
+        }
+    }
 
-    //     let attemptedQuestions = localStorageData.attempted_question;
-    //     attemptedQuestions = attemptedQuestions.filter(data => new Date().getTime() < data.Expiry);
-
-    //     if(attemptedQuestions.length === 0){
-    //         console.log("No valid data found");
-    //         return null;
-    //     }
-
-    //     let lastAttempted = attemptedQuestions.reduce((latest, current) => {
-    //         return new Date(latest.Attempted_time) > new Date(current.Attempted_time) ? latest : current;
-    //     });
-
-    //     console.log("Last Attempted Question:", lastAttempted.Question_id);
-    //     return lastAttempted;
-    // }
     function getLocalstorage(key) {
         let localStorageData = JSON.parse(localStorage.getItem(key));
-        if (!localStorageData || !localStorageData.attempted_question) {
+        if(!localStorageData || !localStorageData.attempted_question){
             return null;
         }
 
@@ -963,7 +950,7 @@
         return attemptedQuestions.length > 0 ? attemptedQuestions : null;
     }
 
-    function showLastAttemptedAndInjectValues() {
+    function showLastAttemptedValues() {
         let attemptedQuestions = getLocalstorage('Localstorage');
 
         if(!attemptedQuestions){
@@ -971,41 +958,59 @@
             return;
         }
 
-        let lastAttempted = attemptedQuestions.reduce((latest, current) => {
-            return new Date(latest.Attempted_time) > new Date(current.Attempted_time) ? latest : current;
-        });
+        // let lastAttempted = attemptedQuestions.reduce((latest, current) => {
+        //     return new Date(latest.attempted_time) > new Date(current.attempted_time) ? latest : current;
+        // });
+        let lastAttempted = attemptedQuestions[attemptedQuestions.length - 1];
 
         if(lastAttempted){
-            let step_id = lastAttempted.Question_id;
-            let prev_id = lastAttempted.Previous_id;
-            let value = lastAttempted.Value;
-            let progress = lastAttempted.Progress;
+            let step_id = lastAttempted.question_id;
+            let next_id = lastAttempted.next_id;
+            let prev_id = lastAttempted.previous_id;
+            let value = lastAttempted.attempted_answer;
+            let last_attempted_value = lastAttempted.next_attempted;
+            let document_id = lastAttempted.document_id;
+            let current_document_id = $("#document_id").val();
 
-            let pre_btn = `.pre_btn_${step_id}`;
-            $(pre_btn).attr("que_id", prev_id);
+            if(document_id == current_document_id){
+                let pre_btn = `.pre_btn_${step_id}`;
+                $(pre_btn).attr("que_id", prev_id);
 
-            var current_step = $(".step-"+step_id);
-            $(current_step).addClass('active');
+                if(next_id == 'last_step'){
+                    $('.nxt_btn_'+step_id).hide();
+                    $('.last_step_btn').show();
+                }
 
-            $('#'+step_id).val(value);
-            $(current_step).attr('attempted', value);
+                let current_step = $(".step-" + step_id);
+                let first_step = $(".step-1");
+                $(current_step).addClass('active');
+                $(current_step).removeClass('hide');
 
-            if($(".step1").hasClass('active')){
-                $(".step1").addClass('hide');
-                $(".step1").removeClass('active');
-            }
+                $('#'+step_id).val(); 
+                $(current_step).attr('attempted', '');
 
-            // if(progress){
-            //     $('#percent_count').val(progress);
-            //     $('.progressCount').text(progress+"%");
-            //     $('.progress-bar').css("width", progress+"%");
-            // }else{
-            //     $('#percent_count').val(0);
-            //     $('.progressCount').text("0%");
-            //     $('.progress-bar').css("width", "0%");
-            // }
-            
-            updateUrl(step_id);
+                if(step_id === "1"){
+                    first_step.addClass('active');
+                    first_step.removeClass('hide');
+                }else{
+                    first_step.removeClass('active').addClass('hide');
+                }
+
+                // $(".step-1").toggleClass('active hide', step_id !== "1");
+                // current_step.toggleClass('active hide');
+
+                lastProgress = lastAttempted.progress || 0; // Set initial progress
+                total_steps = lastAttempted.total_steps || 1; // Avoid division by 0
+                total_attempted = Math.floor((lastProgress / 100) * total_steps); // Calculate steps already attempted
+
+                $('#total_step').val(total_steps);
+                $('#all_attempted').val(total_attempted);
+                $('#percent_count').val(lastProgress);
+                $('.progressCount').text(lastProgress + "%");
+                $('.progress-bar').css("width", lastProgress + "%");
+
+                updateUrl(step_id);
+            }    
         }else{
             if($(".step1").hasClass('hide')){
                 $(".step1").addClass('active');
@@ -1013,13 +1018,13 @@
             }
         }
         
+        let num = 1;
         attemptedQuestions.forEach(data => {
-            // console.log(data);
-            let ques_id = data.Question_id;
-            let prev_id = data.Previous_id;
-            let next_id = data.Next_id;
-            let type = data.Type;
-            let progress = lastAttempted.Progress;
+            let ques_id = data.question_id;
+            let prev_id = data.previous_id;
+            let next_id = data.next_id;
+            let type = data.type;
+            let progress = data.progress;
 
             let prev_btn = $('.pre_btn_'+ques_id);
             let next_btn = $('.nxt_btn_'+ques_id);
@@ -1030,22 +1035,13 @@
             let prevDiv = $('.step-' + prev_id);
             let nextDiv = $('.step-' + next_id);
             let quesDiv = $('.step-' + ques_id);
-            // console.log(prevDiv);
-            // console.log(nextDiv);
-    
-            // if(progress){
-            //     console.log(progress);
 
-            //     $('#percent_count').val(progress);
-            //     $('.progressCount').text(progress+"%");
-            //     $('.progress-bar').css("width", progress+"%");
-            // }else{
-            //     $('#percent_count').val(0);
-            //     $('.progressCount').text("0%");
-            //     $('.progress-bar').css("width", "0%");
-            // }
+            if (!quesDiv.hasClass('active')) {
+                quesDiv.addClass('done');
+            }
 
-            let value = data.Value;
+            let value = data.attempted_answer;
+            console.log(value);
             if(quesDiv.length){
                 quesDiv.attr('attempted', value);
 
@@ -1053,16 +1049,22 @@
                     $('#'+ques_id).val(value);
                     $('.qidtarget-'+ques_id).text(value);
                 }else if(type == 'radio-button'){
-                    let name = 'question_'+ques_id;
-                    $(`input[name=${name}]`).val(value);
-                    $('.qidtarget-'+ques_id).text(value);
+                    let id = ques_id+num;  
+                    $('input[name="question_'+ques_id+'"]').each(function () {
+                        if($(this).val() == value) {
+                            $(this).prop('checked', true);
+                        }
+                    });
+                    num++ ;
                 }else if(type == 'date-field'){
                     const originalDate = value;
-                    const date = new Date(originalDate);
-                    date.setDate(date.getDate() - 8);
-                    const formattedDate = date.toISOString().split('T')[0];
-                    $('#'+ques_id).val(formattedDate);
-                    $('.qidtarget-'+ques_id).text(value);
+                    if(originalDate){
+                        const date = new Date(originalDate);
+                        date.setDate(date.getDate() - 8);
+                        const formattedDate = date.toISOString().split('T')[0];
+                        $('#'+ques_id).val(formattedDate);
+                        $('.qidtarget-'+ques_id).text(value);
+                    }
                 }
             }
         });
