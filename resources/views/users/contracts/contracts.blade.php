@@ -234,8 +234,6 @@
     $(document).ready(function(){
         $(".step1").addClass('active');
 
-        showLastAttemptedValues();
-
         $('form#contractForm select').each(function(){
             var id = $(this).attr('id');
             if(id != null && id != '' && id != undefined){
@@ -255,6 +253,7 @@
             }
         });
 
+        showLastAttemptedValues();
         rightSecConditions();
         alphabetList();       
     })
@@ -512,7 +511,8 @@
         var next_step_id = $(e).attr("que_id");  
         var my_ref = $(e).attr("my_ref");       
         var is_last = !next_step_id || next_step_id === '';
-
+        var target = `.qidtarget-${next_step_id}`;
+        
         if(is_last){
             $('.last_step_btn').show();
             $('.nxt_btn_'+my_ref).hide();
@@ -551,6 +551,13 @@
             }else{
                 $(next_step_div).addClass('active');
             }
+
+            $(target).css({
+                "color": "white",
+                "background-color": "#002655",
+                "padding": "5px",
+                "border-radius": "3px"
+            });
 
             saveSteps();
             progressBarCount(my_ref, next_step_id);
@@ -677,6 +684,7 @@
         localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
 
         let right_part_target = `.qidtarget-${question_id}`;
+
         if(qtype === "textbox" || qtype === "textarea" || qtype === "pricebox" || qtype === "percentage-box" ||
             qtype === "dropdown" || qtype === "radio-button" || qtype === "dropdown-link" || qtype === "number-field"){
             
@@ -686,11 +694,29 @@
                 "padding": "5px",
                 "border-radius": "3px"
             });
+
+            // $(right_part_target).css({
+            //     "color": "white",
+            //     "background-color": "#002655",
+            //     "padding": "5px",
+            //     "border-radius": "3px"
+            // })
+
+            // $(right_part_target).text(attempted_value);
+
         }else if(qtype === "date-field"){
             let date = new Date(attempted_value);
             let options = { day: "2-digit", month: "long", year: "numeric" };
             let formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
 
+            // $(right_part_target).css({
+            //     "color": "white",
+            //     "background-color": "#002655",
+            //     "padding": "5px",
+            //     "border-radius": "3px"
+            // })
+
+            $(right_part_target).text(formattedDate);
             $(right_part_target).text(formattedDate).css({
                 "color": "white",
                 "background-color": "#002655",
@@ -791,6 +817,7 @@
         localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
     }
 
+    // delete the value from localstorage
     function popLocalstorageValue(que_id, key){
         // console.log(que_id);
         let localStorageData = JSON.parse(localStorage.getItem(key));
@@ -813,7 +840,8 @@
         }
     }
 
-    function getLocalstorage(key) {
+    //get the value of localstorage
+    function getLocalstorage(key){
         let localStorageData = JSON.parse(localStorage.getItem(key));
         if(!localStorageData || !localStorageData.attempted_question){
             return null;
@@ -959,17 +987,18 @@
     //     });
     // }
 
-    function showLastAttemptedValues() {
+    // handle the attempted questions and there values 
+    function showLastAttemptedValues(){
         let attemptedQuestions = getLocalstorage('Localstorage');
 
-        if (!attemptedQuestions) {
+        if(!attemptedQuestions){
             console.log("No valid data found");
             return;
         }
 
         let lastAttempted = attemptedQuestions[attemptedQuestions.length - 1];
 
-        if (lastAttempted) {
+        if(lastAttempted){
             let step_id = lastAttempted.question_id;
             let next_id = lastAttempted.next_id;
             let prev_id = lastAttempted.previous_id;
@@ -977,11 +1006,11 @@
             let document_id = lastAttempted.document_id;
             let current_document_id = $("#document_id").val();
 
-            if (document_id == current_document_id) {
+            if(document_id == current_document_id){
                 let pre_btn = `.pre_btn_${step_id}`;
                 $(pre_btn).attr("que_id", prev_id);
 
-                if (next_id == 'last_step') {
+                if(next_id == 'last_step'){
                     $('.nxt_btn_' + step_id).hide();
                     $('.last_step_btn').show();
                 }
@@ -994,7 +1023,7 @@
                 $('#' + step_id).val();
                 $(current_step).attr('attempted', value);
 
-                if (step_id === "1") {
+                if(step_id === "1"){
                     first_step.addClass('active').removeClass('hide');
                 } else {
                     first_step.removeClass('active').addClass('hide');
@@ -1022,8 +1051,8 @@
                     }
                 });
             }
-        } else {
-            if ($(".step1").hasClass('hide')) {
+        }else{
+            if($(".step1").hasClass('hide')){
                 $(".step1").addClass('active').removeClass('hide');
             }
         }
@@ -1043,30 +1072,30 @@
 
             let quesDiv = $('.step-' + ques_id);
 
-            if (!quesDiv.hasClass('active')) {
+            if(!quesDiv.hasClass('active')){
                 quesDiv.addClass('done');
             }
-
-            if (quesDiv.length) {
+            
+            if(quesDiv.length){
                 quesDiv.attr('attempted', value);
 
-                if (type === 'textbox' || type === 'textarea' || type === 'pricebox' || type === 'number-field' || type === 'percentage-box' || type === 'dropdown-link' || type === 'dropdown') {
-                    if (value) {
+                if(type === 'textbox' || type === 'textarea' || type === 'pricebox' || type === 'number-field' || type === 'percentage-box' || type === 'dropdown-link' || type === 'dropdown') {
+                    if(value){
                         $('#' + ques_id).val(value);
                         $('.qidtarget-' + ques_id).text(value);
                     }
-                } else if (type === 'radio-button') {
-                    if (value) {
+                }else if(type === 'radio-button'){
+                    if(value){
                         $('input[name="question_' + ques_id + '"]').each(function () {
-                            if ($(this).val() == value) {
+                            if($(this).val() == value){
                                 $(this).prop('checked', true);
                             }
                         });
                     }
-                } else if (type === 'date-field') {
-                    if (value) {
+                }else if(type === 'date-field'){
+                    if(value){
                         const originalDate = value;
-                        if (originalDate) {
+                        if(originalDate){
                             const date = new Date(originalDate);
                             date.setDate(date.getDate() - 8);
                             const formattedDate = date.toISOString().split('T')[0];
@@ -1077,6 +1106,8 @@
                 }
             }
         });
+
+        
     }
 
     function smoothScrollToTarget(targetElement, container, offset = 0){
