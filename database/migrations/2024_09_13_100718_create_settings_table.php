@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('key')->nullable();
             $table->longtext('value')->nullable();
-            $this->text('file_path')->nullable();
+            $table->text('file_path')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
