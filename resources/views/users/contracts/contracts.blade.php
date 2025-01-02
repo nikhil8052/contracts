@@ -72,7 +72,7 @@
                         $total_steps = count($questions);
                     @endphp
                     @foreach($questions as $index => $question)
-                        <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : 'false'}}">
+                        <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
                             <div class="save_document_button">
                                 <span><img src="{{ asset('assets/img/download_icon.svg') }}"> Guardar</span>
                             </div>
@@ -665,198 +665,49 @@
         }
     }
 
-    function storeAnswers(e, que_id = undefined, qtype = undefined, next_id = undefined){
-        if(qtype === "textbox"){
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val()
-            };
+    function storeAnswers(e, question_id = undefined, qtype = undefined, next_id = undefined) {
+        let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
+        let questionIndex = localStorageData.attempted_question.findIndex(item => item.question_id === question_id);
+        let attempted_value = $(e).val();
 
-            $(right_part_target).text(obj.ans).css({
-                "color": "white",     
-                "background-color": "#002655",
-                "padding": "5px",      
-                "border-radius": "3px" 
-            });
-
-            attemptedAnswers[qid] = obj;
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-
-        }else if(qtype === "date-field"){
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            var value = $(e).val();
-            console.log(value);
-
-            var date = new Date(value);
-            var options = { day: "2-digit", month: "long", year: "numeric" };
-            var formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
-            var obj = {
-                "qid": qid,
-                "ans": formattedDate 
-            };
-
-            $(right_part_target).text(obj.ans).css({
-                "color": "white",     
-                "background-color": "#002655", 
-                "padding": "5px",      
-                "border-radius": "3px" 
-            });
-            // $(right_part_target).attr("tabindex", "0");
-
-            attemptedAnswers[qid] = obj;
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-
-        }else if(qtype === "number-field"){
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() 
-            };
-           
-            $(right_part_target).text(obj.ans).css({
-                "color": "white",     
-                "background-color": "#002655", 
-                "padding": "5px",      
-                "border-radius": "3px" 
-            });
-            // $(right_part_target).attr("tabindex", "0");
-
-            attemptedAnswers[qid] = obj;
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-
-        }else if(qtype === "textarea"){
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() 
-            };
-           
-            $(right_part_target).text(obj.ans).css({
-                "color": "white",      
-                "background-color": "#002655", 
-                "padding": "5px",      
-                "border-radius": "3px" 
-            });
-            // $(right_part_target).attr("tabindex", "0");
-
-            attemptedAnswers[qid] = obj;
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-
-        }else if(qtype === "pricebox"){
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() 
-            };
-            
-            $(right_part_target).text(obj.ans).css({
-                "color": "white",      
-                "background-color": "#002655", 
-                "padding": "5px",      
-                "border-radius": "3px"
-            });
-            // $(right_part_target).attr("tabindex", "0");
-
-            attemptedAnswers[qid] = obj;
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-
-        }else if(qtype === "percentage-box"){
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-            
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() 
-            };
-          
-            $(right_part_target).text(obj.ans).css({
-                "color": "white",      
-                "background-color": "#002655", 
-                "padding": "5px",   
-                "border-radius": "3px"
-            });
-            // $(right_part_target).attr("tabindex", "0");
-
-            attemptedAnswers[qid] = obj;
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
-
-        }else if(qtype === "dropdown" || qtype === "radio-button"){
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-           
-            var obj = {
-                "qid": qid,
-                "ans": $(e).val() 
-            };
-            
-            $(right_part_target).text(obj.ans).css({
-                "color": "white",     
-                "background-color": "#002655",
-                "padding": "5px",      
-                "border-radius": "3px" 
-            });
-            // $(right_part_target).attr("tabindex", "0");
-
-            attemptedAnswers[qid] = obj;
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans); 
-
-        }else if(qtype === "dropdown-link"){
-            var dropdown = $(e);
-            var qid = `que${que_id}`;
-            var main_q_div = `.step-${que_id}`;
-            var right_part_target = `.qidtarget-${que_id}`;
-
-            var selectedValue = dropdown.val(); 
-            if(!selectedValue && dropdown.children('option').length === 1){
-                selectedValue = dropdown.children('option:first').val();
-                dropdown.val(selectedValue).trigger('change'); 
-            }
-
-            var obj = {
-                "qid": qid,
-                "ans": selectedValue
-            };
-          
-            $(right_part_target).text(obj.ans).css({
-                "color": "white",      
-                "background-color": "#002655", 
-                "padding": "5px",      
-                "border-radius": "3px" 
-            });
-            // $(right_part_target).attr("tabindex", "0");
-
-            attemptedAnswers[qid] = obj;
-            smoothScrollToTarget(right_part_target, '.right-question-box');
-            $(main_q_div).attr('attempted', attemptedAnswers[qid].ans);
+        if(questionIndex !== -1){
+            localStorageData.attempted_question[questionIndex].attempted_answer = attempted_value;
         }
 
+        localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
+
+        let right_part_target = `.qidtarget-${question_id}`;
+        if(qtype === "textbox" || qtype === "textarea" || qtype === "pricebox" || qtype === "percentage-box" ||
+            qtype === "dropdown" || qtype === "radio-button" || qtype === "dropdown-link" || qtype === "number-field"){
+            
+            $(right_part_target).text(attempted_value).css({
+                "color": "white",
+                "background-color": "#002655",
+                "padding": "5px",
+                "border-radius": "3px"
+            });
+        }else if(qtype === "date-field"){
+            let date = new Date(attempted_value);
+            let options = { day: "2-digit", month: "long", year: "numeric" };
+            let formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
+
+            $(right_part_target).text(formattedDate).css({
+                "color": "white",
+                "background-color": "#002655",
+                "padding": "5px",
+                "border-radius": "3px"
+            });
+
+            if(questionIndex !== -1) {
+                localStorageData.attempted_question[questionIndex].attempted_answer = formattedDate;
+                localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
+            }
+        }
+        smoothScrollToTarget(right_part_target, '.right-question-box');
         rightSecConditions();
         alphabetList();
-        questionConditions(que_id, next_id);
-
-    }   
+        questionConditions(question_id, next_id);
+    }
 
     // Store the value in Localstorage //
     function setLocalstorage(que_id,next_id,qtype){
@@ -868,15 +719,6 @@
         var nextQuestionType = $('.step-' + next_id).attr('data-type');
         var nextAttemptedAnswer = '';
        
-        if(nextQuestionType == 'textbox' || nextQuestionType == 'textarea' || nextQuestionType == 'pricebox' || nextQuestionType == 'number-field' || nextQuestionType == 'percentage-box' || nextQuestionType == 'dropdown-link' || nextQuestionType == 'dropdown' || nextQuestionType == 'date-field'){
-            nextAttemptedAnswer = $('#'+next_id).val();     
-        }else if(nextQuestionType == 'radio-button'){
-            // let id = next_id+num;  
-            $('input[name="question_'+next_id+'"]').each(function () {
-                nextAttemptedAnswer = $(this).val();
-            });
-        }
-
         var now = new Date();
         // var formattedTime = now.toLocaleTimeString();
         var formattedTime = now.getTime();
@@ -884,7 +726,7 @@
         var progressValue = $('#percent_count').val();
         var totalSteps = $('#total_step').val();
         var attemptedSteps = $('#all_attempted').val();
-        var is_last = $('.step-' + next_id).attr('is_last');
+        var is_last = $('.step-' + que_id).attr('is_last');
         console.log(is_last);
 
         var firstObj = {
@@ -918,28 +760,31 @@
         let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
         let attemptedQuestions = localStorageData.attempted_question;
 
+        if(!Array.isArray(attemptedQuestions)) {
+            attemptedQuestions = [];
+        }
+
         if(is_last == "true"){
             console.log('yuretyrturiturt');
         }else{
-            if(attemptedQuestions.length === 0){
+            if(attemptedQuestions.length === 0 || attemptedQuestions.length === undefined){
                 attemptedQuestions.push(firstObj);
                 console.log("Stored first step:", firstObj);
             }else{
                 attemptedQuestions.push(newObj);
                 console.log("Stored next step:", newObj);
             }
-        }
         
-
-        let objIndex = attemptedQuestions.findIndex(obj => obj.question_id === newObj.question_id);
- 
-        if(objIndex !== -1){
-            attemptedQuestions[objIndex].attempted_answer = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
-            // console.log('Updated existing object');
-        }else{
-            newObj.attempted_answer = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
-            attemptedQuestions.push(newObj);
-            // console.log('Added new object');
+            let objIndex = attemptedQuestions.findIndex(obj => obj.question_id === newObj.question_id);
+    
+            if(objIndex !== -1){
+                attemptedQuestions[objIndex].attempted_answer = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
+                // console.log('Updated existing object');
+            }else{
+                newObj.attempted_answer = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
+                attemptedQuestions.push(newObj);
+                // console.log('Added new object');
+            }
         }
     
         localStorageData.attempted_question = attemptedQuestions;
@@ -980,71 +825,183 @@
         return attemptedQuestions.length > 0 ? attemptedQuestions : null;
     }
 
+    // function showLastAttemptedValues() {
+    //     let attemptedQuestions = getLocalstorage('Localstorage');
+
+    //     if(!attemptedQuestions){
+    //         console.log("No valid data found");
+    //         return;
+    //     }
+
+    //     // let lastAttempted = attemptedQuestions.reduce((latest, current) => {
+    //     //     return new Date(latest.attempted_time) > new Date(current.attempted_time) ? latest : current;
+    //     // });
+    //     let lastAttempted = attemptedQuestions[attemptedQuestions.length - 1];
+
+    //     if(lastAttempted){
+    //         let step_id = lastAttempted.question_id;
+    //         let next_id = lastAttempted.next_id;
+    //         let prev_id = lastAttempted.previous_id;
+    //         let value = lastAttempted.attempted_answer;
+    //         let last_attempted_value = lastAttempted.next_attempted;
+    //         let document_id = lastAttempted.document_id;
+    //         let current_document_id = $("#document_id").val();
+
+    //         if(document_id == current_document_id){
+    //             let pre_btn = `.pre_btn_${step_id}`;
+    //             $(pre_btn).attr("que_id", prev_id);
+
+    //             if(next_id == 'last_step'){
+    //                 $('.nxt_btn_'+step_id).hide();
+    //                 $('.last_step_btn').show();
+    //             }
+
+    //             // if(step_id == 'last_step'){
+    //             //     $(`.step-45`).addClass('active').removeClass('hide');
+    //             //     updateUrl(45);
+    //             // }
+
+    //             // if(step_id == 'last_step'){
+    //             //     console.log('iutrit');
+    //             //     $(".step-" + prev_id).addClass('active');
+    //             //     updateUrl(prev_id);
+    //             // }
+
+    //             let current_step = $(".step-" + step_id);
+    //             let first_step = $(".step-1");
+    //             $(current_step).removeClass('hide');
+    //             $(current_step).addClass('active');
+                
+    //             $('#'+step_id).val(); 
+    //             $(current_step).attr('attempted',value);
+
+    //             if(step_id === "1"){
+    //                 first_step.addClass('active');
+    //                 first_step.removeClass('hide');
+    //             }else{
+    //                 first_step.removeClass('active').addClass('hide');
+    //             }
+
+    //             lastProgress = lastAttempted.progress || 0; 
+    //             total_steps = lastAttempted.total_steps || 1; 
+    //             total_attempted = lastAttempted.attempted_step || 0;
+
+    //             $('#total_step').val(total_steps);
+    //             $('#all_attempted').val(total_attempted);
+    //             $('#percent_count').val(lastProgress);
+    //             $('.progressCount').text(lastProgress + "%");
+    //             $('.progress-bar').css("width", lastProgress + "%");
+
+    //             updateUrl(step_id);
+    //         }    
+    //     }else{
+    //         if($(".step1").hasClass('hide')){
+    //             $(".step1").addClass('active');
+    //             $(".step1").removeClass('hide');
+    //         }
+    //     }
+        
+    //     let num = 1;
+    //     attemptedQuestions.forEach(data => {
+    //         let ques_id = data.question_id;
+    //         let prev_id = data.previous_id;
+    //         let next_id = data.next_id;
+    //         let type = data.type;
+    //         let progress = data.progress;
+
+    //         let prev_btn = $('.pre_btn_'+ques_id);
+    //         let next_btn = $('.nxt_btn_'+ques_id);
+
+    //         $(prev_btn).attr('que_id',prev_id);
+    //         $(next_btn).attr('que_id',next_id);
+
+    //         let prevDiv = $('.step-' + prev_id);
+    //         let nextDiv = $('.step-' + next_id);
+    //         let quesDiv = $('.step-' + ques_id);
+
+    //         if(!quesDiv.hasClass('active')) {
+    //             quesDiv.addClass('done');
+    //         }
+
+    //         let value = data.attempted_answer;
+    //         // console.log(value);
+    //         if(quesDiv.length){
+    //             quesDiv.attr('attempted', value);
+
+    //             if(type == 'textbox' || type == 'textarea' || type == 'pricebox' || type == 'number-field' || type == 'percentage-box' || type == 'dropdown-link' || type == 'dropdown'){
+    //                 if(value){
+    //                     $('#'+ques_id).val(value);
+    //                     $('.qidtarget-'+ques_id).text(value);
+    //                 }
+    //             }else if(type == 'radio-button'){
+    //                 // let id = ques_id+num;  
+    //                 if(value){
+    //                     $('input[name="question_'+ques_id+'"]').each(function () {
+    //                         if($(this).val() == value){
+    //                             $(this).prop('checked', true);
+    //                         }
+    //                     });
+    //                     num++ ;
+    //                 }
+    //             }else if(type == 'date-field'){
+    //                 if(value){
+    //                     const originalDate = value;
+    //                     if(originalDate){
+    //                         const date = new Date(originalDate);
+    //                         date.setDate(date.getDate() - 8);
+    //                         const formattedDate = date.toISOString().split('T')[0];
+    //                         $('#'+ques_id).val(formattedDate);
+    //                         $('.qidtarget-'+ques_id).text(value);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     });
+    // }
+
     function showLastAttemptedValues() {
         let attemptedQuestions = getLocalstorage('Localstorage');
 
-        if(!attemptedQuestions){
+        if (!attemptedQuestions) {
             console.log("No valid data found");
             return;
         }
 
-        // let lastAttempted = attemptedQuestions.reduce((latest, current) => {
-        //     return new Date(latest.attempted_time) > new Date(current.attempted_time) ? latest : current;
-        // });
         let lastAttempted = attemptedQuestions[attemptedQuestions.length - 1];
 
-        if(lastAttempted){
+        if (lastAttempted) {
             let step_id = lastAttempted.question_id;
             let next_id = lastAttempted.next_id;
             let prev_id = lastAttempted.previous_id;
             let value = lastAttempted.attempted_answer;
-            let last_attempted_value = lastAttempted.next_attempted;
             let document_id = lastAttempted.document_id;
             let current_document_id = $("#document_id").val();
 
-            if(document_id == current_document_id){
+            if (document_id == current_document_id) {
                 let pre_btn = `.pre_btn_${step_id}`;
                 $(pre_btn).attr("que_id", prev_id);
 
-                if(next_id === '' || next_id == 'last_step'){
-                    console.log('step_id', step_id);
-                    $('.nxt_btn_'+step_id).hide();
+                if (next_id == 'last_step') {
+                    $('.nxt_btn_' + step_id).hide();
                     $('.last_step_btn').show();
-
-                    if(prev_id){
-                        $(`.step-${step_id}`).addClass('active').removeClass('hide');
-                        updateUrl(step_id);
-                    }
                 }
-
-                if(step_id == 'last_step'){
-                    $(`.step-45`).addClass('active').removeClass('hide');
-                    updateUrl(45);
-                }
-
-                // if(step_id == 'last_step'){
-                //     console.log('iutrit');
-                //     $(".step-" + prev_id).addClass('active');
-                //     updateUrl(prev_id);
-                // }
 
                 let current_step = $(".step-" + step_id);
                 let first_step = $(".step-1");
                 $(current_step).removeClass('hide');
                 $(current_step).addClass('active');
-                
-                $('#'+step_id).val(); 
-                $(current_step).attr('attempted',value);
 
-                if(step_id === "1"){
-                    first_step.addClass('active');
-                    first_step.removeClass('hide');
-                }else{
+                $('#' + step_id).val();
+                $(current_step).attr('attempted', value);
+
+                if (step_id === "1") {
+                    first_step.addClass('active').removeClass('hide');
+                } else {
                     first_step.removeClass('active').addClass('hide');
                 }
 
-                lastProgress = lastAttempted.progress || 0; 
-                total_steps = lastAttempted.total_steps || 1; 
+                lastProgress = lastAttempted.progress || 0;
+                total_steps = lastAttempted.total_steps || 1;
                 total_attempted = lastAttempted.attempted_step || 0;
 
                 $('#total_step').val(total_steps);
@@ -1054,60 +1011,68 @@
                 $('.progress-bar').css("width", lastProgress + "%");
 
                 updateUrl(step_id);
-            }    
-        }else{
-            if($(".step1").hasClass('hide')){
-                $(".step1").addClass('active');
-                $(".step1").removeClass('hide');
+
+                // Hide steps marked as hidden in progressBarCount logic
+                attemptedQuestions.forEach(data => {
+                    let ques_id = data.question_id;
+                    let quesDiv = $('.step-' + ques_id);
+
+                    if(quesDiv.length && quesDiv.hasClass('hide')){
+                        quesDiv.removeClass('active').addClass('hide');
+                    }
+                });
+            }
+        } else {
+            if ($(".step1").hasClass('hide')) {
+                $(".step1").addClass('active').removeClass('hide');
             }
         }
-        
-        let num = 1;
+
         attemptedQuestions.forEach(data => {
             let ques_id = data.question_id;
             let prev_id = data.previous_id;
             let next_id = data.next_id;
             let type = data.type;
-            let progress = data.progress;
+            let value = data.attempted_answer;
 
-            let prev_btn = $('.pre_btn_'+ques_id);
-            let next_btn = $('.nxt_btn_'+ques_id);
+            let prev_btn = $('.pre_btn_' + ques_id);
+            let next_btn = $('.nxt_btn_' + ques_id);
 
-            $(prev_btn).attr('que_id',prev_id);
-            $(next_btn).attr('que_id',next_id);
+            $(prev_btn).attr('que_id', prev_id);
+            $(next_btn).attr('que_id', next_id);
 
-            let prevDiv = $('.step-' + prev_id);
-            let nextDiv = $('.step-' + next_id);
             let quesDiv = $('.step-' + ques_id);
 
-            if(!quesDiv.hasClass('active')) {
+            if (!quesDiv.hasClass('active')) {
                 quesDiv.addClass('done');
             }
 
-            let value = data.attempted_answer;
-            console.log(value);
-            if(quesDiv.length){
+            if (quesDiv.length) {
                 quesDiv.attr('attempted', value);
 
-                if(type == 'textbox' || type == 'textarea' || type == 'pricebox' || type == 'number-field' || type == 'percentage-box' || type == 'dropdown-link' || type == 'dropdown'){
-                    $('#'+ques_id).val(value);
-                    $('.qidtarget-'+ques_id).text(value);
-                }else if(type == 'radio-button'){
-                    // let id = ques_id+num;  
-                    $('input[name="question_'+ques_id+'"]').each(function () {
-                        if($(this).val() == value) {
-                            $(this).prop('checked', true);
+                if (type === 'textbox' || type === 'textarea' || type === 'pricebox' || type === 'number-field' || type === 'percentage-box' || type === 'dropdown-link' || type === 'dropdown') {
+                    if (value) {
+                        $('#' + ques_id).val(value);
+                        $('.qidtarget-' + ques_id).text(value);
+                    }
+                } else if (type === 'radio-button') {
+                    if (value) {
+                        $('input[name="question_' + ques_id + '"]').each(function () {
+                            if ($(this).val() == value) {
+                                $(this).prop('checked', true);
+                            }
+                        });
+                    }
+                } else if (type === 'date-field') {
+                    if (value) {
+                        const originalDate = value;
+                        if (originalDate) {
+                            const date = new Date(originalDate);
+                            date.setDate(date.getDate() - 8);
+                            const formattedDate = date.toISOString().split('T')[0];
+                            $('#' + ques_id).val(formattedDate);
+                            $('.qidtarget-' + ques_id).text(value);
                         }
-                    });
-                    num++ ;
-                }else if(type == 'date-field'){
-                    const originalDate = value;
-                    if(originalDate){
-                        const date = new Date(originalDate);
-                        date.setDate(date.getDate() - 8);
-                        const formattedDate = date.toISOString().split('T')[0];
-                        $('#'+ques_id).val(formattedDate);
-                        $('.qidtarget-'+ques_id).text(value);
                     }
                 }
             }
