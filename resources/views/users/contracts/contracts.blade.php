@@ -37,7 +37,7 @@
                     <div class="contract-progress">
                         <div class="progressLabel">
                             <span class="progressCount">0%</span>	
-                            <input type="hidden" id="percent_count" value="">	
+                            <input type="hidden" id="percent_count" value="0">	
                         </div>	
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="progress-bar"></div>
@@ -72,7 +72,7 @@
                         $total_steps = count($questions);
                     @endphp
                     @foreach($questions as $index => $question)
-                        <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}">
+                        <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : 'false'}}">
                             <div class="save_document_button">
                                 <span><img src="{{ asset('assets/img/download_icon.svg') }}"> Guardar</span>
                             </div>
@@ -233,8 +233,9 @@
     
     $(document).ready(function(){
         $(".step1").addClass('active');
+
         showLastAttemptedValues();
-    
+
         $('form#contractForm select').each(function(){
             var id = $(this).attr('id');
             if(id != null && id != '' && id != undefined){
@@ -377,18 +378,21 @@
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
 
-        for(let i = parseInt(id) + 1; i < next_id; i++){
+        for(let i = parseInt(id) + 1; i < parseInt(next_id); i++){
             if($('.step-' + i).hasClass('hide')){
                 total_hidden_steps++;
             }
         }
 
+        total_attempted = parseInt(total_attempted);
         total_attempted += total_hidden_steps;
 
         if($(current_step).hasClass('done')){
             total_attempted++;
         }
-        console.log("Total attempted steps:", total_attempted);
+
+        console.log(total_attempted)
+        // console.log("Total attempted steps:", total_attempted);
         if(is_last){
             $('#percent_count').val(100);
             $('.progressCount').text("100%");
@@ -413,7 +417,7 @@
         total_attempted -= total_hidden_steps;
         total_attempted--;
 
-        console.log("Total reverse attempted steps:", total_attempted);
+        // console.log("Total reverse attempted steps:", total_attempted);
 
         if(total_attempted >= 0){
             updateProgressBar();
@@ -517,6 +521,8 @@
             saveSteps(my_ref);
 
             next_step_id = 'last_step';
+            $('.step-'+my_ref).attr('is_last',"true");
+
             updateUrl(next_step_id);
             
         }else{
@@ -538,10 +544,6 @@
             }
            
             var next_step_div = `.step-${next_step_id}`;
-            console.log($('.pre_btn_'+my_ref).attr('que_id'));
-            console.log($('.pre_btn_'+next_step_id).attr('que_id'));
-            console.log($('.nxt_btn_'+my_ref).attr('que_id'));
-            console.log($('.nxt_btn_'+next_step_id).attr('que_id'));
 
             if($(next_step_div).hasClass('hide')){
                 $(next_step_div).addClass('active');
@@ -567,12 +569,8 @@
         var prev_step_id = $(e).attr("que_id");
         var prev_step_div = `.step-${prev_step_id}`;
         
-        if($(prev_step_div).hasClass('done')){
-            $(prev_step_div).addClass('active');
-            $(prev_step_div).removeClass('done');
-        }else if($(prev_step_div).hasClass('hide')){
-            $(prev_step_div).addClass('active');
-            $(prev_step_div).removeClass('hide');
+        if($(prev_step_div).hasClass('done') || $(prev_step_div).hasClass('hide')){
+            $(prev_step_div).removeClass('done hide').addClass('active');
         }else{
             $(prev_step_div).addClass('active');
         }
@@ -599,8 +597,8 @@
         const myNextBtn = selectedOption.getAttribute("my_ref_nxt");
         const queId = selectedOption.getAttribute("que_id");
         const selectedValue = selectedOption.value;
-        console.log( selectedValue, " the selected value ")
-        console.log(" This is the ID : ", `.step-${id}`)
+        // console.log( selectedValue, " the selected value ")
+        // console.log(" This is the ID : ", `.step-${id}`)
         $(`.step-${id}`).attr('attempted', selectedValue); 
         const targetEle = $(selectElement).attr('target-id');
         $(targetEle).text(selectedValue)
@@ -625,8 +623,8 @@
         const myNextBtn = selectedOption.getAttribute("my_ref_nxt");
         const queId = selectedOption.getAttribute("que_id");
         const selectedValue = selectedOption.value;
-        console.log( selectedValue, " the selected value ")
-        console.log(" This is the ID : ", `.step-${id}`)
+        // console.log( selectedValue, " the selected value ")
+        // console.log(" This is the ID : ", `.step-${id}`)
         $(`.step-${id}`).attr('attempted', selectedValue); 
         const targetEle = $(selectLink).attr('target-id');
         $(targetEle).text(selectedValue)
@@ -645,7 +643,6 @@
                 var answer = $('form#contractForm .question-div.active').attr('attempted');
                 var step = questionId;
                 var value = answer;
-
                 // console.log(value);
             }
 
@@ -868,6 +865,17 @@
         var prevId = $('.pre_btn_' + que_id).attr('que_id');
         var pre_btn_id = $('.pre_btn_'+next_id).attr('que_id');
         var next_btn_id = $('.nxt_btn_'+next_id).attr('que_id');
+        var nextQuestionType = $('.step-' + next_id).attr('data-type');
+        var nextAttemptedAnswer = '';
+       
+        if(nextQuestionType == 'textbox' || nextQuestionType == 'textarea' || nextQuestionType == 'pricebox' || nextQuestionType == 'number-field' || nextQuestionType == 'percentage-box' || nextQuestionType == 'dropdown-link' || nextQuestionType == 'dropdown' || nextQuestionType == 'date-field'){
+            nextAttemptedAnswer = $('#'+next_id).val();     
+        }else if(nextQuestionType == 'radio-button'){
+            // let id = next_id+num;  
+            $('input[name="question_'+next_id+'"]').each(function () {
+                nextAttemptedAnswer = $(this).val();
+            });
+        }
 
         var now = new Date();
         // var formattedTime = now.toLocaleTimeString();
@@ -876,42 +884,64 @@
         var progressValue = $('#percent_count').val();
         var totalSteps = $('#total_step').val();
         var attemptedSteps = $('#all_attempted').val();
-        
-        var newObj = {
+        var is_last = $('.step-' + next_id).attr('is_last');
+        console.log(is_last);
+
+        var firstObj = {
             document_id: document_id,
             question_id: que_id,
-            // question_id: next_id,
             type: qtype,
             attempted_answer: attemptedAnswer,
-            attempted_time: formattedTime,
             previous_id: prevId,
-            // previous_id: pre_btn_id,
             next_id: next_id,
-            // next_id: next_btn_id,
+            progress: 0,
+            total_steps: totalSteps,
+            attempted_step: 0,
+        }
+
+        var newObj = {
+            document_id: document_id,
+            // question_id: que_id,
+            question_id: next_id,
+            type: nextQuestionType,
+            attempted_answer: nextAttemptedAnswer,
+            // attempted_time: formattedTime,
+            // previous_id: prevId,
+            previous_id: pre_btn_id,
+            // next_id: next_id,
+            next_id: next_btn_id,
             progress: progressValue,
             total_steps: totalSteps,
             attempted_step: attemptedSteps,
-            // Expiry: expiryTime
         };
 
         let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
         let attemptedQuestions = localStorageData.attempted_question;
-        // attemptedQuestions = attemptedQuestions.filter(obj => new Date().getTime() < obj.Expiry);
 
-        let objIndex = attemptedQuestions.findIndex(obj => 
-            obj.question_id === newObj.question_id
-        );
+        if(is_last == "true"){
+            console.log('yuretyrturiturt');
+        }else{
+            if(attemptedQuestions.length === 0){
+                attemptedQuestions.push(firstObj);
+                console.log("Stored first step:", firstObj);
+            }else{
+                attemptedQuestions.push(newObj);
+                console.log("Stored next step:", newObj);
+            }
+        }
+        
 
+        let objIndex = attemptedQuestions.findIndex(obj => obj.question_id === newObj.question_id);
+ 
         if(objIndex !== -1){
             attemptedQuestions[objIndex].attempted_answer = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
-            attemptedQuestions[objIndex].attempted_time = newObj.attempted_time; 
-            console.log('Updated existing object');
+            // console.log('Updated existing object');
         }else{
-            newObj.Value = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
+            newObj.attempted_answer = newObj.attempted_answer === '' || newObj.attempted_answer === null ? null : newObj.attempted_answer;
             attemptedQuestions.push(newObj);
-            console.log('Added new object');
+            // console.log('Added new object');
         }
-
+    
         localStorageData.attempted_question = attemptedQuestions;
         localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
     }
@@ -930,10 +960,10 @@
             let poppedQuestion = attemptedQuestions.splice(questionIndex, 1)[0];
             localStorageData.attempted_question = attemptedQuestions;
             localStorage.setItem(key, JSON.stringify(localStorageData));
-            console.log("Popped Question:", poppedQuestion);
+            // console.log("Popped Question:", poppedQuestion);
             return poppedQuestion;
         }else{
-            console.log("Question ID not found in attempted questions.");
+            // console.log("Question ID not found in attempted questions.");
             return null;
         }
     }
@@ -976,18 +1006,35 @@
                 let pre_btn = `.pre_btn_${step_id}`;
                 $(pre_btn).attr("que_id", prev_id);
 
-                if(next_id == 'last_step'){
+                if(next_id === '' || next_id == 'last_step'){
+                    console.log('step_id', step_id);
                     $('.nxt_btn_'+step_id).hide();
                     $('.last_step_btn').show();
+
+                    if(prev_id){
+                        $(`.step-${step_id}`).addClass('active').removeClass('hide');
+                        updateUrl(step_id);
+                    }
                 }
+
+                if(step_id == 'last_step'){
+                    $(`.step-45`).addClass('active').removeClass('hide');
+                    updateUrl(45);
+                }
+
+                // if(step_id == 'last_step'){
+                //     console.log('iutrit');
+                //     $(".step-" + prev_id).addClass('active');
+                //     updateUrl(prev_id);
+                // }
 
                 let current_step = $(".step-" + step_id);
                 let first_step = $(".step-1");
-                $(current_step).addClass('active');
                 $(current_step).removeClass('hide');
-
+                $(current_step).addClass('active');
+                
                 $('#'+step_id).val(); 
-                $(current_step).attr('attempted', '');
+                $(current_step).attr('attempted',value);
 
                 if(step_id === "1"){
                     first_step.addClass('active');
@@ -996,12 +1043,9 @@
                     first_step.removeClass('active').addClass('hide');
                 }
 
-                // $(".step-1").toggleClass('active hide', step_id !== "1");
-                // current_step.toggleClass('active hide');
-
-                lastProgress = lastAttempted.progress || 0; // Set initial progress
-                total_steps = lastAttempted.total_steps || 1; // Avoid division by 0
-                total_attempted = Math.floor((lastProgress / 100) * total_steps); // Calculate steps already attempted
+                lastProgress = lastAttempted.progress || 0; 
+                total_steps = lastAttempted.total_steps || 1; 
+                total_attempted = lastAttempted.attempted_step || 0;
 
                 $('#total_step').val(total_steps);
                 $('#all_attempted').val(total_attempted);
@@ -1036,7 +1080,7 @@
             let nextDiv = $('.step-' + next_id);
             let quesDiv = $('.step-' + ques_id);
 
-            if (!quesDiv.hasClass('active')) {
+            if(!quesDiv.hasClass('active')) {
                 quesDiv.addClass('done');
             }
 
@@ -1049,7 +1093,7 @@
                     $('#'+ques_id).val(value);
                     $('.qidtarget-'+ques_id).text(value);
                 }else if(type == 'radio-button'){
-                    let id = ques_id+num;  
+                    // let id = ques_id+num;  
                     $('input[name="question_'+ques_id+'"]').each(function () {
                         if($(this).val() == value) {
                             $(this).prop('checked', true);

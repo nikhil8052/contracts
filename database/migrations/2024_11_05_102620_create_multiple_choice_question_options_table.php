@@ -21,8 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('next_question_id')->nullable(); // Optional next question ID
             $table->text('contract_link')->nullable();
             $table->boolean('contract_send_to_next_step')->default(false);
-            $table->string('type')->nullable();; // Type of question
-            $table->integer('order_id')->nullable();; // Order ID for ordering options
+            $table->string('type')->nullable(); // Type of question
+            $table->integer('order_id')->nullable(); // Order ID for ordering options
             $table->timestamps();
 
             // Foreign key for next_question_id
