@@ -417,7 +417,7 @@
         total_attempted -= total_hidden_steps;
         total_attempted--;
 
-        console.log("Total reverse attempted steps:", total_attempted);
+        console.log("Total reverse steps:", total_attempted);
 
         if(total_attempted >= 0){
             updateProgressBar();
