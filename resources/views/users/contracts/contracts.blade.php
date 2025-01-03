@@ -12,6 +12,7 @@
     .hide{
         display: none;
     }
+
 </style>
 
 <section class="privacy-sec questions_page_main_div">
@@ -175,7 +176,7 @@
                                     Next
                                 </button>
 
-                                <button type="button" class="last_step_btn nxt" style="display:none;">
+                                <button type="button" class="last_step_btn nxt" style="display:none;" onclick="go_to_checkout_page()">
                                     Generar
                                 </button>
                             </div>
@@ -390,8 +391,8 @@
             total_attempted++;
         }
 
-        console.log(total_attempted)
-        // console.log("Total attempted steps:", total_attempted);
+        console.log("Total attempted steps:", total_attempted);
+
         if(is_last){
             $('#percent_count').val(100);
             $('.progressCount').text("100%");
@@ -416,7 +417,7 @@
         total_attempted -= total_hidden_steps;
         total_attempted--;
 
-        // console.log("Total reverse attempted steps:", total_attempted);
+        console.log("Total reverse attempted steps:", total_attempted);
 
         if(total_attempted >= 0){
             updateProgressBar();
@@ -521,7 +522,7 @@
             saveSteps(my_ref);
 
             next_step_id = 'last_step';
-            $('.step-'+my_ref).attr('is_last',"true");
+            $('.step-'+my_ref).attr('is_last','true');
 
             updateUrl(next_step_id);
             
@@ -558,7 +559,7 @@
                 "padding": "5px",
                 "border-radius": "3px"
             });
-
+            
             saveSteps();
             progressBarCount(my_ref, next_step_id);
             updateUrl(next_step_id);
@@ -1016,18 +1017,24 @@
                 }
 
                 let current_step = $(".step-" + step_id);
-                let first_step = $(".step-1");
-                $(current_step).removeClass('hide');
-                $(current_step).addClass('active');
-
-                $('#' + step_id).val();
-                $(current_step).attr('attempted', value);
+                let first_step = $(".step1");
+                // $(current_step).removeClass('hide');
+                // $(current_step).addClass('active');
+                
+                $(".question-div").addClass('hide').removeClass('active done');
 
                 if(step_id === "1"){
+                    console.log('if 1');
                     first_step.addClass('active').removeClass('hide');
-                } else {
+                }else{
+                    console.log('if another');
                     first_step.removeClass('active').addClass('hide');
+                    current_step.addClass('active').removeClass('hide done');
                 }
+
+                console.log('Current Step for last saved is', current_step);
+                $('#' + step_id).val();
+                $(current_step).attr('attempted', value);
 
                 lastProgress = lastAttempted.progress || 0;
                 total_steps = lastAttempted.total_steps || 1;
@@ -1046,8 +1053,12 @@
                     let ques_id = data.question_id;
                     let quesDiv = $('.step-' + ques_id);
 
-                    if(quesDiv.length && quesDiv.hasClass('hide')){
-                        quesDiv.removeClass('active').addClass('hide');
+                    if(quesDiv.length){
+                        if(ques_id == step_id){
+                            quesDiv.removeClass('hide').addClass('active');
+                        }else{
+                            quesDiv.addClass('hide').removeClass('active done');
+                        }
                     }
                 });
             }
@@ -1106,8 +1117,6 @@
                 }
             }
         });
-
-        
     }
 
     function smoothScrollToTarget(targetElement, container, offset = 0){
@@ -1156,6 +1165,9 @@
         }
     }
 
+    function go_to_checkout_page(){
+        location.href = "{{ url('/checkout') }}";
+    }
 </script>
 
 @endsection

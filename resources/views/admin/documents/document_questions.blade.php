@@ -69,10 +69,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner main_question_div">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Textbox</h6> 
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -437,10 +437,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Textarea</h6>  
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -807,10 +807,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Dropdown</h6>  
                                                                  <!-- <div class="form-group">
                                                                        <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -1213,10 +1213,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Radio Button</h6> 
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -1609,10 +1609,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Date Field</h6>  
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -1962,10 +1962,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Pricebox</h6>
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -2335,10 +2335,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Number field</h6>  
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -2693,10 +2693,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Percentage Box</h6>  
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -3061,10 +3061,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Dropdown link</h6> 
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
