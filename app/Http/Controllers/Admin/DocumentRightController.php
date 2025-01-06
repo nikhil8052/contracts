@@ -98,7 +98,7 @@ class DocumentRightController extends Controller
                             $document_right_section->update();
                         }
                         
-                        if (!empty($data->add_condition)) {
+                        if(!empty($data->add_condition)){
                             // Handle New Conditions
                             if (!empty($data->new_conditions)) {
                                 foreach ($data->new_conditions as $new_condition) {
@@ -111,7 +111,7 @@ class DocumentRightController extends Controller
                                     };
                                    
                                     
-                                    if ($condition_value !== null) {
+                                    if($condition_value !== null){
                                         $documentCondition = new QuestionCondition();
                                         $documentCondition->condition_type = 'content_condition';
                                         $documentCondition->document_right_content_id = $document_right_section->id;
@@ -126,7 +126,7 @@ class DocumentRightController extends Controller
                             // Handle Existing Conditions
                             if (!empty($data->conditions)) {
                                 foreach ($data->conditions as $condition) {
-                                    $condition_value = match ($condition->condition) {
+                                    $condition_value = match($condition->condition){
                                         'is_equal_to' => 1,
                                         'is_greater_than' => 2,
                                         'is_less_than' => 3,
