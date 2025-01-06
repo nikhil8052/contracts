@@ -67,6 +67,8 @@
                     <input type="hidden" id="total_step" value="{{ $total_questions ?? ''}}">
                     <input type="hidden" id="all_attempted" value="0">
                     <input type="hidden" id="reverse_attempt" value="0">
+                    <input type="hidden" id="user_id" value="{{ Auth::user()->id ?? '' }}">
+        
                     @php 
                         $count = 1;
                         $num = 1;
@@ -519,12 +521,11 @@
             $('.nxt_btn_'+my_ref).hide();
 
             progressBarCount(my_ref, null, true);
-            saveSteps(my_ref);
-
             next_step_id = 'last_step';
             $('.step-'+my_ref).attr('is_last','true');
 
             updateUrl(next_step_id);
+            saveSteps(my_ref, questionType);
             
         }else{
             for(let i = parseInt(my_ref) + 1; i < next_step_id; i++){
@@ -560,7 +561,7 @@
                 "border-radius": "3px"
             });
             
-            saveSteps();
+            saveSteps(my_ref, questionType);
             progressBarCount(my_ref, next_step_id);
             updateUrl(next_step_id);
         }
@@ -639,38 +640,66 @@
         $(myNextBtn).attr("que_id", queId);
     }
 
-    function saveSteps(id = undefined){
-        var last_question = id;
+    // function saveSteps(que_id, qtype){
+    //     let current_document_id = $('#document_id').val();
+    //     let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
+    //     let questionIndex = localStorageData.attempted_question.findIndex(item => item.question_id === que_id);
+
+    //     if(questionIndex !== -1){
+    //         let attempted_value = localStorageData.attempted_question[questionIndex].attempted_answer;
+    //         let document_id = localStorageData.attempted_question[questionIndex].document_id;
+    //         let user_id = localStorageData.attempted_question[questionIndex].user_id;
+    //         let question_type = localStorageData.attempted_question[questionIndex].type;
+    //         let question_id = localStorageData.attempted_question[questionIndex].question_id;
+
+    //         if(current_document_id === document_id){
+    //             var data = {
+    //                 document_id: document_id,
+    //                 user_id: user_id,
+    //                 question_id: question_id,
+    //                 question_type: question_type,
+    //                 answer: attempted_value,
+    //                 _token: "{{ csrf_token() }}"
+    //             }
+
+    //             $.ajax({
+    //                 url: "{{ url('/save/steps') }}",
+    //                 type: "post",
+    //                 data: data,
+    //                 dataType: "json",
+    //                 success: function(response){
+    //                     console.log(response);
+    //                 }
+    //             })
+    //         }
+    //     }
+    // }
+
+    function saveSteps(que_id,qtype){
         var document_id = $('#document_id').val();
-        if(document_id != null && document_id != '' && document_id != undefined){
-            if(last_question != null && last_question != undefined && last_question != ''){
-                var step = last_question;
-                var value = $('form#contractForm .question-div.active').attr('attempted');
-            }else{
-                var questionId = $('form#contractForm .question-div.active').attr('que_id');
-                var answer = $('form#contractForm .question-div.active').attr('attempted');
-                var step = questionId;
-                var value = answer;
-                // console.log(value);
-            }
+        var user_id = $('#user_id').val();
+        var attemptedAnswer = $('.step-' + que_id).attr('attempted');
+        var question_type = qtype;
+        var question_id = que_id;
 
-            var data = {
-                id: document_id,
-                step: step,
-                value: value,
-                _token: "{{ csrf_token() }}"
-            }
-
-            $.ajax({
-                url: "{{ url('/save/steps') }}",
-                type: "post",
-                data: data,
-                dataType: "json",
-                success: function(response){
-                    console.log(response);
-                }
-            })
+        var data = {
+            document_id: document_id,
+            user_id: user_id,
+            question_id: question_id,
+            question_type: question_type,
+            answer: attemptedAnswer,
+            _token: "{{ csrf_token() }}"
         }
+
+        $.ajax({
+            url: "{{ url('/save/steps') }}",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function(response){
+                console.log(response);
+            }
+        })
     }
 
     function storeAnswers(e, question_id = undefined, qtype = undefined, next_id = undefined) {
@@ -689,6 +718,7 @@
         if(qtype === "textbox" || qtype === "textarea" || qtype === "pricebox" || qtype === "percentage-box" ||
             qtype === "dropdown" || qtype === "radio-button" || qtype === "dropdown-link" || qtype === "number-field"){
             
+            $(`.step-${question_id}`).attr('attempted', attempted_value); 
             $(right_part_target).text(attempted_value).css({
                 "color": "white",
                 "background-color": "#002655",
@@ -696,28 +726,12 @@
                 "border-radius": "3px"
             });
 
-            // $(right_part_target).css({
-            //     "color": "white",
-            //     "background-color": "#002655",
-            //     "padding": "5px",
-            //     "border-radius": "3px"
-            // })
-
-            // $(right_part_target).text(attempted_value);
-
         }else if(qtype === "date-field"){
             let date = new Date(attempted_value);
             let options = { day: "2-digit", month: "long", year: "numeric" };
             let formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
 
-            // $(right_part_target).css({
-            //     "color": "white",
-            //     "background-color": "#002655",
-            //     "padding": "5px",
-            //     "border-radius": "3px"
-            // })
-
-            $(right_part_target).text(formattedDate);
+            $(`.step-${question_id}`).attr('attempted', formattedDate); 
             $(right_part_target).text(formattedDate).css({
                 "color": "white",
                 "background-color": "#002655",
@@ -739,6 +753,7 @@
     // Store the value in Localstorage //
     function setLocalstorage(que_id,next_id,qtype){
         var document_id = $('#document_id').val();
+        var user_id = $('#user_id').val();
         var attemptedAnswer = $('.step-' + que_id).attr('attempted');
         var prevId = $('.pre_btn_' + que_id).attr('que_id');
         var pre_btn_id = $('.pre_btn_'+next_id).attr('que_id');
@@ -754,10 +769,16 @@
         var totalSteps = $('#total_step').val();
         var attemptedSteps = $('#all_attempted').val();
         var is_last = $('.step-' + que_id).attr('is_last');
-        console.log(is_last);
 
+        // if(nextQuestionType == 'dropdown' || nextQuestionType == 'dropdown-link'){
+        //     nextAttemptedAnswer = $('#' +next_id).find(":selected").val();
+        // }else if(nextQuestionType == 'radio-button'){
+        //     nextAttemptedAnswer = $('input[name="question_' + next_id + '"]:checked').val();
+        // }
+        
         var firstObj = {
             document_id: document_id,
+            user_id: user_id,
             question_id: que_id,
             type: qtype,
             attempted_answer: attemptedAnswer,
@@ -770,6 +791,7 @@
 
         var newObj = {
             document_id: document_id,
+            user_id: user_id,
             // question_id: que_id,
             question_id: next_id,
             type: nextQuestionType,

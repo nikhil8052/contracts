@@ -14,6 +14,8 @@ use App\Models\DocumentCategory;
 use App\Models\Question;
 use App\Models\DocumentRightSection;
 use App\Models\GeneralSection;
+use App\Models\SaveContractQuestion;
+use Illuminate\Support\Facades\DB;
 
 class ContractController extends Controller
 {
@@ -136,6 +138,30 @@ class ContractController extends Controller
     }
 
     public function saveContractsQuestions(Request $request){
-        return $request->all();
+        // return $request->all();
+        if($request->document_id){
+            $saveContract = SaveContractQuestion::where('question_id', $request->question_id)->first();
+            if($saveContract){
+                $saveContract->answer = $request->answer;
+                $saveContract->update();
+                $status = 'update';
+            }else{
+                $saveContract = new SaveContractQuestion();
+                $saveContract->user_id = $request->user_id ?? null;
+                $saveContract->document_id = $request->document_id;
+                $saveContract->question_type = $request->question_type;
+                $saveContract->question_id = $request->question_id;
+                $saveContract->answer = $request->answer;
+                $saveContract->save();
+                $status = 'add';
+            }
+
+            $response = [
+                'code' => '200',
+                'status' => $status,
+            ];
+
+            return response()->json($response);
+        }
     }
 }
