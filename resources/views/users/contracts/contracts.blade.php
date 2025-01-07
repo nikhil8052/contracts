@@ -56,6 +56,51 @@
     </div>
     <!-- This is the main container for the question and the form  -->
 
+    <div id="main-question-form-controller" class="row outer_main">
+        <!-- <div class="col-md-4"> -->
+            <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
+            <div class="left-box left-question-box col-md-4">
+                <div class="left_heding">
+                    <h3 class="contarct_top_left_heading">Introduce los datos aquí:</h3>
+                </div>
+                <form id="contractForm">
+                    <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
+                    <input type="hidden" id="total_step" value="{{ $total_questions ?? ''}}">
+                    <input type="hidden" id="all_attempted" value="0">
+                    <input type="hidden" id="reverse_attempt" value="0">
+                    <input type="hidden" id="user_id" value="{{ Auth::user()->id ?? '' }}">
+                    <input type="hidden" id="is_login" value="{{ Session::get('data') ?? '' }}">
+                    @php 
+                        $count = 1;
+                        $num = 1;
+                        $total_steps = count($questions);
+                    @endphp
+                    @foreach($questions as $index => $question)
+                        <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
+                            <div class="save_document_button">
+                                <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                            </div>
+                            <label class="que_heading lbl-{{ $question->id }}">
+                                @if($question->is_condition == 1)
+                                {{ $question->conditions[0]->question_label ?? $question->questionData->question_label }}
+                                @else
+                                {{ $question->questionData->question_label ?? '' }}
+                                @endif
+                            </label>
+                            <br>
+                            @php 
+                                $question_type = $question->type;
+                                $next_qid = NULL;
+                            @endphp 
+                            
+                            @if($question_type == "textbox")
+                                @php 
+                                    $next_qid = $question->questionData->next_question_id ?? '';
+                                @endphp 
+                                <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}', '{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+
+
     <div class="main_questn">
         <div class="container">
                 <div id="main-question-form-controller" class="row outer_main">
@@ -222,7 +267,43 @@
                                     @endif
                                 </div>
                             @endif
+
+                            <div class="navigation-btns mt-4"> 
+                           
+                                @if($index != 0)
+                                    <button type="button" class="pre_btn_{{ $question->id }} pre" que_id="" my_ref="{{ $question->id }}"
+                                        onclick="go_pre_step(this)">Previous</button>
+                                @endif
+                                <button type="button" class="nxt_btn_{{ $question->id ?? '' }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
+                                    data-condition_step="{{ $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id ?? '' }}" onclick="go_next_step(this, '{{ $question_type ?? '' }}')" 
+                                    data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
+                                    Next
+                                </button>
+
+                                <button type="button" class="last_step_btn nxt" style="display:none;" onclick="go_to_checkout_page()">
+                                    Generar
+                                </button>
+                            </div>
+                        </div>
+                        @php $count++; @endphp
+                    @endforeach
+                </form>
+            </div>
+        <!-- </div> -->
+            <!-- This is the box where we show the steps or the form -->
+        <div class="right-box right-question-box form-div card col-md-8">
+            @foreach($documentContents as $content)
+                @if($content->secure_blur_content == 1)
+                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                        @if($content->type == 'content_heading')
+                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                        @else
+                        {!! $content->content !!}
+                        @endif
+
                         @endforeach
+
                     </div>
                 </div>
         </div>
@@ -262,10 +343,61 @@
             }
         });
 
+        // document.getElementById('guardar-btn').addEventListener('click', function () {
+        //     logoutUser();
+        // });
+
+        // function logoutUser() {
+        //     localStorage.clear();
+        //     window.location.href = '/login';
+        // }
+
+        $('.guardar_btn').click(function(){
+            let baseUrl = "{{ url('/') }}";
+            let current_page = encodeURIComponent(window.location.href);
+            let login_url = baseUrl + "/login?redirect=" + current_page;
+            location.href = login_url;
+        })
+
         showLastAttemptedValues();
         rightSecConditions();
         alphabetList();       
     })
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
+        let attemptedQuestions = localStorageData.attempted_question;
+        let finalQuestions = attemptedQuestions.slice(0, attemptedQuestions.length - 1);
+        let is_login = $('#is_login').val();
+
+        if(attemptedQuestions.length > 0){
+            if(is_login == true){
+                console.log(is_login);
+                storeAttemptedQuestions(finalQuestions);
+            }else{
+                console.log('huiiuuitu');
+            }
+        }
+    });
+
+    function storeAttemptedQuestions(questions){
+        const user_id = $('#user_id').val();
+        const data = {
+            user_id: user_id,
+            attempted_questions: questions,
+            _token: "{{ csrf_token() }}"
+        }
+
+        $.ajax({
+            url: "{{ url('/save/steps') }}",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function(response){
+                console.log(response);
+            }
+        })
+    }
 
     function alphabetList(){
         let alphabet = {1:"a", 2:"b", 3:"c",4:"d",5:"e",6:"f",7:"g",8:"h",9:"i",10:"j",11:"k",12:"l",13:"m",14:"n",15:"o",16:"p",17:"q",18:"r",19:"s",20:"t",21:"u",22:"v",23:"w",24:"x",25:"y",26:"z"};
@@ -531,7 +663,7 @@
             $('.step-'+my_ref).attr('is_last','true');
 
             updateUrl(next_step_id);
-            saveSteps(my_ref, questionType);
+            // saveSteps(my_ref, questionType);
             
         }else{
             for(let i = parseInt(my_ref) + 1; i < next_step_id; i++){
@@ -567,7 +699,7 @@
                 "border-radius": "3px"
             });
             
-            saveSteps(my_ref, questionType);
+            // saveSteps(my_ref, questionType);
             progressBarCount(my_ref, next_step_id);
             updateUrl(next_step_id);
         }
@@ -681,32 +813,32 @@
     //     }
     // }
 
-    function saveSteps(que_id,qtype){
-        var document_id = $('#document_id').val();
-        var user_id = $('#user_id').val();
-        var attemptedAnswer = $('.step-' + que_id).attr('attempted');
-        var question_type = qtype;
-        var question_id = que_id;
+    // function saveSteps(que_id,qtype){
+    //     var document_id = $('#document_id').val();
+    //     var user_id = $('#user_id').val();
+    //     var attemptedAnswer = $('.step-' + que_id).attr('attempted');
+    //     var question_type = qtype;
+    //     var question_id = que_id;
 
-        var data = {
-            document_id: document_id,
-            user_id: user_id,
-            question_id: question_id,
-            question_type: question_type,
-            answer: attemptedAnswer,
-            _token: "{{ csrf_token() }}"
-        }
+    //     var data = {
+    //         document_id: document_id,
+    //         user_id: user_id,
+    //         question_id: question_id,
+    //         question_type: question_type,
+    //         answer: attemptedAnswer,
+    //         _token: "{{ csrf_token() }}"
+    //     }
 
-        $.ajax({
-            url: "{{ url('/save/steps') }}",
-            type: "post",
-            data: data,
-            dataType: "json",
-            success: function(response){
-                console.log(response);
-            }
-        })
-    }
+    //     $.ajax({
+    //         url: "{{ url('/save/steps') }}",
+    //         type: "post",
+    //         data: data,
+    //         dataType: "json",
+    //         success: function(response){
+    //             console.log(response);
+    //         }
+    //     })
+    // }
 
     function storeAnswers(e, question_id = undefined, qtype = undefined, next_id = undefined) {
         let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
