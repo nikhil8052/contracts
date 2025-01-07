@@ -1,5 +1,5 @@
 @php 
-											$keys = [
+	$keys = [
 		'header_logo',
 		'header_btn_1',
 		'header_btn_2'
