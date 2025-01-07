@@ -139,7 +139,6 @@ class ContractController extends Controller
 
     public function saveContractsQuestions(Request $request){
         // return $request->all();
-
         $userID = $request->user_id;
         $questions = $request->attempted_questions;
         foreach($questions as $data){
