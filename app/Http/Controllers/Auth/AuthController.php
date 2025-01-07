@@ -99,8 +99,6 @@ class AuthController extends Controller
             if(auth()->user()->is_admin == 0){
                 // Check if a redirect URL is provided
                 if($request->has('redirect_url') && !empty($request->redirect_url)){
-                    $data = true;
-                    Session::put(['data'=> $data]);
                     return redirect($request->redirect_url)->with('success', 'Login Successfully');
                 }
                 return redirect('/')->with('success', 'Login Successfully');

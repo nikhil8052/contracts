@@ -55,6 +55,7 @@
         </div>
     </div>
     <!-- This is the main container for the question and the form  -->
+
     <div class="main_questn">
         <div class="container">
                 <div id="main-question-form-controller" class="row outer_main">
@@ -70,7 +71,12 @@
                                 <input type="hidden" id="all_attempted" value="0">
                                 <input type="hidden" id="reverse_attempt" value="0">
                                 <input type="hidden" id="user_id" value="{{ Auth::user()->id ?? '' }}">
-                                <input type="hidden" id="is_login" value="{{ Session::get('data') ?? '' }}">
+                                @if(Auth::check())
+                                    @php 
+                                        $is_login = true;
+                                    @endphp
+                                    <input type="hidden" id="is_login" value="{{ $is_login ?? '' }}">
+                                @endif
                                 @php 
                                     $count = 1;
                                     $num = 1;
@@ -256,15 +262,6 @@
                 });
             }
         });
-
-        // document.getElementById('guardar-btn').addEventListener('click', function () {
-        //     logoutUser();
-        // });
-
-        // function logoutUser() {
-        //     localStorage.clear();
-        //     window.location.href = '/login';
-        // }
 
         $('.guardar_btn').click(function(){
             let baseUrl = "{{ url('/') }}";
