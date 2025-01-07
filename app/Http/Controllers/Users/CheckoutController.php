@@ -10,4 +10,8 @@ class CheckoutController extends Controller
     public function checkout(){
         return view('users.checkout.checkout');
     }
+
+    public function order_confirm(){
+        return view('users.checkout.order_confirmation');
+    }
 }
