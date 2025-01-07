@@ -303,18 +303,14 @@
 			infinite: true,
 			autoplay: false,
 			responsive: [
+				
 				{
-					breakpoint: 991,
+					breakpoint: 1024,
 					settings: {
-					slidesToShow: 2,
+						slidesToShow: 1,
 					},
-				},
-				{
-					breakpoint: 767,
-					settings: {
-					slidesToShow: 1,
-					},
-				},
+				}
+				
 			],
 		});
 
@@ -323,8 +319,8 @@
 		});
 
 		$('.next-btn').on('click', function() {
-		$('.client-slider').slick('slickNext'); 
-	});
+			$('.client-slider').slick('slickNext'); 
+		});
 
 		$(".prev-btn").addClass("slick-disabled");
 		$(".slick-list").on("afterChange", function () {

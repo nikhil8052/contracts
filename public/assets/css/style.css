@@ -2786,10 +2786,12 @@ section.banner_sec {
 }
 
 .clientes_slider .slick-slide.slick-current .control_box {
-    box-shadow: 0px 0px 10px 0px #00000014;
+    box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.08);
     background-color: #fff;
     border: none;
 }
+
+
 
 .clientes_slider .btn-wrap button {
     border: 1px solid #0026551C;
@@ -3012,9 +3014,9 @@ footer .foot_end_box .reserve_box {
 
 /* 7nov2024////////////////////////// */
 #main-question-form-controller {
-    display: flex !important;
+    /* display: flex !important;
     flex-direction: row !important;
-    width: 100%;
+    width: 100%; */
     gap: 10px;
 }
 
@@ -3024,8 +3026,8 @@ footer .foot_end_box .reserve_box {
     flex: 0.3;
     /* 30% width for the left box */
     padding: 10px;
-    min-height: 60vh;
-    max-height: 70vh;
+    /* min-height: 60vh;
+    max-height: 70vh; */
 }
 
 .right-box {
@@ -3124,6 +3126,7 @@ footer .foot_end_box .reserve_box {
 .valid_in_check.tick_img {
     display: flex;
     justify-content: flex-end;
+    padding: 0px 0px 10px 0px;
 }
 
 .progress {
@@ -3148,9 +3151,6 @@ footer .foot_end_box .reserve_box {
     justify-content: flex-end;
 }
 
-.outer_main {
-    padding: 30px 95px 0px 95px;
-}
 
 .outer_main h3 {
     color: #002655;
@@ -3784,6 +3784,7 @@ footer .foot_li a:hover {
     outline: 0;
     padding: 6px;
     border-radius: 50px;
+    width: 100%;
 }
 
 .social-fb .fb_icon .svg svg {
@@ -4472,3 +4473,51 @@ footer .select-menu .select-btn:hover {
 /* .r_div br {
     display: none;
 } */
+
+
+/* 7jan2025//////////////////////////////////////////////////////////////////////////////////////// */
+
+/* Checkout_page  ///////////////////////////////*/
+
+.odr_sec  .cta_wyt {
+    background-color: #fff;
+    padding: 20px 153px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 100px;
+    color: #000000; 
+    font-size: 20px;
+    font-weight: 600;
+    border: 1px solid #fff;
+}
+.odr_sec  .cta_wyt:hover {
+    color: #FD5602;
+}
+.odr_sec {
+    padding-top: 270px;
+    padding-bottom: 120px;
+}
+.cnfrm-odr {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+    background: #FD5602;
+    border-radius: 25px;
+    padding: 83px 137px;
+    color: #fff;
+}
+.odr_sec .cnfrm-odr .odr_txt {
+    margin-top: 22px;
+    padding-bottom: 44px;
+}
+.odr_sec .cnfrm-odr .odr_txt h6 {
+    font-weight: 400;
+    font-size: 22px;
+}
+
+.odr_sec .cnfrm-odr .odr_txt h2 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 58.51px;
+    color: #fff;
+}
