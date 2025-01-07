@@ -55,52 +55,6 @@
         </div>
     </div>
     <!-- This is the main container for the question and the form  -->
-
-    <div id="main-question-form-controller" class="row outer_main">
-        <!-- <div class="col-md-4"> -->
-            <!-- here we show all the steps of the questions, this is the section where we show all the questions  -->
-            <div class="left-box left-question-box col-md-4">
-                <div class="left_heding">
-                    <h3 class="contarct_top_left_heading">Introduce los datos aquí:</h3>
-                </div>
-                <form id="contractForm">
-                    <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
-                    <input type="hidden" id="total_step" value="{{ $total_questions ?? ''}}">
-                    <input type="hidden" id="all_attempted" value="0">
-                    <input type="hidden" id="reverse_attempt" value="0">
-                    <input type="hidden" id="user_id" value="{{ Auth::user()->id ?? '' }}">
-                    <input type="hidden" id="is_login" value="{{ Session::get('data') ?? '' }}">
-                    @php 
-                        $count = 1;
-                        $num = 1;
-                        $total_steps = count($questions);
-                    @endphp
-                    @foreach($questions as $index => $question)
-                        <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
-                            <div class="save_document_button">
-                                <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
-                            </div>
-                            <label class="que_heading lbl-{{ $question->id }}">
-                                @if($question->is_condition == 1)
-                                {{ $question->conditions[0]->question_label ?? $question->questionData->question_label }}
-                                @else
-                                {{ $question->questionData->question_label ?? '' }}
-                                @endif
-                            </label>
-                            <br>
-                            @php 
-                                $question_type = $question->type;
-                                $next_qid = NULL;
-                            @endphp 
-                            
-                            @if($question_type == "textbox")
-                                @php 
-                                    $next_qid = $question->questionData->next_question_id ?? '';
-                                @endphp 
-                                <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}', '{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
-
-
     <div class="main_questn">
         <div class="container">
                 <div id="main-question-form-controller" class="row outer_main">
@@ -116,7 +70,7 @@
                                 <input type="hidden" id="all_attempted" value="0">
                                 <input type="hidden" id="reverse_attempt" value="0">
                                 <input type="hidden" id="user_id" value="{{ Auth::user()->id ?? '' }}">
-                    
+                                <input type="hidden" id="is_login" value="{{ Session::get('data') ?? '' }}">
                                 @php 
                                     $count = 1;
                                     $num = 1;
@@ -291,7 +245,7 @@
             </div>
         <!-- </div> -->
             <!-- This is the box where we show the steps or the form -->
-        <div class="right-box right-question-box form-div card col-md-8">
+         <div class="right-box right-question-box form-div card col-md-8">
             @foreach($documentContents as $content)
                 @if($content->secure_blur_content == 1)
                     <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
@@ -301,11 +255,26 @@
                         @else
                         {!! $content->content !!}
                         @endif
-
-                        @endforeach
-
                     </div>
-                </div>
+                @elseif($content->is_condition == 0)
+                    <span style="text-align:{{ $content->text_align ?? '' }}" class="r_div">
+                        @if($content->type == 'content_heading')
+                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                        @else
+                        {!! $content->content !!}
+                        @endif
+                    </span>
+                @else
+                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                        @if($content->type == 'content_heading')
+                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                        @else
+                        {!! $content->content !!}
+                        @endif
+                    </div>
+                @endif
+            @endforeach
         </div>
     </div>
    
