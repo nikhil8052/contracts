@@ -188,96 +188,41 @@
                                     @php $count++; @endphp
                                 @endforeach
                             </form>
-                            
                         </div>
-                    <!-- </div> -->
-                        <!-- This is the box where we show the steps or the form -->
-                    <div class="right-box right-question-box form-div card col-md-8">
-                        @foreach($documentContents as $content)
-                            @if($content->secure_blur_content == 1)
-                                <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                                data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
-                                    @if($content->type == 'content_heading')
-                                    <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
-                                    @else
-                                    {!! $content->content !!}
-                                    @endif
-                                </div>
-                            @elseif($content->is_condition == 0)
-                                <span style="text-align:{{ $content->text_align ?? '' }}" class="r_div">
-                                    @if($content->type == 'content_heading')
-                                    <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
-                                    @else
-                                    {!! $content->content !!}
-                                    @endif
-                                </span>
-                            @else
-                                <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                                data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
-                                    @if($content->type == 'content_heading')
-                                    <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
-                                    @else
-                                    {!! $content->content !!}
-                                    @endif
-                                </div>
-                            @endif
-
-                            <div class="navigation-btns mt-4"> 
-                           
-                                @if($index != 0)
-                                    <button type="button" class="pre_btn_{{ $question->id }} pre" que_id="" my_ref="{{ $question->id }}"
-                                        onclick="go_pre_step(this)">Previous</button>
-                                @endif
-                                <button type="button" class="nxt_btn_{{ $question->id ?? '' }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
-                                    data-condition_step="{{ $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id ?? '' }}" onclick="go_next_step(this, '{{ $question_type ?? '' }}')" 
-                                    data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
-                                    Next
-                                </button>
-
-                                <button type="button" class="last_step_btn nxt" style="display:none;" onclick="go_to_checkout_page()">
-                                    Generar
-                                </button>
-                            </div>
-                        </div>
-                        @php $count++; @endphp
-                    @endforeach
-                </form>
-            </div>
-        <!-- </div> -->
+                <!-- </div> -->
             <!-- This is the box where we show the steps or the form -->
-         <div class="right-box right-question-box form-div card col-md-8">
-            @foreach($documentContents as $content)
-                @if($content->secure_blur_content == 1)
-                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
-                        @if($content->type == 'content_heading')
-                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
-                        @else
-                        {!! $content->content !!}
-                        @endif
-                    </div>
-                @elseif($content->is_condition == 0)
-                    <span style="text-align:{{ $content->text_align ?? '' }}" class="r_div">
-                        @if($content->type == 'content_heading')
-                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
-                        @else
-                        {!! $content->content !!}
-                        @endif
-                    </span>
-                @else
-                    <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
-                    data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
-                        @if($content->type == 'content_heading')
-                        <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
-                        @else
-                        {!! $content->content !!}
-                        @endif
-                    </div>
-                @endif
-            @endforeach
+            <div class="right-box right-question-box form-div card col-md-8">
+                @foreach($documentContents as $content)
+                    @if($content->secure_blur_content == 1)
+                        <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div secure_content mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                        data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                            @if($content->type == 'content_heading')
+                            <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                            @else
+                            {!! $content->content !!}
+                            @endif
+                        </div>
+                    @elseif($content->is_condition == 0)
+                        <span style="text-align:{{ $content->text_align ?? '' }}" class="r_div">
+                            @if($content->type == 'content_heading')
+                            <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                            @else
+                            {!! $content->content !!}
+                            @endif
+                        </span>
+                    @else
+                        <div id="right_content_div_{{ $content->id ?? '' }}" style="text-align:{{ $content->text_align ?? '' }}" class="r_div right-sec-div mb-2" conditional_section="{{ $content->is_condition ? 'true' : NULL }}"
+                        data-conditions="{{ $content->conditions && count($content->conditions) > 0 ? json_encode($content->conditions) : NULL  }}">
+                            @if($content->type == 'content_heading')
+                            <p style="text-align:center; font-size:18px; font-weight:400;">{!! $content->content !!}</p>
+                            @else
+                            {!! $content->content !!}
+                            @endif
+                        </div>
+                    @endif
+                @endforeach
+            </div>
         </div>
-    </div>
-   
 </section>
  
 <script>
