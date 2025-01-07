@@ -13,11 +13,12 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Models\PasswordResetToken;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Mail\Mailable;
+use Session;
+
 class AuthController extends Controller
 {
 
     public function login(){
-        
         $login = LoginRegister::where('key','login')->first();
         return view('auth.adminLogin',compact('login'));
     }
@@ -87,75 +88,57 @@ class AuthController extends Controller
         }
     }
 
-    public function loginUser()
-    {
+    public function loginUser(){
         $login = LoginRegister::where('key','login')->first();
         return view('auth.login',compact('login'));
     }
 
     public function loginProcess(Request $request){
-        
-        $request->validate([
-        'email' => 'required|email', // Added email format validation
-        'password' => 'required|min:6',
-        ]);
-
-        // Attempt to log the user in
-        if (Auth::attempt($request->only('email', 'password'))) {
-            // Check if the user is an admin
+        if(Auth::attempt($request->only('email', 'password'))){
+            // Check if the user is not an admin
             if(auth()->user()->is_admin == 0){
+                // Check if a redirect URL is provided
+                if($request->has('redirect_url') && !empty($request->redirect_url)){
+                    $data = true;
+                    Session::put(['data'=> $data]);
+                    return redirect($request->redirect_url)->with('success', 'Login Successfully');
+                }
                 return redirect('/')->with('success', 'Login Successfully');
             }
-        };
-
-        // If login attempt fails, redirect back with an error message
+        }
         return redirect()->back()->with('error', 'The provided credentials do not match our records.');
-        // return redirect()->back()->withErrors([
-        //     'email' => 'The provided credentials do not match our records.',
-        // ]);
-
     }
+
     public function logout(){
-
         Auth::logout();
-
         return redirect('/')->with('success',"You have logged out succesfully");
     }
 
     public function forgetPassword(){
-     
         $login = LoginRegister::where('key','login')->first();
         return view('auth.forget_password',compact('login'));
     }
 
-    public function forgetPasswordEmail(Request $request)
-    {
+    public function forgetPasswordEmail(Request $request){
         $request->validate(['email' => 'required|email']);
         $email = $request->email;
-
         $user = User::where('email', $email)->first();
-
-        if (!$user) {
-           
+        if(!$user){
             saveLog("No account found for email: ");
             return redirect()->back()->with('error', 'No account found with that email address.');
         }
-
         Password::sendResetLink($request->only('email'));
         // saveLog("Password reset link sent!");
         return back()->with('success', 'Password reset link sent!');
         
     }
-    public function showResetForm(Request $request, $token = null)
-    {
+    public function showResetForm(Request $request, $token = null){
         return view('auth.password_reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }
 
-    public function reset(Request $request)
-    {
-     
+    public function reset(Request $request){
         $request->validate([
             // 'email' => 'required|email',
             'password' => 'required|confirmed|min:6',

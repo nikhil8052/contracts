@@ -68,7 +68,7 @@
                     <input type="hidden" id="all_attempted" value="0">
                     <input type="hidden" id="reverse_attempt" value="0">
                     <input type="hidden" id="user_id" value="{{ Auth::user()->id ?? '' }}">
-        
+                    <input type="hidden" id="is_login" value="{{ Session::get('data') ?? '' }}">
                     @php 
                         $count = 1;
                         $num = 1;
@@ -77,7 +77,7 @@
                     @foreach($questions as $index => $question)
                         <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
                             <div class="save_document_button">
-                                <span><img src="{{ asset('assets/img/download_icon.svg') }}"> Guardar</span>
+                                <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
                             </div>
                             <label class="que_heading lbl-{{ $question->id }}">
                                 @if($question->is_condition == 1)
@@ -186,7 +186,6 @@
                         @php $count++; @endphp
                     @endforeach
                 </form>
-                
             </div>
         <!-- </div> -->
             <!-- This is the box where we show the steps or the form -->
@@ -256,10 +255,61 @@
             }
         });
 
+        // document.getElementById('guardar-btn').addEventListener('click', function () {
+        //     logoutUser();
+        // });
+
+        // function logoutUser() {
+        //     localStorage.clear();
+        //     window.location.href = '/login';
+        // }
+
+        $('.guardar_btn').click(function(){
+            let baseUrl = "{{ url('/') }}";
+            let current_page = encodeURIComponent(window.location.href);
+            let login_url = baseUrl + "/login?redirect=" + current_page;
+            location.href = login_url;
+        })
+
         showLastAttemptedValues();
         rightSecConditions();
         alphabetList();       
     })
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
+        let attemptedQuestions = localStorageData.attempted_question;
+        let finalQuestions = attemptedQuestions.slice(0, attemptedQuestions.length - 1);
+        let is_login = $('#is_login').val();
+
+        if(attemptedQuestions.length > 0){
+            if(is_login == true){
+                console.log(is_login);
+                storeAttemptedQuestions(finalQuestions);
+            }else{
+                console.log('huiiuuitu');
+            }
+        }
+    });
+
+    function storeAttemptedQuestions(questions){
+        const user_id = $('#user_id').val();
+        const data = {
+            user_id: user_id,
+            attempted_questions: questions,
+            _token: "{{ csrf_token() }}"
+        }
+
+        $.ajax({
+            url: "{{ url('/save/steps') }}",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function(response){
+                console.log(response);
+            }
+        })
+    }
 
     function alphabetList(){
         let alphabet = {1:"a", 2:"b", 3:"c",4:"d",5:"e",6:"f",7:"g",8:"h",9:"i",10:"j",11:"k",12:"l",13:"m",14:"n",15:"o",16:"p",17:"q",18:"r",19:"s",20:"t",21:"u",22:"v",23:"w",24:"x",25:"y",26:"z"};
@@ -525,7 +575,7 @@
             $('.step-'+my_ref).attr('is_last','true');
 
             updateUrl(next_step_id);
-            saveSteps(my_ref, questionType);
+            // saveSteps(my_ref, questionType);
             
         }else{
             for(let i = parseInt(my_ref) + 1; i < next_step_id; i++){
@@ -561,7 +611,7 @@
                 "border-radius": "3px"
             });
             
-            saveSteps(my_ref, questionType);
+            // saveSteps(my_ref, questionType);
             progressBarCount(my_ref, next_step_id);
             updateUrl(next_step_id);
         }
@@ -675,32 +725,32 @@
     //     }
     // }
 
-    function saveSteps(que_id,qtype){
-        var document_id = $('#document_id').val();
-        var user_id = $('#user_id').val();
-        var attemptedAnswer = $('.step-' + que_id).attr('attempted');
-        var question_type = qtype;
-        var question_id = que_id;
+    // function saveSteps(que_id,qtype){
+    //     var document_id = $('#document_id').val();
+    //     var user_id = $('#user_id').val();
+    //     var attemptedAnswer = $('.step-' + que_id).attr('attempted');
+    //     var question_type = qtype;
+    //     var question_id = que_id;
 
-        var data = {
-            document_id: document_id,
-            user_id: user_id,
-            question_id: question_id,
-            question_type: question_type,
-            answer: attemptedAnswer,
-            _token: "{{ csrf_token() }}"
-        }
+    //     var data = {
+    //         document_id: document_id,
+    //         user_id: user_id,
+    //         question_id: question_id,
+    //         question_type: question_type,
+    //         answer: attemptedAnswer,
+    //         _token: "{{ csrf_token() }}"
+    //     }
 
-        $.ajax({
-            url: "{{ url('/save/steps') }}",
-            type: "post",
-            data: data,
-            dataType: "json",
-            success: function(response){
-                console.log(response);
-            }
-        })
-    }
+    //     $.ajax({
+    //         url: "{{ url('/save/steps') }}",
+    //         type: "post",
+    //         data: data,
+    //         dataType: "json",
+    //         success: function(response){
+    //             console.log(response);
+    //         }
+    //     })
+    // }
 
     function storeAnswers(e, question_id = undefined, qtype = undefined, next_id = undefined) {
         let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
