@@ -83,7 +83,11 @@
                     @foreach($questions as $index => $question)
                         <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
                             <div class="save_document_button">
-                                <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                 @if(Auth::check())
+                                    <span><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                @else
+                                    <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                @endif
                             </div>
                             <label class="que_heading lbl-{{ $question->id }}">
                                 @if($question->is_condition == 1)
@@ -262,6 +266,7 @@
         });
 
         $('.guardar_btn').click(function(){
+            let is_login = $('#is_login').val();
             let baseUrl = "{{ url('/') }}";
             let current_page = encodeURIComponent(window.location.href);
             let login_url = baseUrl + "/login?redirect=" + current_page;
@@ -276,13 +281,13 @@
     document.addEventListener('DOMContentLoaded', function () {
         let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
         let attemptedQuestions = localStorageData.attempted_question;
-        let finalQuestions = attemptedQuestions.slice(0, attemptedQuestions.length - 1);
+        // let finalQuestions = attemptedQuestions.slice(0, attemptedQuestions.length - 1);
         let is_login = $('#is_login').val();
 
         if(attemptedQuestions.length > 0){
             if(is_login == true){
                 console.log(is_login);
-                storeAttemptedQuestions(finalQuestions);
+                storeAttemptedQuestions(attemptedQuestions);
             }else{
                 console.log('huiiuuitu');
             }
@@ -406,6 +411,7 @@
 
                 if(is_elem_show == true){ 
                     $(this).removeClass('d-none');
+                    // smoothScrollToTarget(this, '.right-question-box');
                 }else{
                     $(this).addClass('d-none');
                 }
@@ -645,10 +651,11 @@
     }
 
     function updateNextButton(selectElement, id){
-        var shouldStepChange = $(`.step-${id}`).attr('onchange');
-        if(shouldStepChange != undefined && shouldStepChange == "false"){
-            return;
-        }
+        // var shouldStepChange = $(`.step-${id}`).attr('onchange');
+        // console.log(shouldStepChange);
+        // if(shouldStepChange != undefined && shouldStepChange == "false"){
+        //     return;
+        // }
         const selectedOption = selectElement.options[selectElement.selectedIndex];
         const myNextBtn = selectedOption.getAttribute("my_ref_nxt");
         const queId = selectedOption.getAttribute("que_id");
@@ -657,8 +664,8 @@
         // console.log(" This is the ID : ", `.step-${id}`)
         $(`.step-${id}`).attr('attempted', selectedValue); 
         const targetEle = $(selectElement).attr('target-id');
-        $(targetEle).text(selectedValue)
-        $(myNextBtn).attr("que_id", queId);
+        $(targetEle).text(selectedValue);
+        $(myNextBtn).attr("que_id", queId);     
     }
 
     function updateNextButtonR(radioElement){
@@ -671,10 +678,10 @@
     }
 
     function updateDropdownLInk(selectLink, id){
-        var shouldStepChange = $(`.step-${id}`).attr('onchange');
-        if(shouldStepChange != undefined && shouldStepChange == "false"){
-            return;
-        }
+        // var shouldStepChange = $(`.step-${id}`).attr('onchange');
+        // if(shouldStepChange != undefined && shouldStepChange == "false"){
+        //     return;
+        // }
         const selectedOption = selectLink.options[selectLink.selectedIndex];
         const myNextBtn = selectedOption.getAttribute("my_ref_nxt");
         const queId = selectedOption.getAttribute("que_id");
@@ -686,41 +693,6 @@
         $(targetEle).text(selectedValue)
         $(myNextBtn).attr("que_id", queId);
     }
-
-    // function saveSteps(que_id, qtype){
-    //     let current_document_id = $('#document_id').val();
-    //     let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
-    //     let questionIndex = localStorageData.attempted_question.findIndex(item => item.question_id === que_id);
-
-    //     if(questionIndex !== -1){
-    //         let attempted_value = localStorageData.attempted_question[questionIndex].attempted_answer;
-    //         let document_id = localStorageData.attempted_question[questionIndex].document_id;
-    //         let user_id = localStorageData.attempted_question[questionIndex].user_id;
-    //         let question_type = localStorageData.attempted_question[questionIndex].type;
-    //         let question_id = localStorageData.attempted_question[questionIndex].question_id;
-
-    //         if(current_document_id === document_id){
-    //             var data = {
-    //                 document_id: document_id,
-    //                 user_id: user_id,
-    //                 question_id: question_id,
-    //                 question_type: question_type,
-    //                 answer: attempted_value,
-    //                 _token: "{{ csrf_token() }}"
-    //             }
-
-    //             $.ajax({
-    //                 url: "{{ url('/save/steps') }}",
-    //                 type: "post",
-    //                 data: data,
-    //                 dataType: "json",
-    //                 success: function(response){
-    //                     console.log(response);
-    //                 }
-    //             })
-    //         }
-    //     }
-    // }
 
     // function saveSteps(que_id,qtype){
     //     var document_id = $('#document_id').val();
@@ -1188,7 +1160,29 @@
         });
     }
 
-    function smoothScrollToTarget(targetElement, container, offset = 0){
+
+    // function smoothScrollToTarget(targetElement, container, offset = 0) {
+    //     var $container = $(container);
+    //     var $target = $(targetElement);
+
+    //     if(!$container.length || !$target.length){
+    //         return;
+    //     }
+
+    //     var containerHeight = $container.height();
+    //     var containerScrollHeight = $container[0].scrollHeight;
+    //     var containerScrollTop = $container.scrollTop();
+    //     var targetOffsetTop = $target.position().top + containerScrollTop - offset;
+
+    //     if(targetOffsetTop < 0) targetOffsetTop = 0;
+    //     if(targetOffsetTop > containerScrollHeight - containerHeight){
+    //         targetOffsetTop = containerScrollHeight - containerHeight;
+    //     }
+
+    //     $container.animate({ scrollTop: targetOffsetTop }, 800, 'swing');
+    // }
+
+    function smoothScrollToTarget(targetElement, container, offset = 0) {
         var $container = $(container);
         var $target = $(targetElement);
 
@@ -1196,17 +1190,28 @@
             return;
         }
 
-        var targetOffset = $target.offset().top - $container.offset().top + $container.scrollTop() - offset;
-        var currentScroll = $container.scrollTop();
-        var distance = targetOffset - currentScroll;
-        var duration = 800; 
-        var start = null;
+        var containerHeight = $container.height(); 
+        var containerScrollHeight = $container[0].scrollHeight;
+        var containerScrollTop = $container.scrollTop(); 
+        var targetOffsetTop = $target.offset().top - $container.offset().top + containerScrollTop;
+        var targetScrollPosition = targetOffsetTop - offset;
 
-        function smoothStep(timestamp) {
-            if(!start)start = timestamp;
-            var progress = timestamp - start;
-            var scrollPosition = easeInQuad(progress, currentScroll, distance, duration);
-            $container.scrollTop(scrollPosition);
+        if(targetScrollPosition < 0) targetScrollPosition = 0; 
+        if(targetScrollPosition > containerScrollHeight - containerHeight){
+            targetScrollPosition = containerScrollHeight - containerHeight; 
+        }
+
+        var startScroll = containerScrollTop;
+        var distance = targetScrollPosition - startScroll;
+        var duration = 800;
+        var startTime = null;
+
+        function smoothStep(timestamp){
+            if(!startTime) startTime = timestamp;
+            var progress = timestamp - startTime;
+            var currentScrollPosition = easeInOutQuad(progress, startScroll, distance, duration);
+
+            $container.scrollTop(currentScrollPosition);
 
             if(progress < duration){
                 window.requestAnimationFrame(smoothStep);
@@ -1214,11 +1219,50 @@
         }
 
         window.requestAnimationFrame(smoothStep);
-        function easeInQuad(time, start, distance, duration){
-            time /= duration;
-            return distance * time * time + start;
+
+        function easeInOutQuad(time, start, distance, duration){
+            time /= duration / 2;
+            if (time < 1) return (distance / 2) * time * time + start;
+            time--;
+            return (-distance / 2) * (time * (time - 2) - 1) + start;
         }
     }
+
+
+
+
+    // function smoothScrollToTarget(targetElement, container, offset = 0){
+    //     var $container = $(container);
+    //     var $target = $(targetElement);
+
+    //     if(!$container.length || !$target.length){
+    //         return;
+    //     }
+
+    //     var targetOffset = $target.offset().top - $container.offset().top + $container.scrollTop() - offset;
+    //     var currentScroll = $container.scrollTop();
+    //     var distance = targetOffset - currentScroll;
+    //     var duration = 800; 
+    //     var start = null;
+
+    //     function smoothStep(timestamp) {
+    //         if(!start)start = timestamp;
+    //         var progress = timestamp - start;
+    //         var scrollPosition = easeInQuad(progress, currentScroll, distance, duration);
+    //         $container.scrollTop(scrollPosition);
+
+    //         if(progress < duration){
+    //             console.log('frgfdgfdg');
+    //             window.requestAnimationFrame(smoothStep);
+    //         }
+    //     }
+
+    //     window.requestAnimationFrame(smoothStep);
+    //     function easeInQuad(time, start, distance, duration){
+    //         time /= duration;
+    //         return distance * time * time + start;
+    //     }
+    // }
 
     // update the current url for every step //
     function updateUrl(step) {
