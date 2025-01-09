@@ -5,12 +5,33 @@
         display: none;
     }
 
-    .active{
+    .question-div.active{
         display: block;
     }
 
     .hide{
         display: none;
+    }
+
+    @keyframes colorHighlight {
+        0% {
+            background-color: rgb(128, 128, 128); /* Highlight background color */
+            color: #002655; /* Text color during highlight */
+        }
+        100% {
+            background-color: transparent; /* Fade out to transparent */
+            color: #002655; /* Final text color */
+        }
+    }
+
+    .active_sec {
+        animation: colorHighlight 4s forwards; /* 4s animation, forwards keeps final state */
+        transition: all 0.3s ease-in-out; /* Smooth transitions for other properties */
+    }
+
+    .answered_spns.active {
+        background: #002655;
+        color: #fff;
     }
 
 </style>
@@ -234,14 +255,12 @@
 </section>
 
 <script>
-    let attemptedAnswers = {};
-    let currentQuestion = 1;
     let total_steps = $('#total_step').val(); 
     let total_attempted = $('#all_attempted').val(); 
     let lastprogress = 0;
 
     // $(".question-div").hide();
-    // $(".step1").show();
+    // $(".step1").show(); 
     
     $(document).ready(function(){
         $(".step1").addClass('active');
@@ -343,6 +362,7 @@
         }
     }
 
+    let isScrolling = false;
     function rightSecConditions(){
         $('.right-sec-div').each(function(){
             if($(this).data('conditions') != null && $(this).data('conditions') != '' && $(this).data('conditions') != undefined){
@@ -411,9 +431,14 @@
 
                 if(is_elem_show == true){ 
                     $(this).removeClass('d-none');
-                    // smoothScrollToTarget(this, '.right-question-box');
+                    $(this).addClass('active_sec');
+                    if(!isScrolling){
+                        // $(this).find("span:first.answered_spns").addClass('active');
+                        smoothScrollToTarget(this, '.right-question-box');
+                    }
                 }else{
                     $(this).addClass('d-none');
+                    $(this).removeClass('active_sec');
                 }
             }
         })
@@ -422,6 +447,7 @@
     // Function to update the progress bar based on total attempted steps
     function updateProgressBar() {
         var percent = (total_attempted / total_steps) * 100;
+        console.log(percent);
         var value = parseInt(percent);
         $('#percent_count').val(value);
         $('.progressCount').text(value + "%");
@@ -429,10 +455,52 @@
     }
 
     // Function to handle progress bar updates as the user moves through the steps
+
+    // function progressBarCount(id, next_id, is_last = false){
+    //     var current_step = $('.step-' + id);
+    //     var total_hidden_steps = 0;
+    //     var back_step = 0;
+
+    //     if(id > next_id){
+    //         for(let i = parseInt(id) - 1; i < parseInt(next_id); i--){
+    //             back_step++;
+    //         }
+    //         total_attempted -= back_step;
+    //         updateProgressBar();
+
+    //     }else{
+    //         for(let i = parseInt(id) + 1; i < parseInt(next_id); i++){
+    //             if($('.step-' + i).hasClass('hide')){
+    //                 total_hidden_steps++;
+    //             }
+    //         }
+
+    //         total_attempted = parseInt(total_attempted);
+    //         total_attempted += total_hidden_steps;
+
+    //         if($(current_step).hasClass('done')){
+    //             total_attempted++;
+    //         }
+
+    //         updateProgressBar();
+    //     }
+            
+    //     console.log("Total attempted steps:", total_attempted);
+
+    //     if(is_last){
+    //         $('#percent_count').val(100);
+    //         $('.progressCount').text("100%");
+    //         $('.progress-bar').css("width", "100%");
+    //     }else{
+    //         // updateProgressBar();
+    //     } 
+
+    //     $('#all_attempted').val(total_attempted);
+    // }
+
     function progressBarCount(id, next_id, is_last = false){
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
-
         for(let i = parseInt(id) + 1; i < parseInt(next_id); i++){
             if($('.step-' + i).hasClass('hide')){
                 total_hidden_steps++;
@@ -445,7 +513,6 @@
         if($(current_step).hasClass('done')){
             total_attempted++;
         }
-
         console.log("Total attempted steps:", total_attempted);
 
         if(is_last){
@@ -625,12 +692,23 @@
     function go_pre_step(e){
         var current_step_id = $(e).attr('my_ref');
         var current_step = `.step-${current_step_id}`;
+        
+
         if($(current_step).hasClass('active')){
             $(current_step).removeClass('active');
         }
         var prev_step_id = $(e).attr("que_id");
         var prev_step_div = `.step-${prev_step_id}`;
-        
+        var target = `.qidtarget-${current_step_id}`;
+
+        $(target).css({
+            "color": "#002655",
+            "background-color": "#fff",
+            "padding": "0px",
+            "border-radius": "0px"
+        });
+            
+
         if($(prev_step_div).hasClass('done') || $(prev_step_div).hasClass('hide')){
             $(prev_step_div).removeClass('done hide').addClass('active');
         }else{
@@ -1204,17 +1282,21 @@
         var startScroll = containerScrollTop;
         var distance = targetScrollPosition - startScroll;
         var duration = 800;
-        var startTime = null;
+        let startTime = null;
+
+        isScrolling = true; // Set scrolling flag
 
         function smoothStep(timestamp){
             if(!startTime) startTime = timestamp;
-            var progress = timestamp - startTime;
-            var currentScrollPosition = easeInOutQuad(progress, startScroll, distance, duration);
+            const progress = timestamp - startTime;
+            const currentScrollPosition = easeInOutQuad(progress, startScroll, distance, duration);
 
             $container.scrollTop(currentScrollPosition);
 
             if(progress < duration){
                 window.requestAnimationFrame(smoothStep);
+            }else{
+                isScrolling = false; // Reset scrolling flag
             }
         }
 
@@ -1227,8 +1309,6 @@
             return (-distance / 2) * (time * (time - 2) - 1) + start;
         }
     }
-
-
 
 
     // function smoothScrollToTarget(targetElement, container, offset = 0){
