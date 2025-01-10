@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->nullable();
             $table->integer('document_id')->nullable();
+            $table->string('question_type')->nullable();
             $table->integer('question_id')->nullable();
             $table->longText('answer')->nullable();
             $table->tinyInteger('status')->default('1');
