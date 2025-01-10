@@ -454,8 +454,6 @@
         $('.progress-bar').css("width", value + "%");
     }
 
-    // Function to handle progress bar updates as the user moves through the steps
-
     // function progressBarCount(id, next_id, is_last = false){
         
     //     var current_step = $('.step-' + id);
@@ -502,6 +500,7 @@
     //     $('#all_attempted').val(total_attempted);
     // }
 
+    // Function to handle progress bar updates as the user moves through the steps
 
     function progressBarCount(id, next_id, is_last = false){
         var current_step = $('.step-' + id);
