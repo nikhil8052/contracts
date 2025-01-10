@@ -163,6 +163,18 @@
                                              @enderror
                                         </div>
                                    </div>
+                                   <hr>
+                                   <h6 class="mt-4">Contract Left heading</h6>
+                                   <hr>
+                                   <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                             <label class="form-label" for="contract_heading">Heading</label>
+                                             <input type="text" class="form-control" id="contract_heading" name="contract_heading" value="{{ $data['contract_heading'] ?? '' }}">
+                                             @error('contract_heading')
+                                                  <span class="text-danger">{{ $message }}</span>
+                                             @enderror
+                                        </div>
+                                   </div>
                               </div>
                          </div>
                     </div>

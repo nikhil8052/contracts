@@ -443,6 +443,7 @@ class DocumentController extends Controller
             'valid_in',
             'related_heading',
             'related_description',
+            'contract_heading'
         ];
 
         $results = GeneralSection::whereIn('key', $keys)->get()->keyBy('key');
@@ -452,6 +453,7 @@ class DocumentController extends Controller
             'valid_in' => $results['valid_in']->value ?? null,
             'related_heading' => $results['related_heading']->value ?? null,
             'related_description' => $results['related_description']->value ?? null,
+            'contract_heading' => $results['contract_heading']->value ?? null,
         ];
 
         $agreements = GeneralSection::where('key','agreement')->with('media')->get();
@@ -541,6 +543,7 @@ class DocumentController extends Controller
                 'valid_in' => 'valid_in',
                 'related_heading' => 'related_heading',
                 'related_description' => 'related_description',
+                'contract_heading' => 'contract_heading',
             ];
             
             foreach($fields as $key=>$input){
