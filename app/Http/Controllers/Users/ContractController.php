@@ -145,7 +145,7 @@ class ContractController extends Controller
             if($userID != null){
                 $saveContract = SaveContractQuestion::where([['user_id',$userID],['question_id', $data['question_id']]])->first();
                 if($saveContract){
-                    $saveContract->answer = $data['attempted_answer'];
+                    $saveContract->answer = $data['attempted_answer'] ?? null;
                     $saveContract->update();
                     $status = 'update';
                 }else{
@@ -154,7 +154,7 @@ class ContractController extends Controller
                     $saveContract->document_id = $data['document_id'];
                     $saveContract->question_type = $data['type'];
                     $saveContract->question_id = $data['question_id'];
-                    $saveContract->answer = $data['attempted_answer'];
+                    $saveContract->answer = $data['attempted_answer'] ?? null;
                     $saveContract->save();
                     $status = 'add';
                 }
