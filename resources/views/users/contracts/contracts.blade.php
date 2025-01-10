@@ -85,7 +85,12 @@
                                 @foreach($questions as $index => $question)
                                     <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
                                         <div class="save_document_button">
-                                            <span><img src="{{ asset('assets/img/download_icon.svg') }}"> Guardar</span>
+                                        @if(Auth::check())
+                                            <span ><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                        @else
+                                            <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                        @endif
+                                            
                                         </div>
                                         <label class="que_heading lbl-{{ $question->id }}">
                                             @if($question->is_condition == 1)
