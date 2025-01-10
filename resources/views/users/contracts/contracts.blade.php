@@ -103,63 +103,17 @@
                                 $count = 1;
                                 $num = 1;
                                 $total_steps = count($questions);
-                            @endphp
-                            @foreach($questions as $index => $question)
-                                <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
-                                    <div class="save_document_button">
+                            @endphp      
+                                @foreach($questions as $index => $question)
+                                    <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
+                                        <div class="save_document_button">
+
                                         @if(Auth::check())
-                                            <span><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                            <span ><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
                                         @else
                                             <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
                                         @endif
-                                    </div>
-                                    <label class="que_heading lbl-{{ $question->id }}">
-                                        @if($question->is_condition == 1)
-                                        {{ $question->conditions[0]->question_label ?? $question->questionData->question_label }}
-                                        @else
-                                        {{ $question->questionData->question_label ?? '' }}
-                                        @endif
-                                    </label>
-                                    <br>
-                                    @php 
-                                        $question_type = $question->type;
-                                        $next_qid = NULL;
-                                    @endphp 
-                                    
-                                    @if($question_type == "textbox")
-                                        @php 
-                                            $next_qid = $question->questionData->next_question_id ?? '';
-                                        @endphp 
-                                        <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                            onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}', '{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
-
-                                    @elseif($question_type == "textarea")
-                                        @php 
-                                            $next_qid = $question->questionData->next_question_id ?? '';
-                                        @endphp 
-                                        <textarea class="contract_textarea" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                            onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}', '{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"></textarea>
-                                    
-                                    @elseif($question_type == "dropdown")
-                                        @php 
-                                            $next_qid = $question->options->first()->next_question_id ?? '';
-                                        @endphp 
-                                        <select onchange="updateNextButton(this, '{{ $question->id ?? '' }}'); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
-                                            @foreach($question->options as $option)
-                                                <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $option->next_question_id ?? '' }}"
-                                                value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'selected' : '' }}> {{ $option->option_label }} </option>
-                                            @endforeach
-                                        </select>
-                                    @elseif($question_type == "radio-button")
-                                        @php 
-                                            $next_qid = $question->options->first()->next_question_id ?? '';
-                                        @endphp 
-                                        @foreach($question->options as $option)
-                                        <div class="radio_div">
-                                            <input type="radio" name="question_{{ $question->id ?? '' }}" target-id="qidtarget-{{ $question->id ?? '' }}" id="radio_{{ $question->id ?? '' }}{{ $num++ ?? '' }}"
-                                                    onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}"
-                                                    que_id="{{ $option->next_question_id ?? '' }}" value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'checked' : '' }} />
-                                            <label>{{ $option->option_label }}</label>
+                
                                         </div>
                                         @endforeach
                                     @elseif($question_type == "date-field")
