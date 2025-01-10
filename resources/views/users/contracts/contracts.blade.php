@@ -457,46 +457,51 @@
     // Function to handle progress bar updates as the user moves through the steps
 
     // function progressBarCount(id, next_id, is_last = false){
+        
     //     var current_step = $('.step-' + id);
     //     var total_hidden_steps = 0;
     //     var back_step = 0;
+
+    //     for(let i = parseInt(id) + 1; i < parseInt(next_id); i++){
+    //         if($('.step-' + i).hasClass('hide')){
+    //             total_hidden_steps++;
+    //         }
+    //     }
+
+    //     total_attempted = parseInt(total_attempted);
+    //     total_attempted += total_hidden_steps;
+
+    //     console.log("with_hidden_step",total_attempted);
+
+    //     if($(current_step).hasClass('done')){
+    //         total_attempted++;
+    //     }
+        
+    //     console.log("total",total_attempted);
+    //     // updateProgressBar();
 
     //     if(id > next_id){
     //         for(let i = parseInt(id) - 1; i < parseInt(next_id); i--){
     //             back_step++;
     //         }
     //         total_attempted -= back_step;
-    //         updateProgressBar();
-
-    //     }else{
-    //         for(let i = parseInt(id) + 1; i < parseInt(next_id); i++){
-    //             if($('.step-' + i).hasClass('hide')){
-    //                 total_hidden_steps++;
-    //             }
-    //         }
-
-    //         total_attempted = parseInt(total_attempted);
-    //         total_attempted += total_hidden_steps;
-
-    //         if($(current_step).hasClass('done')){
-    //             total_attempted++;
-    //         }
-
-    //         updateProgressBar();
+    //         console.log('with_back_step',total_attempted);
+    //         // updateProgressBar();
     //     }
             
-    //     console.log("Total attempted steps:", total_attempted);
+    //     // console.log("Total attempted steps:", total_attempted);
 
     //     if(is_last){
     //         $('#percent_count').val(100);
     //         $('.progressCount').text("100%");
     //         $('.progress-bar').css("width", "100%");
     //     }else{
-    //         // updateProgressBar();
+    //         updateProgressBar();
     //     } 
 
     //     $('#all_attempted').val(total_attempted);
     // }
+
 
     function progressBarCount(id, next_id, is_last = false){
         var current_step = $('.step-' + id);
