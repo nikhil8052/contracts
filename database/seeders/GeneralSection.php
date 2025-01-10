@@ -16,24 +16,28 @@ class GeneralSection extends Seeder
         DB::table('general_sections')->insert([
             [
                 'key' => 'guide_heading',
-                'value' => null,
+                'value' => 'Obtén tu documento en solo 2 pasos',
             ],
             [
                 'key' => 'guide_button',
-                'value' => null,
+                'value' => 'Crear documento ahora',
             ],
             [
                 'key' => 'valid_in',
-                'value' => null,
+                'value' => 'Validez en todo México',
             ],
             [
                 'key' => 'related_heading',
-                'value' => null,
+                'value' => 'Documentos relacionados',
             ],
             [
                 'key' => 'related_description',
-                'value' => null,
+                'value' => 'Explora documentos similares, populares entre otros usuarios.',
             ],
+            [
+                'key' => 'contract_heading',
+                'value' => 'Introduce los datos aquí:'
+            ]
         ]);
     }
 }

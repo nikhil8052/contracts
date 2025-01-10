@@ -132,9 +132,10 @@ class ContractController extends Controller
         }
             
         $general = GeneralSection::where('key', 'valid_in')->first();
-    
+        $left_heading = GeneralSection::where('key','contract_heading')->first();
+
         $total_questions = count($questions);
-        return view('users.contracts.contracts', compact('questions', 'documentContents','id','general','document','total_questions'));
+        return view('users.contracts.contracts', compact('questions', 'documentContents','id','general','document','total_questions','left_heading'));
     }
 
     public function saveContractsQuestions(Request $request){
