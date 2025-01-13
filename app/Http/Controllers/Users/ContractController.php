@@ -14,6 +14,8 @@ use App\Models\DocumentCategory;
 use App\Models\Question;
 use App\Models\DocumentRightSection;
 use App\Models\GeneralSection;
+use App\Models\SaveContractQuestion;
+use Illuminate\Support\Facades\DB;
 
 class ContractController extends Controller
 {
@@ -130,12 +132,66 @@ class ContractController extends Controller
         }
             
         $general = GeneralSection::where('key', 'valid_in')->first();
-    
+        $left_heading = GeneralSection::where('key','contract_heading')->first();
+
         $total_questions = count($questions);
-        return view('users.contracts.contracts', compact('questions', 'documentContents','id','general','document','total_questions'));
+        return view('users.contracts.contracts', compact('questions', 'documentContents','id','general','document','total_questions','left_heading'));
     }
 
     public function saveContractsQuestions(Request $request){
-        return $request->all();
+        // return $request->all();
+        $userID = $request->user_id;
+        $questions = $request->attempted_questions;
+        foreach($questions as $data){
+            if($userID != null){
+                $saveContract = SaveContractQuestion::where([['user_id',$userID],['question_id', $data['question_id']]])->first();
+                if($saveContract){
+                    $saveContract->answer = $data['attempted_answer'] ?? null;
+                    $saveContract->update();
+                    $status = 'update';
+                }else{
+                    $saveContract = new SaveContractQuestion();
+                    $saveContract->user_id = $userID;
+                    $saveContract->document_id = $data['document_id'];
+                    $saveContract->question_type = $data['type'];
+                    $saveContract->question_id = $data['question_id'];
+                    $saveContract->answer = $data['attempted_answer'] ?? null;
+                    $saveContract->save();
+                    $status = 'add';
+                }
+            }
+        }
+
+        $response = [
+            'code' => '200',
+            'status' => $status,
+        ];
+
+        return response()->json($response);
+
+        // if($request->document_id){
+        //     $saveContract = SaveContractQuestion::where('question_id', $request->question_id)->first();
+        //     if($saveContract){
+        //         $saveContract->answer = $request->answer;
+        //         $saveContract->update();
+        //         $status = 'update';
+        //     }else{
+        //         $saveContract = new SaveContractQuestion();
+        //         $saveContract->user_id = $request->user_id ?? null;
+        //         $saveContract->document_id = $request->document_id;
+        //         $saveContract->question_type = $request->question_type;
+        //         $saveContract->question_id = $request->question_id;
+        //         $saveContract->answer = $request->answer;
+        //         $saveContract->save();
+        //         $status = 'add';
+        //     }
+
+        //     $response = [
+        //         'code' => '200',
+        //         'status' => $status,
+        //     ];
+
+        //     return response()->json($response);
+        // }
     }
 }

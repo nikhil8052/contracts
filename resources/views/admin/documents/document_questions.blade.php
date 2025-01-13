@@ -69,10 +69,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner main_question_div">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Textbox</h6> 
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -437,10 +437,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Textarea</h6>  
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -807,10 +807,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Dropdown</h6>  
                                                                  <!-- <div class="form-group">
                                                                        <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -1213,10 +1213,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Radio Button</h6> 
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -1609,10 +1609,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Date Field</h6>  
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -1962,10 +1962,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Pricebox</h6>
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -2335,10 +2335,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Number field</h6>  
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -2693,10 +2693,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Percentage Box</h6>  
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -3061,10 +3061,10 @@
                                              <div class="card card-bordered card-preview">
                                                   <div class="card-inner">
                                                        <div class="row add_step">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                  <b><p>{{ $docQues->id ?? '' }}</p></b>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-5">
                                                                  <h6>Dropdown link</h6> 
                                                                  <!-- <div class="form-group">
                                                                       <select class="form-select js-select2 new_question" name="question_type{{ $docQues->id ?? '' }}" id="question_type{{ $docQues->id ?? '' }}">
@@ -5417,8 +5417,12 @@
                               };
 
                               if(option.option_label && option.option_value && option.option_go_to_step){
+                                   console.log('options');
                                    dropdownData.new_options.push(option);
+                              }else{
+                                   console.log('no');
                               }
+
                          }else if(status === false){
                               var option = {
                                    option_label: $(this).find('input[name^=dropdown_option_label]').val() || '',
@@ -6278,36 +6282,78 @@
                // });
 
                $('.append_options').each(function(){
-                    const uniqueId = $(this).attr('id').replace('append_options', '');
-                    const appendSection = $('#append_options' + uniqueId);
-                    const dropdownOptionSections = appendSection.find('.dropdown-option');
-                    const radioOptionSections = appendSection.find('.radio-option');
-                    let conditionInvalid = false;
+                    if($(this).children().length > 0){
+                         const uniqueId = $(this).attr('id').replace('append_options', '');
+                         const appendSection = $('#append_options' + uniqueId);
+                         const dropdownOptionSections = appendSection.find('.dropdown-option');
+                         const radioOptionSections = appendSection.find('.radio-option');
+                         let conditionInvalid = false;
 
-                    if(!hasError && dropdownOptionSections.length !== 0){ 
-                         dropdownOptionSections.find('input').each(function(){
-                              if(!$(this).val()){
-                                   conditionInvalid = true;
-                                   return false; 
-                              }
-                         });
-                    }
+                         if(!hasError && dropdownOptionSections.length !== 0){ 
+                              dropdownOptionSections.find('input').each(function(){
+                                   if(!$(this).val()){
+                                        conditionInvalid = true;
+                                        return false; 
+                                   }
+                              });
+                         }
 
-                    if(!hasError && radioOptionSections.length !== 0){
-                         radioOptionSections.find('input').each(function(){
-                              if(!$(this).val()){
-                                   conditionInvalid = true;
-                                   return false; 
-                              }
-                         });
-                    }
+                         if(!hasError && radioOptionSections.length !== 0){
+                              radioOptionSections.find('input').each(function(){
+                                   if(!$(this).val()){
+                                        conditionInvalid = true;
+                                        return false; 
+                                   }
+                              });
+                         }
 
-                    if(!hasError && conditionInvalid){
-                         NioApp.Toast('Please fill in all required options.', 'error', { position: 'top-right' });
-                         hasError = true;
-                         return false;
+                         if(!hasError && conditionInvalid){
+                              NioApp.Toast('Please fill in all required options.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false;
+                         }
+                    }else{
+                         if(!hasError){
+                              NioApp.Toast('Please add at least one option.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false;
+                         }
                     }
                })
+
+               
+
+               // $('.append_options').each(function(){
+               //      const uniqueId = $(this).attr('id').replace('append_options', '');
+               //      const appendSection = $('#append_options' + uniqueId);
+               //      const dropdownOptionSections = appendSection.find('.dropdown-option');
+               //      const radioOptionSections = appendSection.find('.radio-option');
+               //      let conditionInvalid = false;
+
+               //      if(!hasError && dropdownOptionSections.length !== 0){ 
+               //           dropdownOptionSections.find('input').each(function(){
+               //                if(!$(this).val()){
+               //                     conditionInvalid = true;
+               //                     return false; 
+               //                }
+               //           });
+               //      }
+
+               //      if(!hasError && radioOptionSections.length !== 0){
+               //           radioOptionSections.find('input').each(function(){
+               //                if(!$(this).val()){
+               //                     conditionInvalid = true;
+               //                     return false; 
+               //                }
+               //           });
+               //      }
+
+               //      if(!hasError && conditionInvalid){
+               //           NioApp.Toast('Please fill in all required options.', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // })
 
                // $('.enable_conditional').each(function () {
                //      const uniqueId = $(this).attr('id').replace('condition_go_to', '');
@@ -6345,7 +6391,7 @@
                // }
      
                if(!hasError){
-                    $('#questionForm').submit();
+                    // $('#questionForm').submit();
                }
           })
 
@@ -6531,36 +6577,77 @@
                // });
 
                $('.append_options').each(function(){
-                    const uniqueId = $(this).attr('id').replace('append_options', '');
-                    const appendSection = $('#append_options' + uniqueId);
-                    const dropdownOptionSections = appendSection.find('.dropdown-option');
-                    const radioOptionSections = appendSection.find('.radio-option');
-                    let conditionInvalid = false;
+                    if($(this).children().length > 0){
+                         const uniqueId = $(this).attr('id').replace('append_options', '');
+                         const appendSection = $('#append_options' + uniqueId);
+                         const dropdownOptionSections = appendSection.find('.dropdown-option');
+                         const radioOptionSections = appendSection.find('.radio-option');
+                         let conditionInvalid = false;
 
-                    if(!hasError && dropdownOptionSections.length !== 0){ 
-                         dropdownOptionSections.find('input').each(function(){
-                              if(!$(this).val()){
-                                   conditionInvalid = true;
-                                   return false; 
-                              }
-                         });
-                    }
+                         if(!hasError && dropdownOptionSections.length !== 0){ 
+                              dropdownOptionSections.find('input').each(function(){
+                                   if(!$(this).val()){
+                                        conditionInvalid = true;
+                                        return false; 
+                                   }
+                              });
+                         }
 
-                    if(!hasError && radioOptionSections.length !== 0){
-                         radioOptionSections.find('input').each(function(){
-                              if(!$(this).val()){
-                                   conditionInvalid = true;
-                                   return false; 
-                              }
-                         });
-                    }
+                         if(!hasError && radioOptionSections.length !== 0){
+                              radioOptionSections.find('input').each(function(){
+                                   if(!$(this).val()){
+                                        conditionInvalid = true;
+                                        return false; 
+                                   }
+                              });
+                         }
 
-                    if(!hasError && conditionInvalid){
-                         NioApp.Toast('Please fill in all required options.', 'error', { position: 'top-right' });
-                         hasError = true;
-                         return false;
+                         if(!hasError && conditionInvalid){
+                              NioApp.Toast('Please fill in all required options.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false;
+                         }
+                    }else{
+                         if(!hasError){
+                              NioApp.Toast('Please add at least one option.', 'error', { position: 'top-right' });
+                              hasError = true;
+                              return false;
+                         }
                     }
                })
+
+
+               // $('.append_options').each(function(){
+               //      const uniqueId = $(this).attr('id').replace('append_options', '');
+               //      const appendSection = $('#append_options' + uniqueId);
+               //      const dropdownOptionSections = appendSection.find('.dropdown-option');
+               //      const radioOptionSections = appendSection.find('.radio-option');
+               //      let conditionInvalid = false;
+
+               //      if(!hasError && dropdownOptionSections.length !== 0){ 
+               //           dropdownOptionSections.find('input').each(function(){
+               //                if(!$(this).val()){
+               //                     conditionInvalid = true;
+               //                     return false; 
+               //                }
+               //           });
+               //      }
+
+               //      if(!hasError && radioOptionSections.length !== 0){
+               //           radioOptionSections.find('input').each(function(){
+               //                if(!$(this).val()){
+               //                     conditionInvalid = true;
+               //                     return false; 
+               //                }
+               //           });
+               //      }
+
+               //      if(!hasError && conditionInvalid){
+               //           NioApp.Toast('Please fill in all required options.', 'error', { position: 'top-right' });
+               //           hasError = true;
+               //           return false;
+               //      }
+               // })
 
                // $('.enable_conditional').each(function(){
                //      const uniqueId = $(this).attr('id').replace('condition_go_to', '');
@@ -6598,7 +6685,7 @@
                // }
      
                if(!hasError){
-                    $('#questionForm').submit();
+                    // $('#questionForm').submit();
                }
           })
      })
