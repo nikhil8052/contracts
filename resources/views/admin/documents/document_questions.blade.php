@@ -6391,7 +6391,7 @@
                // }
      
                if(!hasError){
-                    // $('#questionForm').submit();
+                    $('#questionForm').submit();
                }
           })
 
@@ -6685,7 +6685,7 @@
                // }
      
                if(!hasError){
-                    // $('#questionForm').submit();
+                    $('#questionForm').submit();
                }
           })
      })

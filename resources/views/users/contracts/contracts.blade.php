@@ -104,23 +104,72 @@
                                 $num = 1;
                                 $total_steps = count($questions);
                             @endphp      
-                                @foreach($questions as $index => $question)
-                                    <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
-                                        <div class="save_document_button">
+                            @foreach($questions as $index => $question)
+                                <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
+                                    <div class="save_document_button">
 
-                                        @if(Auth::check())
-                                            <span ><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                    @if(Auth::check())
+                                        <span ><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                    @else
+                                        <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                    @endif
+            
+                                    </div>
+                                    <label class="que_heading lbl-{{ $question->id }}">
+                                        @if($question->is_condition == 1)
+                                        {{ $question->conditions[0]->question_label ?? $question->questionData->question_label }}
                                         @else
-                                            <span class="guardar_btn"><img src="{{ asset('assets/img/download_icon.svg') }}">Guardar</span>  
+                                        {{ $question->questionData->question_label ?? '' }}
                                         @endif
-                
+                                    </label>
+                                    <br>
+                                    @php 
+                                        $question_type = $question->type;
+                                        $next_qid = NULL;
+                                    @endphp 
+                                    
+                                    @if($question_type == "textbox")
+                                        @php 
+                                            $next_qid = $question->questionData->next_question_id ?? '';
+                                        @endphp 
+                                        <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                        onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}', '{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+
+                                    @elseif($question_type == "textarea")
+                                        @php 
+                                            $next_qid = $question->questionData->next_question_id ?? '';
+                                        @endphp 
+                                    <textarea class="contract_textarea" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
+                                    onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}', '{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"></textarea>
+                                
+                                    @elseif($question_type == "dropdown")
+                                        @php 
+                                            $next_qid = $question->options->first()->next_question_id ?? '';
+                                        @endphp 
+                                        <select onchange="updateNextButton(this, '{{ $question->id ?? '' }}'); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}') " target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}">
+                                            @foreach($question->options as $option)
+                                                <option my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}" que_id="{{ $option->next_question_id ?? '' }}"
+                                                value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'selected' : '' }}> {{ $option->option_label }} </option>
+                                            @endforeach
+                                        </select>
+                                    @elseif($question_type == "radio-button")
+                                        @php 
+                                            $next_qid = $question->options->first()->next_question_id ?? '';
+                                        @endphp 
+                                        @foreach($question->options as $option)
+                                        <div class="radio_div">
+                                            <input type="radio" name="question_{{ $question->id ?? '' }}" target-id="qidtarget-{{ $question->id ?? '' }}" id="radio_{{ $question->id ?? '' }}{{ $num++ ?? '' }}"
+                                                    onchange="updateNextButtonR(this); storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" my_ref_nxt=".nxt_btn_{{ $question->id ?? '' }}"
+                                                    que_id="{{ $option->next_question_id ?? '' }}" value="{{ $option->option_value ?? '' }}" {{ $loop->first ? 'checked' : '' }} />
+                                            <label>{{ $option->option_label }}</label>
                                         </div>
                                         @endforeach
+
                                     @elseif($question_type == "date-field")
                                         @php 
                                             $next_qid = $question->questionData->next_question_id ?? '';
                                         @endphp 
-                                        
+                                    
                                         <input type="date" class="contract_date" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
                                             onchange="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" />
                                     @elseif($question_type == "pricebox")
@@ -128,20 +177,20 @@
                                             $next_qid = $question->questionData->next_question_id ?? '';
                                         @endphp 
                                         <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}" 
-                                            onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                                        onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
 
                                     @elseif($question_type == "number-field")
                                         @php 
                                             $next_qid = $question->questionData->next_question_id ?? '';
                                         @endphp 
                                         <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                            onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                                        onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
                                     @elseif($question_type == "percentage-box")
                                         @php 
                                             $next_qid = $question->questionData->next_question_id ?? '';
                                         @endphp 
                                         <input type="text" target-id="qidtarget-{{ $question->id ?? '' }}" id="{{ $question->id ?? '' }}" name="{{ $question->id ?? '' }}"
-                                            onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
+                                        onkeyup="storeAnswers(this, '{{ $question->id ?? '' }}','{{ $question_type ?? '' }}','{{ $next_qid ?? '' }}')" placeholder="{{ $question->questionData->text_box_placeholder ?? '' }}" data-placeholdertext="__________"/>
                                     @elseif($question_type == "dropdown-link")
                                         @php 
                                             $next_qid = $question->questionData->next_question_id ?? '';
@@ -155,23 +204,23 @@
                                         </select>
                                     @endif
                                     <div class="navigation-btns mt-4"> 
-                                
-                                        @if($index != 0)
-                                            <button type="button" class="pre_btn_{{ $question->id }} pre" que_id="" my_ref="{{ $question->id }}"
-                                                onclick="go_pre_step(this)">Previous</button>
-                                        @endif
-                                        <button type="button" class="nxt_btn_{{ $question->id ?? '' }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
-                                            data-condition_step="{{ $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id ?? '' }}" onclick="go_next_step(this, '{{ $question_type ?? '' }}')" 
-                                            data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
-                                            Next
-                                        </button>
+                            
+                                    @if($index != 0)
+                                        <button type="button" class="pre_btn_{{ $question->id }} pre" que_id="" my_ref="{{ $question->id }}"
+                                            onclick="go_pre_step(this)">Previous</button>
+                                    @endif
+                                    <button type="button" class="nxt_btn_{{ $question->id ?? '' }} nxt" que_id="{{ $next_qid ?? '' }}" data-next_step="{{ $next_qid ?? '' }}"
+                                        data-condition_step="{{ $question->questionData->conditional_go_to_step ?? '' }}" my_ref="{{ $question->id ?? '' }}" onclick="go_next_step(this, '{{ $question_type ?? '' }}')" 
+                                        data-condition="{{ $question->conditions && count($question->conditions) > 0 ? json_encode($question->conditions) : NULL  }}">
+                                        Next
+                                    </button>
 
-                                        <button type="button" class="last_step_btn nxt" style="display:none;" onclick="go_to_checkout_page()">
-                                            Generar
-                                        </button>
-                                    </div>
+                                    <button type="button" class="last_step_btn nxt" style="display:none;" onclick="go_to_checkout_page()">
+                                        Generar
+                                    </button>
                                 </div>
-                                @php $count++; @endphp
+                            </div>
+                            @php $count++; @endphp
                             @endforeach
                         </form>
                     </div>
@@ -505,19 +554,106 @@
             $('#all_attempted').val(total_attempted);
         }
     }
+    
 
-    function questionConditions(my_ref, next_step_id){
-        $('.nxt').each(function(){
-            var next_id = $(this).attr("que_id");
-            var conditions = $(this).attr("data-condition");
-            var conditional_step = $(this).attr("data-condition_step");
-            var next_step = $(this).attr("data-next_step");
+    // function questionConditions(){
+    //     $('.nxt').each(function(){
+    //         var next_id = $(this).attr("que_id");
+    //         var conditions = $(this).attr("data-condition");
+    //         var conditional_step = $(this).attr("data-condition_step");
+    //         var next_step = $(this).attr("data-next_step");
 
-            if(conditions != null && conditions != '' && conditions != undefined){
-                conditions = JSON.parse(conditions);
-                var is_matched = true; 
-                var is_show = true;
+    //         if(conditions != null && conditions != '' && conditions != undefined){
+    //             conditions = JSON.parse(conditions);
+     
+    //             var queValueArr = [];
+             
+    //             if(next_id != undefined && next_id != null && next_id != ''){
+    //                 $.each(conditions, function(key, val){
+    //                     var condition_type = val.condition_type;
+    //                     var queId = val.conditional_question_id;
+    //                     var queValue = val.conditional_question_value;
+    //                     var conditionalCheck = val.conditional_check;
+    //                     var queLabel = val.question_label;
 
+    //                     queValueArr.push(queValue);
+
+    //                     if(condition_type == 'go_to_step_condition'){
+    //                         if(conditionalCheck == 1){
+    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
+    //                                 console.log(queValueArr);
+    //                                 console.log(queValue);
+    //                                 $(this).attr("que_id", conditional_step); 
+    //                             }else{
+    //                                 $(this).attr("que_id", next_step); 
+    //                             }
+    //                         }else if(conditionalCheck == 2){
+    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
+    //                                 $(this).attr("que_id", conditional_step); 
+    //                             }else{
+    //                                 $(this).attr("que_id", next_step); 
+    //                             }
+    //                         }else if(conditionalCheck == 3){
+    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
+    //                                 $(this).attr("que_id", conditional_step); 
+    //                             }else{
+    //                                 $(this).attr("que_id", next_step); 
+    //                             }
+    //                         }else if(conditionalCheck == 4){
+    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
+    //                                 $(this).attr("que_id", conditional_step); 
+    //                             }else{
+    //                                 $(this).attr("que_id", next_step); 
+    //                             }
+    //                         }
+    //                     }else if(condition_type == 'question_label_condition'){
+    //                         if(conditionalCheck == 1){
+    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
+    //                                 $(this).attr("que_id", conditional_step); 
+    //                             }else{
+    //                                 $(this).attr("que_id", next_step); 
+    //                             }
+    //                         }else if(conditionalCheck == 2){
+    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
+    //                                 $(this).attr("que_id", conditional_step); 
+    //                             }else{
+    //                                 $(this).attr("que_id", next_step); 
+    //                             }
+    //                         }else if(conditionalCheck == 3){
+    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
+    //                                 $(this).attr("que_id", conditional_step); 
+    //                             }else{
+    //                                 $(this).attr("que_id", next_step); 
+    //                             }
+    //                         }else if(conditionalCheck == 4){
+    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
+    //                                 $(this).attr("que_id", conditional_step); 
+    //                             }else{
+    //                                 $(this).attr("que_id", next_step); 
+    //                             }
+    //                         }
+    //                     }
+    //                 });
+    //             }
+    //         }
+    //     });
+    // }
+
+    function go_next_step(e,questionType){
+        var conditions = $(e).attr("data-condition");
+        var next_step_id = $(e).attr("que_id");  
+        var my_ref = $(e).attr("my_ref");       
+        var is_last = !next_step_id || next_step_id === '';
+        var target = `.qidtarget-${next_step_id}`;
+
+        var conditional_step = $(e).attr("data-condition_step");
+        var next_step = $(e).attr("data-next_step");
+
+        if(conditions != null && conditions != '' && conditions != undefined){
+            conditions = JSON.parse(conditions);
+            console.log(conditions);
+
+            if(next_step_id != undefined && next_step_id != null && next_step_id != ''){
                 $.each(conditions, function(key, val){
                     var condition_type = val.condition_type;
                     var queId = val.conditional_question_id;
@@ -527,132 +663,132 @@
 
                     if(condition_type == 'go_to_step_condition'){
                         if(conditionalCheck == 1){
-                            if($('#' + queId).val() == queValue && is_matched == true){
-                                is_matched = true;
+                            if($('#' + queId).val() == queValue) {
+                                $(e).attr("que_id", conditional_step); 
+                                next_step_id = conditional_step;
                             }else{
-                                is_matched = false;
+                                next_step_id = next_step;
+                                $(e).attr("que_id", next_step); 
                             }
                         }else if(conditionalCheck == 2){
-                            if($('#' + queId).val() > queValue && is_matched == true){
-                                is_matched = true;
+                            if($('#' + queId).val() == queValue) {
+                                $(e).attr("que_id", conditional_step); 
+                                next_step_id = conditional_step;
                             }else{
-                                is_matched = false;
+                                next_step_id = next_step;
+                                $(e).attr("que_id", next_step); 
                             }
                         }else if(conditionalCheck == 3){
-                            if($('#' + queId).val() < queValue && is_matched == true){
-                                is_matched = true;
+                            if($('#' + queId).val() == queValue) {
+                                $(e).attr("que_id", conditional_step); 
+                                next_step_id = conditional_step;
                             }else{
-                                is_matched = false;
+                                next_step_id = next_step;
+                                $(e).attr("que_id", next_step); 
                             }
                         }else if(conditionalCheck == 4){
-                            if($('#' + queId).val() != queValue && is_matched == true) {
-                                is_matched = true;
+                            if($('#' + queId).val() == queValue) {
+                                $(e).attr("que_id", conditional_step); 
+                                next_step_id = conditional_step;
                             }else{
-                                is_matched = false;
+                                next_step_id = next_step;
+                                $(e).attr("que_id", next_step); 
                             }
                         }
                     }else if(condition_type == 'question_label_condition'){
                         if(conditionalCheck == 1){
-                            if($('#' + queId).val() == queValue && is_matched == true){
-                                is_matched = true;
+                            if($('#' + queId).val() == queValue) {
+                                // $(".lbl"+my_ref).text(queLabel);
                             }else{
-                                is_matched = false;
+                                // $(".lbl"+my_ref).text(queLabel);
                             }
                         }else if(conditionalCheck == 2){
-                            if($('#' + queId).val() > queValue && is_matched == true){
-                                is_matched = true;
+                            if($('#' + queId).val() == queValue) {
+                                // $(".lbl"+my_ref).text(queLabel);
                             }else{
-                                is_matched = false;
+                                // $(".lbl"+my_ref).text(queLabel);
                             }
                         }else if(conditionalCheck == 3){
-                            if($('#' + queId).val() < queValue && is_matched == true){
-                                is_matched = true;
+                            if($('#' + queId).val() == queValue) {
+                                // $(".lbl"+my_ref).text(queLabel);
                             }else{
-                                is_matched = false;
+                                // $(".lbl"+my_ref).text(queLabel);
                             }
                         }else if(conditionalCheck == 4){
-                            if($('#' + queId).val() != queValue && is_matched == true){
-                                is_matched = true;
+                            if($('#' + queId).val() == queValue) {
+                                // $(".lbl"+my_ref).text(queLabel);
                             }else{
-                                is_matched = false;
+                                // $(".lbl"+my_ref).text(queLabel); 
                             }
                         }
                     }
                 });
-
-                if(is_matched == true){
-                    $(this).attr("que_id", conditional_step); 
-                }else if(is_matched == false){
-                    $(this).attr("que_id", next_step); 
-                }
             }
-        });
-    }
-
-    function go_next_step(e,questionType){
-        var next_step_id = $(e).attr("que_id");  
-        var my_ref = $(e).attr("my_ref");       
-        var is_last = !next_step_id || next_step_id === '';
-        var target = `.qidtarget-${next_step_id}`;
-        
-        if(is_last){
-            $('.last_step_btn').show();
-            $('.nxt_btn_'+my_ref).hide();
-
-            progressBarCount(my_ref, null, true);
-            next_step_id = 'last_step';
-            $('.step-'+my_ref).attr('is_last','true');
-
-            updateUrl(next_step_id);
-            // saveSteps(my_ref, questionType);
-            
-        }else{
-            for(let i = parseInt(my_ref) + 1; i < next_step_id; i++){
-                if(!$('.step-' + i).hasClass('active')){
-                    $('.step-' + i).addClass('hide');
-                }
-            }
-            var pre_btn = `.pre_btn_${next_step_id}`;
-            $(pre_btn).attr("que_id", my_ref);
-
-            if(my_ref != null && my_ref != '' && my_ref != undefined){
-                var current_step = `.step-${my_ref}`;
-                // console.log($(current_step).attr('attempted'));
-                if($(current_step).hasClass('active')){
-                    $(current_step).removeClass('active');
-                    $(current_step).addClass('done');
-                }
-            }
-           
-            var next_step_div = `.step-${next_step_id}`;
-
-            if($(next_step_div).hasClass('hide')){
-                $(next_step_div).addClass('active');
-                $(next_step_div).removeClass('hide');
-            }else{
-                $(next_step_div).addClass('active');
-            }
-
-            $(target).css({
-                "color": "white",
-                "background-color": "#002655",
-                "padding": "5px",
-                "border-radius": "3px"
-            });
-            
-            // saveSteps(my_ref, questionType);
-            progressBarCount(my_ref, next_step_id);
-            updateUrl(next_step_id);
         }
+       
+        console.log(next_step_id);
 
-        setLocalstorage(my_ref, next_step_id, questionType);        
+        setTimeout(function(){
+            if(is_last){
+                $('.last_step_btn').show();
+                $('.nxt_btn_'+my_ref).hide();
+
+                progressBarCount(my_ref, null, true);
+                next_step_id = 'last_step';
+                $('.step-'+my_ref).attr('is_last','true');
+
+                updateUrl(next_step_id);
+                // saveSteps(my_ref, questionType);
+                
+            }else{
+                for(let i = parseInt(my_ref) + 1; i < next_step_id; i++){
+                    if(!$('.step-' + i).hasClass('active')){
+                        $('.step-' + i).addClass('hide');
+                    }
+                }
+                var pre_btn = `.pre_btn_${next_step_id}`;
+                $(pre_btn).attr("que_id", my_ref);
+
+                if(my_ref != null && my_ref != '' && my_ref != undefined){
+                    var current_step = `.step-${my_ref}`;
+                    // console.log($(current_step).attr('attempted'));
+                    if($(current_step).hasClass('active')){
+                        $(current_step).removeClass('active');
+                        $(current_step).addClass('done');
+                    }
+                }
+            
+                var next_step_div = `.step-${next_step_id}`;
+
+                if($(next_step_div).hasClass('hide')){
+                    $(next_step_div).addClass('active');
+                    $(next_step_div).removeClass('hide');
+                }else{
+                    $(next_step_div).addClass('active');
+                }
+
+                $(target).css({
+                    "color": "white",
+                    "background-color": "#002655",
+                    "padding": "5px",
+                    "border-radius": "3px"
+                });
+                
+                // saveSteps(my_ref, questionType);
+                progressBarCount(my_ref, next_step_id);
+                updateUrl(next_step_id);
+            }
+
+            setLocalstorage(my_ref, next_step_id, questionType);   
+
+        }, 500); 
+       
     }
 
     function go_pre_step(e){
         var current_step_id = $(e).attr('my_ref');
         var current_step = `.step-${current_step_id}`;
         
-
         if($(current_step).hasClass('active')){
             $(current_step).removeClass('active');
         }
@@ -758,6 +894,7 @@
     //     })
     // }
 
+
     function storeAnswers(e, question_id = undefined, qtype = undefined, next_id = undefined) {
         let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
         let questionIndex = localStorageData.attempted_question.findIndex(item => item.question_id === question_id);
@@ -803,7 +940,7 @@
         smoothScrollToTarget(right_part_target, '.right-question-box');
         rightSecConditions();
         alphabetList();
-        questionConditions(question_id, next_id);
+        //questionConditions();
     }
 
     // Store the value in Localstorage //
