@@ -696,8 +696,10 @@
                             }
                         }
                     }else if(condition_type == 'question_label_condition'){
+                        console.log('fdgfdsgdfgfdgfdg');
                         if(conditionalCheck == 1){
                             if($('#' + queId).val() == queValue) {
+                                console.log(queLabel);
                                 // $(".lbl"+my_ref).text(queLabel);
                             }else{
                                 // $(".lbl"+my_ref).text(queLabel);
@@ -1455,7 +1457,8 @@
     }
 
     function go_to_checkout_page(){
-        location.href = "{{ url('/checkout') }}";
+        let document_id = $('#document_id').val();
+        location.href = "{{ url('/checkout') }}" + "?id=" + document_id;
     }
 </script>
 
