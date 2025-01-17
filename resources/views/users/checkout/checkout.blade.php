@@ -152,7 +152,7 @@
                                         <img src="{{ asset('assets/img/cp.png') }}" alt="carta poder">
                                    </div>
                                    <div class="carta_txt">
-                                        <h6>Carta Poder</h6>
+                                        <h6>{{ $title ?? '' }}</h6>
                                         <p class="size18 mb-0">
                                         Descarga inmediata en PDF y DOCX (Word)
                                         </p>
@@ -161,7 +161,7 @@
                               <div class="carta_cost">
                                    <p class="size20 mb-0">Total</p>
                                    <p class="size20 b-dark mb-0">
-                                        $199
+                                        ${{ $price ?? '199' }}
                                    </p>
                               </div>
                          </div>

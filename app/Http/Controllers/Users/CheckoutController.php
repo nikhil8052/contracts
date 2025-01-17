@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\Document;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    public function checkout(){
-        return view('users.checkout.checkout');
+    public function checkout(Request $request){
+        $document_id = $request->id;
+        $document = Document::find($document_id);
+        $title = $document->title;
+        $price = $document->doc_price;
+        return view('users.checkout.checkout',compact('title','price'));
     }
 
     public function order_confirm(){
