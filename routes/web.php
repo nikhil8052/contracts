@@ -14,8 +14,7 @@ use App\Http\Controllers\Users\ContactUsController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\ContractController;
 use App\Http\Controllers\Users\CheckoutController;
-
-
+use App\Http\Controllers\Users\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +70,7 @@ Route::group(['middleware' => ['front']], function() {
 
      // ******************** Checkout Page ************************* //
      Route::get('/checkout',[CheckoutController::class,'checkout']);
+     Route::post('/charge-customer',[PaymentController::class,'chargeCustomer'])->name('checkout.customer');
      Route::get('/order-confirmation',[CheckoutController::class,'order_confirm']);
      Route::get('/contracts/{slug}',[ContractController::class,'contracts']);
      Route::post('/save/steps',[ContractController::class,'saveContractsQuestions']);

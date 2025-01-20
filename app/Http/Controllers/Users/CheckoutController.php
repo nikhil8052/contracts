@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -13,7 +14,9 @@ class CheckoutController extends Controller
         $document = Document::find($document_id);
         $title = $document->title;
         $price = $document->doc_price;
-        return view('users.checkout.checkout',compact('title','price'));
+        $user=User::find(3);
+        $intent=$user->createSetupIntent();
+        return view('users.checkout.checkout',compact('title','price','intent'));
     }
 
     public function order_confirm(){

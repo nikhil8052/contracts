@@ -54,33 +54,34 @@
                                              <img src="{{ asset('assets/img/Group_34801.svg') }}">
                                              <img src="{{ asset('assets/img/Group_34802.svg') }}">
                                              <img src="{{ asset('assets/img/American_Express_logo.svg') }}">
-                                             <input class="form-check-input" name="pymnt_method" value="card" type="radio" id="cards">
+                                             <input class="form-check-input" name="pymnt_method" value="stripe" type="radio" id="cards" checked>
                                         </label>
                                    </div>
-                                   <form class="row g-3 pymnt-details">
+                                   <form class="row g-3 pymnt-details " id="stripe_form" action="{{ route('checkout.customer') }}" method="POST">
+                                        @csrf
                                         <div class="col-md-12">
-                                             <input type="number" class="form-control" id="c_num"
-                                                  placeholder="Número de tarjeta *">
-                                             </div>
-                                             <div class="col-md-12">
-                                             <input type="number" class="form-control" id="c_num"
-                                                  placeholder="Número de tarjeta *">
+                                             <label for="card-number">Número de tarjeta *</label>
+                                             <div class="form-control" id="card-number"></div>
                                         </div>
                                         <div class="col-md-6">
-                                             <input type="number" class="form-control" id="valid_date"
-                                                  placeholder="Válido hasta *">
+                                             <label for="card-expiry">Válido hasta *</label>
+                                             <div class="form-control" id="card-expiry"></div>
                                         </div>
                                         <div class="col-md-6">
-                                             <input type="number" class="form-control" id="valid_till"
-                                             placeholder="Válido hasta *">
+                                             <label for="card-cvc">CVC *</label>
+                                             <div class="form-control" id="card-cvc"></div>
                                         </div>
+                                        <input type="hidden" name="payment_method" id="stripe_pm" value="">
+
                                    </form>
+                                   <div id="card-errors" class="text-danger mt-2" role="alert"></div>
+
                               </div>
                               <div class="opt">
                                    <div class="form-check">
                                         <label class="form-check-label" for="paypal">
                                              <img src="{{ asset('assets/img/PayPal.png') }}" alt="paypal"> 
-                                             <input class="form-check-input" name="pymnt_method" value="PayPal" type="radio" id="paypal">
+                                             <input class="form-check-input" name="pymnt_method" value="paypal" type="radio" id="paypal">
                                         </label>
                                    </div>
                                    <form class="row g-3 pymnt-details">
@@ -137,7 +138,7 @@
                               </div>
                          </div>
                          <div class="form_btn">
-                              <a href="#" class="cta_org size20">Confirmar y descargar</a>
+                              <a href="javascript:void(0)" class="cta_org size20 submit-form">Confirmar y descargar</a>
                          </div>
                     </div>
                </div>
@@ -189,5 +190,45 @@
           </div>
      </div>
 </section>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
 
+var secretKey= `{{ env('STRIPE_KEY') }}`;
+var intent= `{{ $intent }}`;
+
+console.log( secretKey )
+const stripe = Stripe(secretKey);
+
+ console.log( stripe , " This is the name of the website... ")
+ const elements = stripe.elements();
+ const cardNumber = elements.create('cardNumber');
+  const cardExpiry = elements.create('cardExpiry');
+  const cardCvc = elements.create('cardCvc');
+  cardNumber.mount('#card-number');
+  cardExpiry.mount('#card-expiry');
+  cardCvc.mount('#card-cvc');
+  const cardErrors = document.getElementById('card-errors');
+  $('.submit-form').on('click', async (e)=>{
+     var payment_method = $('input[name="pymnt_method"]:checked').val();
+     console.log( payment_method)
+
+     if(payment_method=="stripe"){
+          e.preventDefault();
+          const { paymentMethod, error } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardNumber,
+          });
+
+          
+        if (error) {
+            document.getElementById('card-errors').textContent = error.message;
+        }else{
+          $('#stripe_pm').val(paymentMethod.id)
+          $('#stripe_form').submit();
+        }
+
+     }
+  })
+  
+</script>
 @endsection
