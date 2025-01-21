@@ -1,77 +1,16 @@
 @php 
+
 	$setting = App\Models\Setting::where('key', 'footer_logo')->first();
 	$path = str_replace('public/', '', $setting->file_path ?? null);
-	$current_url = url()->current();
-	$checkout_url = url('/checkout');
-	$order_url = url('/order-confirmation');
+
 @endphp
 
-<footer>
+
+<footer @if(request()->segment(1)=='order-confirmation' ||  request()->segment(1)=='checkout' ) class = {{'hide_footer'}} @endif  >
 	<div class="outer_foot_bg dark">
 		<div class="container">
-			@if($current_url == $checkout_url || $current_url == $order_url)
-			<div class="foot_end_box">
-				<div class="reserve_box">
-					Copyright © 2020-2024 Legalio. Todos los derechos reservados.
-				</div>
-				<div class="reserve_box">
-					<a href="{{ url('/terminos-y-condiciones') }}">Términos y Condiciones </a>
-				</div>
-				<div class="reserve_box">
-					<a href="{{ url('/aviso-de-privacidad') }}">Aviso de Privacidad</a>
-				</div>
-				<div class="reserve_box">
-					<div class="select-menu active">
-						<div class="select-btn ">
-							<button class="sBtn-text">México - Español</button>
-							<i class="fa fa-chevron-down"></i>
-						</div>
-						<div class="cus_dropdown_menu options">
-							<div class="container">
-								<h2>Choose your Country/Region</h2>
-								<div class="cus_m_wrapper mst-ly-cnt">
-									<a class="cus_dropdown-item " href="">Spain - Spanish</a>
-									<a class="cus_dropdown-item " href="">Australia - English</a>
-									<a class="cus_dropdown-item " href="">Brasil - Português</a>
-									<a class="cus_dropdown-item " href="">Canada - English</a>
-									<a class="cus_dropdown-item " href="">Canada - Français</a>
-									<a class="cus_dropdown-item " href="">Colombia - Español</a>
-									<a class="cus_dropdown-item " href="">Deutschland - Deutsch</a>
-									<a class="cus_dropdown-item " href="">España - Español</a>
-									<a class="cus_dropdown-item " href="">Estados Unidos - Español</a>
-									<a class="cus_dropdown-item " href="">France - Français</a>
-									<a class="cus_dropdown-item " href="">Hong Kong - English</a>
-									<a class="cus_dropdown-item " href="">India - English</a>
-									<a class="cus_dropdown-item " href="">Ireland - English</a>
-									<a class="cus_dropdown-item " href="">Israel - English</a>
-									<a class="cus_dropdown-item " href="">Svizzera - Italiano</a>
-									<a class="cus_dropdown-item " href="">Malaysia - English</a>
-									<a class="cus_dropdown-item " href="">Mexico - Spanish</a>
-									<a class="cus_dropdown-item " href="">New Zealand - English</a>
-									<a class="cus_dropdown-item " href="">Österreich - Deutsch</a>
-									<a class="cus_dropdown-item " href="">Pakistan - English</a>
-									<a class="cus_dropdown-item " href="">Perú - Español</a>
-									<a class="cus_dropdown-item " href="">Philippines - English</a>
-									<a class="cus_dropdown-item " href="">Polska - Polski</a>
-									<a class="cus_dropdown-item " href="">Portuguese - Portugal</a>
-									<a class="cus_dropdown-item " href="">Schweiz - Deutsch</a>
-									<a class="cus_dropdown-item " href="">Singapore - English</a>
-									<a class="cus_dropdown-item " href="">South Africa - English</a>
-									<a class="cus_dropdown-item " href="">Suisse - Français</a>
-									<a class="cus_dropdown-item " href="">Türkiye - Türkçe</a>
-									<a class="cus_dropdown-item " href="">United Arab Emirates - English</a>
-									<a class="cus_dropdown-item " href="">United Kingdom - English</a>
-									<a class="cus_dropdown-item  selected" href="">United States - English</a>
-									<a class="cus_dropdown-item " href="">Venezuela - Español</a>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-			@else
-			<div class="in1_foot">
+		
+			<div class="in1_foot ">
 				<div class="row">
 					<div class="col-lg-3 col-md-8">
 						<div class="fot_logo">
@@ -223,7 +162,6 @@
 					</div>
 				</div>
 			</div>
-			@endif
 		</div>
 	</div>
 </footer>

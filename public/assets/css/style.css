@@ -3082,25 +3082,26 @@ footer .foot_end_box .reserve_box {
 }
 
 .nxt {
-    background: #002655;
+    background: rgba(253, 86, 2, 1);
     color: white;
     padding: 8px 25px;
     border-radius: 50px;
-    border: 1px solid #002655;
-    font-size: 18px;
+    border: 1px solid rgba(253, 86, 2, 1);
+    font-size: 16px;
     font-weight: 600;
     font-family: inherit;
 }
 
 .pre {
-    background: transparent;
-    color: #C1C1C1;
-    padding: 8px 25px;
+    background: rgba(1, 37, 85, 0.03);
+    color: rgba(109, 110, 112, 1);
+    padding: 8px 22px;
     border-radius: 50px;
     border: 1px solid transparent;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     font-family: inherit;
+
 }
 
 .pre:hover{
@@ -4085,8 +4086,8 @@ footer .select-menu .select-btn:hover {
     font-weight: 500;
     font-size: 14px;
     cursor: pointer;
-    padding: 4px 11px;
-    background: #fff;
+    padding: 0px 6px;
+    background-color: #012555;
     border: 1px solid #1e2c4f59;
     border-radius: 50px;
 }
@@ -4521,3 +4522,64 @@ footer .select-menu .select-btn:hover {
     line-height: 58.51px;
     color: #fff;
 }
+
+/*10jan2025////////////////////////////////////////////*/
+
+
+.navigation-btns .contract_btns {
+    display: flex;
+    justify-content: space-between;
+}
+.contract_btns .save_document_btn img {
+    width: 36px;
+    height: 36px;
+}
+.nxt:hover {
+    background-color: #012555;
+    border-color: #012555;
+}
+
+/*.contract_btns .save_document_btn img:hover {
+filter: invert(11%) sepia(38%) saturate(3710%) hue-rotate(198deg) brightness(130%) contrast(107%);
+
+}*/
+.pre:hover {
+    background-color: #002655;
+    color: #fff;
+}
+.save_document_btn {
+    min-width: 25px;
+    margin: 0px 5px;
+}
+
+.contract_btns .save_document_btn {
+    min-width: 36px;
+    margin: 0px 5px;
+}   
+
+/*///////////////////////////Adddional Footer css Start///////////////////////////////////////// */
+
+
+.hide_footer .in1_foot {
+    display: none;
+}
+.hide_footer .outer_foot_bg {   
+       padding-top: 40px !important;
+}
+
+.hide_footer .select-menu .select-btn{
+    height: 20px;
+}
+
+.hide_footer .select-menu.active .options{
+top: auto;
+bottom:104px;
+
+}
+.hide_footer  .foot_end_box{
+
+    padding-bottom: 9px;
+}
+
+
+/*///////////////////////////Adddional Footer css End///////////////////////////////////////// */
