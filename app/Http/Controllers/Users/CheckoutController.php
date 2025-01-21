@@ -15,7 +15,7 @@ class CheckoutController extends Controller
         $title = $document->title;
         $price = $document->doc_price;
         $user=User::find(3);
-        $intent=$user->createSetupIntent();
+        $intent='';
         return view('users.checkout.checkout',compact('title','price','intent'));
     }
 
