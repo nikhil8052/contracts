@@ -46,22 +46,29 @@ class WebhookController extends Controller
                         \Log::error('Order not found for transaction with intent ID: ' . $intent_id);
                     }
                 } else {
-                    // Log or update database for unrecognized payment intent
-                    \Log::warning('Transaction not found for payment intent ID: ' . $intent_id);
-                    // Optionally, you could create a record to log this for future reference
-                    DB::table('failed_webhook_logs')->insert([
-                        'payment_intent' => $intent_id,
-                        'event_type' => $event->type,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
+                    
                 }
 
                 break;
             case 'payment_intent.payment_failed':
+           
                 $paymentIntent = $event->data->object;
-                \Log::error('Payment failed: ' . $paymentIntent->id);
-                // Handle failed payment
+                $intent_id = $paymentIntent->id;
+                $transaction = Transaction::where('payment_intent', $intent_id)->first();
+                if ($transaction) {
+                    $order = $transaction->order;
+                    if ($order) {
+                        $transaction->amount = $order->amount;
+                        $transaction->type = 'stripe';
+                        $transaction->status = 'payment_failed';
+                        $transaction->save();
+                    } else {
+                        \Log::error('Order not found for transaction with intent ID: ' . $intent_id);
+                    }
+                } else {
+                    
+                }
+
                 break;
 
             case 'payment_intent.processing':
@@ -69,7 +76,25 @@ class WebhookController extends Controller
                 \Log::info('Payment processing: ' . $paymentIntent->id);
                 // Handle processing payment
                 break;
+            
+            case 'charge.refunded':
+                $charge = $event->data->object;
+                $intent_id = $charge->payment_intent;
+                $transaction = Transaction::where('payment_intent', $intent_id)->first();
+                if ($transaction) {
+                    $order = $transaction->order;
+                    if ($order) {
+                        $transaction->status = 'refunded';
+                        $order->status = 2;
+                        $order->save();
+                        $transaction->save();
 
+                    } else {
+                    }
+                }
+
+                break ;
+            
             default:
                 \Log::warning('Unhandled event type: ' . $event->type);
         }
