@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Transaction ;
-use App\Models\Order ;
+use App\Models\Transaction;
+use App\Models\Order;
 use Stripe\Webhook;
 
 class WebhookController extends Controller
 {
-    
     public function handleWebhook(Request $request)
     {
-        $endpointSecret =  web_setting('STRIPE_WEBHOOK_SECRET', true );
+        $endpointSecret = web_setting('STRIPE_WEBHOOK_SECRET', true);
         $payload = $request->getContent();
         $sigHeader = $request->header('Stripe-Signature');
         $event = null;
@@ -32,20 +31,33 @@ class WebhookController extends Controller
         switch ($event->type) {
             case 'payment_intent.succeeded':
                 $paymentIntent = $event->data->object;
-                $intent_id =  $paymentIntent->id ; 
-                $trans = Transaction::where('payment_intent', $intent_id)->first();
-                if( $trans ){
-                    $order= $trans->order ; 
-                    $trans->amount= $order->amount; 
-                    $trans->type= 'stripe'; 
-                    $trans->status= 1; 
-                    $order->status=1;
-                    $order->save();
-                    $trans->save();
-                }else {
-                    // update the status in the db that status not found 
+                $intent_id = $paymentIntent->id;
+                $transaction = Transaction::where('payment_intent', $intent_id)->first();
+                if ($transaction) {
+                    $order = $transaction->order;
+                    if ($order) {
+                        $transaction->amount = $order->amount;
+                        $transaction->type = 'stripe';
+                        $transaction->status = 1;
+
+                        $order->status = 1;
+                        $order->save();
+                        $transaction->save();
+                    } else {
+                        \Log::error('Order not found for transaction with intent ID: ' . $intent_id);
+                    }
+                } else {
+                    // Log or update database for unrecognized payment intent
+                    \Log::warning('Transaction not found for payment intent ID: ' . $intent_id);
+                    // Optionally, you could create a record to log this for future reference
+                    DB::table('failed_webhook_logs')->insert([
+                        'payment_intent' => $intent_id,
+                        'event_type' => $event->type,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
                 }
-             
+
                 break;
             case 'payment_intent.payment_failed':
                 $paymentIntent = $event->data->object;
@@ -65,5 +77,4 @@ class WebhookController extends Controller
 
         return response()->json(['status' => 'success']);
     }
-    
 }
