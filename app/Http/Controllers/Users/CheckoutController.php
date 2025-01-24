@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Illuminate\Support\Str;
-use Stripe\Webhook;
 
 class CheckoutController extends Controller
 {
@@ -87,16 +86,15 @@ class CheckoutController extends Controller
             $order->quantity = 0; 
             $order->order_num = $orderNum; 
             $order->user_id = auth()->user()->id ; 
-            $order->price = ($request->price/100); 
+            $order->amount = ($request->price/100); 
             $order->discount_amount = 0;
-            $order->total_price = ($order->price - $order->discount_amount) ; 
+            $order->total_amount = ($order->amount - $order->discount_amount) ; 
             $order->status = 0;
             $order->save();
             // Create the transaction in the Database with the status of the Pending 
             $trans = new Transaction ;
             $trans->order_id = $order->id; 
             $trans->payment_intent = $request->payment_intent ?? ""; 
-            $trans->payment_intent = 0 ;
             $trans->save();
             return response()->json([
                 'success' => true,
@@ -105,6 +103,7 @@ class CheckoutController extends Controller
 
         }catch(\Exception $e ){
             
+            return $e->getMessage();
         }
 
 
