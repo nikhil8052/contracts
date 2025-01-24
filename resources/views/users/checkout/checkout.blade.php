@@ -245,7 +245,6 @@
                     body: JSON.stringify(orderData),
                 });
                 const orderResponse = await response.json();
-                console.log(orderResponse)
                 if (!response.ok || !orderResponse.success) {
                     cardErrors.textContent = "Failed to create the order. Please try again.";
                     return;
@@ -258,7 +257,7 @@
             }
 
 
-            return ; 
+     
             // Confirm payment with the client secret
             const { paymentIntent, error: paymentIntentError } = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: paymentMethod.id,
