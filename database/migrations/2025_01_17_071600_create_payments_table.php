@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('order_id')->nullable();
             $table->string('payment_intent')->nullable();
             $table->string('stripe_customer_id')->nullable();
-            $table->string('total_amount')->nullable();
-            $table->string('payment_amount')->nullable();
+            $table->string('amount')->nullable();
             $table->string('discount')->nullable();
-            $table->string('payment_method')->nullable();
-            $table->string('payment_type')->nullable();
+            $table->string('total_amount')->nullable();
+            $table->string('method')->nullable();
+            $table->string('type')->nullable();
             $table->string('discount_code')->nullable();
             $table->string('is_discount_applied')->nullable();
             $table->integer('status')->default(1);

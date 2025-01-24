@@ -11,10 +11,14 @@ use Illuminate\Http\Request;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Illuminate\Support\Str;
+use Stripe\Webhook;
 
 class CheckoutController extends Controller
 {
     public function checkout(Request $request){
+
+        $test = Transaction::find(4);
+        dd($test->order);
         $document_id = $request->id;
         $document = Document::find($document_id);
         $title = $document->title;
@@ -39,7 +43,7 @@ class CheckoutController extends Controller
             ],
         ]);
         $clientSecret= $intent->client_secret ; 
-        return view('users.checkout.checkout',compact('title','price','intent', 'clientSecret'));
+        return view('users.checkout.checkout',compact('title','price','intent', 'clientSecret','document'));
     }
 
 
@@ -79,28 +83,27 @@ class CheckoutController extends Controller
     public function placeOrder( Request $request ){
 
         try{
-
             $order = new Order ;
             $orderNum = "MX_" . uniqid() . strtoupper(Str::random(5)); 
-            $order->document_id = 3 ; 
+            $order->document_id = $request->document_id; 
             $order->quantity = 0; 
             $order->order_num = $orderNum; 
             $order->user_id = auth()->user()->id ; 
             $order->price = ($request->price/100); 
             $order->discount_amount = 0;
-            $order->total_price = $order->price -      $order->discount_amount ; 
+            $order->total_price = ($order->price - $order->discount_amount) ; 
             $order->status = 0;
             $order->save();
             // Create the transaction in the Database with the status of the Pending 
             $trans = new Transaction ;
             $trans->order_id = $order->id; 
             $trans->payment_intent = $request->payment_intent ?? ""; 
+            $trans->payment_intent = 0 ;
             $trans->save();
             return response()->json([
                 'success' => true,
-                'data' => $request->all(), // Return all request data in the response
+                'data' => $request->all(), 
             ]);
-
 
         }catch(\Exception $e ){
             

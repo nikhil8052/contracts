@@ -17,9 +17,9 @@ return new class extends Migration
             $table->integer('document_id')->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('user_id')->nullable();
-            $table->integer('price')->nullable();
+            $table->integer('amount')->nullable();
             $table->integer('discount_amount')->nullable();
-            $table->integer('total_price')->nullable();
+            $table->integer('total_amount')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });
