@@ -35,7 +35,7 @@ class WebhookController extends Controller
             case 'payment_intent.succeeded':
                 $paymentIntent = $event->data->object;
                 $intent_id =  $paymentIntent->id ; 
-                $trans = Transaction::where('payment_intent', $intent_id  )->first();
+                $trans = Transaction::find(4);
                 $trans->status= 2 ; 
                 $trans->save();
                 break;
