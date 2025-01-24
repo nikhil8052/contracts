@@ -72,7 +72,7 @@
                                              <div class="form-control" id="card-cvc"></div>
                                         </div>
                                         <input type="hidden" name="payment_method" id="stripe_pm" value="">
-
+                                        <input type="hidden" name="payment_intent" id="stripe_i" value="{{ $intent->id }}">
                                    </form>
                                    <div id="card-errors" class="text-danger mt-2" role="alert"></div>
 
@@ -192,43 +192,95 @@
 </section>
 <script src="https://js.stripe.com/v3/"></script>
 <script>
+    var secretKey = `{{ env('STRIPE_KEY') }}`;
+    var clientSecret = `{{ $clientSecret }}`; // The client secret for the PaymentIntent
+    const stripe = Stripe(secretKey);
+    const elements = stripe.elements();
+    // Create individual card input fields
+    const cardNumber = elements.create('cardNumber');
+    const cardExpiry = elements.create('cardExpiry');
+    const cardCvc = elements.create('cardCvc');
+    // Mount the card input fields to their respective elements
+    cardNumber.mount('#card-number');
+    cardExpiry.mount('#card-expiry');
+    cardCvc.mount('#card-cvc');
+    const cardErrors = document.getElementById('card-errors'); // For error messages
+    $('.submit-form').on('click', async (e) => {
+      
+     $('.submit-form').text("Processing...")
+     $('.submit-form').prop('disabled', true);
 
-var secretKey= `{{ env('STRIPE_KEY') }}`;
-var intent= `{{ $intent }}`;
+        var payment_method = $('input[name="pymnt_method"]:checked').val();
+        if (payment_method == "stripe") {
+            e.preventDefault();
+            // Create payment method
+            const { paymentMethod, error: paymentMethodError } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardNumber,
+            });
 
-console.log( secretKey )
-const stripe = Stripe(secretKey);
+            if (paymentMethodError) {
+                // Handle errors during payment method creation
+                cardErrors.textContent = paymentMethodError.message;
+                return;
+            }
 
- console.log( stripe , " This is the name of the website... ")
- const elements = stripe.elements();
- const cardNumber = elements.create('cardNumber');
-  const cardExpiry = elements.create('cardExpiry');
-  const cardCvc = elements.create('cardCvc');
-  cardNumber.mount('#card-number');
-  cardExpiry.mount('#card-expiry');
-  cardCvc.mount('#card-cvc');
-  const cardErrors = document.getElementById('card-errors');
-  $('.submit-form').on('click', async (e)=>{
-     var payment_method = $('input[name="pymnt_method"]:checked').val();
-     console.log( payment_method)
+          //   create the order here for the user in the database and then work on that 
+          const orderData = {
+               payment_method: paymentMethod.id,
+               payment_intent:`{{ $intent->id }}`,
+               price: {{ $price * 100 }}, // Pass the price in cents
+               description: "order for the user ID this man", // Payment description
+               document_id: "3", // Document ID
+               _token: '{{ csrf_token() }}', // CSRF token
+          };
 
-     if(payment_method=="stripe"){
-          e.preventDefault();
-          const { paymentMethod, error } = await stripe.createPaymentMethod({
-            type: 'card',
-            card: cardNumber,
-          });
+          try {
+                const response = await fetch('{{ route('user.place_order') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                });
+                const orderResponse = await response.json();
+         
+                console.log( orderResponse)
+               //  return 
+                if (!response.ok || !orderResponse.success) {
+                    cardErrors.textContent = "Failed to create the order. Please try again.";
+                    return;
+                }
+                
+            } catch (error) {
+                console.error("Order creation failed:", error);
+                cardErrors.textContent = "An error occurred while creating the order.";
+            }
 
-          
-        if (error) {
-            document.getElementById('card-errors').textContent = error.message;
-        }else{
-          $('#stripe_pm').val(paymentMethod.id)
-          $('#stripe_form').submit();
+
+          // End of order creating 
+
+ 
+          // return ;
+            // Confirm payment with the client secret
+            const { paymentIntent, error: paymentIntentError } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: paymentMethod.id,
+            });
+
+            if (paymentIntentError) {
+                // Handle errors during payment confirmation
+                cardErrors.textContent = paymentIntentError.message;
+                console.log(paymentIntentError, "Payment confirmation failed");
+                return;
+            }
+            // Handle successful payment
+            if (paymentIntent && paymentIntent.status === 'succeeded') {
+                $('#stripe_pm').val(paymentMethod.id); 
+                $('#stripe_form').submit(); 
+            } else {
+                cardErrors.textContent = "Payment failed. Please try again.";
+            }
         }
-
-     }
-  })
-  
+    });
 </script>
 @endsection

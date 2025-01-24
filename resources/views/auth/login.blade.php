@@ -29,7 +29,7 @@
                 <div class="social_contct">
                     <form action="{{route('login.process')}}" id="loginForm" method="post">
                         @csrf
-                        <input type="hidden" name="redirect_url" value="{{ $_GET['redirect'] ?? '' }}">
+                        <input type="hidden" name="redirect_url" value="{{ request()->input('redirect_url') ?? '' }}">
                         <div class="social_hd">
                             <h2>
                                 {{ $login->main_heading ?? 'Iniciar sesión' }}

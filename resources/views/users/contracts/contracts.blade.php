@@ -1464,9 +1464,15 @@
         }
     }
 
-    function go_to_checkout_page(){
+    function go_to_checkout_page() {
         let document_id = $('#document_id').val();
-        location.href = "{{ url('/checkout') }}" + "?id=" + document_id;
+        let currentPath = window.location.pathname + window.location.search;
+        let isLogin = @json(auth()->check()); 
+        if (!isLogin) {
+            location.href = "{{ url('/login') }}" + "?redirect_url=" + encodeURIComponent(currentPath);
+            return;
+        }
+        location.href = "{{ url('/checkout') }}" + "?id=" + encodeURIComponent(document_id);
     }
 </script>
 

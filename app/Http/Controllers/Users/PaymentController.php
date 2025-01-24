@@ -5,13 +5,10 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
 
 class PaymentController extends Controller
 {
-    public function chargeCustomer(Request $req)
-    {
-        $user = User::find(3); // Example: Fetch the user, replace with dynamic user ID if needed
-    
-        dd($user);
-    }
+   
 }

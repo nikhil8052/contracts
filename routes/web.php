@@ -15,6 +15,7 @@ use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\ContractController;
 use App\Http\Controllers\Users\CheckoutController;
 use App\Http\Controllers\Users\PaymentController;
+use App\Http\Controllers\Users\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,9 +70,10 @@ Route::group(['middleware' => ['front']], function() {
      // ****************** SitePagesController End **********************//
 
      // ******************** Checkout Page ************************* //
-     Route::get('/checkout',[CheckoutController::class,'checkout']);
-     Route::post('/charge-customer',[PaymentController::class,'chargeCustomer'])->name('checkout.customer');
-     Route::get('/order-confirmation',[CheckoutController::class,'order_confirm']);
+     Route::get('/checkout',[CheckoutController::class,'checkout'])->name('user.checkout');
+     Route::post('/charge-customer',[CheckoutController::class,'order_confirm'])->name('checkout.customer');
+     Route::post('/place-order',[CheckoutController::class,'placeOrder'])->name('user.place_order');
+     Route::get('/order-confirmation',[CheckoutController::class,'order_confirm'])->name('user.order_confirmation');
      Route::get('/contracts/{slug}',[ContractController::class,'contracts']);
      Route::post('/save/steps',[ContractController::class,'saveContractsQuestions']);
 });
@@ -214,3 +216,4 @@ Route::group(['middleware' =>['admin']],function(){
 Route::get('/question-testing',[HomeController::class,'question_testing'])->name('question_testing');
 
 
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
