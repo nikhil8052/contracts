@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('amount')->nullable();
             $table->integer('discount_amount')->nullable();
             $table->integer('total_amount')->nullable();
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(0)->comment('0: Pending, 1: Succeeded, 2: Refunded');
             $table->timestamps();
         });
     }

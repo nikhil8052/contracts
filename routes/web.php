@@ -204,6 +204,7 @@ Route::group(['middleware' =>['admin']],function(){
 
      //*********************Users Sections***************//
      Route::get('/admin-dashboard/users',[AllPagesController::class,'allUsers'])->name('all.users');
+     Route::get('/admin-dashboard/orders',[AllPagesController::class,'orders'])->name('admin.orders');
      Route::get('/admin-dashboard/edit-user/{id?}',[AllPagesController::class,'EditUser']);
      Route::post('/admin-dashboard/update-user',[AllPagesController::class,'updateUser'])->name('update.user');
      Route::get('/admin-dashboard/delete-user/{id}',[AllPagesController::class,'deleteUser'])->name('delete.user');

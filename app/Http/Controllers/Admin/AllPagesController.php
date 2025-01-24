@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\QuestionAnswer;
 use App\Models\PrivacyPolicy;
 use App\Models\User;
+use App\Models\Order;
 use App\Models\FaqCategory;
 use App\Models\WhoWeAre;
 use App\Models\OurVision;
@@ -343,6 +344,13 @@ class AllPagesController extends Controller
       
         return view('admin.users.all_users',compact('users'));
     }
+
+    public function orders()
+    {
+        $orders = Order::all();
+        return view('admin.orders.orders',compact('orders'));
+    }
+
 
     public function editUser($id = null)
     {   
