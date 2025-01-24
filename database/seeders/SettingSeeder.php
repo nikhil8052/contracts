@@ -20,6 +20,11 @@ class SettingSeeder extends Seeder
                 'value' => null,
             ],
             [
+                'name' => 'Stripe Webhook secret',
+                'key' => 'STRIPE_WEBHOOK_SECRET',
+                'value' => null,
+            ],
+            [
                 'name' => 'Paypal Secret Key',
                 'key' => 'paypal_secret_key',
                 'value' => null ,
@@ -62,7 +67,8 @@ class SettingSeeder extends Seeder
             [
                 'key' => 'header_btn_2',
                 'value' => null,
-            ]
+            ],
         ]);
     }
 }
+
