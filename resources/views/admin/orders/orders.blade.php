@@ -22,7 +22,7 @@
                                 <th>Method</th>
                                 <th>Status</th>
                                 <th>Created</th>
-                                <th class="text-center action-column">Action</th>
+                                <!-- <th class="text-center action-column">Action</th> -->
                             </tr>
                         </thead>
                         <?php $count=1; ?>
