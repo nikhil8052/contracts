@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->string('discount_code')->nullable();
             $table->string('is_discount_applied')->nullable();
-            $table->integer('status')->default(1);
+            $table->string('status')->default('incomplete');
             $table->timestamps();
         });
     }

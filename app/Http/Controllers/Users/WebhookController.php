@@ -38,8 +38,7 @@ class WebhookController extends Controller
                     if ($order) {
                         $transaction->amount = $order->amount;
                         $transaction->type = 'stripe';
-                        $transaction->status = 1;
-
+                        $transaction->status = 'succeeded';
                         $order->status = 1;
                         $order->save();
                         $transaction->save();
