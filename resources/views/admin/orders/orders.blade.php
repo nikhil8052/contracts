@@ -36,10 +36,11 @@
                                     <td>{{ $order->transactions->type ?? '' }}</td>
                                     <td>{{ $order->status ?? '' }}</td>
                                     <td>{{ $order->created_at->format('Y-m-d') }}</td>
+<!--                                     
                                     <td class="text-center">
                                         <a href="{{url('/admin-dashboard/edit-user/'.$order->id)}}" class="btn btn-primary btn-sm me-3">Edit</a>
                                         <a href="{{url('/admin-dashboard/delete-user/'.$order->id)}}" class="btn btn-danger btn-sm">Delete</a>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             </tbody>
                             <?php $count++; ?>
