@@ -17,8 +17,6 @@ class CheckoutController extends Controller
 {
     public function checkout(Request $request){
 
-        $test = Transaction::find(4);
-        dd($test->order);
         $document_id = $request->id;
         $document = Document::find($document_id);
         $title = $document->title;
