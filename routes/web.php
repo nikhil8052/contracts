@@ -72,6 +72,7 @@ Route::group(['middleware' => ['front']], function() {
      // ******************** Checkout Page ************************* //
      Route::get('/checkout',[CheckoutController::class,'checkout'])->name('user.checkout');
      Route::post('/charge-customer',[CheckoutController::class,'order_confirm'])->name('checkout.customer');
+     Route::post('/customer-checkout',[CheckoutController::class,'paypalCheckout'])->name('checkout.paypal');
      Route::post('/place-order',[CheckoutController::class,'placeOrder'])->name('user.place_order');
      Route::get('/order-confirmation',[CheckoutController::class,'order_confirm'])->name('user.order_confirmation');
      Route::get('/contracts/{slug}',[ContractController::class,'contracts']);

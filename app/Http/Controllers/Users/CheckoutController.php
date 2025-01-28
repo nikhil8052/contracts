@@ -46,64 +46,7 @@ class CheckoutController extends Controller
 
     public function order_confirm(Request $request)
     {
-        if ($request->payment_method == "paypal") {
-            $doc_id = $request->document_id;
-            $document = getDocument($doc_id);
-            $amount = $document->doc_price;
-
-            $paypal = new PayPalClient();
-            $paypal->setApiCredentials(config('paypal')); 
-            $token = $paypal->getAccessToken();
-            $paypal->setAccessToken($token);
-            $paypalOrder = $paypal->createOrder([
-                "intent" => "CAPTURE", // One-time payment
-                "purchase_units" => [
-                    [
-                        "amount" => [
-                            "currency_code" => "USD",
-                            "value" => $amount, 
-                        ],
-                    ],
-                ],
-                "application_context" => [
-                    "return_url" => route('paypal.success'),
-                    "cancel_url" => route('paypal.cancel'),
-                ],
-            ]);
-
-            // Place the order here 
-
-            $order = new Order();
-            $orderNum = "MX_" . uniqid() . strtoupper(Str::random(5));
-            $order->document_id = $document->id;
-            $order->paypal_order_id= $paypalOrder['id'];
-            $order->quantity = 0;
-            $order->order_num = $orderNum;
-            $order->user_id = 12;
-            $order->amount = $amount / 100;
-            $order->discount_amount = 0;
-            $order->total_amount = $order->amount - $order->discount_amount;
-            $order->status = 0;
-            $order->save();
-            // Create the transaction in the Database with the status of the Pending
-            $trans = new Transaction();
-            $trans->order_id = $order->id;
-            $trans->save();
-
-            // End of the order Place here 
-
-
-
-            foreach ($paypalOrder['links'] as $link) {
-                if ($link['rel'] === 'approve') {
-                    return redirect()->away($link['href']);
-                }
-            }
-
-            return redirect()
-                ->back()
-                ->with('error', 'Unable to create PayPal order.');
-        } elseif ($request->payment_method == "stripe") {
+        if ($request->payment_method == "stripe") {
             $request->validate([
                 'payment_method' => 'required|string',
                 'payment_intent' => 'required|string',
@@ -164,36 +107,73 @@ class CheckoutController extends Controller
     }
 
 
-    public function paypalSuccess(Request $request ){
-
-
-
-
-        dd($request->all());
-
-
-
-        $order = new Order();
-        $orderNum = "MX_" . uniqid() . strtoupper(Str::random(5));
-        $order->document_id = $request->document_id;
-        $order->quantity = 0;
-        $order->order_num = $orderNum;
-        $order->user_id = auth()->user()->id;
-        $order->amount = $request->price / 100;
-        $order->discount_amount = 0;
-        $order->total_amount = $order->amount - $order->discount_amount;
-        $order->status = 0;
-        $order->save();
-        // Create the transaction in the Database with the status of the Pending
-        $trans = new Transaction();
-        $trans->order_id = $order->id;
-        $trans->payment_intent = $request->payment_intent ?? "";
-        $trans->save();
-
+    public function paypalSuccess(Request $request ){   
+        return view('users.checkout.order_confirmation');
     }
 
     public function paypalFailed(Request $request ){
         
+    }
+
+
+    public function paypalCheckout(Request $request ){
+
+        if ($request->payment_method == "paypal") {
+            $doc_id = $request->document_id;
+            $document = getDocument($doc_id);
+            $amount = $document->doc_price;
+
+            $paypal = new PayPalClient();
+            $paypal->setApiCredentials(config('paypal')); 
+            $token = $paypal->getAccessToken();
+            $paypal->setAccessToken($token);
+            $paypalOrder = $paypal->createOrder([
+                "intent" => "CAPTURE", // One-time payment
+                "purchase_units" => [
+                    [
+                        "amount" => [
+                            "currency_code" => "USD",
+                            "value" => $amount, 
+                        ],
+                    ],
+                ],
+                "application_context" => [
+                    "return_url" => route('paypal.success'),
+                    "cancel_url" => route('paypal.cancel'),
+                ],
+            ]);
+
+            // Place the order here 
+
+            $order = new Order();
+            $orderNum = "MX_" . uniqid() . strtoupper(Str::random(5));
+            $order->document_id = $document->id;
+            $order->paypal_order_id= $paypalOrder['id'];
+            $order->quantity = 0;
+            $order->order_num = $orderNum;
+            $order->user_id = 12;
+            $order->amount = $amount / 100;
+            $order->discount_amount = 0;
+            $order->total_amount = $order->amount - $order->discount_amount;
+            $order->status = 0;
+            $order->save();
+            // Create the transaction in the Database with the status of the Pending
+            $trans = new Transaction();
+            $trans->order_id = $order->id;
+            $trans->save();
+
+            // End of the order Place here 
+            foreach ($paypalOrder['links'] as $link) {
+                if ($link['rel'] === 'approve') {
+                    return redirect()->away($link['href']);
+                }
+            }
+
+            return redirect()
+                ->back()
+                ->with('error', 'Unable to create PayPal order.');
+        } 
+
     }
 
 }

@@ -86,7 +86,7 @@
                                         </label>
                                    </div>
                                    <!-- Paypal Form  -->
-                                   <form class="row g-3 pymnt-details" id="paypal_form" action="{{ route('checkout.customer') }}" method="POST" >
+                                   <form class="row g-3 pymnt-details" id="paypal_form" action="{{ route('checkout.paypal') }}" method="POST" >
                                         @csrf 
                                         <input type="hidden" name="payment_method" value="paypal" >
                                         <input type="hidden" name="document_id" value="{{ $document->id }}" >
@@ -182,6 +182,7 @@
 </section>
 <script src="https://js.stripe.com/v3/"></script>
 <script>
+    
     var secretKey = `{{ env('STRIPE_KEY') }}`;
     var clientSecret = `{{ $clientSecret }}`; // The client secret for the PaymentIntent
     const stripe = Stripe(secretKey);
@@ -195,6 +196,8 @@
     cardExpiry.mount('#card-expiry');
     cardCvc.mount('#card-cvc');
     const cardErrors = document.getElementById('card-errors'); // For error messages
+
+
     $('.submit-form').on('click', async (e) => {
      e.preventDefault();
      $('.submit-form').text("Hold On...")
@@ -244,9 +247,6 @@
                $('.submit-form').prop('disabled', false);
                 cardErrors.textContent = "An error occurred while creating the order.";
             }
-
-
-     
             // Confirm payment with the client secret
             const { paymentIntent, error: paymentIntentError } = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: paymentMethod.id,
