@@ -1,39 +1,35 @@
-# Step 1: Use an official PHP image with Apache
-FROM php:8.1-apache
+# Use PHP 8.2 FPM base image
+FROM php:8.2-fpm
 
-# Step 2: Install required dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip gd
-
-
-# Step 3: Enable Apache mod_rewrite for Laravel
-RUN a2enmod rewrite
-
-# Step 4: Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-
-# Step 5: Set up the working directory
+# Set the working directory
 WORKDIR /var/www/html
 
-# Step 6: Copy Laravel project files to the container
-COPY . /var/www/html
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-# Step 7: Set permissions for Laravel storage and cache directories
+# Install Composer globally
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy application files to the container
+COPY . .
+
+# Install Laravel dependencies
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# Set correct permissions for Laravel storage and cache directories
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Expose port 8000 for PHP FPM
+EXPOSE 8000
 
-# Step 8: Expose the container's port
-EXPOSE 80
-
-# Step 9: Start the Apache server
-CMD ["apache2-foreground"]
+# Start PHP-FPM as the container's entry point
+CMD ["php-fpm"]

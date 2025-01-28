@@ -16,6 +16,7 @@ use App\Http\Controllers\Users\ContractController;
 use App\Http\Controllers\Users\CheckoutController;
 use App\Http\Controllers\Users\PaymentController;
 use App\Http\Controllers\Users\WebhookController;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 /*
 |--------------------------------------------------------------------------
@@ -214,7 +215,52 @@ Route::group(['middleware' =>['admin']],function(){
 });
 
 
+
+Route::get('/testing',function (){
+
+
+     $paypal = new PayPalClient();
+     $paypal->setApiCredentials(config('paypal')); // Load credentials from config
+     $token = $paypal->getAccessToken();
+     $paypal->setAccessToken($token);
+
+
+
+     $order = $paypal->createOrder([
+          "intent" => "CAPTURE", // One-time payment
+          "purchase_units" => [
+              [
+                  "amount" => [
+                      "currency_code" => "USD", // Change currency if needed
+                      "value" => "100.00" // Replace with dynamic amount
+                  ]
+              ]
+          ],
+          "application_context" => [
+              "return_url" => route('paypal.success'),
+              "cancel_url" => route('paypal.cancel'),
+          ]
+      ]);
+
+      foreach ($order['links'] as $link) {
+          if ($link['rel'] === 'approve') {
+              return redirect()->away($link['href']);
+          }
+      }
+
+      return redirect()->back()->with('error', 'Unable to create PayPal order.');
+      
+
+});
+
+
+Route::get('/paypal-success',[HomeController::class,'question_testing'])->name('paypal.success');
+Route::get('/paypal-cancel_url',[HomeController::class,'question_testing'])->name('paypal.cancel');
+
+
+
 Route::get('/question-testing',[HomeController::class,'question_testing'])->name('question_testing');
+
 
 
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
