@@ -110,6 +110,7 @@ class WebhookController extends Controller
     
     $payload = $request->all();
 
+    saveLog("Coming");
     if (isset($payload['event_type'])) {
         \Log::info('PayPal Event Type', ['event_type' => $payload['event_type']]);
         switch ($payload['event_type']) {
