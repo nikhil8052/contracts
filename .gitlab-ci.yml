@@ -5,8 +5,3 @@ deploy:
   stage: deploy
   script:
     - echo "Deploying to server..."
-    - apt-get update -y
-    - apt-get install -y ssh
-    - ssh -o StrictHostKeyChecking=no user@your-server-ip "cd /path/to/your/project && git pull origin main && npm install && npm run build && pm2 restart app"
-  only:
-    - nikhil 
