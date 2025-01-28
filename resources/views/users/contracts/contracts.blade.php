@@ -91,7 +91,6 @@
                             <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
                             <input type="hidden" id="total_step" value="{{ $total_questions ?? ''}}">
                             <input type="hidden" id="all_attempted" value="0">
-                            <input type="hidden" id="reverse_attempt" value="0">
                             <input type="hidden" id="user_id" value="{{ Auth::user()->id ?? '' }}">
                             @if(Auth::check())
                                 @php 
@@ -105,7 +104,7 @@
                                 $total_steps = count($questions);
                             @endphp      
                                 @foreach($questions as $index => $question)
-                                    <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
+                                    <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_label="{{ $question->questionData->question_label ?? '' }}" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition ?? '' }}" swtchtyp="{{ $question->condition_type ?? '' }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
                                         <div class="save_document_button">
                                             <span><img src="{{ asset('assets/img/contract_info.svg') }}"></span>  
                                         </div>
@@ -480,6 +479,7 @@
             for(let i = id - 1; i >= next_id; i--){
                 back_step++;
             }
+            console.log(back_step);
             total_attempted -= back_step;
         }else{
             for(let i = id + 1; i < next_id; i++){
@@ -545,6 +545,8 @@
 
         for(let i = parseInt(id)-1; i >= next_id; i--){
             if($('.step-' + i).hasClass('hide')){
+                console.log(total_hidden_steps);
+
                 total_hidden_steps++;
             }
         }
@@ -554,96 +556,12 @@
         console.log("Total reverse steps:", total_attempted);
 
         if(total_attempted >= 0){
-            console.log('bgfdhfghfg');
+            
             updateProgressBar();
             $('#all_attempted').val(total_attempted);
         }
     }
     
-
-    // function questionConditions(){
-    //     $('.nxt').each(function(){
-    //         var next_id = $(this).attr("que_id");
-    //         var conditions = $(this).attr("data-condition");
-    //         var conditional_step = $(this).attr("data-condition_step");
-    //         var next_step = $(this).attr("data-next_step");
-
-    //         if(conditions != null && conditions != '' && conditions != undefined){
-    //             conditions = JSON.parse(conditions);
-     
-    //             var queValueArr = [];
-             
-    //             if(next_id != undefined && next_id != null && next_id != ''){
-    //                 $.each(conditions, function(key, val){
-    //                     var condition_type = val.condition_type;
-    //                     var queId = val.conditional_question_id;
-    //                     var queValue = val.conditional_question_value;
-    //                     var conditionalCheck = val.conditional_check;
-    //                     var queLabel = val.question_label;
-
-    //                     queValueArr.push(queValue);
-
-    //                     if(condition_type == 'go_to_step_condition'){
-    //                         if(conditionalCheck == 1){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 console.log(queValueArr);
-    //                                 console.log(queValue);
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 2){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 3){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 4){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }
-    //                     }else if(condition_type == 'question_label_condition'){
-    //                         if(conditionalCheck == 1){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 2){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 3){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 4){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }
-    //                     }
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
-
     function go_next_step(e,questionType){
         $(e).prop("disabled", true);
         var conditions = $(e).attr("data-condition");
@@ -654,7 +572,7 @@
 
         var conditional_step = $(e).attr("data-condition_step");
         var next_step = $(e).attr("data-next_step");
-
+    
         if(conditions != null && conditions != '' && conditions != undefined){
             conditions = JSON.parse(conditions);
             if(next_step_id != undefined && next_step_id != null && next_step_id != ''){
@@ -666,8 +584,6 @@
                     var queLabel = val.question_label;
 
                     if(condition_type == 'go_to_step_condition'){
-                        console.log('go_to_step_condition');
-
                         if(conditionalCheck == 1){
                             if($('#' + queId).val() == queValue) {
                                 $(e).attr("que_id", conditional_step); 
@@ -706,9 +622,15 @@
             }
         }
 
+        var conditiontype = $('.step-'+next_step_id).attr("swtchtyp");
+        var questionLabel = $('.step-'+next_step_id).attr("que_label");
         var next_conditions = $('.nxt_btn_'+next_step_id).attr("data-condition");
+        var conditional_next_step = $('.nxt_btn_'+next_step_id).attr("data-condition_step");
+        var nextStep = $('.nxt_btn_'+next_step_id).attr("data-next_step");
+
         if(next_conditions != null && next_conditions != '' && next_conditions != undefined){
             next_conditions = JSON.parse(next_conditions);
+            console.log(next_conditions);
 
             $.each(next_conditions, function(key, val){
                 var condition_type = val.condition_type;
@@ -717,38 +639,78 @@
                 var conditionalCheck = val.conditional_check;
                 var queLabel = val.question_label;
 
-                if(condition_type == 'question_label_condition'){
-                    console.log('question_label_condition');
-                    console.log(queId, queValue, conditionalCheck, queLabel, next_step_id);
-
+                if(conditiontype == "1"){
                     if(conditionalCheck == 1){
-                        if($('#' + queId).val() == queValue) {
+                        if($('#' + queId).val() == queValue){
                             $(".lbl-"+next_step_id).text(queLabel);
-                        }else{
-                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 2){
                         if($('#' + queId).val() == queValue) {
                             $(".lbl-"+next_step_id).text(queLabel);
-                        }else{
-                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 3){
                         if($('#' + queId).val() == queValue) {
                             $(".lbl-"+next_step_id).text(queLabel);
-                        }else{
-                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 4){
                         if($('#' + queId).val() == queValue) {
                             $(".lbl-"+next_step_id).text(queLabel);
-                        }else{
-                            $(".lbl-"+next_step_id).text('No label found');
+                        }
+                    }
+                }else if(conditiontype == "3"){
+                    console.log("conditionType",conditiontype);
+                    if(condition_type == "question_label_condition"){
+                        console.log('sfjskhdf');
+                        if(conditionalCheck == 1){
+                            if($('#' + queId).val() == queValue) {
+                                console.log(queLabel);
+                                $(".lbl-"+next_step_id).text(queLabel);
+                            }
+                        }else if(conditionalCheck == 2){
+                            if($('#' + queId).val() == queValue) {
+                                $(".lbl-"+next_step_id).text(queLabel);
+                            }
+                        }else if(conditionalCheck == 3){
+                            if($('#' + queId).val() == queValue) {
+                                $(".lbl-"+next_step_id).text(queLabel);
+                            }
+                        }else if(conditionalCheck == 4){
+                            if($('#' + queId).val() == queValue) {
+                                $(".lbl-"+next_step_id).text(queLabel);
+                            }
+                        }
+                    }else if(condition_type == 'go_to_step_condition'){
+                        if(conditionalCheck == 1){
+                            if($('#' + queId).val() == queValue) {
+                                $(".nxt_btn_"+next_step_id).attr('que_id',conditional_next_step);
+                            }else{
+                                $(".nxt_btn_"+next_step_id).attr('que_id',nextStep);
+                            }
+                        }else if(conditionalCheck == 2){
+                            if($('#' + queId).val() == queValue) {
+                                $(".nxt_btn_"+next_step_id).attr('que_id',conditional_next_step);
+                            }else{
+                                $(".nxt_btn_"+next_step_id).attr('que_id',nextStep);
+                            }
+                        }else if(conditionalCheck == 3){
+                            if($('#' + queId).val() == queValue) {
+                                $(".nxt_btn_"+next_step_id).attr('que_id',conditional_next_step);
+                            }else{
+                                $(".nxt_btn_"+next_step_id).attr('que_id',nextStep);
+                            }
+                        }else if(conditionalCheck == 4){
+                            if($('#' + queId).val() == queValue) {
+                                $(".nxt_btn_"+next_step_id).attr('que_id',conditional_next_step);
+                            }else{
+                                $(".nxt_btn_"+next_step_id).attr('que_id',nextStep);
+                            }
                         }
                     }
                 }
             })
         }
+
+        console.log(next_step_id);
 
         setTimeout(function(){
             if(is_last){
