@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $secret= web_setting('stripe_secret_key',true);
-        // Stripe::setApiKey($secret);
+        $secret= web_setting('stripe_secret_key',true);
+        Stripe::setApiKey($secret);
     }
 }

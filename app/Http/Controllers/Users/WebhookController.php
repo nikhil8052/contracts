@@ -10,8 +10,9 @@ use Stripe\Webhook;
 
 class WebhookController extends Controller
 {
-    public function handleWebhook(Request $request)
+    public function handleStripeWebhook(Request $request)
     {
+    
         $endpointSecret = web_setting('STRIPE_WEBHOOK_SECRET', true);
         $payload = $request->getContent();
         $sigHeader = $request->header('Stripe-Signature');
@@ -100,5 +101,11 @@ class WebhookController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+
+
+    public function handlePaypalWebhook(){
+
+        saveLog('paypal');
     }
 }
