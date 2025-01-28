@@ -21,19 +21,19 @@ class CheckoutController extends Controller
         $title = $document->title;
         $price = $document->doc_price;
         // $customer_id=getOrCreateCustomer();
-        $user=auth()->user();
-        $payment_des="Payment for the Document ID : $document->id of Rupeers $price";
+        $user = auth()->user();
+        $payment_des = "Payment for the Document ID : $document->id of Rupeers $price";
         $intent = PaymentIntent::create([
             'currency' => 'usd',
-            'amount' => ($price * 100 ), 
+            'amount' => ($price * 100), 
             'payment_method_types' => ['card'],
             'description' => $payment_des,
             'shipping' => [
-                'name' => $user->first_name,
+                'name' => "Test",
                 'address' => [
-                    'line1' =>  'Address not provided',
+                    'line1' => 'Address not provided',
                     'city' => 'City not provided',
-                    'state' =>'State not provided',
+                    'state' => 'State not provided',
                     'postal_code' => 'Postal code not provided',
                     'country' => 'IN',    
                 ],
