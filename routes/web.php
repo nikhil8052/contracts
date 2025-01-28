@@ -79,10 +79,11 @@ Route::group(['middleware' => ['front']], function() {
      Route::get('/paypal-success',[CheckoutController::class,'paypalSuccess'])->name('paypal.success');
      Route::get('/paypal-failed',[CheckoutController::class,'paypalFailed'])->name('paypal.cancel');
 
+
 });
 
 Route::middleware('admin.redirect')->group(function () {
-     Route::get('/admin-login',[AuthController::class,'login'])->name('login');;
+     Route::get('/admin-login',[AuthController::class,'login'])->name('login');
      Route::post('/loginprocc',[AuthController::class,'loginProcc']);
 });
 Route::get('/admin-logout',[AuthController::class,'adminLogout']);
