@@ -110,11 +110,7 @@
                                             <span><img src="{{ asset('assets/img/contract_info.svg') }}"></span>  
                                         </div>
                                         <label class="que_heading lbl-{{ $question->id }}">
-                                            <!-- @if($question->is_condition == 1) -->
-                                            <!-- {{ $question->conditions[0]->question_label ?? $question->questionData->question_label }} -->
-                                            <!-- @else -->
                                             {{ $question->questionData->question_label ?? '' }}
-                                            <!-- @endif -->
                                         </label>
                                         <br>
                                         @php 
@@ -727,27 +723,27 @@
 
                     if(conditionalCheck == 1){
                         if($('#' + queId).val() == queValue) {
-                            $(".lbl"+next_step_id).val(queLabel);
+                            $(".lbl-"+next_step_id).text(queLabel);
                         }else{
-                            // $(".lbl"+my_ref).text(queLabel);
+                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 2){
                         if($('#' + queId).val() == queValue) {
-                            $(".lbl"+next_step_id).text(queLabel);
+                            $(".lbl-"+next_step_id).text(queLabel);
                         }else{
-                            // $(".lbl"+my_ref).text(queLabel);
+                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 3){
                         if($('#' + queId).val() == queValue) {
-                            $(".lbl"+next_step_id).text(queLabel);
+                            $(".lbl-"+next_step_id).text(queLabel);
                         }else{
-                            // $(".lbl"+my_ref).text(queLabel);
+                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 4){
                         if($('#' + queId).val() == queValue) {
-                            $(".lbl"+next_step_id).text(queLabel);
+                            $(".lbl-"+next_step_id).text(queLabel);
                         }else{
-                            // $(".lbl"+my_ref).text(queLabel); 
+                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }
                 }
