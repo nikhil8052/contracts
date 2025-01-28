@@ -104,37 +104,44 @@ class WebhookController extends Controller
     }
 
 
-    public function handlePaypalWebhook( Request $request ){
+    public function handlePaypalWebhook(Request $request)
+{
+    \Log::info('PayPal Webhook Received', ['payload' => $request->all()]); // Log the payload
+    
+    $payload = $request->all();
 
-        saveLog('paypal', 'test ');
-        $payload = $request->all();
-        // saveLog('paypal', 'test ', $payload);
+    if (isset($payload['event_type'])) {
+        \Log::info('PayPal Event Type', ['event_type' => $payload['event_type']]);
+        switch ($payload['event_type']) {
+            case 'PAYMENT.CAPTURE.COMPLETED':
+                $paypalOrderId = $payload['resource']['id']; // PayPal Order ID
+                $status = $payload['resource']['status'];    // Payment status
+                \Log::info('PayPal Capture Completed', ['order_id' => $paypalOrderId, 'status' => $status]);
 
-        if (isset($payload['event_type'])) {
-            switch ($payload['event_type']) {
-                case 'PAYMENT.CAPTURE.COMPLETED':
-                    $paypalOrderId = $payload['resource']['id']; // PayPal Order ID
-                    $status = $payload['resource']['status'];    // Payment status
+                // Find and update the corresponding order in your database
+                $order = Order::where('paypal_order_id', $paypalOrderId)->first();
+                if ($order) {
+                    $order->update([
+                        'status' => 1,
+                    ]);
+                    \Log::info('Order Updated', ['order_id' => $paypalOrderId, 'status' => 1]);
+                } else {
+                    \Log::warning('Order Not Found', ['order_id' => $paypalOrderId]);
+                }
+                break;
 
-                    // Find and update the corresponding order in your database
-                    $order = Order::where('paypal_order_id', $paypalOrderId)->first();
-                    if ($order) {
-                        $order->update([
-                            'status' => 1,
-                        ]);
-                    }
-                    break;
+            case 'PAYMENT.CAPTURE.DENIED':
+                \Log::warning('Payment Denied', ['payload' => $payload]);
+                // Handle denied payments
+                break;
 
-                case 'PAYMENT.CAPTURE.DENIED':
-                    // Handle denied payments
-                    break;
-
-                default:
-                    // Handle other event types
-                    break;
-            }
+            default:
+                \Log::info('Unhandled PayPal Event', ['event_type' => $payload['event_type']]);
+                break;
         }
-
-     
+    } else {
+        \Log::warning('Event Type Not Found in Payload');
     }
+}
+
 }
