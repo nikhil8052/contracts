@@ -104,11 +104,11 @@ class WebhookController extends Controller
     }
 
 
-    public function handlePaypalWebhook(){
+    public function handlePaypalWebhook( Request $request ){
 
         $payload = $request->all();
         saveLog('paypal', 'test ');
-        saveLog('paypal', 'test ', $payload);
+        // saveLog('paypal', 'test ', $payload);
 
         if (isset($payload['event_type'])) {
             switch ($payload['event_type']) {
