@@ -4,4 +4,4 @@ stages:
 deploy:
   stage: deploy
   script:
-    - echo "Deploying to server..."
+    - echo "Deploying to server nikgillhh..."
