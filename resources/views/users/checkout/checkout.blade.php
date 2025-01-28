@@ -57,6 +57,7 @@
                                              <input class="form-check-input" name="pymnt_method" value="stripe" type="radio" id="cards" checked>
                                         </label>
                                    </div>
+                                   <!-- Stripe Form  -->
                                    <form class="row g-3 pymnt-details " id="stripe_form" action="{{ route('checkout.customer') }}" method="POST">
                                         @csrf
                                         <div class="col-md-12">
@@ -84,26 +85,15 @@
                                              <input class="form-check-input" name="pymnt_method" value="paypal" type="radio" id="paypal">
                                         </label>
                                    </div>
-                                   <form class="row g-3 pymnt-details">
-                                        <div class="col-md-12">
-                                             <input type="number" class="form-control" id="num_card"
-                                                  placeholder="Número de tarjeta *">
-                                        </div>
-                                        <div class="col-md-12">
-                                             <input type="number" class="form-control" id="c_num"
-                                                  placeholder="Número de tarjeta *">
-                                        </div>
-                                        <div class="col-md-6">
-                                             <input type="number" class="form-control" id="v_date"
-                                                  placeholder="Válido hasta *">
-                                        </div>
-                                        <div class="col-md-6">
-                                             <input type="number" class="form-control" id="v_till"
-                                                  placeholder="Válido hasta *">
-                                        </div>
+                                   <!-- Paypal Form  -->
+                                   <form class="row g-3 pymnt-details" id="paypal_form" action="{{ route('checkout.customer') }}" method="POST" >
+                                        @csrf 
+                                        <input type="hidden" name="payment_method" value="paypal" >
+                                        <input type="hidden" name="document_id" value="{{ $document->id }}" >
+
                                    </form>
                               </div>
-                              <div class="opt">
+                              <!-- <div class="opt">
                                    <div class="form-check">
                                         <label class="form-check-label" for="oxxo">
                                              <img src="{{ asset('assets/img/oxxo.png') }}" alt="oxxo"> <input class="form-check-input" type="radio" name="pymnt_method" value="oxxo" id="oxxo">
@@ -128,7 +118,7 @@
                                              placeholder="Válido hasta *">
                                         </div>
                                    </form>
-                              </div>
+                              </div> -->
 
                               <div class="form-check">
                                    <input class="form-check-input" type="checkbox" value="" id="accept">
@@ -206,12 +196,11 @@
     cardCvc.mount('#card-cvc');
     const cardErrors = document.getElementById('card-errors'); // For error messages
     $('.submit-form').on('click', async (e) => {
-     // Confirmar y descargar
+     e.preventDefault();
      $('.submit-form').text("Hold On...")
      $('.submit-form').prop('disabled', true);
         var payment_method = $('input[name="pymnt_method"]:checked').val();
         if (payment_method == "stripe") {
-            e.preventDefault();
             // Create payment method
             const { paymentMethod, error: paymentMethodError } = await stripe.createPaymentMethod({
                 type: 'card',
@@ -273,7 +262,15 @@
             } else {
                 cardErrors.textContent = "Payment failed. Please try again.";
             }
+        }else if (payment_method=="paypal"){       
+           InitPaypal();
         }
     });
+
+
+
+    function InitPaypal (){
+       $('#paypal_form').submit();
+    }
 </script>
 @endsection

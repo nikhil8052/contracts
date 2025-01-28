@@ -2,6 +2,7 @@
 
 use App\Models\AppLog;
 use App\Models\Setting;
+use App\Models\Document;
 use Stripe\Customer;
 use Stripe\Stripe;
 
@@ -65,5 +66,9 @@ function getOrCreateCustomer()
      
      
     }
+}
+
+function getDocument( $id ){
+    return Document::find($id) ?? null ;
 }
 ?>

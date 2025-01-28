@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_num')->nullable();
+            $table->string('paypal_order_id')->nullable();
             $table->integer('document_id')->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('user_id')->nullable();

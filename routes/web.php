@@ -16,7 +16,6 @@ use App\Http\Controllers\Users\ContractController;
 use App\Http\Controllers\Users\CheckoutController;
 use App\Http\Controllers\Users\PaymentController;
 use App\Http\Controllers\Users\WebhookController;
-use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +33,7 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 // });
 
 Route::group(['middleware' => ['front']], function() {
-     Route::get('/',[HomeController::class,'home']);
+     Route::get('/',[HomeController::class,'home'])->name('user.home');
      Route::get('/document/{slug}',[HomeController::class,'getDocument']);
      Route::get('/contacto',[ContactUsController::class,'index']);
      Route::post('/contactusProcc',[ContactUsController::class,'contactUsProcc']);
@@ -77,6 +76,9 @@ Route::group(['middleware' => ['front']], function() {
      Route::get('/order-confirmation',[CheckoutController::class,'order_confirm'])->name('user.order_confirmation');
      Route::get('/contracts/{slug}',[ContractController::class,'contracts']);
      Route::post('/save/steps',[ContractController::class,'saveContractsQuestions']);
+     Route::get('/paypal-success',[CheckoutController::class,'paypalSuccess'])->name('paypal.success');
+     Route::get('/paypal-failed',[CheckoutController::class,'paypalFailed'])->name('paypal.cancel');
+
 });
 
 Route::middleware('admin.redirect')->group(function () {
@@ -216,51 +218,11 @@ Route::group(['middleware' =>['admin']],function(){
 
 
 
-Route::get('/testing',function (){
-
-
-     $paypal = new PayPalClient();
-     $paypal->setApiCredentials(config('paypal')); // Load credentials from config
-     $token = $paypal->getAccessToken();
-     $paypal->setAccessToken($token);
-
-
-
-     $order = $paypal->createOrder([
-          "intent" => "CAPTURE", // One-time payment
-          "purchase_units" => [
-              [
-                  "amount" => [
-                      "currency_code" => "USD", // Change currency if needed
-                      "value" => "100.00" // Replace with dynamic amount
-                  ]
-              ]
-          ],
-          "application_context" => [
-              "return_url" => route('paypal.success'),
-              "cancel_url" => route('paypal.cancel'),
-          ]
-      ]);
-
-      foreach ($order['links'] as $link) {
-          if ($link['rel'] === 'approve') {
-              return redirect()->away($link['href']);
-          }
-      }
-
-      return redirect()->back()->with('error', 'Unable to create PayPal order.');
-      
-
-});
-
-
-Route::get('/paypal-success',[HomeController::class,'question_testing'])->name('paypal.success');
-Route::get('/paypal-cancel_url',[HomeController::class,'question_testing'])->name('paypal.cancel');
-
-
 
 Route::get('/question-testing',[HomeController::class,'question_testing'])->name('question_testing');
 
 
 
-Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+Route::post('/stripe/webhook', [WebhookController::class, 'handleStripeWebhook']);
+Route::post('/paypal/webhook', [WebhookController::class, 'handlePaypalWebhook']);
+
