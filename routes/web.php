@@ -75,12 +75,12 @@ Route::group(['middleware' => ['front']], function() {
      Route::post('/charge-customer',[CheckoutController::class,'order_confirm'])->name('checkout.customer');
      Route::post('/place-order',[CheckoutController::class,'placeOrder'])->name('user.place_order');
      Route::get('/order-confirmation',[CheckoutController::class,'order_confirm'])->name('user.order_confirmation');
-     Route::get('/contracts/{slug}',[ContractController::class,'contracts']);
-     Route::post('/save/steps',[ContractController::class,'saveContractsQuestions']);
+     Route::get('/contracts/{slug}',[ContractController::class,'contracts'])->name('user.contracts');
+     Route::post('/save/steps',[ContractController::class,'saveContractsQuestions'])->name('user.save_steps');
 });
 
 Route::middleware('admin.redirect')->group(function () {
-     Route::get('/admin-login',[AuthController::class,'login'])->name('login');;
+     Route::get('/admin-login',[AuthController::class,'login'])->name('login');
      Route::post('/loginprocc',[AuthController::class,'loginProcc']);
 });
 Route::get('/admin-logout',[AuthController::class,'adminLogout']);
