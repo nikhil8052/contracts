@@ -110,11 +110,11 @@
                                             <span><img src="{{ asset('assets/img/contract_info.svg') }}"></span>  
                                         </div>
                                         <label class="que_heading lbl-{{ $question->id }}">
-                                            @if($question->is_condition == 1)
-                                            {{ $question->conditions[0]->question_label ?? $question->questionData->question_label }}
-                                            @else
+                                            <!-- @if($question->is_condition == 1) -->
+                                            <!-- {{ $question->conditions[0]->question_label ?? $question->questionData->question_label }} -->
+                                            <!-- @else -->
                                             {{ $question->questionData->question_label ?? '' }}
-                                            @endif
+                                            <!-- @endif -->
                                         </label>
                                         <br>
                                         @php 
@@ -474,25 +474,26 @@
     }
 
     function progressBarCount(id, next_id, is_last = false){
-        
+        var id = parseInt(id);
+        var next_id = parseInt(next_id);
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
         var back_step = 0;
 
         if(id > next_id){
-            for(let i = parseInt(id) - 1; i >= parseInt(next_id); i--){ 
+            for(let i = id - 1; i >= next_id; i--){
                 back_step++;
             }
             total_attempted -= back_step;
         }else{
-            for(let i = parseInt(id) + 1; i < parseInt(next_id); i++){
+            for(let i = id + 1; i < next_id; i++){
                 if($('.step-' + i).hasClass('hide')){
                     total_hidden_steps++;
                 }
             }
 
             total_attempted = parseInt(total_attempted);
-            total_attempted += total_hidden_steps;
+            total_attempted += total_hidden_steps; 
 
             if($(current_step).hasClass('done')){
                 total_attempted++;
@@ -518,6 +519,7 @@
     //     var total_hidden_steps = 0;
     //     for(let i = parseInt(id) + 1; i < parseInt(next_id); i++){
     //         if($('.step-' + i).hasClass('hide')){
+    //             console.log(i);
     //             total_hidden_steps++;
     //         }
     //     }
@@ -541,7 +543,7 @@
     //     $('#all_attempted').val(total_attempted);
     // }
 
-    function reverseProgressCount(id, next_id) {
+    function reverseProgressCount(id, next_id){
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
 
@@ -550,13 +552,13 @@
                 total_hidden_steps++;
             }
         }
-
         total_attempted -= total_hidden_steps;
         total_attempted--;
 
         console.log("Total reverse steps:", total_attempted);
 
         if(total_attempted >= 0){
+            console.log('bgfdhfghfg');
             updateProgressBar();
             $('#all_attempted').val(total_attempted);
         }
@@ -647,6 +649,7 @@
     // }
 
     function go_next_step(e,questionType){
+        $(e).prop("disabled", true);
         var conditions = $(e).attr("data-condition");
         var next_step_id = $(e).attr("que_id");  
         var my_ref = $(e).attr("my_ref");       
@@ -658,8 +661,6 @@
 
         if(conditions != null && conditions != '' && conditions != undefined){
             conditions = JSON.parse(conditions);
-            console.log(conditions);
-
             if(next_step_id != undefined && next_step_id != null && next_step_id != ''){
                 $.each(conditions, function(key, val){
                     var condition_type = val.condition_type;
@@ -669,6 +670,8 @@
                     var queLabel = val.question_label;
 
                     if(condition_type == 'go_to_step_condition'){
+                        console.log('go_to_step_condition');
+
                         if(conditionalCheck == 1){
                             if($('#' + queId).val() == queValue) {
                                 $(e).attr("que_id", conditional_step); 
@@ -700,43 +703,56 @@
                             }else{
                                 next_step_id = next_step;
                                 $(e).attr("que_id", next_step); 
-                            }
-                        }
-                    }else if(condition_type == 'question_label_condition'){
-                        console.log('fdgfdsgdfgfdgfdg');
-                        if(conditionalCheck == 1){
-                            if($('#' + queId).val() == queValue) {
-                                console.log(queLabel);
-                                // $(".lbl"+my_ref).text(queLabel);
-                            }else{
-                                // $(".lbl"+my_ref).text(queLabel);
-                            }
-                        }else if(conditionalCheck == 2){
-                            if($('#' + queId).val() == queValue) {
-                                // $(".lbl"+my_ref).text(queLabel);
-                            }else{
-                                // $(".lbl"+my_ref).text(queLabel);
-                            }
-                        }else if(conditionalCheck == 3){
-                            if($('#' + queId).val() == queValue) {
-                                // $(".lbl"+my_ref).text(queLabel);
-                            }else{
-                                // $(".lbl"+my_ref).text(queLabel);
-                            }
-                        }else if(conditionalCheck == 4){
-                            if($('#' + queId).val() == queValue) {
-                                // $(".lbl"+my_ref).text(queLabel);
-                            }else{
-                                // $(".lbl"+my_ref).text(queLabel); 
                             }
                         }
                     }
                 });
             }
         }
-   
-       
-        console.log(next_step_id);
+
+        var next_conditions = $('.nxt_btn_'+next_step_id).attr("data-condition");
+        if(next_conditions != null && next_conditions != '' && next_conditions != undefined){
+            next_conditions = JSON.parse(next_conditions);
+
+            $.each(next_conditions, function(key, val){
+                var condition_type = val.condition_type;
+                var queId = val.conditional_question_id;
+                var queValue = val.conditional_question_value;
+                var conditionalCheck = val.conditional_check;
+                var queLabel = val.question_label;
+
+                if(condition_type == 'question_label_condition'){
+                    console.log('question_label_condition');
+                    console.log(queId, queValue, conditionalCheck, queLabel, next_step_id);
+
+                    if(conditionalCheck == 1){
+                        if($('#' + queId).val() == queValue) {
+                            $(".lbl"+next_step_id).val(queLabel);
+                        }else{
+                            // $(".lbl"+my_ref).text(queLabel);
+                        }
+                    }else if(conditionalCheck == 2){
+                        if($('#' + queId).val() == queValue) {
+                            $(".lbl"+next_step_id).text(queLabel);
+                        }else{
+                            // $(".lbl"+my_ref).text(queLabel);
+                        }
+                    }else if(conditionalCheck == 3){
+                        if($('#' + queId).val() == queValue) {
+                            $(".lbl"+next_step_id).text(queLabel);
+                        }else{
+                            // $(".lbl"+my_ref).text(queLabel);
+                        }
+                    }else if(conditionalCheck == 4){
+                        if($('#' + queId).val() == queValue) {
+                            $(".lbl"+next_step_id).text(queLabel);
+                        }else{
+                            // $(".lbl"+my_ref).text(queLabel); 
+                        }
+                    }
+                }
+            })
+        }
 
         setTimeout(function(){
             if(is_last){
@@ -791,7 +807,9 @@
 
             setLocalstorage(my_ref, next_step_id, questionType);   
 
-        }, 500); 
+            $(e).prop("disabled", false);
+
+        }, 100); 
        
     }
 
@@ -1344,28 +1362,6 @@
         });
     }
 
-
-    // function smoothScrollToTarget(targetElement, container, offset = 0) {
-    //     var $container = $(container);
-    //     var $target = $(targetElement);
-
-    //     if(!$container.length || !$target.length){
-    //         return;
-    //     }
-
-    //     var containerHeight = $container.height();
-    //     var containerScrollHeight = $container[0].scrollHeight;
-    //     var containerScrollTop = $container.scrollTop();
-    //     var targetOffsetTop = $target.position().top + containerScrollTop - offset;
-
-    //     if(targetOffsetTop < 0) targetOffsetTop = 0;
-    //     if(targetOffsetTop > containerScrollHeight - containerHeight){
-    //         targetOffsetTop = containerScrollHeight - containerHeight;
-    //     }
-
-    //     $container.animate({ scrollTop: targetOffsetTop }, 800, 'swing');
-    // }
-
     function smoothScrollToTarget(targetElement, container, offset = 0) {
         var $container = $(container);
         var $target = $(targetElement);
@@ -1417,39 +1413,6 @@
     }
 
 
-    // function smoothScrollToTarget(targetElement, container, offset = 0){
-    //     var $container = $(container);
-    //     var $target = $(targetElement);
-
-    //     if(!$container.length || !$target.length){
-    //         return;
-    //     }
-
-    //     var targetOffset = $target.offset().top - $container.offset().top + $container.scrollTop() - offset;
-    //     var currentScroll = $container.scrollTop();
-    //     var distance = targetOffset - currentScroll;
-    //     var duration = 800; 
-    //     var start = null;
-
-    //     function smoothStep(timestamp) {
-    //         if(!start)start = timestamp;
-    //         var progress = timestamp - start;
-    //         var scrollPosition = easeInQuad(progress, currentScroll, distance, duration);
-    //         $container.scrollTop(scrollPosition);
-
-    //         if(progress < duration){
-    //             console.log('frgfdgfdg');
-    //             window.requestAnimationFrame(smoothStep);
-    //         }
-    //     }
-
-    //     window.requestAnimationFrame(smoothStep);
-    //     function easeInQuad(time, start, distance, duration){
-    //         time /= duration;
-    //         return distance * time * time + start;
-    //     }
-    // }
-
     // update the current url for every step //
     function updateUrl(step) {
         const url = new URL(window.location.href);
@@ -1466,12 +1429,12 @@
 
     function go_to_checkout_page() {
         let document_id = $('#document_id').val();
-        let currentPath = window.location.pathname + window.location.search;
-        let isLogin = @json(auth()->check()); 
-        if (!isLogin) {
-            location.href = "{{ url('/login') }}" + "?redirect_url=" + encodeURIComponent(currentPath);
-            return;
-        }
+        // let currentPath = window.location.pathname + window.location.search;
+        // let isLogin = @json(auth()->check()); 
+        // if (!isLogin) {
+        //     location.href = "{{ url('/login') }}" + "?redirect_url=" + encodeURIComponent(currentPath);
+        //     return;
+        // }
         location.href = "{{ url('/checkout') }}" + "?id=" + encodeURIComponent(document_id);
     }
 </script>
