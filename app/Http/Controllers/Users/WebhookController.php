@@ -106,6 +106,33 @@ class WebhookController extends Controller
 
     public function handlePaypalWebhook(){
 
+        $payload = $request->all();
+
+        if (isset($payload['event_type'])) {
+            switch ($payload['event_type']) {
+                case 'PAYMENT.CAPTURE.COMPLETED':
+                    $paypalOrderId = $payload['resource']['id']; // PayPal Order ID
+                    $status = $payload['resource']['status'];    // Payment status
+
+                    // Find and update the corresponding order in your database
+                    $order = Order::where('paypal_order_id', $paypalOrderId)->first();
+                    if ($order) {
+                        $order->update([
+                            'status' => 1,
+                        ]);
+                    }
+                    break;
+
+                case 'PAYMENT.CAPTURE.DENIED':
+                    // Handle denied payments
+                    break;
+
+                default:
+                    // Handle other event types
+                    break;
+            }
+        }
+
         saveLog('paypal');
     }
 }
