@@ -106,6 +106,19 @@ class WebhookController extends Controller
 
     public function handlePaypalWebhook(Request $request)
 {
+
+    $paypal = new PayPalClient;
+    $paypal->setApiCredentials(config('paypal'));
+    $isValid = $paypal->verifyWebHook($request->header(), $request->getContent());
+
+    if (!$isValid) {
+        saveLog("trws");
+        \Log::error('Invalid PayPal Webhook Signature');
+        return response('Invalid Signature', 400);
+    }
+
+
+
     \Log::info('PayPal Webhook Received', ['payload' => $request->all()]); // Log the payload
     
     $payload = $request->all();
