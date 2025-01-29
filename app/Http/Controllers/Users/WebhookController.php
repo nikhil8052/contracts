@@ -113,6 +113,7 @@ class WebhookController extends Controller
         // \Log::info('PayPal Webhook Received', ['payload' => $request->all()]); // Log the payload
 
         $payload = $request->all();
+        dd($payload);
 
         // saveLog("Coming");
         if (isset($payload['event_type'])) {

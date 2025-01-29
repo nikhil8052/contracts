@@ -118,7 +118,7 @@ class CheckoutController extends Controller
 
     public function paypalCheckout(Request $request ){
 
-        if ($request->payment_method == "paypal") {
+        if($request->payment_method == "paypal"){
             $doc_id = $request->document_id;
             $document = getDocument($doc_id);
             $amount = $document->doc_price;
