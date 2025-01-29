@@ -100,55 +100,39 @@ class WebhookController extends Controller
 
     public function handlePaypalWebhook(Request $request)
     {
-        saveLog('inside the webhook fucntion');
-        // $paypal = new PayPalClient();
-        // $paypal->setApiCredentials(config('paypal'));
-        // $isValid = $paypal->verifyWebHook($request->header(), $request->getContent());
-
-        // if (!$isValid) {
-        //     saveLog("trws");
-        //     \Log::error('Invalid PayPal Webhook Signature');
-        //     return response('Invalid Signature', 400);
-        // }
-
-        // \Log::info('PayPal Webhook Received', ['payload' => $request->all()]); // Log the payload
         $payload = $request->getContent();
-        $event_name = $request->input('event_type');
-        // $payload = $request->all();
-        saveLog("Content:", "WebhookController", $payload);
+        $event_name = $payload['event_type'];
+        if(isset($payload['event_type'])){
+            \Log::info('PayPal Event Type', ['event_type' => $payload['event_type']]);
+            switch ($payload['event_type']) {
+                case 'PAYMENT.SALE.COMPLETED':
+                    $paypalOrderId = $payload['resource']['id']; // PayPal Order ID
+                    $status = $payload['resource']['state']; // Payment status
+                    \Log::info('PayPal sale Completed', ['order_id' => $paypalOrderId, 'status' => $status]);
 
-        // saveLog("Coming");
-        // if (isset($payload['event_type'])) {
-        //     \Log::info('PayPal Event Type', ['event_type' => $payload['event_type']]);
-        //     switch ($payload['event_type']) {
-        //         case 'PAYMENT.CAPTURE.COMPLETED':
-        //             $paypalOrderId = $payload['resource']['id']; // PayPal Order ID
-        //             $status = $payload['resource']['status']; // Payment status
-        //             \Log::info('PayPal Capture Completed', ['order_id' => $paypalOrderId, 'status' => $status]);
+                    // Find and update the corresponding order in your database
+                    $order = Order::where('paypal_order_id', $paypalOrderId)->first();
+                    if ($order) {
+                        $order->update([
+                            'status' => 1,
+                        ]);
+                        \Log::info('Order Updated', ['order_id' => $paypalOrderId, 'status' => 1]);
+                    } else {
+                        \Log::warning('Order Not Found', ['order_id' => $paypalOrderId]);
+                    }
+                    break;
 
-        //             // Find and update the corresponding order in your database
-        //             $order = Order::where('paypal_order_id', $paypalOrderId)->first();
-        //             if ($order) {
-        //                 $order->update([
-        //                     'status' => 1,
-        //                 ]);
-        //                 \Log::info('Order Updated', ['order_id' => $paypalOrderId, 'status' => 1]);
-        //             } else {
-        //                 \Log::warning('Order Not Found', ['order_id' => $paypalOrderId]);
-        //             }
-        //             break;
+                case 'PAYMENT.SALE.DENIED':
+                    \Log::warning('Payment Denied', ['payload' => $payload]);
+                    // Handle denied payments
+                    break;
 
-        //         case 'PAYMENT.CAPTURE.DENIED':
-        //             \Log::warning('Payment Denied', ['payload' => $payload]);
-        //             // Handle denied payments
-        //             break;
-
-        //         default:
-        //             \Log::info('Unhandled PayPal Event', ['event_type' => $payload['event_type']]);
-        //             break;
-        //     }
-        // } else {
-        //     \Log::warning('Event Type Not Found in Payload');
-        // }
+                default:
+                    \Log::info('Unhandled PayPal Event', ['event_type' => $payload['event_type']]);
+                    break;
+            }
+        } else {
+            \Log::warning('Event Type Not Found in Payload');
+        }
     }
 }
