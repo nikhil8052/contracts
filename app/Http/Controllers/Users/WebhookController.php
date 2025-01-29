@@ -100,6 +100,7 @@ class WebhookController extends Controller
 
     public function handlePaypalWebhook(Request $request)
     {
+        saveLog('inside the webhook fucntion');
         // $paypal = new PayPalClient();
         // $paypal->setApiCredentials(config('paypal'));
         // $isValid = $paypal->verifyWebHook($request->header(), $request->getContent());
