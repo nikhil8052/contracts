@@ -109,7 +109,7 @@
                                             <span><img src="{{ asset('assets/img/contract_info.svg') }}"></span>  
                                         </div>
                                         <label class="que_heading lbl-{{ $question->id }}">
-                                            {{ $question->questionData->question_label ?? '' }}
+                                            {{ $question->questionData->question_label ?? 'No label found' }}
                                         </label>
                                         <br>
                                         @php 
@@ -265,7 +265,7 @@
     @endif
 </section>
 
- 
+
 <script>
     let total_steps = $('#total_step').val(); 
     let total_attempted = $('#all_attempted').val(); 
@@ -479,8 +479,12 @@
             for(let i = id - 1; i >= next_id; i--){
                 back_step++;
             }
-            console.log(back_step);
-            total_attempted -= back_step;
+    
+            total_attempted -= back_step; 
+            if(total_attempted < 0){
+                total_attempted = Math.abs(total_attempted);
+            }
+
         }else{
             for(let i = id + 1; i < next_id; i++){
                 if($('.step-' + i).hasClass('hide')){
@@ -495,6 +499,7 @@
                 total_attempted++;
             }
         } 
+
         console.log("Total attempted steps:", total_attempted);
 
         if(is_last){
@@ -540,28 +545,42 @@
     // }
 
     function reverseProgressCount(id, next_id){
+        var id = parseInt(id);
+        var next_id = parseInt(next_id);
+        console.log(id, next_id);
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
+        var back_step = 0;
 
-        for(let i = parseInt(id)-1; i >= next_id; i--){
-            if($('.step-' + i).hasClass('hide')){
-                console.log(total_hidden_steps);
-
-                total_hidden_steps++;
+        if(id < next_id){
+            for(let i = id + 1; i <= next_id; i++){
+                console.log(i);
+                back_step++;
             }
-        }
-        total_attempted -= total_hidden_steps;
-        total_attempted--;
 
+            total_attempted -= back_step;
+            if(total_attempted < 0){
+                total_attempted = Math.abs(total_attempted);
+            }
+           
+        }else{
+            for(let i = parseInt(id)-1; i >= next_id; i--){
+                if($('.step-' + i).hasClass('hide')){
+                    total_hidden_steps++;
+                }
+            }
+            total_attempted -= total_hidden_steps;
+            total_attempted--;
+        }
+        
         console.log("Total reverse steps:", total_attempted);
 
         if(total_attempted >= 0){
-            
             updateProgressBar();
             $('#all_attempted').val(total_attempted);
         }
     }
-    
+
     function go_next_step(e,questionType){
         $(e).prop("disabled", true);
         var conditions = $(e).attr("data-condition");
@@ -630,8 +649,6 @@
 
         if(next_conditions != null && next_conditions != '' && next_conditions != undefined){
             next_conditions = JSON.parse(next_conditions);
-            console.log(next_conditions);
-
             $.each(next_conditions, function(key, val){
                 var condition_type = val.condition_type;
                 var queId = val.conditional_question_id;
@@ -658,12 +675,9 @@
                         }
                     }
                 }else if(conditiontype == "3"){
-                    console.log("conditionType",conditiontype);
                     if(condition_type == "question_label_condition"){
-                        console.log('sfjskhdf');
                         if(conditionalCheck == 1){
                             if($('#' + queId).val() == queValue) {
-                                console.log(queLabel);
                                 $(".lbl-"+next_step_id).text(queLabel);
                             }
                         }else if(conditionalCheck == 2){
@@ -710,7 +724,9 @@
             })
         }
 
-        console.log(next_step_id);
+        if($(".lbl-"+next_step_id).text().trim() === ""){
+            $(".lbl-"+next_step_id).text("No label found");
+        }
 
         setTimeout(function(){
             if(is_last){
@@ -762,7 +778,7 @@
                 progressBarCount(my_ref, next_step_id);
                 updateUrl(next_step_id);
             }
-
+          
             setLocalstorage(my_ref, next_step_id, questionType);   
 
             $(e).prop("disabled", false);
@@ -948,6 +964,8 @@
         var totalSteps = $('#total_step').val();
         var attemptedSteps = $('#all_attempted').val();
         var is_last = $('.step-' + que_id).attr('is_last');
+        var current_label = $(".lbl-"+que_id).text(); 
+        var next_label = $(".lbl-"+next_id).text();
 
         // if(nextQuestionType == 'dropdown' || nextQuestionType == 'dropdown-link'){
         //     nextAttemptedAnswer = $('#' +next_id).find(":selected").val();
@@ -966,6 +984,7 @@
             progress: 0,
             total_steps: totalSteps,
             attempted_step: 0,
+            label: current_label,
         }
 
         var newObj = {
@@ -983,6 +1002,7 @@
             progress: progressValue,
             total_steps: totalSteps,
             attempted_step: attemptedSteps,
+            label: next_label,
         };
 
         let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
@@ -1275,6 +1295,7 @@
             let next_id = data.next_id;
             let type = data.type;
             let value = data.attempted_answer;
+            let label_value = data.label;
 
             let prev_btn = $('.pre_btn_' + ques_id);
             let next_btn = $('.nxt_btn_' + ques_id);
@@ -1296,6 +1317,7 @@
                         $('#' + ques_id).val(value);
                         $('.qidtarget-' + ques_id).text(value);
                     }
+                    $('.lbl-'+ques_id).text(label_value);
                 }else if(type === 'radio-button'){
                     if(value){
                         $('input[name="question_' + ques_id + '"]').each(function () {
@@ -1304,6 +1326,7 @@
                             }
                         });
                     }
+                    $('.lbl-'+ques_id).text(label_value);
                 }else if(type === 'date-field'){
                     if(value){
                         const originalDate = value;
@@ -1315,6 +1338,7 @@
                             $('.qidtarget-' + ques_id).text(value);
                         }
                     }
+                    $('.lbl-'+ques_id).text(label_value);
                 }
             }
         });
