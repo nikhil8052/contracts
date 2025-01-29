@@ -114,7 +114,7 @@ class WebhookController extends Controller
         $payload = $request->getContent();
         $event_name = $request->input('event_type');
         // $payload = $request->all();
-        dd($payload, $event_name);
+        saveLog("Content:", "WebhookController", $payload);
 
         // saveLog("Coming");
         // if (isset($payload['event_type'])) {
