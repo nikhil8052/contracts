@@ -904,6 +904,7 @@
 
         if(questionIndex !== -1){
             localStorageData.attempted_question[questionIndex].attempted_answer = attempted_value;
+            localStorageData.attempted_question[questionIndex].attempted_value = attempted_value;
         }
 
         localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
@@ -911,7 +912,7 @@
         let right_part_target = `.qidtarget-${question_id}`;
 
         if(qtype === "textbox" || qtype === "textarea" || qtype === "pricebox" || qtype === "percentage-box" ||
-            qtype === "dropdown" || qtype === "radio-button" || qtype === "dropdown-link" || qtype === "number-field"){
+            qtype === "radio-button" || qtype === "dropdown-link" || qtype === "number-field"){
             
             $(`.step-${question_id}`).attr('attempted', attempted_value); 
             $(right_part_target).text(attempted_value).css({
@@ -920,6 +921,21 @@
                 // "padding": "5px",
                 // "border-radius": "3px"
             });
+        }else if(qtype === "dropdown"){
+            let selectoption = $(`.step-${question_id}`).find('select option:selected').text();
+            $(`.step-${question_id}`).attr('attempted', attempted_value); 
+            $(right_part_target).text(attempted_value).css({
+                "color": "white",
+                "background-color": "#002655",
+                // "padding": "5px",
+                // "border-radius": "3px"
+            });
+
+            if(questionIndex !== -1) {
+                localStorageData.attempted_question[questionIndex].attempted_answer = attempted_value;
+                localStorageData.attempted_question[questionIndex].attempted_value = selectoption;
+                localStorage.setItem('Localstorage', JSON.stringify(localStorageData)); 
+            }
 
         }else if(qtype === "date-field"){
             let date = new Date(attempted_value);
@@ -936,6 +952,7 @@
 
             if(questionIndex !== -1) {
                 localStorageData.attempted_question[questionIndex].attempted_answer = formattedDate;
+                localStorageData.attempted_question[questionIndex].attempted_value = formattedDate;
                 localStorage.setItem('Localstorage', JSON.stringify(localStorageData));
             }
         }
