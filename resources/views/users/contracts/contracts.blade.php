@@ -91,7 +91,6 @@
                             <input type="hidden" id="document_id" name="document_id" value="{{ $id ?? '' }}">
                             <input type="hidden" id="total_step" value="{{ $total_questions ?? ''}}">
                             <input type="hidden" id="all_attempted" value="0">
-                            <input type="hidden" id="reverse_attempt" value="0">
                             <input type="hidden" id="user_id" value="{{ Auth::user()->id ?? '' }}">
                             @if(Auth::check())
                                 @php 
@@ -105,12 +104,12 @@
                                 $total_steps = count($questions);
                             @endphp      
                                 @foreach($questions as $index => $question)
-                                    <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition }}" swtchtyp="{{ $question->condition_type }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
+                                    <div class="question-div step{{ $count ?? '' }} step-{{ $question->id }} mb-4 p-4" que_label="{{ $question->questionData->question_label ?? '' }}" que_id="{{ $question->id ?? '' }}" data-type="{{ $question->type ?? '' }}" is_condition="{{ $question->is_condition ?? '' }}" swtchtyp="{{ $question->condition_type ?? '' }}" data-count="{{ $count ?? '' }}" is_last="{{ $loop->last ? 'true' : ''}}">
                                         <div class="save_document_button">
                                             <span><img src="{{ asset('assets/img/contract_info.svg') }}"></span>  
                                         </div>
                                         <label class="que_heading lbl-{{ $question->id }}">
-                                            {{ $question->questionData->question_label ?? '' }}
+                                            {{ $question->questionData->question_label ?? 'No label found' }}
                                         </label>
                                         <br>
                                         @php 
@@ -266,7 +265,7 @@
     @endif
 </section>
 
- 
+
 <script>
     let total_steps = $('#total_step').val(); 
     let total_attempted = $('#all_attempted').val(); 
@@ -480,7 +479,12 @@
             for(let i = id - 1; i >= next_id; i--){
                 back_step++;
             }
-            total_attempted -= back_step;
+    
+            total_attempted -= back_step; 
+            if(total_attempted < 0){
+                total_attempted = Math.abs(total_attempted);
+            }
+
         }else{
             for(let i = id + 1; i < next_id; i++){
                 if($('.step-' + i).hasClass('hide')){
@@ -495,6 +499,7 @@
                 total_attempted++;
             }
         } 
+
         console.log("Total attempted steps:", total_attempted);
 
         if(is_last){
@@ -540,109 +545,41 @@
     // }
 
     function reverseProgressCount(id, next_id){
+        var id = parseInt(id);
+        var next_id = parseInt(next_id);
+        console.log(id, next_id);
         var current_step = $('.step-' + id);
         var total_hidden_steps = 0;
+        var back_step = 0;
 
-        for(let i = parseInt(id)-1; i >= next_id; i--){
-            if($('.step-' + i).hasClass('hide')){
-                total_hidden_steps++;
+        if(id < next_id){
+            for(let i = id + 1; i <= next_id; i++){
+                console.log(i);
+                back_step++;
             }
-        }
-        total_attempted -= total_hidden_steps;
-        total_attempted--;
 
+            total_attempted -= back_step;
+            if(total_attempted < 0){
+                total_attempted = Math.abs(total_attempted);
+            }
+           
+        }else{
+            for(let i = parseInt(id)-1; i >= next_id; i--){
+                if($('.step-' + i).hasClass('hide')){
+                    total_hidden_steps++;
+                }
+            }
+            total_attempted -= total_hidden_steps;
+            total_attempted--;
+        }
+        
         console.log("Total reverse steps:", total_attempted);
 
         if(total_attempted >= 0){
-            console.log('bgfdhfghfg');
             updateProgressBar();
             $('#all_attempted').val(total_attempted);
         }
     }
-    
-
-    // function questionConditions(){
-    //     $('.nxt').each(function(){
-    //         var next_id = $(this).attr("que_id");
-    //         var conditions = $(this).attr("data-condition");
-    //         var conditional_step = $(this).attr("data-condition_step");
-    //         var next_step = $(this).attr("data-next_step");
-
-    //         if(conditions != null && conditions != '' && conditions != undefined){
-    //             conditions = JSON.parse(conditions);
-     
-    //             var queValueArr = [];
-             
-    //             if(next_id != undefined && next_id != null && next_id != ''){
-    //                 $.each(conditions, function(key, val){
-    //                     var condition_type = val.condition_type;
-    //                     var queId = val.conditional_question_id;
-    //                     var queValue = val.conditional_question_value;
-    //                     var conditionalCheck = val.conditional_check;
-    //                     var queLabel = val.question_label;
-
-    //                     queValueArr.push(queValue);
-
-    //                     if(condition_type == 'go_to_step_condition'){
-    //                         if(conditionalCheck == 1){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 console.log(queValueArr);
-    //                                 console.log(queValue);
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 2){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 3){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 4){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }
-    //                     }else if(condition_type == 'question_label_condition'){
-    //                         if(conditionalCheck == 1){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 2){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 3){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }else if(conditionalCheck == 4){
-    //                             if($.inArray($('#' + queId).val(), queValueArr)) {
-    //                                 $(this).attr("que_id", conditional_step); 
-    //                             }else{
-    //                                 $(this).attr("que_id", next_step); 
-    //                             }
-    //                         }
-    //                     }
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
 
     function go_next_step(e,questionType){
         $(e).prop("disabled", true);
@@ -654,7 +591,7 @@
 
         var conditional_step = $(e).attr("data-condition_step");
         var next_step = $(e).attr("data-next_step");
-
+    
         if(conditions != null && conditions != '' && conditions != undefined){
             conditions = JSON.parse(conditions);
             if(next_step_id != undefined && next_step_id != null && next_step_id != ''){
@@ -666,8 +603,6 @@
                     var queLabel = val.question_label;
 
                     if(condition_type == 'go_to_step_condition'){
-                        console.log('go_to_step_condition');
-
                         if(conditionalCheck == 1){
                             if($('#' + queId).val() == queValue) {
                                 $(e).attr("que_id", conditional_step); 
@@ -706,10 +641,14 @@
             }
         }
 
+        var conditiontype = $('.step-'+next_step_id).attr("swtchtyp");
+        var questionLabel = $('.step-'+next_step_id).attr("que_label");
         var next_conditions = $('.nxt_btn_'+next_step_id).attr("data-condition");
+        var conditional_next_step = $('.nxt_btn_'+next_step_id).attr("data-condition_step");
+        var nextStep = $('.nxt_btn_'+next_step_id).attr("data-next_step");
+
         if(next_conditions != null && next_conditions != '' && next_conditions != undefined){
             next_conditions = JSON.parse(next_conditions);
-
             $.each(next_conditions, function(key, val){
                 var condition_type = val.condition_type;
                 var queId = val.conditional_question_id;
@@ -717,37 +656,76 @@
                 var conditionalCheck = val.conditional_check;
                 var queLabel = val.question_label;
 
-                if(condition_type == 'question_label_condition'){
-                    console.log('question_label_condition');
-                    console.log(queId, queValue, conditionalCheck, queLabel, next_step_id);
-
+                if(conditiontype == "1"){
                     if(conditionalCheck == 1){
-                        if($('#' + queId).val() == queValue) {
+                        if($('#' + queId).val() == queValue){
                             $(".lbl-"+next_step_id).text(queLabel);
-                        }else{
-                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 2){
                         if($('#' + queId).val() == queValue) {
                             $(".lbl-"+next_step_id).text(queLabel);
-                        }else{
-                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 3){
                         if($('#' + queId).val() == queValue) {
                             $(".lbl-"+next_step_id).text(queLabel);
-                        }else{
-                            $(".lbl-"+next_step_id).text('No label found');
                         }
                     }else if(conditionalCheck == 4){
                         if($('#' + queId).val() == queValue) {
                             $(".lbl-"+next_step_id).text(queLabel);
-                        }else{
-                            $(".lbl-"+next_step_id).text('No label found');
+                        }
+                    }
+                }else if(conditiontype == "3"){
+                    if(condition_type == "question_label_condition"){
+                        if(conditionalCheck == 1){
+                            if($('#' + queId).val() == queValue) {
+                                $(".lbl-"+next_step_id).text(queLabel);
+                            }
+                        }else if(conditionalCheck == 2){
+                            if($('#' + queId).val() == queValue) {
+                                $(".lbl-"+next_step_id).text(queLabel);
+                            }
+                        }else if(conditionalCheck == 3){
+                            if($('#' + queId).val() == queValue) {
+                                $(".lbl-"+next_step_id).text(queLabel);
+                            }
+                        }else if(conditionalCheck == 4){
+                            if($('#' + queId).val() == queValue) {
+                                $(".lbl-"+next_step_id).text(queLabel);
+                            }
+                        }
+                    }else if(condition_type == 'go_to_step_condition'){
+                        if(conditionalCheck == 1){
+                            if($('#' + queId).val() == queValue) {
+                                $(".nxt_btn_"+next_step_id).attr('que_id',conditional_next_step);
+                            }else{
+                                $(".nxt_btn_"+next_step_id).attr('que_id',nextStep);
+                            }
+                        }else if(conditionalCheck == 2){
+                            if($('#' + queId).val() == queValue) {
+                                $(".nxt_btn_"+next_step_id).attr('que_id',conditional_next_step);
+                            }else{
+                                $(".nxt_btn_"+next_step_id).attr('que_id',nextStep);
+                            }
+                        }else if(conditionalCheck == 3){
+                            if($('#' + queId).val() == queValue) {
+                                $(".nxt_btn_"+next_step_id).attr('que_id',conditional_next_step);
+                            }else{
+                                $(".nxt_btn_"+next_step_id).attr('que_id',nextStep);
+                            }
+                        }else if(conditionalCheck == 4){
+                            if($('#' + queId).val() == queValue) {
+                                $(".nxt_btn_"+next_step_id).attr('que_id',conditional_next_step);
+                            }else{
+                                $(".nxt_btn_"+next_step_id).attr('que_id',nextStep);
+                            }
                         }
                     }
                 }
             })
+        }
+
+        if($(".lbl-"+next_step_id).text().trim() === ""){
+            $(".lbl-"+next_step_id).text("No label found");
         }
 
         setTimeout(function(){
@@ -800,7 +778,7 @@
                 progressBarCount(my_ref, next_step_id);
                 updateUrl(next_step_id);
             }
-
+          
             setLocalstorage(my_ref, next_step_id, questionType);   
 
             $(e).prop("disabled", false);
@@ -986,6 +964,8 @@
         var totalSteps = $('#total_step').val();
         var attemptedSteps = $('#all_attempted').val();
         var is_last = $('.step-' + que_id).attr('is_last');
+        var current_label = $(".lbl-"+que_id).text(); 
+        var next_label = $(".lbl-"+next_id).text();
 
         // if(nextQuestionType == 'dropdown' || nextQuestionType == 'dropdown-link'){
         //     nextAttemptedAnswer = $('#' +next_id).find(":selected").val();
@@ -1004,6 +984,7 @@
             progress: 0,
             total_steps: totalSteps,
             attempted_step: 0,
+            label: current_label,
         }
 
         var newObj = {
@@ -1021,6 +1002,7 @@
             progress: progressValue,
             total_steps: totalSteps,
             attempted_step: attemptedSteps,
+            label: next_label,
         };
 
         let localStorageData = JSON.parse(localStorage.getItem('Localstorage')) || { attempted_question: [] };
@@ -1313,6 +1295,7 @@
             let next_id = data.next_id;
             let type = data.type;
             let value = data.attempted_answer;
+            let label_value = data.label;
 
             let prev_btn = $('.pre_btn_' + ques_id);
             let next_btn = $('.nxt_btn_' + ques_id);
@@ -1334,6 +1317,7 @@
                         $('#' + ques_id).val(value);
                         $('.qidtarget-' + ques_id).text(value);
                     }
+                    $('.lbl-'+ques_id).text(label_value);
                 }else if(type === 'radio-button'){
                     if(value){
                         $('input[name="question_' + ques_id + '"]').each(function () {
@@ -1342,6 +1326,7 @@
                             }
                         });
                     }
+                    $('.lbl-'+ques_id).text(label_value);
                 }else if(type === 'date-field'){
                     if(value){
                         const originalDate = value;
@@ -1353,6 +1338,7 @@
                             $('.qidtarget-' + ques_id).text(value);
                         }
                     }
+                    $('.lbl-'+ques_id).text(label_value);
                 }
             }
         });

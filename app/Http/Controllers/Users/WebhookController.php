@@ -100,28 +100,16 @@ class WebhookController extends Controller
 
     public function handlePaypalWebhook(Request $request)
     {
-        // $paypal = new PayPalClient();
-        // $paypal->setApiCredentials(config('paypal'));
-        // $isValid = $paypal->verifyWebHook($request->header(), $request->getContent());
-
-        // if (!$isValid) {
-        //     saveLog("trws");
-        //     \Log::error('Invalid PayPal Webhook Signature');
-        //     return response('Invalid Signature', 400);
-        // }
-
-        // \Log::info('PayPal Webhook Received', ['payload' => $request->all()]); // Log the payload
-
-        $payload = $request->all();
-
-        // saveLog("Coming");
-        if (isset($payload['event_type'])) {
+        $payload = $request->getContent();
+        $event_name = $payload['event_type'];
+        if(isset($payload['event_type'])){
             \Log::info('PayPal Event Type', ['event_type' => $payload['event_type']]);
             switch ($payload['event_type']) {
                 case 'PAYMENT.CAPTURE.COMPLETED':
                     $paypalOrderId = $payload['resource']['id']; // PayPal Order ID
                     $status = $payload['resource']['status']; // Payment status
-                    \Log::info('PayPal Capture Completed', ['order_id' => $paypalOrderId, 'status' => $status]);
+                    saveLog('Payment Capture Completed', ['order_id' => $paypalOrderId]);
+                    \Log::info('Payment Capture Completed', ['order_id' => $paypalOrderId, 'status' => $status]);
 
                     // Find and update the corresponding order in your database
                     $order = Order::where('paypal_order_id', $paypalOrderId)->first();
