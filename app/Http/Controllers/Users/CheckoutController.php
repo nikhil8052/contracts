@@ -117,6 +117,7 @@ class CheckoutController extends Controller
 
 
     public function paypalCheckout(Request $request ){
+        // return $request->all();
 
         if($request->payment_method == "paypal"){
             $doc_id = $request->document_id;
@@ -127,6 +128,7 @@ class CheckoutController extends Controller
             $paypal->setApiCredentials(config('paypal')); 
             $token = $paypal->getAccessToken();
             $paypal->setAccessToken($token);
+
             $paypalOrder = $paypal->createOrder([
                 "intent" => "CAPTURE", // One-time payment
                 "purchase_units" => [
