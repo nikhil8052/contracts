@@ -94,11 +94,11 @@ class AuthController extends Controller
     }
 
     public function loginProcess(Request $request){
-    
         if(Auth::attempt($request->only('email', 'password'))){
             // Check if the user is not an admin
             if(auth()->user()->is_admin == 0){
                 $redirectUrl = $request->input('redirect_url');
+            
                 if (!empty($redirectUrl)) {
                     return redirect($redirectUrl)->with('success', 'Login Successfully');
                 }

@@ -80,6 +80,8 @@ Route::group(['middleware' => ['front']], function() {
      Route::get('/paypal-success',[CheckoutController::class,'paypalSuccess'])->name('paypal.success');
      Route::get('/paypal-failed',[CheckoutController::class,'paypalFailed'])->name('paypal.cancel');
 
+     Route::get('/user/dashboard',[UserController::class,'dashboard'])->name('user.dashboard');
+     Route::get('/generate-pdf',[UserController::class,'generatePDF']);
 
 });
 
