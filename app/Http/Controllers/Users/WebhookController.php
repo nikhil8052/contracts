@@ -105,10 +105,11 @@ class WebhookController extends Controller
         if(isset($payload['event_type'])){
             \Log::info('PayPal Event Type', ['event_type' => $payload['event_type']]);
             switch ($payload['event_type']) {
-                case 'PAYMENT.SALE.COMPLETED':
+                case 'PAYMENT.CAPTURE.COMPLETED':
                     $paypalOrderId = $payload['resource']['id']; // PayPal Order ID
-                    $status = $payload['resource']['state']; // Payment status
-                    \Log::info('PayPal sale Completed', ['order_id' => $paypalOrderId, 'status' => $status]);
+                    $status = $payload['resource']['status']; // Payment status
+                    saveLog('Payment Capture Completed', ['order_id' => $paypalOrderId]);
+                    \Log::info('Payment Capture Completed', ['order_id' => $paypalOrderId, 'status' => $status]);
 
                     // Find and update the corresponding order in your database
                     $order = Order::where('paypal_order_id', $paypalOrderId)->first();
@@ -122,7 +123,7 @@ class WebhookController extends Controller
                     }
                     break;
 
-                case 'PAYMENT.SALE.DENIED':
+                case 'PAYMENT.CAPTURE.DENIED':
                     \Log::warning('Payment Denied', ['payload' => $payload]);
                     // Handle denied payments
                     break;
