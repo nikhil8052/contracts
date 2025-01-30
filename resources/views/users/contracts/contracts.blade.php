@@ -950,11 +950,13 @@
         var document_id = $('#document_id').val();
         var user_id = $('#user_id').val();
         var attemptedAnswer = $('.step-' + que_id).attr('attempted');
+        var attemptedAnswerValue = '';
         var prevId = $('.pre_btn_' + que_id).attr('que_id');
         var pre_btn_id = $('.pre_btn_'+next_id).attr('que_id');
         var next_btn_id = $('.nxt_btn_'+next_id).attr('que_id');
         var nextQuestionType = $('.step-' + next_id).attr('data-type');
         var nextAttemptedAnswer = '';
+        var nextAttemptedAnswerValue = '';
        
         var now = new Date();
         // var formattedTime = now.toLocaleTimeString();
@@ -966,7 +968,7 @@
         var is_last = $('.step-' + que_id).attr('is_last');
         var current_label = $(".lbl-"+que_id).text(); 
         var next_label = $(".lbl-"+next_id).text();
-
+       
         // if(nextQuestionType == 'dropdown' || nextQuestionType == 'dropdown-link'){
         //     nextAttemptedAnswer = $('#' +next_id).find(":selected").val();
         // }else if(nextQuestionType == 'radio-button'){
@@ -979,6 +981,7 @@
             question_id: que_id,
             type: qtype,
             attempted_answer: attemptedAnswer,
+            attempted_value: attemptedAnswerValue,
             previous_id: prevId,
             next_id: next_id,
             progress: 0,
@@ -994,6 +997,7 @@
             question_id: next_id,
             type: nextQuestionType,
             attempted_answer: nextAttemptedAnswer,
+            attempted_value: nextAttemptedAnswerValue,
             // attempted_time: formattedTime,
             // previous_id: prevId,
             previous_id: pre_btn_id,
